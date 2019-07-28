@@ -11,10 +11,16 @@ let gameList = [
 
 const Game = ({id=-1, name="No Name Provided", minplayers=-1, maxplayers=-1, minplaytime=-1, maxplaytime=-1}) => {
     return (
-        <section>
-            <h2>{name}</h2>
-            <p>players: {minplayers} to {maxplayers}</p>
-            <p>time: {minplaytime} to {maxplaytime}</p>
+        <section class="grid">
+            <div class="column">
+                <h2>{name}</h2>
+            </div>
+            <div class="column">
+                <p>players: {minplayers} to {maxplayers}</p>
+            </div>
+            <div class="column">
+                <p>time: {minplaytime} to {maxplaytime}</p>
+            </div>
         </section>
     )
 }
@@ -28,24 +34,13 @@ class GameBag extends React.Component {
         ]
     }
 
-    state = { 
-        open: true,
-        data: []
-    }
-
-    toggleOpenClosed = () => {
-        this.setState(prevState => ({
-            open: !prevState.open
-        }))
-    }
-
     render() {
         const { games } = this.props
         return (
             <div>
                 {games.map(
                     (game, i) => 
-                        <Game 
+                        <Game
                             key={i}
                             id={game.title} 
                             name={game.name} 

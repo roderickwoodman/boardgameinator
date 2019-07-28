@@ -11,3 +11,19 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+.gamebag {
+  margin: 10px;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-gap: 10px;
+  background-color: white;
+  color: white;
+}
+
+.game {
+  background-color: purple;
+  border: 1px solid white;
+  border-radius: 10px;
+  text-align: center;
+}

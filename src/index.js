@@ -1,5 +1,6 @@
 import React from 'react';
 import { render } from 'react-dom';
+import './index.css';
 
 let gameList = [
     {"id": 148228, "name":"Splendor", "minplayers":2, "maxplayers":4, "minplaytime":30, "maxplaytime":30},
@@ -11,16 +12,13 @@ let gameList = [
 
 const Game = ({id=-1, name="No Name Provided", minplayers=-1, maxplayers=-1, minplaytime=-1, maxplaytime=-1}) => {
     return (
-        <section class="grid">
-            <div class="column">
-                <h2>{name}</h2>
-            </div>
-            <div class="column">
-                <p>players: {minplayers} to {maxplayers}</p>
-            </div>
-            <div class="column">
-                <p>time: {minplaytime} to {maxplaytime}</p>
-            </div>
+        <section className="game">
+            <h2>{name}</h2>
+            <p>{minplayers}-{maxplayers} players</p>
+            {minplaytime === maxplaytime 
+            ? <p>{minplaytime} minutes</p>
+            : <p>{minplaytime}-{maxplaytime} minutes</p>
+            }
         </section>
     )
 }
@@ -37,7 +35,7 @@ class GameBag extends React.Component {
     render() {
         const { games } = this.props
         return (
-            <div>
+            <div className="gamebag">
                 {games.map(
                     (game, i) => 
                         <Game

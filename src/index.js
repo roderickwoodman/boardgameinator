@@ -43,6 +43,12 @@ function extractFromXml(str) {
                 if (node.tagName === "yearpublished") {
                     game['yearpublished'] = node.getAttribute("value")
                 }
+                if (node.tagName === "minplayers") {
+                    game['minplayers'] = node.getAttribute("value")
+                }
+                if (node.tagName === "maxplayers") {
+                    game['maxplayers'] = node.getAttribute("value")
+                }
                 if (node.tagName === "minplaytime") {
                     game['minplaytime'] = node.getAttribute("value")
                 }
@@ -60,7 +66,7 @@ function extractFromXml(str) {
             }
         }
     )
-    //console.log('game: ', game)
+    return game
 }
 
 let urls = [
@@ -82,10 +88,7 @@ class GameShelf extends React.Component {
         loading: true
     }
 
-
     async componentDidMount() {
-        //console.log("The component is now mounted")
-
         const gameInfoJsonArray = await Promise.all(
             urls.map(
                 url =>
@@ -93,9 +96,7 @@ class GameShelf extends React.Component {
                         .then(response => response.text())
                         .then(text => extractFromXml(text))
                     ))
-
         this.setState({ gameInfo: gameInfoJsonArray, loading: false })
-
     }
 
     componentDidUpdate() {
@@ -103,10 +104,9 @@ class GameShelf extends React.Component {
     }
 
     render() {
-        const { games } = this.props
         return (
             <div className="gamebag">
-                {games.map(
+                {this.state.gameInfo.map(
                     (game, i) => 
                         <Game
                             key={i}

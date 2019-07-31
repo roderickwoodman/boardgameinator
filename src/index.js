@@ -11,10 +11,10 @@ import './index.css';
 // ]
 
 let gameListApi = [
-    {"id": 0, "name":"(no API data)", "minplayers":0, "maxplayers":0, "minplaytime":0, "maxplaytime":0, "categories":null}
+    {"id": 0, "name":"(no API data)", "minplayers":0, "maxplayers":0, "minplaytime":0, "maxplaytime":0, "categories":null, "mechanics":null}
 ]
 
-const Game = ({id=-1, name="No Name Provided", minplayers=-1, maxplayers=-1, minplaytime=-1, maxplaytime=-1, categories=null}) => {
+const Game = ({id=-1, name="No Name Provided", minplayers=-1, maxplayers=-1, minplaytime=-1, maxplaytime=-1, categories=null, mechanics=null}) => {
     return (
         <section className="game">
             <h2>{name}</h2>
@@ -29,6 +29,10 @@ const Game = ({id=-1, name="No Name Provided", minplayers=-1, maxplayers=-1, min
             <hr />
             <section className="minordetails">
                 {categories.map( (value, index) => <p>{value}</p>)}
+            </section>
+            <hr />
+            <section className="minordetails">
+                {mechanics.map( (value, index) => <p>{value}</p>)}
             </section>
         </section>
     )
@@ -68,6 +72,14 @@ function extractFromXml(str) {
                         game['categories'].push(node.getAttribute("value"))
                     } else {
                         game['categories'] = new Array(node.getAttribute("value"))
+                    }
+                }
+                if ( (node.tagName === "link")
+                    && (node.getAttribute("type") === "boardgamemechanic") ) {
+                    if (game.hasOwnProperty('mechanics')) {
+                        game['mechanics'].push(node.getAttribute("value"))
+                    } else {
+                        game['mechanics'] = new Array(node.getAttribute("value"))
                     }
                 }
             }
@@ -123,7 +135,8 @@ class GameShelf extends React.Component {
                             maxplayers={game.maxplayers} 
                             minplaytime={game.minplaytime} 
                             maxplaytime={game.maxplaytime}
-                            categories={game.categories} />
+                            categories={game.categories}
+                            mechanics={game.mechanics} />
                 )}
             </div>
         )

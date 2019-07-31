@@ -8,6 +8,7 @@ let gameListDefault = [{
     "id": 0, 
     "name":"(no name info)",
     "description":"(no description)",
+    "yearpublished":0,
     "minplayers":0,
     "maxplayers":0,
     "minplaytime":0,
@@ -52,7 +53,7 @@ class Game extends React.Component {
     }
 
     render() {
-        const { id, name, description, minplayers, maxplayers, minplaytime, maxplaytime, categories, mechanics } = this.props
+        const { id, name, description, yearpublished, minplayers, maxplayers, minplaytime, maxplaytime, categories, mechanics } = this.props
 
         return (
             <section className="game">
@@ -63,6 +64,7 @@ class Game extends React.Component {
                     ? <GameCardFront 
                         id={id}
                         name={name}
+                        yearpublished={yearpublished}
                         minplayers={minplayers}
                         maxplayers={maxplayers}
                         minplaytime={minplaytime}
@@ -72,6 +74,7 @@ class Game extends React.Component {
                     : <GameCardBack 
                         id={id}
                         name={name}
+                        yearpublished={yearpublished}
                         description={description}/>
                 }
             </section>
@@ -80,10 +83,13 @@ class Game extends React.Component {
 }
 
 function GameCardFront(props) {
-    const { id, name, minplayers, maxplayers, minplaytime, maxplaytime, categories, mechanics } = props
+    const { id, name, yearpublished, minplayers, maxplayers, minplaytime, maxplaytime, categories, mechanics } = props
     return (
         <section className="cardFront">
-            <h2>{ name }</h2>
+            <section className="majordetails">
+                <h2 className="game-name">{name}</h2>
+                <h4 className="game-yearpublished">({yearpublished})</h4>
+            </section>
             <hr />
             <ul className="majordetails">
                 <li>{minplayers}-{maxplayers} players</li>
@@ -109,10 +115,13 @@ function GameCardFront(props) {
 }
 
 function GameCardBack(props) {
-    const { id, name, description } = props
+    const { id, name, yearpublished, description } = props
     return (
         <section className="cardBack">
-            <h2>{name}</h2>
+            <section className="majordetails">
+                <h2 className="game-name">{name}</h2>
+                <h4 className="game-yearpublished">({yearpublished})</h4>
+            </section>
             <hr />
             <section className="minordetails">
                 <p>{description}</p>
@@ -218,6 +227,7 @@ class GameBag extends React.Component {
                             id={game.id} 
                             name={game.name} 
                             description={game.description} 
+                            yearpublished={game.yearpublished} 
                             minplayers={game.minplayers} 
                             maxplayers={game.maxplayers} 
                             minplaytime={game.minplaytime} 

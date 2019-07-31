@@ -3,13 +3,6 @@ import { render } from 'react-dom';
 import './index.css';
 import bggLogo from './bgg-logo-50.png'
 
-// let gameListStatic = [
-//     {"id": 148228, "name":"Splendor", "minplayers":2, "maxplayers":4, "minplaytime":30, "maxplaytime":30},
-//     {"id": 199478, "name":"Flamme Rouge", "minplayers":2, "maxplayers":4, "minplaytime":30, "maxplaytime":45},
-//     {"id": 169786, "name":"Scythe", "minplayers":1, "maxplayers":5, "minplaytime":90, "maxplaytime":115},
-//     {"id": 37904, "name":"Formula D", "minplayers":2, "maxplayers":10, "minplaytime":60, "maxplaytime":60},
-//     {"id": 180263, "name":"The 7th Continent", "minplayers":1, "maxplayers":4, "minplaytime":5, "maxplaytime":1000}
-// ]
 
 let gameListApi = [
     {"id": 0, "name":"(no API data)", "minplayers":0, "maxplayers":0, "minplaytime":0, "maxplaytime":0, "categories":null, "mechanics":null}
@@ -34,33 +27,43 @@ class GameFooter extends React.Component {
     }
 }
 
-const Game = ({id=-1, name="No Name Provided", minplayers=-1, maxplayers=-1, minplaytime=-1, maxplaytime=-1, categories=null, mechanics=null}) => {
-    return (
-        <section className="game">
-            <h2>{name}</h2>
-            <hr />
-            <section className="majordetails">
-                <p>{minplayers}-{maxplayers} players</p>
-                {minplaytime === maxplaytime 
-                    ? <p>{minplaytime} minutes</p>
-                    : <p>{minplaytime}-{maxplaytime} minutes</p>
-                }
+class Game extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            viewingCardBack: false
+        }
+    }
+
+    render() {
+        const { id, name, minplayers, maxplayers, minplaytime, maxplaytime, categories, mechanics } = this.props
+
+        return (
+            <section className="game">
+                <h2>{name}</h2>
+                <hr />
+                <section className="majordetails">
+                    <p>{minplayers}-{maxplayers} players</p>
+                    {minplaytime === maxplaytime 
+                        ? <p>{minplaytime} minutes</p>
+                        : <p>{minplaytime}-{maxplaytime} minutes</p>
+                    }
+                </section>
+                <hr />
+                <section className="minordetails">
+                    {categories.map( (value, index) => <p>{value}</p>)}
+                </section>
+                <hr />
+                <section className="minordetails">
+                    {mechanics.map( (value, index) => <p>{value}</p>)}
+                </section>
+                <section>
+                    <GameFooter gameid={id}/>
+                </section>
             </section>
-            <hr />
-            <section className="minordetails">
-                {categories.map( (value, index) => <p>{value}</p>)}
-            </section>
-            <hr />
-            <section className="minordetails">
-                {mechanics.map( (value, index) => <p>{value}</p>)}
-            </section>
-            <section>
-                {/* <a href="https://boardgamegeek.com/boardgame/{ id }"><img alt="BoardGameGeek website logo" src="/bgg-icon.png" /></a> */}
-                {/* <img alt="BoardGameGeek website logo" src="/bgg-logo.png" /> */}
-                <GameFooter gameid={id}/>
-            </section>
-        </section>
-    )
+        )
+    }
 }
 
 function extractFromXml(str) {
@@ -113,23 +116,20 @@ function extractFromXml(str) {
     return game
 }
 
+// let gameIds = [148228, 199478, 169786, 37904, 180263]
 let urls = [
     'https://boardgamegeek.com/xmlapi2/thing?type=boardgame&id=31260',
     'https://boardgamegeek.com/xmlapi2/thing?type=boardgame&id=5',
     'https://boardgamegeek.com/xmlapi2/thing?type=boardgame&id=205637'
-
-    // 'https://boardgamegeek.com/xmlapi2/thing?type=boardgame&id=148228',
-    // 'https://boardgamegeek.com/xmlapi2/thing?type=boardgame&id=199478',
-    // 'https://boardgamegeek.com/xmlapi2/thing?type=boardgame&id=169786',
-    // 'https://boardgamegeek.com/xmlapi2/thing?type=boardgame&id=37904',
-    // 'https://boardgamegeek.com/xmlapi2/thing?type=boardgame&id=180263'
 ]
 
-class GameShelf extends React.Component {
+class GameBag extends React.Component {
 
-    state = { 
-        gameInfo: [],
-        loading: true
+    constructor(props) {
+        super(props);
+        this.state = { 
+            gameInfo: [],
+        }
     }
 
     async componentDidMount() {
@@ -140,7 +140,7 @@ class GameShelf extends React.Component {
                         .then(response => response.text())
                         .then(text => extractFromXml(text))
                     ))
-        this.setState({ gameInfo: gameInfoJsonArray, loading: false })
+        this.setState({ gameInfo: gameInfoJsonArray })
     }
 
     componentDidUpdate() {
@@ -169,6 +169,6 @@ class GameShelf extends React.Component {
 }
 
 render(
-    <GameShelf games={gameListApi}/>,
+    <GameBag games={gameListApi}/>,
     document.getElementById('root')
 )

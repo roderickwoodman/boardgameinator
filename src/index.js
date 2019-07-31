@@ -1,6 +1,7 @@
 import React from 'react';
 import { render } from 'react-dom';
 import './index.css';
+import bggLogo from './bgg-logo-50.png'
 
 // let gameListStatic = [
 //     {"id": 148228, "name":"Splendor", "minplayers":2, "maxplayers":4, "minplaytime":30, "maxplaytime":30},
@@ -13,6 +14,25 @@ import './index.css';
 let gameListApi = [
     {"id": 0, "name":"(no API data)", "minplayers":0, "maxplayers":0, "minplaytime":0, "maxplaytime":0, "categories":null, "mechanics":null}
 ]
+
+class GameFooter extends React.Component {
+
+    state = { 
+        gameid: -1
+    }
+
+    componentDidMount() {
+        this.setState({ gameid: this.props.gameid})
+    }
+
+    render() {
+        return (
+            <a href={'https://boardgamegeek.com/boardgame/' + this.state.gameid } target="_blank" rel="noopener noreferrer">
+                <img src={bggLogo} alt="BoardGameGeek website logo" />
+            </a>
+        )
+    }
+}
 
 const Game = ({id=-1, name="No Name Provided", minplayers=-1, maxplayers=-1, minplaytime=-1, maxplaytime=-1, categories=null, mechanics=null}) => {
     return (
@@ -33,6 +53,11 @@ const Game = ({id=-1, name="No Name Provided", minplayers=-1, maxplayers=-1, min
             <hr />
             <section className="minordetails">
                 {mechanics.map( (value, index) => <p>{value}</p>)}
+            </section>
+            <section>
+                {/* <a href="https://boardgamegeek.com/boardgame/{ id }"><img alt="BoardGameGeek website logo" src="/bgg-icon.png" /></a> */}
+                {/* <img alt="BoardGameGeek website logo" src="/bgg-logo.png" /> */}
+                <GameFooter gameid={id}/>
             </section>
         </section>
     )

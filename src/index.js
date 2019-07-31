@@ -11,18 +11,25 @@ import './index.css';
 // ]
 
 let gameListApi = [
-    {"id": 0, "name":"(no API data)", "minplayers":0, "maxplayers":0, "minplaytime":0, "maxplaytime":0}
+    {"id": 0, "name":"(no API data)", "minplayers":0, "maxplayers":0, "minplaytime":0, "maxplaytime":0, "categories":null}
 ]
 
-const Game = ({id=-1, name="No Name Provided", minplayers=-1, maxplayers=-1, minplaytime=-1, maxplaytime=-1}) => {
+const Game = ({id=-1, name="No Name Provided", minplayers=-1, maxplayers=-1, minplaytime=-1, maxplaytime=-1, categories=null}) => {
     return (
         <section className="game">
             <h2>{name}</h2>
-            <p>{minplayers}-{maxplayers} players</p>
-            {minplaytime === maxplaytime 
-            ? <p>{minplaytime} minutes</p>
-            : <p>{minplaytime}-{maxplaytime} minutes</p>
-            }
+            <hr />
+            <section className="majordetails">
+                <p>{minplayers}-{maxplayers} players</p>
+                {minplaytime === maxplaytime 
+                    ? <p>{minplaytime} minutes</p>
+                    : <p>{minplaytime}-{maxplaytime} minutes</p>
+                }
+            </section>
+            <hr />
+            <section className="minordetails">
+                {categories.map( (value, index) => <p>{value}</p>)}
+            </section>
         </section>
     )
 }
@@ -57,10 +64,10 @@ function extractFromXml(str) {
                 }
                 if ( (node.tagName === "link")
                     && (node.getAttribute("type") === "boardgamecategory") ) {
-                    if (game.hasOwnProperty('boardgamecategory')) {
-                        game['boardgamecategory'].push(node.getAttribute("value"))
+                    if (game.hasOwnProperty('categories')) {
+                        game['categories'].push(node.getAttribute("value"))
                     } else {
-                        game['boardgamecategory'] = new Array(node.getAttribute("value"))
+                        game['categories'] = new Array(node.getAttribute("value"))
                     }
                 }
             }
@@ -115,7 +122,8 @@ class GameShelf extends React.Component {
                             minplayers={game.minplayers} 
                             maxplayers={game.maxplayers} 
                             minplaytime={game.minplaytime} 
-                            maxplaytime={game.maxplaytime} />
+                            maxplaytime={game.maxplaytime}
+                            categories={game.categories} />
                 )}
             </div>
         )

@@ -27,3 +27,25 @@ code {
   border-radius: 10px;
   text-align: center;
 }
+
+h2 {
+  margin-bottom: 30px;
+}
+
+.majordetails {
+  padding: 10px 0;
+  font-weight:800;
+  font-size: 1.0em;
+  line-height: 0.8em;
+}
+
+.minordetails {
+  margin-bottom: 10px;
+  padding: 10px 0;
+  font-size: 0.8em;
+  line-height: 0.5em;
+}
+
+hr {
+  width:70%;
+}

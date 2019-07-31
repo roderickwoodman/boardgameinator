@@ -32,8 +32,15 @@ class Game extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            viewingCardBack: false
+            viewingGameCardFront: true
         }
+        this.toggleFrontBack = this.toggleFrontBack.bind(this)
+    }
+
+    toggleFrontBack() {
+        this.setState(prevState => ({
+            viewingGameCardFront: !prevState.viewingGameCardFront
+        }))
     }
 
     render() {
@@ -41,29 +48,71 @@ class Game extends React.Component {
 
         return (
             <section className="game">
-                <h2>{name}</h2>
-                <hr />
-                <section className="majordetails">
-                    <p>{minplayers}-{maxplayers} players</p>
-                    {minplaytime === maxplaytime 
-                        ? <p>{minplaytime} minutes</p>
-                        : <p>{minplaytime}-{maxplaytime} minutes</p>
-                    }
-                </section>
-                <hr />
                 <section className="minordetails">
-                    {categories.map( (value, index) => <p>{value}</p>)}
+                    <button onClick={this.toggleFrontBack}>more...</button>
                 </section>
-                <hr />
-                <section className="minordetails">
-                    {mechanics.map( (value, index) => <p>{value}</p>)}
-                </section>
-                <section>
-                    <GameFooter gameid={id}/>
-                </section>
+                { this.state.viewingGameCardFront 
+                    ? <GameCardFront 
+                        id={id}
+                        name={name}
+                        minplayers={minplayers}
+                        maxplayers={maxplayers}
+                        minplaytime={minplaytime}
+                        maxplaytime={maxplaytime}
+                        categories={categories}
+                        mechanics={mechanics}/>
+                    : <GameCardBack 
+                        id={id}
+                        name={name}/>
+                }
             </section>
         )
     }
+}
+
+function GameCardFront(props) {
+    const { id, name, minplayers, maxplayers, minplaytime, maxplaytime, categories, mechanics } = props
+    return (
+        <section className="cardFront">
+            <h2>{ name }</h2>
+            <hr />
+            <section className="majordetails">
+                <p>{minplayers}-{maxplayers} players</p>
+                {minplaytime === maxplaytime 
+                    ? <p>{minplaytime} minutes</p>
+                    : <p>{minplaytime}-{maxplaytime} minutes</p>
+                }
+            </section>
+            <hr />
+            <section className="minordetails">
+                {categories.map(value => <p>{value}</p>)}
+            </section>
+            <hr />
+            <section className="minordetails">
+                {mechanics.map(value => <p>{value}</p>)}
+            </section>
+            <section>
+                <GameFooter gameid={id}/>
+            </section>
+
+        </section>
+    )
+}
+
+function GameCardBack(props) {
+    const { id, name } = props
+    return (
+        <section className="cardBack">
+            <h2>{name}</h2>
+            <hr />
+            <section className="majordetails">
+                <p>(BACK)</p>
+            </section>
+            <section>
+                <GameFooter gameid={id}/>
+            </section>
+        </section>
+    )
 }
 
 function extractFromXml(str) {

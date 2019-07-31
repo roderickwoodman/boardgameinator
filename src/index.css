@@ -12,6 +12,9 @@ code {
     monospace;
 }
 
+ul {
+  list-style: none;
+}
 .gamebag {
   margin: 10px;
   display: grid;
@@ -45,14 +48,14 @@ h2 {
   padding: 10px 0;
   font-weight:800;
   font-size: 1.0em;
-  line-height: 0.8em;
+  line-height: 1.5em;
 }
 
 .minordetails {
   margin-bottom: 10px;
-  padding: 10px 0;
+  padding: 10px 5px;
   font-size: 0.8em;
-  line-height: 0.5em;
+  line-height: 1.5em;
 }
 
 hr {

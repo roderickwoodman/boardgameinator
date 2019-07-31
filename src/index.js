@@ -4,8 +4,16 @@ import './index.css';
 import bggLogo from './bgg-logo-50.png'
 
 
-let gameListApi = [
-    {"id": 0, "name":"(no API data)", "minplayers":0, "maxplayers":0, "minplaytime":0, "maxplaytime":0, "categories":null, "mechanics":null}
+let gameListDefault = [{
+    "id": 0, 
+    "name":"(no name info)",
+    "description":"(no description)",
+    "minplayers":0,
+    "maxplayers":0,
+    "minplaytime":0,
+    "maxplaytime":0,
+    "categories":null,
+    "mechanics":null}
 ]
 
 class GameFooter extends React.Component {
@@ -44,7 +52,7 @@ class Game extends React.Component {
     }
 
     render() {
-        const { id, name, minplayers, maxplayers, minplaytime, maxplaytime, categories, mechanics } = this.props
+        const { id, name, description, minplayers, maxplayers, minplaytime, maxplaytime, categories, mechanics } = this.props
 
         return (
             <section className="game">
@@ -63,7 +71,8 @@ class Game extends React.Component {
                         mechanics={mechanics}/>
                     : <GameCardBack 
                         id={id}
-                        name={name}/>
+                        name={name}
+                        description={description}/>
                 }
             </section>
         )
@@ -76,21 +85,21 @@ function GameCardFront(props) {
         <section className="cardFront">
             <h2>{ name }</h2>
             <hr />
-            <section className="majordetails">
-                <p>{minplayers}-{maxplayers} players</p>
+            <ul className="majordetails">
+                <li>{minplayers}-{maxplayers} players</li>
                 {minplaytime === maxplaytime 
-                    ? <p>{minplaytime} minutes</p>
-                    : <p>{minplaytime}-{maxplaytime} minutes</p>
+                    ? <li>{minplaytime} minutes</li>
+                    : <li>{minplaytime}-{maxplaytime} minutes</li>
                 }
-            </section>
+            </ul>
             <hr />
-            <section className="minordetails">
-                {categories.map(value => <p>{value}</p>)}
-            </section>
+            <ul className="minordetails">
+                {categories.map(value => <li>{value}</li>)}
+            </ul>
             <hr />
-            <section className="minordetails">
-                {mechanics.map(value => <p>{value}</p>)}
-            </section>
+            <ul className="minordetails">
+                {mechanics.map(value => <li>{value}</li>)}
+            </ul>
             <section>
                 <GameFooter gameid={id}/>
             </section>
@@ -100,13 +109,13 @@ function GameCardFront(props) {
 }
 
 function GameCardBack(props) {
-    const { id, name } = props
+    const { id, name, description } = props
     return (
         <section className="cardBack">
             <h2>{name}</h2>
             <hr />
-            <section className="majordetails">
-                <p>(BACK)</p>
+            <section className="minordetails">
+                <p>{description}</p>
             </section>
             <section>
                 <GameFooter gameid={id}/>
@@ -127,6 +136,9 @@ function extractFromXml(str) {
             if (node.nodeType === Node.ELEMENT_NODE) {
                 if ( (node.tagName === "name") && (node.getAttribute("type") === "primary") ) {
                     game['name'] = node.getAttribute("value")
+                }
+                if (node.tagName === "description") {
+                    game['description'] = node.innerHTML
                 }
                 if (node.tagName === "yearpublished") {
                     game['yearpublished'] = node.getAttribute("value")
@@ -205,6 +217,7 @@ class GameBag extends React.Component {
                             key={i}
                             id={game.id} 
                             name={game.name} 
+                            description={game.description} 
                             minplayers={game.minplayers} 
                             maxplayers={game.maxplayers} 
                             minplaytime={game.minplaytime} 
@@ -218,6 +231,6 @@ class GameBag extends React.Component {
 }
 
 render(
-    <GameBag games={gameListApi}/>,
+    <GameBag games={gameListDefault}/>,
     document.getElementById('root')
 )

@@ -15,21 +15,54 @@ code {
 ul {
   list-style: none;
 }
-.gamebag {
+
+.page-wrapper {
+  display: flex;
+  flex-direction: row;
+}
+
+.page-wrapper > *, .result-wrapper > * {
+  flex: 1 100%;
+}
+
+.main-controls {
+  display: flex;
+  flex: 2;
+  order: -1;
+  border: 1px solid red;
+}
+
+.result-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.view-controls {
+  display: flex;
+  flex: 1;
+  order: -1;
+  border: 1px solid green;
+}
+
+.resulting-games {
+  display: flex;
+  flex: 7;
+  flex-direction: row;
   margin: 10px;
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  grid-gap: 10px;
-  background-color: white;
-  color: white;
 }
 
 .game {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  margin: 2px;
+  max-width: 250px;
+  min-width: 175px;
   position: relative;
   padding-bottom: 60px;
   background-color: purple;
-  border: 1px solid white;
   border-radius: 10px;
+  color: white;
   text-align: center;
 }
 
@@ -50,17 +83,21 @@ ul {
   padding: 0;
 }
 
-.majordetails {
-  padding: 10px 5px;
-  font-weight:800;
-  font-size: 1.0em;
-  line-height: 1.5em;
+.details {
+  margin: 0;
+  padding: 10px 0;
 }
 
-.minordetails {
-  margin: 10px 0;
-  padding: 10px 5px;
-  font-size: 0.8em;
+.major.details {
+  height: 75px;
+  font-size: 1.0em;
+  line-height: 1.5em;
+  font-weight:800;
+}
+
+.minor.details {
+  height: 125px;
+  font-size: 0.9em;
   line-height: 1.5em;
 }
 

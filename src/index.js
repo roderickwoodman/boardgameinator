@@ -36,6 +36,22 @@ class GameFooter extends React.Component {
     }
 }
 
+class MainControls extends React.Component {
+    render() {
+        return (
+            <p>(main controls)</p>
+        )
+    }
+}
+
+class ViewControls extends React.Component {
+    render() {
+        return (
+            <p>(view controls)</p>
+        )
+    }
+}
+
 class Game extends React.Component {
 
     constructor(props) {
@@ -57,7 +73,7 @@ class Game extends React.Component {
 
         return (
             <section className="game">
-                <section className="minordetails">
+                <section className="details">
                     <button onClick={this.toggleFrontBack}>more...</button>
                 </section>
                 { this.state.viewingGameCardFront 
@@ -86,12 +102,12 @@ function GameCardFront(props) {
     const { id, name, yearpublished, minplayers, maxplayers, minplaytime, maxplaytime, categories, mechanics } = props
     return (
         <section className="cardFront">
-            <section className="majordetails">
+            <section className="details major">
                 <h2 className="game-name">{name}</h2>
                 <h4 className="game-yearpublished">({yearpublished})</h4>
             </section>
             <hr />
-            <ul className="majordetails">
+            <ul className="details major">
                 <li>{minplayers}-{maxplayers} players</li>
                 {minplaytime === maxplaytime 
                     ? <li>{minplaytime} minutes</li>
@@ -99,11 +115,11 @@ function GameCardFront(props) {
                 }
             </ul>
             <hr />
-            <ul className="minordetails">
+            <ul className="details minor">
                 {categories.map(value => <li key={value}>{value}</li>)}
             </ul>
             <hr />
-            <ul className="minordetails">
+            <ul className="details minor">
                 {mechanics.map(value => <li key={value}>{value}</li>)}
             </ul>
             <section>
@@ -118,12 +134,12 @@ function GameCardBack(props) {
     const { id, name, yearpublished, description } = props
     return (
         <section className="cardBack">
-            <section className="majordetails">
+            <section className="details major">
                 <h2 className="game-name">{name}</h2>
                 <h4 className="game-yearpublished">({yearpublished})</h4>
             </section>
             <hr />
-            <section className="minordetails">
+            <section className="details minor">
                 <p>{description}</p>
             </section>
             <section>
@@ -193,7 +209,7 @@ let urls = [
     'https://boardgamegeek.com/xmlapi2/thing?type=boardgame&id=205637'
 ]
 
-class GameBag extends React.Component {
+class Boardgameinator extends React.Component {
 
     constructor(props) {
         super(props);
@@ -219,28 +235,47 @@ class GameBag extends React.Component {
 
     render() {
         return (
-            <div className="gamebag">
-                {this.state.gameInfo.map(
-                    (game, i) => 
-                        <Game
-                            key={i}
-                            id={game.id} 
-                            name={game.name} 
-                            description={game.description} 
-                            yearpublished={game.yearpublished} 
-                            minplayers={game.minplayers} 
-                            maxplayers={game.maxplayers} 
-                            minplaytime={game.minplaytime} 
-                            maxplaytime={game.maxplaytime}
-                            categories={game.categories}
-                            mechanics={game.mechanics} />
-                )}
+            <React.Fragment>
+
+            <div className="page-wrapper">
+
+                <div className="main-controls">
+                    <MainControls />
+                </div>
+
+                <div className="result-wrapper">
+
+                    <div className="view-controls">
+                        <ViewControls />
+                    </div>
+
+                    <div className="resulting-games">
+                        {this.state.gameInfo.map(
+                            (game, i) => 
+                                <Game
+                                    key={i}
+                                    id={game.id} 
+                                    name={game.name} 
+                                    description={game.description} 
+                                    yearpublished={game.yearpublished} 
+                                    minplayers={game.minplayers} 
+                                    maxplayers={game.maxplayers} 
+                                    minplaytime={game.minplaytime} 
+                                    maxplaytime={game.maxplaytime}
+                                    categories={game.categories}
+                                    mechanics={game.mechanics} />
+                        )}
+                    </div>
+
+                </div>
+
             </div>
+            </React.Fragment>
         )
     }
 }
 
 render(
-    <GameBag games={gameListDefault}/>,
+    <Boardgameinator games={gameListDefault}/>,
     document.getElementById('root')
 )

@@ -100,11 +100,11 @@ function GameCardFront(props) {
             </ul>
             <hr />
             <ul className="minordetails">
-                {categories.map(value => <li>{value}</li>)}
+                {categories.map(value => <li key={value}>{value}</li>)}
             </ul>
             <hr />
             <ul className="minordetails">
-                {mechanics.map(value => <li>{value}</li>)}
+                {mechanics.map(value => <li key={value}>{value}</li>)}
             </ul>
             <section>
                 <GameFooter gameid={id}/>

@@ -285,19 +285,24 @@ class Boardgameinator extends React.Component {
         return (
             <React.Fragment>
 
-            <div className="page-wrapper">
+            <div id="page-wrapper">
 
-                <div className="main-controls">
-                    <MainControls categorycounts={this.state.categoryCounts} mechaniccounts={this.state.mechanicCounts}/>
+                <div id="leftsidebar-wrapper">
+                    <div id="page-logo">
+                        <h1>Boardgameinator</h1>
+                    </div>
+                    <div id="main-controls">
+                        <MainControls categorycounts={this.state.categoryCounts} mechaniccounts={this.state.mechanicCounts}/>
+                    </div>
                 </div>
 
-                <div className="result-wrapper">
+                <div id="content-wrapper">
 
-                    <div className="view-controls">
+                    <div id="view-controls">
                         <ViewControls />
                     </div>
 
-                    <div className="resulting-games">
+                    <div id="resulting-games">
                         {this.state.gameInfo.map(
                             (game, i) => 
                                 <Game

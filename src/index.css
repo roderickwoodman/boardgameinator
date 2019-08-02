@@ -19,6 +19,7 @@ ul {
 .page-wrapper {
   display: flex;
   flex-direction: row;
+  background-color: lightyellow;
 }
 
 .page-wrapper > *, .result-wrapper > * {
@@ -29,11 +30,11 @@ ul {
   display: flex;
   flex: 2;
   order: -1;
-  border: 1px solid red;
 }
 
 .result-wrapper {
   display: flex;
+  flex: 5;
   flex-direction: column;
 }
 
@@ -95,7 +96,7 @@ ul {
   font-weight:800;
 }
 
-.minor.details {
+.minor.details, .main-controls {
   height: 125px;
   font-size: 0.9em;
   line-height: 1.5em;

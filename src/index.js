@@ -37,14 +37,27 @@ class GameFooter extends React.Component {
 }
 
 class MainControls extends React.Component {
+
     render() {
         return (
-            <p>(main controls)</p>
+            <React.Fragment>
+            <ul id="category-counts">
+                {Object.keys(this.props.categorycounts).map(key => {
+                    return <li key={key}>{key} ({this.props.categorycounts[key]})</li>
+                })}
+            </ul>
+            <ul id="mechanic-counts">
+                {Object.keys(this.props.mechaniccounts).map(key => {
+                    return <li key={key}>{key} ({this.props.mechaniccounts[key]})</li>
+                })}
+            </ul>
+            </React.Fragment>
         )
     }
 }
 
 class ViewControls extends React.Component {
+
     render() {
         return (
             <p>(view controls)</p>
@@ -204,9 +217,11 @@ function extractFromXml(str) {
 
 // let gameIds = [148228, 199478, 169786, 37904, 180263]
 let urls = [
-    'https://boardgamegeek.com/xmlapi2/thing?type=boardgame&id=31260',
-    'https://boardgamegeek.com/xmlapi2/thing?type=boardgame&id=5',
-    'https://boardgamegeek.com/xmlapi2/thing?type=boardgame&id=205637'
+    'https://boardgamegeek.com/xmlapi2/thing?type=boardgame&id=54138',
+    'https://boardgamegeek.com/xmlapi2/thing?type=boardgame&id=167791',
+    'https://boardgamegeek.com/xmlapi2/thing?type=boardgame&id=124361',
+    'https://boardgamegeek.com/xmlapi2/thing?type=boardgame&id=193738',
+    'https://boardgamegeek.com/xmlapi2/thing?type=boardgame&id=50750',
 ]
 
 class Boardgameinator extends React.Component {
@@ -215,7 +230,11 @@ class Boardgameinator extends React.Component {
         super(props);
         this.state = { 
             gameInfo: [],
+            categoryCounts: {},
+            mechanicCounts: {}
         }
+        this.updateCategoryCounts = this.updateCategoryCounts.bind(this)
+        this.updateMechanicCounts = this.updateMechanicCounts.bind(this)
     }
 
     async componentDidMount() {
@@ -227,10 +246,39 @@ class Boardgameinator extends React.Component {
                         .then(text => extractFromXml(text))
                     ))
         this.setState({ gameInfo: gameInfoJsonArray })
+        this.updateCategoryCounts()
+        this.updateMechanicCounts()
     }
 
     componentDidUpdate() {
-        //console.log("The component just updated")
+    }
+
+    updateCategoryCounts() {
+        let counts = {}
+        for (const game of this.state.gameInfo) {
+            for (const category of game.categories) {
+                if (counts.hasOwnProperty(category)) {
+                    counts[category] = counts[category] + 1
+                } else {
+                    counts[category] = 1
+                }
+            }
+        }
+        this.setState({ categoryCounts: counts })
+    }
+
+    updateMechanicCounts() {
+        let counts = {}
+        for (const game of this.state.gameInfo) {
+            for (const mechanic of game.mechanics) {
+                if (counts.hasOwnProperty(mechanic)) {
+                    counts[mechanic] = counts[mechanic] + 1
+                } else {
+                    counts[mechanic] = 1
+                }
+            }
+        }
+        this.setState({ mechanicCounts: counts })
     }
 
     render() {
@@ -240,7 +288,7 @@ class Boardgameinator extends React.Component {
             <div className="page-wrapper">
 
                 <div className="main-controls">
-                    <MainControls />
+                    <MainControls categorycounts={this.state.categoryCounts} mechaniccounts={this.state.mechanicCounts}/>
                 </div>
 
                 <div className="result-wrapper">

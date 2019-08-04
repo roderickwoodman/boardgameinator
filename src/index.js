@@ -42,13 +42,15 @@ class MainControls extends React.Component {
         return (
             <React.Fragment>
             <ul id="category-counts">
-                {Object.keys(this.props.categorycounts).map(key => {
-                    return <li key={key}>{key} ({this.props.categorycounts[key]})</li>
+                <li><b>CATEGORY:</b></li>
+                {this.props.categorycounts.map((key, index) => {
+                    return <li key={key.attrName}>{key.attrName} ({key.attrCount})</li>
                 })}
             </ul>
             <ul id="mechanic-counts">
-                {Object.keys(this.props.mechaniccounts).map(key => {
-                    return <li key={key}>{key} ({this.props.mechaniccounts[key]})</li>
+                <li><b>MECHANIC:</b></li>
+                {this.props.mechaniccounts.map((key, index) => {
+                    return <li key={key.attrName}>{key.attrName} ({key.attrCount})</li>
                 })}
             </ul>
             </React.Fragment>
@@ -217,7 +219,7 @@ function extractFromXml(str) {
 
 // let gameIds = [148228, 199478, 169786, 37904, 180263]
 let urls = [
-    'https://boardgamegeek.com/xmlapi2/thing?type=boardgame&id=54138',
+    'https://boardgamegeek.com/xmlapi2/thing?type=boardgame&id=221194',
     'https://boardgamegeek.com/xmlapi2/thing?type=boardgame&id=167791',
     'https://boardgamegeek.com/xmlapi2/thing?type=boardgame&id=124361',
     'https://boardgamegeek.com/xmlapi2/thing?type=boardgame&id=193738',
@@ -230,8 +232,8 @@ class Boardgameinator extends React.Component {
         super(props);
         this.state = { 
             gameInfo: [],
-            categoryCounts: {},
-            mechanicCounts: {}
+            categoryCounts: [],
+            mechanicCounts: []
         }
         this.updateCategoryCounts = this.updateCategoryCounts.bind(this)
         this.updateMechanicCounts = this.updateMechanicCounts.bind(this)
@@ -250,35 +252,46 @@ class Boardgameinator extends React.Component {
         this.updateMechanicCounts()
     }
 
-    componentDidUpdate() {
-    }
-
     updateCategoryCounts() {
-        let counts = {}
+        // tally each attribute's occurrence across all games
+        let countsObj = {}
         for (const game of this.state.gameInfo) {
             for (const category of game.categories) {
-                if (counts.hasOwnProperty(category)) {
-                    counts[category] = counts[category] + 1
+                if (countsObj.hasOwnProperty(category)) {
+                    countsObj[category] = countsObj[category] + 1
                 } else {
-                    counts[category] = 1
+                    countsObj[category] = 1
                 }
             }
         }
-        this.setState({ categoryCounts: counts })
+        // sort each attribute according to total occurrences
+        let countsArray = []
+        Object.keys(countsObj).forEach((elementTag) => {
+            countsArray.push({'attrName': elementTag, 'attrCount': countsObj[elementTag]})
+        })
+        countsArray.sort((a, b) => (a.attrCount < b.attrCount) ? 1 : (a.attrCount === b.attrCount) && (a.attrName > b.attrName) ? 1 : -1)
+        this.setState({ categoryCounts: countsArray })
     }
 
     updateMechanicCounts() {
-        let counts = {}
+        // tally each attribute's occurrence across all games
+        let countsObj = {}
         for (const game of this.state.gameInfo) {
             for (const mechanic of game.mechanics) {
-                if (counts.hasOwnProperty(mechanic)) {
-                    counts[mechanic] = counts[mechanic] + 1
+                if (countsObj.hasOwnProperty(mechanic)) {
+                    countsObj[mechanic] = countsObj[mechanic] + 1
                 } else {
-                    counts[mechanic] = 1
+                    countsObj[mechanic] = 1
                 }
             }
         }
-        this.setState({ mechanicCounts: counts })
+        // sort each attribute according to total occurrences
+        let countsArray = []
+        Object.keys(countsObj).forEach((elementTag) => {
+            countsArray.push({'attrName': elementTag, 'attrCount': countsObj[elementTag]})
+        })
+        countsArray.sort((a, b) => (a.attrCount < b.attrCount) ? 1 : (a.attrCount === b.attrCount) && (a.attrName > b.attrName) ? 1 : -1)
+        this.setState({ mechanicCounts: countsArray })
     }
 
     render() {

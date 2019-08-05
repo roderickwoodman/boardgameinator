@@ -232,11 +232,13 @@ class Boardgameinator extends React.Component {
         super(props);
         this.state = { 
             gameInfo: [],
+            sortedGames: [],
             categoryCounts: [],
             mechanicCounts: []
         }
         this.updateCategoryCounts = this.updateCategoryCounts.bind(this)
         this.updateMechanicCounts = this.updateMechanicCounts.bind(this)
+        this.sortGames = this.sortGames.bind(this)
     }
 
     async componentDidMount() {
@@ -250,6 +252,7 @@ class Boardgameinator extends React.Component {
         this.setState({ gameInfo: gameInfoJsonArray })
         this.updateCategoryCounts()
         this.updateMechanicCounts()
+        this.sortGames()
     }
 
     updateCategoryCounts() {
@@ -292,6 +295,10 @@ class Boardgameinator extends React.Component {
         })
         countsArray.sort((a, b) => (a.attrCount < b.attrCount) ? 1 : (a.attrCount === b.attrCount) && (a.attrName > b.attrName) ? 1 : -1)
         this.setState({ mechanicCounts: countsArray })
+    }
+
+    sortGames() {
+        this.setState({ sortedGames: this.state.gameInfo.sort((a, b) => (a.maxplaytime > b.maxplaytime) ? 1 : (a.maxplaytime === b.maxplaytime) && (a.name > b.name) ? 1 : -1)})
     }
 
     render() {

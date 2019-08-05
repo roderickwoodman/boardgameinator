@@ -41,6 +41,12 @@ class MainControls extends React.Component {
     render() {
         return (
             <React.Fragment>
+            <ul id="supported-players">
+                <li><b>PLAYERS:</b></li>
+                {this.props.playercounts.map((key, index) => {
+                    return <li key={key.attrName}>{key.attrName} ({key.attrCount})</li>
+                })}
+            </ul>
             <ul id="category-counts">
                 <li><b>CATEGORY:</b></li>
                 {this.props.categorycounts.map((key, index) => {
@@ -233,9 +239,11 @@ class Boardgameinator extends React.Component {
         this.state = { 
             gameInfo: [],
             sortedGames: [],
+            playerCounts: [],
             categoryCounts: [],
             mechanicCounts: []
         }
+        this.updatePlayerCounts = this.updatePlayerCounts.bind(this)
         this.updateCategoryCounts = this.updateCategoryCounts.bind(this)
         this.updateMechanicCounts = this.updateMechanicCounts.bind(this)
         this.sortGames = this.sortGames.bind(this)
@@ -250,9 +258,32 @@ class Boardgameinator extends React.Component {
                         .then(text => extractFromXml(text))
                     ))
         this.setState({ gameInfo: gameInfoJsonArray })
+        this.updatePlayerCounts()
         this.updateCategoryCounts()
         this.updateMechanicCounts()
         this.sortGames()
+    }
+
+    updatePlayerCounts() {
+        // tally each allowable player count occurrence across all games
+        let countsObj = {}
+        for (const game of this.state.gameInfo) {
+            for (let playercount=game.minplayers; playercount<=game.maxplayers; playercount++) {
+                let playerCountAttr = playercount + 'P'
+                if (countsObj.hasOwnProperty(playerCountAttr)) {
+                    countsObj[playerCountAttr] = countsObj[playerCountAttr] + 1
+                } else {
+                    countsObj[playerCountAttr] = 1
+                }
+            }
+        }
+        // sort each attribute according to total occurrences
+        let countsArray = []
+        Object.keys(countsObj).forEach((elementTag) => {
+            countsArray.push({'attrName': elementTag, 'attrCount': countsObj[elementTag]})
+        })
+        countsArray.sort((a, b) => (a.attrName.slice(0, -1).parseInt < b.attrName.slice(0, -1).parseInt) ? 1 : -1)
+        this.setState({ playerCounts: countsArray })
     }
 
     updateCategoryCounts() {
@@ -312,7 +343,10 @@ class Boardgameinator extends React.Component {
                         <h1>Boardgameinator</h1>
                     </div>
                     <div id="main-controls">
-                        <MainControls categorycounts={this.state.categoryCounts} mechaniccounts={this.state.mechanicCounts}/>
+                        <MainControls 
+                            playercounts={this.state.playerCounts} 
+                            categorycounts={this.state.categoryCounts} 
+                            mechaniccounts={this.state.mechanicCounts}/>
                     </div>
                 </div>
 

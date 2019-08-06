@@ -288,9 +288,10 @@ class Boardgameinator extends React.Component {
         // sort each attribute according to total occurrences
         let countsArray = []
         Object.keys(countsObj).forEach((elementTag) => {
-            countsArray.push({'attrName': elementTag, 'attrCount': countsObj[elementTag]})
+            let newCount = {'attrName': elementTag, 'attrCount': countsObj[elementTag]}
+            countsArray.push(newCount)
         })
-        countsArray.sort((a, b) => (a.attrName.slice(0, -1).parseInt < b.attrName.slice(0, -1).parseInt) ? 1 : -1)
+        countsArray.sort((a, b) => (parseInt(a.attrName.slice(0, -1)) < parseInt(b.attrName.slice(0, -1))) ? 1 : -1)
         this.setState({ playerCounts: countsArray })
     }
 

@@ -22,15 +22,12 @@ ul {
   background-color: lightyellow;
 }
 
-#page-wrapper > *, #content-wrapper > *, #leftsidebar-wrapper > * {
-  flex: 1 100%;
-}
-
 #leftsidebar-wrapper {
   display: flex;
   flex: 2;
   order: -1;
   flex-direction: column;
+  width: 20%;
 }
 
 #page-logo {
@@ -43,12 +40,14 @@ ul {
 #main-controls {
   display: flex;
   flex: 7;
+  flex-direction: column;
 }
 
 #content-wrapper {
   display: flex;
-  flex: 5;
+  flex: 7;
   flex-direction: column;
+  width: 80%;
 }
 
 #view-controls {
@@ -71,16 +70,20 @@ ul {
   display: flex;
   flex: 7;
   flex-direction: row;
-  margin: 10px;
+  /* margin: 10px; */
+  flex-wrap: nowrap;
+  overflow-x: auto;
 }
 
 .game {
   display: flex;
   flex-direction: column;
-  flex: 1;
+  flex: 0 0 none;
   margin: 2px;
+  width: 200px;
   max-width: 250px;
   min-width: 175px;
+  max-height: 600px;
   position: relative;
   padding-bottom: 60px;
   background-color: purple;

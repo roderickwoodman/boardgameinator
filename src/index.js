@@ -73,7 +73,7 @@ function ViewControls(props) {
                     sort by decreasing max player count</label>
                 <label>
                     <input type='radio' key='maxplaytime' id='maxplaytime' name='sortorder' checked={props.sortby==='maxplaytime'} value='maxplaytime' onChange={props.onChange} /> 
-                    sort by increasing max playtime) </label>
+                    sort by increasing max playtime</label>
             </div>
         </div>
     )
@@ -236,6 +236,9 @@ let urls = [
     'https://boardgamegeek.com/xmlapi2/thing?type=boardgame&id=124361',
     'https://boardgamegeek.com/xmlapi2/thing?type=boardgame&id=193738',
     'https://boardgamegeek.com/xmlapi2/thing?type=boardgame&id=50750',
+    'https://boardgamegeek.com/xmlapi2/thing?type=boardgame&id=158899',
+    'https://boardgamegeek.com/xmlapi2/thing?type=boardgame&id=11',
+    'https://boardgamegeek.com/xmlapi2/thing?type=boardgame&id=192291',
 ]
 
 class Boardgameinator extends React.Component {

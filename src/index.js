@@ -64,13 +64,19 @@ class MainControls extends React.Component {
     }
 }
 
-class ViewControls extends React.Component {
-
-    render() {
-        return (
-            <p>(view controls)</p>
-        )
-    }
+function ViewControls(props) {
+    return (
+        <div id="sort-controls">
+            <div>
+                <label>
+                    <input type='radio' key='maxplayers' id='maxplayers' name='sortorder' checked={props.sortby==='maxplayers'} value='maxplayers' onChange={props.onChange} /> 
+                    sort by decreasing max player count</label>
+                <label>
+                    <input type='radio' key='maxplaytime' id='maxplaytime' name='sortorder' checked={props.sortby==='maxplaytime'} value='maxplaytime' onChange={props.onChange} /> 
+                    sort by increasing max playtime) </label>
+            </div>
+        </div>
+    )
 }
 
 class Game extends React.Component {
@@ -238,15 +244,15 @@ class Boardgameinator extends React.Component {
         super(props);
         this.state = { 
             gameInfo: [],
-            sortedGames: [],
             playerCounts: [],
             categoryCounts: [],
-            mechanicCounts: []
+            mechanicCounts: [],
+            sortOrder: 'maxplayers'
         }
         this.updatePlayerCounts = this.updatePlayerCounts.bind(this)
         this.updateCategoryCounts = this.updateCategoryCounts.bind(this)
         this.updateMechanicCounts = this.updateMechanicCounts.bind(this)
-        this.sortGames = this.sortGames.bind(this)
+        this.handleSortChange = this.handleSortChange.bind(this)
     }
 
     async componentDidMount() {
@@ -261,7 +267,6 @@ class Boardgameinator extends React.Component {
         this.updatePlayerCounts()
         this.updateCategoryCounts()
         this.updateMechanicCounts()
-        this.sortGames()
     }
 
     updatePlayerCounts() {
@@ -328,8 +333,10 @@ class Boardgameinator extends React.Component {
         this.setState({ mechanicCounts: countsArray })
     }
 
-    sortGames() {
-        this.setState({ sortedGames: this.state.gameInfo.sort((a, b) => (a.maxplaytime > b.maxplaytime) ? 1 : (a.maxplaytime === b.maxplaytime) && (a.name > b.name) ? 1 : -1)})
+    handleSortChange(event) {
+        this.setState({
+            sortOrder: event.target.value
+        })
     }
 
     render() {
@@ -353,11 +360,17 @@ class Boardgameinator extends React.Component {
                 <div id="content-wrapper">
 
                     <div id="view-controls">
-                        <ViewControls />
+                        <ViewControls 
+                            sortby={this.state.sortOrder}
+                            onChange={this.handleSortChange}/>
                     </div>
 
                     <div id="resulting-games">
-                        {this.state.gameInfo.map(
+                        {this.state.gameInfo
+                        .sort((this.state.sortOrder === 'maxplayers') 
+                            ? (a, b) => (a.maxplayers < b.maxplayers) ? 1 : (a.maxplayers === b.maxplayers) && (a.name > b.name) ? 1 : -1
+                            : (a, b) => (a.maxplaytime > b.maxplaytime) ? 1 : (a.maxplaytime === b.maxplaytime) && (a.name > b.name) ? 1 : -1)
+                        .map(
                             (game, i) => 
                                 <Game
                                     key={i}

@@ -55,7 +55,16 @@ ul {
   display: flex;
   flex: 1;
   order: -1;
-  border: 1px solid green;
+}
+
+#sort-controls, #sort-controls > div {
+  flex-direction: column-reverse;
+  display: flex;
+  padding: 0 10px;
+}
+
+#sort-controls label {
+  display: inline-block;
 }
 
 #resulting-games {

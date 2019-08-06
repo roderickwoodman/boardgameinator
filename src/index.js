@@ -193,19 +193,19 @@ function extractFromXml(str) {
                     game['description'] = node.innerHTML
                 }
                 if (node.tagName === "yearpublished") {
-                    game['yearpublished'] = node.getAttribute("value")
+                    game['yearpublished'] = parseInt(node.getAttribute("value"))
                 }
                 if (node.tagName === "minplayers") {
-                    game['minplayers'] = node.getAttribute("value")
+                    game['minplayers'] = parseInt(node.getAttribute("value"))
                 }
                 if (node.tagName === "maxplayers") {
-                    game['maxplayers'] = node.getAttribute("value")
+                    game['maxplayers'] = parseInt(node.getAttribute("value"))
                 }
                 if (node.tagName === "minplaytime") {
-                    game['minplaytime'] = node.getAttribute("value")
+                    game['minplaytime'] = parseInt(node.getAttribute("value"))
                 }
                 if (node.tagName === "maxplaytime") {
-                    game['maxplaytime'] = node.getAttribute("value")
+                    game['maxplaytime'] = parseInt(node.getAttribute("value"))
                 }
                 if ( (node.tagName === "link")
                     && (node.getAttribute("type") === "boardgamecategory") ) {

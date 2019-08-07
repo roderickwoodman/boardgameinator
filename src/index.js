@@ -36,7 +36,7 @@ class GameFooter extends React.Component {
     }
 }
 
-class MainControls extends React.Component {
+class VotingBox extends React.Component {
 
     render() {
         return (
@@ -59,6 +59,57 @@ class MainControls extends React.Component {
                     return <li key={key.attrName}>{key.attrName} ({key.attrCount})</li>
                 })}
             </ul>
+            </React.Fragment>
+        )
+    }
+}
+
+class GameList extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            sortOrder: 'maxplayers'
+        }
+        this.handleSortChange = this.handleSortChange.bind(this)
+    }
+    
+    handleSortChange(event) {
+        this.setState({
+            sortOrder: event.target.value
+        })
+    }
+
+    render() {
+        return (
+            <React.Fragment>
+            <div id="view-controls">
+            <ViewControls 
+                sortby={this.state.sortOrder}
+                onChange={this.handleSortChange}/>
+            </div>
+
+            <div id="resulting-games">
+                {this.props.allgames
+                .sort((this.state.sortOrder === 'maxplayers') 
+                    ? (a, b) => (a.maxplayers < b.maxplayers) ? 1 : (a.maxplayers === b.maxplayers) && (a.name > b.name) ? 1 : -1
+                    : (a, b) => (a.maxplaytime > b.maxplaytime) ? 1 : (a.maxplaytime === b.maxplaytime) && (a.name > b.name) ? 1 : -1)
+                .map(
+                    (game, i) => 
+                        <Game
+                            key={i}
+                            id={game.id} 
+                            name={game.name} 
+                            description={game.description} 
+                            yearpublished={game.yearpublished} 
+                            minplayers={game.minplayers} 
+                            maxplayers={game.maxplayers} 
+                            minplaytime={game.minplaytime} 
+                            maxplaytime={game.maxplaytime}
+                            categories={game.categories}
+                            mechanics={game.mechanics} />
+                )}
+            </div>
             </React.Fragment>
         )
     }
@@ -230,7 +281,7 @@ function extractFromXml(str) {
 }
 
 // let gameIds = [148228, 199478, 169786, 37904, 180263]
-let urls = [
+let defaultUrls = [
     'https://boardgamegeek.com/xmlapi2/thing?type=boardgame&id=221194',
     'https://boardgamegeek.com/xmlapi2/thing?type=boardgame&id=167791',
     'https://boardgamegeek.com/xmlapi2/thing?type=boardgame&id=124361',
@@ -246,7 +297,7 @@ class Boardgameinator extends React.Component {
     constructor(props) {
         super(props);
         this.state = { 
-            gameInfo: [],
+            allGames: [],
             playerCounts: [],
             categoryCounts: [],
             mechanicCounts: [],
@@ -255,18 +306,17 @@ class Boardgameinator extends React.Component {
         this.updatePlayerCounts = this.updatePlayerCounts.bind(this)
         this.updateCategoryCounts = this.updateCategoryCounts.bind(this)
         this.updateMechanicCounts = this.updateMechanicCounts.bind(this)
-        this.handleSortChange = this.handleSortChange.bind(this)
     }
 
     async componentDidMount() {
         const gameInfoJsonArray = await Promise.all(
-            urls.map(
+            defaultUrls.map(
                 url =>
                     fetch(url)
                         .then(response => response.text())
                         .then(text => extractFromXml(text))
                     ))
-        this.setState({ gameInfo: gameInfoJsonArray })
+        this.setState({ allGames: gameInfoJsonArray })
         this.updatePlayerCounts()
         this.updateCategoryCounts()
         this.updateMechanicCounts()
@@ -275,7 +325,7 @@ class Boardgameinator extends React.Component {
     updatePlayerCounts() {
         // tally each allowable player count occurrence across all games
         let countsObj = {}
-        for (const game of this.state.gameInfo) {
+        for (const game of this.state.allGames) {
             for (let playercount=game.minplayers; playercount<=game.maxplayers; playercount++) {
                 let playerCountAttr = playercount + 'P'
                 if (countsObj.hasOwnProperty(playerCountAttr)) {
@@ -298,7 +348,7 @@ class Boardgameinator extends React.Component {
     updateCategoryCounts() {
         // tally each attribute's occurrence across all games
         let countsObj = {}
-        for (const game of this.state.gameInfo) {
+        for (const game of this.state.allGames) {
             for (const category of game.categories) {
                 if (countsObj.hasOwnProperty(category)) {
                     countsObj[category] = countsObj[category] + 1
@@ -319,7 +369,7 @@ class Boardgameinator extends React.Component {
     updateMechanicCounts() {
         // tally each attribute's occurrence across all games
         let countsObj = {}
-        for (const game of this.state.gameInfo) {
+        for (const game of this.state.allGames) {
             for (const mechanic of game.mechanics) {
                 if (countsObj.hasOwnProperty(mechanic)) {
                     countsObj[mechanic] = countsObj[mechanic] + 1
@@ -337,16 +387,9 @@ class Boardgameinator extends React.Component {
         this.setState({ mechanicCounts: countsArray })
     }
 
-    handleSortChange(event) {
-        this.setState({
-            sortOrder: event.target.value
-        })
-    }
-
     render() {
         return (
             <React.Fragment>
-
             <div id="page-wrapper">
 
                 <div id="leftsidebar-wrapper">
@@ -354,7 +397,7 @@ class Boardgameinator extends React.Component {
                         <h1>Boardgameinator</h1>
                     </div>
                     <div id="main-controls">
-                        <MainControls 
+                        <VotingBox 
                             playercounts={this.state.playerCounts} 
                             categorycounts={this.state.categoryCounts} 
                             mechaniccounts={this.state.mechanicCounts}/>
@@ -362,35 +405,8 @@ class Boardgameinator extends React.Component {
                 </div>
 
                 <div id="content-wrapper">
-
-                    <div id="view-controls">
-                        <ViewControls 
-                            sortby={this.state.sortOrder}
-                            onChange={this.handleSortChange}/>
-                    </div>
-
-                    <div id="resulting-games">
-                        {this.state.gameInfo
-                        .sort((this.state.sortOrder === 'maxplayers') 
-                            ? (a, b) => (a.maxplayers < b.maxplayers) ? 1 : (a.maxplayers === b.maxplayers) && (a.name > b.name) ? 1 : -1
-                            : (a, b) => (a.maxplaytime > b.maxplaytime) ? 1 : (a.maxplaytime === b.maxplaytime) && (a.name > b.name) ? 1 : -1)
-                        .map(
-                            (game, i) => 
-                                <Game
-                                    key={i}
-                                    id={game.id} 
-                                    name={game.name} 
-                                    description={game.description} 
-                                    yearpublished={game.yearpublished} 
-                                    minplayers={game.minplayers} 
-                                    maxplayers={game.maxplayers} 
-                                    minplaytime={game.minplaytime} 
-                                    maxplaytime={game.maxplaytime}
-                                    categories={game.categories}
-                                    mechanics={game.mechanics} />
-                        )}
-                    </div>
-
+                    <GameList
+                        allgames={this.state.allGames} />
                 </div>
 
             </div>

@@ -17,23 +17,12 @@ let gameListDefault = [{
     "mechanics":null}
 ]
 
-class GameFooter extends React.Component {
-
-    state = { 
-        gameid: -1
-    }
-
-    componentDidMount() {
-        this.setState({ gameid: this.props.gameid})
-    }
-
-    render() {
-        return (
-            <a href={'https://boardgamegeek.com/boardgame/' + this.state.gameid } target="_blank" rel="noopener noreferrer">
-                <img src={bggLogo} alt="BoardGameGeek website logo" />
-            </a>
-        )
-    }
+function GameFooter(props) {
+    return (
+        <a href={'https://boardgamegeek.com/boardgame/' + props.gameid } target="_blank" rel="noopener noreferrer">
+            <img src={bggLogo} alt="BoardGameGeek website logo" />
+        </a>
+    )
 }
 
 class VotableElement extends React.Component {

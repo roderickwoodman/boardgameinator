@@ -59,6 +59,14 @@ li.thumbsup, li.thumbsdown, li.novote {
   font-weight: 800;
 }
 
+.game .thumbsup {
+  color: green;
+  background-color: white;
+  border-radius: 5px;
+  font-weight: 800;
+  margin:2px 10px;
+}
+
 #view-controls {
   display: flex;
   flex: 1;

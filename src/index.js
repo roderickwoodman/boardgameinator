@@ -147,7 +147,8 @@ class GameList extends React.Component {
                             minplaytime={game.minplaytime} 
                             maxplaytime={game.maxplaytime}
                             categories={game.categories}
-                            mechanics={game.mechanics} />
+                            mechanics={game.mechanics} 
+                            thumbs={this.props.thumbs} />
                 )}
             </div>
             </React.Fragment>
@@ -187,7 +188,7 @@ class Game extends React.Component {
     }
 
     render() {
-        const { id, name, description, yearpublished, minplayers, maxplayers, minplaytime, maxplaytime, categories, mechanics } = this.props
+        const { id, name, description, yearpublished, minplayers, maxplayers, minplaytime, maxplaytime, categories, mechanics, thumbs } = this.props
 
         return (
             <section className="game">
@@ -204,7 +205,8 @@ class Game extends React.Component {
                         minplaytime={minplaytime}
                         maxplaytime={maxplaytime}
                         categories={categories}
-                        mechanics={mechanics}/>
+                        mechanics={mechanics}
+                        thumbs={thumbs} />
                     : <GameCardBack 
                         id={id}
                         name={name}
@@ -216,36 +218,62 @@ class Game extends React.Component {
     }
 }
 
-function GameCardFront(props) {
-    const { id, name, yearpublished, minplayers, maxplayers, minplaytime, maxplaytime, categories, mechanics } = props
-    return (
-        <section className="cardFront">
-            <section className="details major">
-                <h2 className="game-name">{name}</h2>
-                <h4 className="game-yearpublished">({yearpublished})</h4>
-            </section>
-            <hr />
-            <ul className="details major">
-                <li>{minplayers}-{maxplayers} players</li>
-                {minplaytime === maxplaytime 
-                    ? <li>{minplaytime} minutes</li>
-                    : <li>{minplaytime}-{maxplaytime} minutes</li>
-                }
-            </ul>
-            <hr />
-            <ul className="details minor">
-                {categories.map(value => <li key={value}>{value}</li>)}
-            </ul>
-            <hr />
-            <ul className="details minor">
-                {mechanics.map(value => <li key={value}>{value}</li>)}
-            </ul>
-            <section>
-                <GameFooter gameid={id}/>
-            </section>
+class GameCardFront extends React.Component {
 
-        </section>
-    )
+    constructor(props) {
+        super(props)
+        this.getMyVote = this.getMyVote.bind(this)
+    }
+
+    getMyVote(section, attrName) {
+        let myVote = this.props.thumbs[section].hasOwnProperty(attrName) 
+            ? 'thumbsup' //FIXME, derive from props: this.props.preferences['attrVote']
+            : 'novote'
+        return myVote
+    }
+
+    // player count section gets only one, aggregated vote; only one <li> (ex: "2-6 players") 
+    getAggregatedPlayersVote(minplayers, maxplayers) {
+        let yesVotes = 0
+        Object.keys(this.props.thumbs.players).forEach( (attrName) => {
+            let myplayercount = parseInt(attrName.slice(0, -1))
+            if (myplayercount >= minplayers
+                && myplayercount <= maxplayers
+                && this.props.thumbs.players[attrName] === 'thumbsup')
+            {
+                yesVotes++
+            }
+        })
+        return (yesVotes > 0) ? "thumbsup" : "novote"
+    }
+
+    render() {
+        const { id, name, yearpublished, minplayers, maxplayers, minplaytime, maxplaytime, categories, mechanics } = this.props
+        return (
+            <section className="cardFront">
+                <section className="details major">
+                    <h2 className="game-name">{name}</h2>
+                    <h4 className="game-yearpublished">({yearpublished})</h4>
+                </section>
+                <hr />
+                <ul className="details major">
+                    <li className={this.getAggregatedPlayersVote(minplayers, maxplayers)}>{minplayers}-{maxplayers} players</li>
+                    <li>{minplaytime}-{maxplaytime} minutes</li>
+                </ul>
+                <hr />
+                <ul className="details minor">
+                    {categories.map(value => <li key={value} className={this.getMyVote('category', value)}>{value}</li>)}
+                </ul>
+                <hr />
+                <ul className="details minor">
+                    {mechanics.map(value => <li key={value} className={this.getMyVote('mechanic', value)}>{value}</li>)}
+                </ul>
+                <section>
+                    <GameFooter gameid={id}/>
+                </section>
+            </section>
+        )
+    }
 }
 
 function GameCardBack(props) {
@@ -479,7 +507,8 @@ class Boardgameinator extends React.Component {
 
                 <div id="content-wrapper">
                     <GameList
-                        allgames={this.state.allGames} />
+                        allgames={this.state.allGames} 
+                        thumbs={this.state.thumbs} />
                 </div>
 
             </div>

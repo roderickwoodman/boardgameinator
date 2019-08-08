@@ -59,33 +59,24 @@ class VotableElement extends React.Component {
 
 class VotingBox extends React.Component {
 
-    constructor(props) {
-        super(props)
-        this.onClickHandler = this.onClickHandler.bind(this)
-    }
-
-    onClickHandler = event => {
-        event.persist()
-        console.log(event.target)
-    }
-
     render() {
         return (
             <React.Fragment>
+            <button data-attrtype="all" onClick={this.props.onclearsectionvotes}>CLEAR ALL</button>
             <ul id="supported-players">
-                <li><b>PLAYERS:</b></li>
+                <li><b>PLAYERS:</b><button data-attrtype="players" onClick={this.props.onclearsectionvotes}>clear all</button></li>
                 {this.props.playercounts.map((key, index) => {
                     return <VotableElement 
                         key={key.attrName}
-                        preferences={this.props.thumbs['player']}
-                        attrtype="player" 
+                        preferences={this.props.thumbs['players']}
+                        attrtype="players" 
                         attrname={key.attrName} 
                         attrcount={key.attrCount} 
                         onnewvote={this.props.onnewvote}/>
                 })}
             </ul>
             <ul id="category-counts">
-                <li><b>CATEGORY:</b></li>
+                <li><b>CATEGORY:</b><button data-attrtype="category" onClick={this.props.onclearsectionvotes}>clear all</button></li>
                 {this.props.categorycounts.map((key, index) => {
                     return <VotableElement 
                         key={key.attrName}
@@ -97,7 +88,7 @@ class VotingBox extends React.Component {
                 })}
             </ul>
             <ul id="mechanic-counts">
-                <li><b>MECHANIC:</b></li>
+                <li><b>MECHANIC:</b><button data-attrtype="mechanic" onClick={this.props.onclearsectionvotes}>clear all</button></li>
                 {this.props.mechaniccounts.map((key, index) => {
                     return <VotableElement 
                         key={key.attrName}
@@ -347,7 +338,7 @@ class Boardgameinator extends React.Component {
         super(props)
         this.state = { 
             allGames: [],
-            thumbs: {'player': {}, 'category': {}, 'mechanic': {}},
+            thumbs: {'players': {}, 'category': {}, 'mechanic': {}},
             playerCounts: [],
             categoryCounts: [],
             mechanicCounts: [],
@@ -357,6 +348,7 @@ class Boardgameinator extends React.Component {
         this.updateCategoryCounts = this.updateCategoryCounts.bind(this)
         this.updateMechanicCounts = this.updateMechanicCounts.bind(this)
         this.onNewVote = this.onNewVote.bind(this)
+        this.onClearSectionVotes = this.onClearSectionVotes.bind(this)
     }
 
     async componentDidMount() {
@@ -439,15 +431,29 @@ class Boardgameinator extends React.Component {
     }
 
     onNewVote(event) {
-        //let voteDetails = Object.assign({}, event.target.dataset)
-        //const { attrtype, attrname, newvote } = voteDetails
         const { attrtype, attrname, newvote } = Object.assign({}, event.target.dataset)
-        console.log(event.target.dataset)
-        //this.setState({ thumbs[attrtype][attrname]: newvote})
         this.setState(prevState => {
             let thumbs = Object.assign({}, prevState.thumbs)
             thumbs[attrtype][attrname] = newvote
             return { thumbs }
+        })
+    }
+
+    onClearSectionVotes(event) {
+        const { attrtype } = Object.assign({}, event.target.dataset)
+        const clearVotes = {}
+        let sections = []
+        if (attrtype === 'all') {
+            sections = ['players', 'category', 'mechanic']
+        } else {
+            sections.push(attrtype)
+        }
+        sections.forEach((section) => {
+            this.setState(prevState => {
+                let thumbs = Object.assign({}, prevState.thumbs)
+                thumbs[section] = clearVotes
+                return { thumbs }
+            })
         })
     }
 
@@ -466,7 +472,8 @@ class Boardgameinator extends React.Component {
                             playercounts={this.state.playerCounts} 
                             categorycounts={this.state.categoryCounts} 
                             mechaniccounts={this.state.mechanicCounts}
-                            onnewvote={this.onNewVote}/>
+                            onnewvote={this.onNewVote}
+                            onclearsectionvotes={this.onClearSectionVotes} />
                     </div>
                 </div>
 

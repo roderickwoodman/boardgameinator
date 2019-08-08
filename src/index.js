@@ -36,7 +36,38 @@ class GameFooter extends React.Component {
     }
 }
 
+class VotableElement extends React.Component {
+
+    render() {
+        let myVote = this.props.preferences.hasOwnProperty(this.props.attrname) 
+            ? 'thumbsup' //FIXME, derive from props: this.props.preferences['attrVote']
+            : 'novote'
+        return (
+            <li 
+                key={this.props.attrname} 
+                className={myVote} 
+                data-attrtype={this.props.attrtype}
+                data-attrname={this.props.attrname}
+                data-newvote='thumbsup'
+                onClick={this.props.onnewvote}
+            >
+                {this.props.attrname} ({this.props.attrcount})
+            </li>
+        )
+    }
+}
+
 class VotingBox extends React.Component {
+
+    constructor(props) {
+        super(props)
+        this.onClickHandler = this.onClickHandler.bind(this)
+    }
+
+    onClickHandler = event => {
+        event.persist()
+        console.log(event.target)
+    }
 
     render() {
         return (
@@ -44,19 +75,37 @@ class VotingBox extends React.Component {
             <ul id="supported-players">
                 <li><b>PLAYERS:</b></li>
                 {this.props.playercounts.map((key, index) => {
-                    return <li key={key.attrName}>{key.attrName} ({key.attrCount})</li>
+                    return <VotableElement 
+                        key={key.attrName}
+                        preferences={this.props.thumbs['player']}
+                        attrtype="player" 
+                        attrname={key.attrName} 
+                        attrcount={key.attrCount} 
+                        onnewvote={this.props.onnewvote}/>
                 })}
             </ul>
             <ul id="category-counts">
                 <li><b>CATEGORY:</b></li>
                 {this.props.categorycounts.map((key, index) => {
-                    return <li key={key.attrName}>{key.attrName} ({key.attrCount})</li>
+                    return <VotableElement 
+                        key={key.attrName}
+                        preferences={this.props.thumbs['category']}
+                        attrtype="category" 
+                        attrname={key.attrName} 
+                        attrcount={key.attrCount}
+                        onnewvote={this.props.onnewvote}/>
                 })}
             </ul>
             <ul id="mechanic-counts">
                 <li><b>MECHANIC:</b></li>
                 {this.props.mechaniccounts.map((key, index) => {
-                    return <li key={key.attrName}>{key.attrName} ({key.attrCount})</li>
+                    return <VotableElement 
+                        key={key.attrName}
+                        preferences={this.props.thumbs['mechanic']}
+                        attrtype="mechanic" 
+                        attrname={key.attrName} 
+                        attrcount={key.attrCount}
+                        onnewvote={this.props.onnewvote}/>
                 })}
             </ul>
             </React.Fragment>
@@ -67,7 +116,7 @@ class VotingBox extends React.Component {
 class GameList extends React.Component {
 
     constructor(props) {
-        super(props);
+        super(props)
         this.state = {
             sortOrder: 'maxplayers'
         }
@@ -133,7 +182,7 @@ function ViewControls(props) {
 class Game extends React.Component {
 
     constructor(props) {
-        super(props);
+        super(props)
         this.state = {
             viewingGameCardFront: true
         }
@@ -295,9 +344,10 @@ let defaultUrls = [
 class Boardgameinator extends React.Component {
 
     constructor(props) {
-        super(props);
+        super(props)
         this.state = { 
             allGames: [],
+            thumbs: {'player': {}, 'category': {}, 'mechanic': {}},
             playerCounts: [],
             categoryCounts: [],
             mechanicCounts: [],
@@ -306,6 +356,7 @@ class Boardgameinator extends React.Component {
         this.updatePlayerCounts = this.updatePlayerCounts.bind(this)
         this.updateCategoryCounts = this.updateCategoryCounts.bind(this)
         this.updateMechanicCounts = this.updateMechanicCounts.bind(this)
+        this.onNewVote = this.onNewVote.bind(this)
     }
 
     async componentDidMount() {
@@ -387,6 +438,19 @@ class Boardgameinator extends React.Component {
         this.setState({ mechanicCounts: countsArray })
     }
 
+    onNewVote(event) {
+        //let voteDetails = Object.assign({}, event.target.dataset)
+        //const { attrtype, attrname, newvote } = voteDetails
+        const { attrtype, attrname, newvote } = Object.assign({}, event.target.dataset)
+        console.log(event.target.dataset)
+        //this.setState({ thumbs[attrtype][attrname]: newvote})
+        this.setState(prevState => {
+            let thumbs = Object.assign({}, prevState.thumbs)
+            thumbs[attrtype][attrname] = newvote
+            return { thumbs }
+        })
+    }
+
     render() {
         return (
             <React.Fragment>
@@ -398,9 +462,11 @@ class Boardgameinator extends React.Component {
                     </div>
                     <div id="main-controls">
                         <VotingBox 
+                            thumbs={this.state.thumbs} 
                             playercounts={this.state.playerCounts} 
                             categorycounts={this.state.categoryCounts} 
-                            mechaniccounts={this.state.mechanicCounts}/>
+                            mechaniccounts={this.state.mechanicCounts}
+                            onnewvote={this.onNewVote}/>
                     </div>
                 </div>
 

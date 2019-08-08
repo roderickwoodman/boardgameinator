@@ -50,6 +50,15 @@ ul {
   width: 80%;
 }
 
+li.thumbsup, li.thumbsdown, li.novote {
+  cursor: pointer;
+}
+
+.thumbsup {
+  color: green;
+  font-weight: 800;
+}
+
 #view-controls {
   display: flex;
   flex: 1;

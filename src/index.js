@@ -100,13 +100,13 @@ class GameList extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            sortOrder: 'maxplayers',
+            sortOrder: 'maxvotes',
         }
         this.handleSortChange = this.handleSortChange.bind(this)
-        this.getThumbCount = this.getThumbCount.bind(this)
+        this.getThumbCounts = this.getThumbCounts.bind(this)
     }
 
-    getThumbCount() {
+    getThumbCounts() {
         // tally all votes for each game
         let counts = {}
         for (const game of this.props.allgames) {
@@ -142,7 +142,7 @@ class GameList extends React.Component {
     }
 
     render() {
-        let thumbcount = this.getThumbCount()
+        let thumbcounts = this.getThumbCounts()
         return (
             <React.Fragment>
             <div id="view-controls">
@@ -153,9 +153,14 @@ class GameList extends React.Component {
 
             <div id="resulting-games">
                 {this.props.allgames
-                .sort((this.state.sortOrder === 'maxplayers') 
-                    ? (a, b) => (a.maxplayers < b.maxplayers) ? 1 : (a.maxplayers === b.maxplayers) && (a.name > b.name) ? 1 : -1
-                    : (a, b) => (a.maxplaytime > b.maxplaytime) ? 1 : (a.maxplaytime === b.maxplaytime) && (a.name > b.name) ? 1 : -1)
+                // sort by maxvotes...     FIRST: most votes,        SECOND: shortest playtime
+                // sort by maxplaytime...  FIRST: shortest playtime, SECOND: most votes
+                // sort by maxplayers...   FIRST: most players,      SECOND: most votes
+                .sort((this.state.sortOrder === 'maxvotes') 
+                    ? ( (a, b) => (thumbcounts[a.name] < thumbcounts[b.name]) ? 1 : (thumbcounts[a.name] === thumbcounts[b.name]) && (a.maxplaytime > b.maxplaytime) ? 1 : -1 )
+                    : ( (this.state.sortOrder === 'maxplaytime') 
+                        ? ( (a, b) => (a.maxplaytime > b.maxplaytime) ? 1 : (a.maxplaytime === b.maxplaytime) && (thumbcounts[a.name] < thumbcounts[b.name]) ? 1 : -1 )
+                        : ( (a, b) => (a.maxplayers < b.maxplayers) ? 1 : (a.maxplayers === b.maxplayers) && (thumbcounts[a.name] < thumbcounts[b.name]) ? 1 : -1 ) ) )
                 .map(
                     (game, i) => 
                         <Game
@@ -171,7 +176,7 @@ class GameList extends React.Component {
                             categories={game.categories}
                             mechanics={game.mechanics} 
                             thumbs={this.props.thumbs} 
-                            thumbcount={thumbcount[game.name]}/>
+                            thumbcount={thumbcounts[game.name]}/>
                 )}
             </div>
             </React.Fragment>
@@ -185,10 +190,13 @@ function ViewControls(props) {
             <div>
                 <label>
                     <input type='radio' key='maxplayers' id='maxplayers' name='sortorder' checked={props.sortby==='maxplayers'} value='maxplayers' onChange={props.onChange} /> 
-                    sort by decreasing max player count</label>
+                    sort by player count</label>
                 <label>
                     <input type='radio' key='maxplaytime' id='maxplaytime' name='sortorder' checked={props.sortby==='maxplaytime'} value='maxplaytime' onChange={props.onChange} /> 
-                    sort by increasing max playtime</label>
+                    sort by playtime</label>
+                <label>
+                    <input type='radio' key='maxvotes' id='maxvotes' name='sortorder' checked={props.sortby==='maxvotes'} value='maxvotes' onChange={props.onChange} /> 
+                    sort by thumbsup votes</label>
             </div>
         </div>
     )
@@ -280,7 +288,7 @@ class GameCardFront extends React.Component {
                     <h4 className="game-yearpublished">({yearpublished})</h4>
                 </section>
                 <ul className="summary major">
-                    <li><FontAwesomeIcon icon={faThumbsUp} />: {thumbcount}</li>
+                    <li><FontAwesomeIcon icon={faThumbsUp} /> : {thumbcount}</li>
                 </ul>
                 <hr />
                 <ul className="details major">

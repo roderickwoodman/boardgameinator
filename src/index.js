@@ -496,7 +496,14 @@ class Boardgameinator extends React.Component {
         const { attrtype, attrname, newvote } = Object.assign({}, event.target.dataset)
         this.setState(prevState => {
             let thumbs = Object.assign({}, prevState.thumbs)
-            thumbs[attrtype][attrname] = newvote
+            let oldvote = prevState.thumbs[attrtype][attrname]
+            if (newvote !== oldvote) {
+                console.log('newvote:',newvote,' oldvote:',oldvote, '... setting ',newvote)
+                thumbs[attrtype][attrname] = newvote
+            } else {
+                console.log('newvote:',newvote,' oldvote:',oldvote, '... setting novote')
+                delete(thumbs[attrtype][attrname])
+            }
             return { thumbs }
         })
     }

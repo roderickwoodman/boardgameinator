@@ -293,7 +293,10 @@ class GameCardFront extends React.Component {
                 <hr />
                 <ul className="details major">
                     <li className={this.getAggregatedPlayersVote(minplayers, maxplayers)}>{minplayers}-{maxplayers} players</li>
-                    <li>{minplaytime}-{maxplaytime} minutes</li>
+                    {(minplaytime !== maxplaytime)
+                        ? <li>{minplaytime}-{maxplaytime} minutes</li>
+                        : <li>{minplaytime} minutes</li>
+                    }
                 </ul>
                 <hr />
                 <ul className="details minor">

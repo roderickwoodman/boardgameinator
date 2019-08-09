@@ -2,6 +2,8 @@ import React from 'react';
 import { render } from 'react-dom';
 import './index.css';
 import bggLogo from './bgg-logo-50.png'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faThumbsUp } from '@fortawesome/free-solid-svg-icons'
 
 
 let gameListDefault = [{
@@ -98,11 +100,41 @@ class GameList extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            sortOrder: 'maxplayers'
+            sortOrder: 'maxplayers',
         }
         this.handleSortChange = this.handleSortChange.bind(this)
+        this.getThumbCount = this.getThumbCount.bind(this)
     }
-    
+
+    getThumbCount() {
+        // tally all votes for each game
+        let counts = {}
+        for (const game of this.props.allgames) {
+            let defaultCount = 0
+            counts[game.name] = defaultCount
+            // playercount section of a game gets ONE TOTAL thumbsup if any of its supported playercounts gets a thumbsup
+            for (let playercount=game.minplayers; playercount<=game.maxplayers; playercount++) {
+                if (this.props.thumbs.players.hasOwnProperty(playercount + 'P')) {
+                    counts[game.name]++
+                    break
+                }
+            }
+            // categories section of a game gets one thumbsup for each thumbed-up category
+            for (const category of game.categories) {
+                if (this.props.thumbs.category.hasOwnProperty(category)) {
+                    counts[game.name]++
+                }
+            }
+            // mechanics section of a game gets one thumbsup for each thumbed-up mechanic
+            for (const mechanic of game.mechanics) {
+                if (this.props.thumbs.mechanic.hasOwnProperty(mechanic)) {
+                    counts[game.name]++
+                }
+            }
+        }
+        return counts
+    } 
+
     handleSortChange(event) {
         this.setState({
             sortOrder: event.target.value
@@ -110,6 +142,7 @@ class GameList extends React.Component {
     }
 
     render() {
+        let thumbcount = this.getThumbCount()
         return (
             <React.Fragment>
             <div id="view-controls">
@@ -137,7 +170,8 @@ class GameList extends React.Component {
                             maxplaytime={game.maxplaytime}
                             categories={game.categories}
                             mechanics={game.mechanics} 
-                            thumbs={this.props.thumbs} />
+                            thumbs={this.props.thumbs} 
+                            thumbcount={thumbcount[game.name]}/>
                 )}
             </div>
             </React.Fragment>
@@ -177,7 +211,7 @@ class Game extends React.Component {
     }
 
     render() {
-        const { id, name, description, yearpublished, minplayers, maxplayers, minplaytime, maxplaytime, categories, mechanics, thumbs } = this.props
+        const { id, name, description, yearpublished, minplayers, maxplayers, minplaytime, maxplaytime, categories, mechanics, thumbs, thumbcount } = this.props
 
         return (
             <section className="game">
@@ -195,7 +229,8 @@ class Game extends React.Component {
                         maxplaytime={maxplaytime}
                         categories={categories}
                         mechanics={mechanics}
-                        thumbs={thumbs} />
+                        thumbs={thumbs} 
+                        thumbcount={thumbcount} />
                     : <GameCardBack 
                         id={id}
                         name={name}
@@ -237,13 +272,16 @@ class GameCardFront extends React.Component {
     }
 
     render() {
-        const { id, name, yearpublished, minplayers, maxplayers, minplaytime, maxplaytime, categories, mechanics } = this.props
+        const { id, name, yearpublished, minplayers, maxplayers, minplaytime, maxplaytime, categories, mechanics, thumbcount } = this.props
         return (
             <section className="cardFront">
                 <section className="details major">
                     <h2 className="game-name">{name}</h2>
                     <h4 className="game-yearpublished">({yearpublished})</h4>
                 </section>
+                <ul className="summary major">
+                    <li><FontAwesomeIcon icon={faThumbsUp} />: {thumbcount}</li>
+                </ul>
                 <hr />
                 <ul className="details major">
                     <li className={this.getAggregatedPlayersVote(minplayers, maxplayers)}>{minplayers}-{maxplayers} players</li>
@@ -273,7 +311,6 @@ function GameCardBack(props) {
                 <h2 className="game-name">{name}</h2>
                 <h4 className="game-yearpublished">({yearpublished})</h4>
             </section>
-            <hr />
             <section className="details minor">
                 <p>{description}</p>
             </section>

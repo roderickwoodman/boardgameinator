@@ -97,8 +97,9 @@ li.thumbsup, li.thumbsdown, li.novote {
   flex-direction: column;
   flex: 0 0 none;
   margin: 2px;
+  padding: 0 2px;
   width: 200px;
-  max-width: 250px;
+  max-width: 275px;
   min-width: 175px;
   max-height: 600px;
   position: relative;
@@ -126,9 +127,17 @@ li.thumbsup, li.thumbsdown, li.novote {
   padding: 0;
 }
 
-.details {
+.summary, .details {
   margin: 0;
   padding: 10px 0;
+}
+
+.major.summary {
+  margin: -15px 0;
+  height: 75px;
+  font-size: 2.0em;
+  line-height: 1.5em;
+  font-weight:800;
 }
 
 .major.details {

@@ -15,19 +15,24 @@ code {
 ul {
   list-style: none;
 }
+body {
+  background-color: lightyellow;
+}
 
 #page-wrapper {
   display: flex;
   flex-direction: row;
   background-color: lightyellow;
+  max-height: 900px;
 }
 
 #leftsidebar-wrapper {
   display: flex;
-  flex: 2;
+  flex: 3;
   order: -1;
   flex-direction: column;
-  width: 20%;
+  width: 25%;
+  max-width: 300px;
 }
 
 #page-logo {
@@ -41,6 +46,7 @@ ul {
   display: flex;
   flex: 7;
   flex-direction: column;
+  overflow-y: auto;
 }
 
 #content-wrapper {
@@ -63,7 +69,7 @@ li.thumbsup, li.thumbsdown, li.novote {
   color: green;
   background-color: white;
   border-radius: 5px;
-  font-weight: 800;
+  font-weight: 900px;
   margin:2px 10px;
 }
 
@@ -87,9 +93,9 @@ li.thumbsup, li.thumbsdown, li.novote {
   display: flex;
   flex: 7;
   flex-direction: row;
-  /* margin: 10px; */
   flex-wrap: nowrap;
   overflow-x: auto;
+  max-height: 1000px;
 }
 
 .game {
@@ -101,7 +107,7 @@ li.thumbsup, li.thumbsdown, li.novote {
   width: 200px;
   max-width: 275px;
   min-width: 175px;
-  max-height: 600px;
+  max-height: 1000px;
   position: relative;
   padding-bottom: 60px;
   background-color: purple;

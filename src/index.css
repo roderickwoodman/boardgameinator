@@ -12,6 +12,11 @@ code {
     monospace;
 }
 
+h1 {
+  color: white;
+  text-shadow: -2px -2px 0 black, 2px -2px 0 black, -2px 2px 0 black, 2px 2px 0 black;
+}
+
 ul {
   list-style: none;
 }
@@ -79,10 +84,14 @@ li.thumbsup, li.thumbsdown, li.novote {
   order: -1;
 }
 
+#sort-controls .instructions {
+  padding: 0 20px;
+}
+
 #sort-controls, #sort-controls > div {
-  flex-direction: column-reverse;
   display: flex;
-  padding: 0 10px;
+  flex-direction: column-reverse;
+  padding: 0 30px;
 }
 
 #sort-controls label {
@@ -161,4 +170,17 @@ li.thumbsup, li.thumbsdown, li.novote {
 
 hr {
   width:70%;
+}
+
+.instructions {
+  display: flex;
+  align-items: center;
+  line-height: 2.0em;
+  font-size: 1.5em;
+  font-weight: 800;
+}
+
+.circledNumber {
+  display: inline-block;
+  font-size: 2.0em;
 }

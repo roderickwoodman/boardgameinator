@@ -14,6 +14,9 @@ export const ViewControls = (props) => {
                     <input type='radio' key='maxvotes' id='maxvotes' name='sortorder' checked={props.sortby==='maxvotes'} value='maxvotes' onChange={props.onChange} /> 
                     sort by thumbsup votes</label>
             </div>
+            <span className='instructions'>
+                <span className='circledNumber'>&#9314;</span>Sort the results.
+            </span>
         </div>
     )
 }

@@ -60,6 +60,10 @@ export class VotingBox extends React.Component {
         return (
             <React.Fragment>
 
+            <span className='instructions'>
+                <span className='circledNumber'>&#9313;</span>Vote on parts.
+            </span>
+
             <div id="votesection-selector">
                 <div>
                     <label>

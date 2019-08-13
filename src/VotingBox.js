@@ -17,45 +17,6 @@ export class VotingBox extends React.Component {
         })
     }
 
-    renderSection() {
-        if (this.state.votingOn === 'players') {
-            return(
-                <VotingSection 
-                    type='players'
-                    id='supported-players'
-                    title='PLAYERS:'
-                    counts={this.props.playercounts}
-                    thumbs={this.props.thumbs['players']}
-                    onnewvote={this.props.onnewvote}
-                    onclearsectionvotes={this.props.onclearsectionvotes} />
-            )
-        }
-        if (this.state.votingOn === 'categories') {
-            return(
-                <VotingSection 
-                    type='category'
-                    id='category-counts'
-                    title='CATEGORY:'
-                    counts={this.props.categorycounts}
-                    thumbs={this.props.thumbs['category']}
-                    onnewvote={this.props.onnewvote}
-                    onclearsectionvotes={this.props.onclearsectionvotes} />
-            )
-        }
-        if (this.state.votingOn === 'mechanics') {
-            return(
-                <VotingSection 
-                    type='mechanic'
-                    id='mechanic-counts'
-                    title='MECHANIC:'
-                    counts={this.props.mechaniccounts}
-                    thumbs={this.props.thumbs['mechanic']}
-                    onnewvote={this.props.onnewvote}
-                    onclearsectionvotes={this.props.onclearsectionvotes} />
-            )
-        }
-    }
-
     render() {
         return (
             <React.Fragment>
@@ -81,7 +42,36 @@ export class VotingBox extends React.Component {
             <button data-attrtype="all" onClick={this.props.onclearsectionvotes}>CLEAR ALL VOTES</button>
 
             <div id="voting-section">
-                { this.renderSection() }
+                {this.state.votingOn === 'players' && (
+                    <VotingSection 
+                        type='players'
+                        id='supported-players'
+                        title='PLAYERS:'
+                        counts={this.props.playercounts}
+                        thumbs={this.props.thumbs['players']}
+                        onnewvote={this.props.onnewvote}
+                        onclearsectionvotes={this.props.onclearsectionvotes} />
+                )}
+                {this.state.votingOn === 'categories' && (
+                    <VotingSection 
+                        type='category'
+                        id='category-counts'
+                        title='CATEGORY:'
+                        counts={this.props.categorycounts}
+                        thumbs={this.props.thumbs['category']}
+                        onnewvote={this.props.onnewvote}
+                        onclearsectionvotes={this.props.onclearsectionvotes} />
+                )}
+                {this.state.votingOn === 'mechanics' && (
+                    <VotingSection 
+                        type='mechanic'
+                        id='mechanic-counts'
+                        title='MECHANIC:'
+                        counts={this.props.mechaniccounts}
+                        thumbs={this.props.thumbs['mechanic']}
+                        onnewvote={this.props.onnewvote}
+                        onclearsectionvotes={this.props.onclearsectionvotes} />
+                )}
             </div>
 
             </React.Fragment>

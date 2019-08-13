@@ -4,16 +4,17 @@ import { TitleInput } from './TitleInput'
 import { VotingBox } from './VotingBox'
 
 // let gameIds = [148228, 199478, 169786, 37904, 180263]
-let defaultUrls = [
-    'https://boardgamegeek.com/xmlapi2/thing?type=boardgame&id=221194',
-    'https://boardgamegeek.com/xmlapi2/thing?type=boardgame&id=167791',
-    'https://boardgamegeek.com/xmlapi2/thing?type=boardgame&id=124361',
-    'https://boardgamegeek.com/xmlapi2/thing?type=boardgame&id=193738',
-    'https://boardgamegeek.com/xmlapi2/thing?type=boardgame&id=50750',
-    'https://boardgamegeek.com/xmlapi2/thing?type=boardgame&id=158899',
-    'https://boardgamegeek.com/xmlapi2/thing?type=boardgame&id=11',
-    'https://boardgamegeek.com/xmlapi2/thing?type=boardgame&id=192291',
-]
+let defaultUrls = []
+// let defaultUrls = [
+//     'https://boardgamegeek.com/xmlapi2/thing?type=boardgame&id=221194',
+//     'https://boardgamegeek.com/xmlapi2/thing?type=boardgame&id=167791',
+//     'https://boardgamegeek.com/xmlapi2/thing?type=boardgame&id=124361',
+//     'https://boardgamegeek.com/xmlapi2/thing?type=boardgame&id=193738',
+//     'https://boardgamegeek.com/xmlapi2/thing?type=boardgame&id=50750',
+//     'https://boardgamegeek.com/xmlapi2/thing?type=boardgame&id=158899',
+//     'https://boardgamegeek.com/xmlapi2/thing?type=boardgame&id=11',
+//     'https://boardgamegeek.com/xmlapi2/thing?type=boardgame&id=192291',
+// ]
 
 export class Boardgameinator extends React.Component {
 
@@ -203,7 +204,6 @@ export class Boardgameinator extends React.Component {
         return (
             <React.Fragment>
             <div id="page-wrapper">
-
                 <div id="leftsidebar-wrapper">
                     <div id="page-logo">
                         <h1>Boardgameinator</h1>
@@ -219,13 +219,11 @@ export class Boardgameinator extends React.Component {
                             onclearsectionvotes={this.onClearSectionVotes} />
                     </div>
                 </div>
-
                 <div id="content-wrapper">
                     <GameList
                         allgames={this.state.allGames} 
                         thumbs={this.state.thumbs} />
                 </div>
-
             </div>
             </React.Fragment>
         )

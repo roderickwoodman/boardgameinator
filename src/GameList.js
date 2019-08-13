@@ -11,6 +11,7 @@ export class GameList extends React.Component {
         }
         this.handleSortChange = this.handleSortChange.bind(this)
         this.getThumbCounts = this.getThumbCounts.bind(this)
+        this.renderSortedGames = this.renderSortedGames.bind(this)
     }
 
     getThumbCounts() {
@@ -48,43 +49,56 @@ export class GameList extends React.Component {
         })
     }
 
-    render() {
+    renderSortedGames() {
         let thumbcounts = this.getThumbCounts()
+        if (this.props.allgames.length) {
+            return(
+                this.props.allgames
+                    // sort by maxvotes...     FIRST: most votes,        SECOND: shortest playtime
+                    // sort by maxplaytime...  FIRST: shortest playtime, SECOND: most votes
+                    // sort by maxplayers...   FIRST: most players,      SECOND: most votes
+                    .sort((this.state.sortOrder === 'maxvotes') 
+                        ? ( (a, b) => (thumbcounts[a.name] < thumbcounts[b.name]) ? 1 : (thumbcounts[a.name] === thumbcounts[b.name]) && (a.maxplaytime > b.maxplaytime) ? 1 : -1 )
+                        : ( (this.state.sortOrder === 'maxplaytime') 
+                            ? ( (a, b) => (a.maxplaytime > b.maxplaytime) ? 1 : (a.maxplaytime === b.maxplaytime) && (thumbcounts[a.name] < thumbcounts[b.name]) ? 1 : -1 )
+                            : ( (a, b) => (a.maxplayers < b.maxplayers) ? 1 : (a.maxplayers === b.maxplayers) && (thumbcounts[a.name] < thumbcounts[b.name]) ? 1 : -1 ) ) )
+                    .map(
+                        (game, i) => 
+                            <Game
+                                key={i}
+                                id={game.id} 
+                                name={game.name} 
+                                description={game.description} 
+                                yearpublished={game.yearpublished} 
+                                minplayers={game.minplayers} 
+                                maxplayers={game.maxplayers} 
+                                minplaytime={game.minplaytime} 
+                                maxplaytime={game.maxplaytime}
+                                categories={game.categories}
+                                mechanics={game.mechanics} 
+                                thumbs={this.props.thumbs} 
+                                thumbcount={thumbcounts[game.name]}/>)
+            )
+        } else {
+            return(
+                <span className="warning">
+                    <p>THE GAMES LIST IS CURRENTLY EMTPY!</p>
+                    <p>Please input game titles in the left sidebar.</p>
+                </span>
+            )
+        }
+    }
+
+    render() {
         return (
             <React.Fragment>
             <div id="view-controls">
-            <ViewControls 
-                sortby={this.state.sortOrder}
-                onChange={this.handleSortChange}/>
+                <ViewControls 
+                    sortby={this.state.sortOrder}
+                    onChange={this.handleSortChange}/>
             </div>
-
             <div id="resulting-games">
-                {this.props.allgames
-                // sort by maxvotes...     FIRST: most votes,        SECOND: shortest playtime
-                // sort by maxplaytime...  FIRST: shortest playtime, SECOND: most votes
-                // sort by maxplayers...   FIRST: most players,      SECOND: most votes
-                .sort((this.state.sortOrder === 'maxvotes') 
-                    ? ( (a, b) => (thumbcounts[a.name] < thumbcounts[b.name]) ? 1 : (thumbcounts[a.name] === thumbcounts[b.name]) && (a.maxplaytime > b.maxplaytime) ? 1 : -1 )
-                    : ( (this.state.sortOrder === 'maxplaytime') 
-                        ? ( (a, b) => (a.maxplaytime > b.maxplaytime) ? 1 : (a.maxplaytime === b.maxplaytime) && (thumbcounts[a.name] < thumbcounts[b.name]) ? 1 : -1 )
-                        : ( (a, b) => (a.maxplayers < b.maxplayers) ? 1 : (a.maxplayers === b.maxplayers) && (thumbcounts[a.name] < thumbcounts[b.name]) ? 1 : -1 ) ) )
-                .map(
-                    (game, i) => 
-                        <Game
-                            key={i}
-                            id={game.id} 
-                            name={game.name} 
-                            description={game.description} 
-                            yearpublished={game.yearpublished} 
-                            minplayers={game.minplayers} 
-                            maxplayers={game.maxplayers} 
-                            minplaytime={game.minplaytime} 
-                            maxplaytime={game.maxplaytime}
-                            categories={game.categories}
-                            mechanics={game.mechanics} 
-                            thumbs={this.props.thumbs} 
-                            thumbcount={thumbcounts[game.name]}/>
-                )}
+                { this.renderSortedGames() }
             </div>
             </React.Fragment>
         )

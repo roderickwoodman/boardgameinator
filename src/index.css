@@ -184,3 +184,10 @@ hr {
   display: inline-block;
   font-size: 2.0em;
 }
+
+.warning {
+  margin: 30px;
+  color: red;
+  font-weight: 800;
+  font-style: italic;
+}

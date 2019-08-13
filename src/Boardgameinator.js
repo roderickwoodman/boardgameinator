@@ -1,5 +1,6 @@
 import React from 'react'
 import { GameList } from './GameList'
+import { TitleInput } from './TitleInput'
 import { VotingBox } from './VotingBox'
 
 // let gameIds = [148228, 199478, 169786, 37904, 180263]
@@ -208,6 +209,7 @@ export class Boardgameinator extends React.Component {
                         <h1>Boardgameinator</h1>
                     </div>
                     <div id="main-controls">
+                        <TitleInput /> 
                         <VotingBox 
                             thumbs={this.state.thumbs} 
                             playercounts={this.state.playerCounts} 

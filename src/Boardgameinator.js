@@ -36,11 +36,14 @@ export class Boardgameinator extends React.Component {
             .then(text => this.extractFromGamedataApiXml(text))
             .then(json => {
                 newGames.push(json)
-                this.setState({ allGames: newGames })
+                this.setState({ 
+                    allGames: newGames 
+                }, () => {
+                    this.updatePlayerCounts()
+                    this.updateCategoryCounts()
+                    this.updateMechanicCounts()
+                })
             })
-        this.updatePlayerCounts()
-        this.updateCategoryCounts()
-        this.updateMechanicCounts()
     }
 
     updatePlayerCounts() {

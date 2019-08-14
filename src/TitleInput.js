@@ -7,7 +7,8 @@ export class TitleInput extends React.Component {
         super(props)
         this.state = { 
             stagedGames: [],
-            value: ''
+            value: '',
+            statusMessages: [' ']
         }
         this.handleChange = this.handleChange.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
@@ -20,6 +21,7 @@ export class TitleInput extends React.Component {
     }
 
     async validateUserTitles(gameTitles) {
+        let messages = []
         const gameInfoJsonArray = await Promise.all(
             gameTitles.map(
                 gameTitle =>
@@ -28,10 +30,14 @@ export class TitleInput extends React.Component {
                         .then(searchText => this.extractFromSearchApiXml(searchText))
             ))
         gameInfoJsonArray.forEach( (info, idx) => {
-            if (Object.entries(info).length !== 0) {
+            if (Object.entries(info).length === 0) {
+                messages.push('ERROR: "' + gameTitles[idx] + '" is not in the BGG database')
+            } else {
+                messages.push('"' + gameTitles[idx] + '" was added')
                 this.props.onnewtitle(info.id)
             }
         })
+        this.setState({ statusMessages: messages })
         this.setState({ stagedGames: gameInfoJsonArray })
     }
 
@@ -71,7 +77,6 @@ export class TitleInput extends React.Component {
     render() {
         return (
             <React.Fragment>
-
             <span className='instructions'>
                 <span className='circledNumber'>&#9312;</span>Input your games.
             </span>
@@ -79,11 +84,19 @@ export class TitleInput extends React.Component {
             <form onSubmit={this.handleSubmit}>
                 <label>
                     Game Title:
-                    <input type="text" value={this.state.value} onChange={this.handleChange} placeholder="(fixme: not working yet)" />
+                    <input type="text" value={this.state.value} onChange={this.handleChange} placeholder="(exact match only)" />
                 </label>
                 <input type="submit" value="Submit" />
             </form>
 
+            <div id="status-messages">
+                { this.state.statusMessages
+                    .map(
+                        (message, i) => 
+                            <p key={i} className="message">{message}</p>
+                    )
+                }
+            </div>
             </React.Fragment>
         )
     }

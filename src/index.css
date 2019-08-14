@@ -191,3 +191,8 @@ hr {
   font-weight: 800;
   font-style: italic;
 }
+
+.message {
+  padding: 0 30px;
+  font-style: italic;
+}

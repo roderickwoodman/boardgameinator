@@ -3,18 +3,6 @@ import { GameList } from './GameList'
 import { TitleInput } from './TitleInput'
 import { VotingBox } from './VotingBox'
 
-// let gameIds = [148228, 199478, 169786, 37904, 180263]
-let defaultUrls = []
-// let defaultUrls = [
-//     'https://boardgamegeek.com/xmlapi2/thing?type=boardgame&id=221194',
-//     'https://boardgamegeek.com/xmlapi2/thing?type=boardgame&id=167791',
-//     'https://boardgamegeek.com/xmlapi2/thing?type=boardgame&id=124361',
-//     'https://boardgamegeek.com/xmlapi2/thing?type=boardgame&id=193738',
-//     'https://boardgamegeek.com/xmlapi2/thing?type=boardgame&id=50750',
-//     'https://boardgamegeek.com/xmlapi2/thing?type=boardgame&id=158899',
-//     'https://boardgamegeek.com/xmlapi2/thing?type=boardgame&id=11',
-//     'https://boardgamegeek.com/xmlapi2/thing?type=boardgame&id=192291',
-// ]
 
 export class Boardgameinator extends React.Component {
 
@@ -26,25 +14,30 @@ export class Boardgameinator extends React.Component {
             playerCounts: [],
             categoryCounts: [],
             mechanicCounts: [],
-            sortOrder: 'maxplayers'
+            sortOrder: 'maxvotes'
         }
-        this.extractFromXml = this.extractFromXml.bind(this)
+        this.extractFromGamedataApiXml = this.extractFromGamedataApiXml.bind(this)
         this.updatePlayerCounts = this.updatePlayerCounts.bind(this)
         this.updateCategoryCounts = this.updateCategoryCounts.bind(this)
         this.updateMechanicCounts = this.updateMechanicCounts.bind(this)
+        this.onNewTitle = this.onNewTitle.bind(this)
         this.onNewVote = this.onNewVote.bind(this)
         this.onClearSectionVotes = this.onClearSectionVotes.bind(this)
     }
 
-    async componentDidMount() {
-        const gameInfoJsonArray = await Promise.all(
-            defaultUrls.map(
-                url =>
-                    fetch(url)
-                        .then(response => response.text())
-                        .then(text => this.extractFromXml(text))
-                    ))
-        this.setState({ allGames: gameInfoJsonArray })
+    gamedataApi(gameId) {
+        return 'https://boardgamegeek.com/xmlapi2/thing?type=boardgame&id=' + gameId
+    }
+
+    onNewTitle(gameId) {
+        let newGames = []
+        fetch(this.gamedataApi(gameId))
+            .then(response => response.text())
+            .then(text => this.extractFromGamedataApiXml(text))
+            .then(json => {
+                newGames.push(json)
+                this.setState({ allGames: newGames })
+            })
         this.updatePlayerCounts()
         this.updateCategoryCounts()
         this.updateMechanicCounts()
@@ -147,56 +140,56 @@ export class Boardgameinator extends React.Component {
         })
     }
 
-    extractFromXml(str) {
-
+    extractFromGamedataApiXml(str) {
         let game = {}
         let responseDoc = new DOMParser().parseFromString(str, 'application/xml')
         let gamesHtmlCollection = responseDoc.getElementsByTagName("item")
-        game['id'] = gamesHtmlCollection[0].id
-    
-        gamesHtmlCollection[0].childNodes.forEach(
-            function (node) {
-                if (node.nodeType === Node.ELEMENT_NODE) {
-                    if ( (node.tagName === "name") && (node.getAttribute("type") === "primary") ) {
-                        game['name'] = node.getAttribute("value")
-                    }
-                    if (node.tagName === "description") {
-                        game['description'] = node.innerHTML
-                    }
-                    if (node.tagName === "yearpublished") {
-                        game['yearpublished'] = parseInt(node.getAttribute("value"))
-                    }
-                    if (node.tagName === "minplayers") {
-                        game['minplayers'] = parseInt(node.getAttribute("value"))
-                    }
-                    if (node.tagName === "maxplayers") {
-                        game['maxplayers'] = parseInt(node.getAttribute("value"))
-                    }
-                    if (node.tagName === "minplaytime") {
-                        game['minplaytime'] = parseInt(node.getAttribute("value"))
-                    }
-                    if (node.tagName === "maxplaytime") {
-                        game['maxplaytime'] = parseInt(node.getAttribute("value"))
-                    }
-                    if ( (node.tagName === "link")
-                        && (node.getAttribute("type") === "boardgamecategory") ) {
-                        if (game.hasOwnProperty('categories')) {
-                            game['categories'].push(node.getAttribute("value"))
-                        } else {
-                            game['categories'] = new Array(node.getAttribute("value"))
+        if (gamesHtmlCollection.length) {
+            game['id'] = gamesHtmlCollection[0].id
+            gamesHtmlCollection[0].childNodes.forEach(
+                function (node) {
+                    if (node.nodeType === Node.ELEMENT_NODE) {
+                        if ( (node.tagName === "name") && (node.getAttribute("type") === "primary") ) {
+                            game['name'] = node.getAttribute("value")
                         }
-                    }
-                    if ( (node.tagName === "link")
-                        && (node.getAttribute("type") === "boardgamemechanic") ) {
-                        if (game.hasOwnProperty('mechanics')) {
-                            game['mechanics'].push(node.getAttribute("value"))
-                        } else {
-                            game['mechanics'] = new Array(node.getAttribute("value"))
+                        if (node.tagName === "description") {
+                            game['description'] = node.innerHTML
+                        }
+                        if (node.tagName === "yearpublished") {
+                            game['yearpublished'] = parseInt(node.getAttribute("value"))
+                        }
+                        if (node.tagName === "minplayers") {
+                            game['minplayers'] = parseInt(node.getAttribute("value"))
+                        }
+                        if (node.tagName === "maxplayers") {
+                            game['maxplayers'] = parseInt(node.getAttribute("value"))
+                        }
+                        if (node.tagName === "minplaytime") {
+                            game['minplaytime'] = parseInt(node.getAttribute("value"))
+                        }
+                        if (node.tagName === "maxplaytime") {
+                            game['maxplaytime'] = parseInt(node.getAttribute("value"))
+                        }
+                        if ( (node.tagName === "link")
+                            && (node.getAttribute("type") === "boardgamecategory") ) {
+                            if (game.hasOwnProperty('categories')) {
+                                game['categories'].push(node.getAttribute("value"))
+                            } else {
+                                game['categories'] = new Array(node.getAttribute("value"))
+                            }
+                        }
+                        if ( (node.tagName === "link")
+                            && (node.getAttribute("type") === "boardgamemechanic") ) {
+                            if (game.hasOwnProperty('mechanics')) {
+                                game['mechanics'].push(node.getAttribute("value"))
+                            } else {
+                                game['mechanics'] = new Array(node.getAttribute("value"))
+                            }
                         }
                     }
                 }
-            }
-        )
+            )
+        }
         return game
     }
 
@@ -209,7 +202,9 @@ export class Boardgameinator extends React.Component {
                         <h1>Boardgameinator</h1>
                     </div>
                     <div id="main-controls">
-                        <TitleInput /> 
+                        <TitleInput
+                            allgames={this.state.allGames}
+                            onnewtitle={this.onNewTitle} />
                         <VotingBox 
                             thumbs={this.state.thumbs} 
                             playercounts={this.state.playerCounts} 

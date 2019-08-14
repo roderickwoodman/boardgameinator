@@ -11,32 +11,33 @@ export class GameList extends React.Component {
         }
         this.handleSortChange = this.handleSortChange.bind(this)
         this.getThumbCounts = this.getThumbCounts.bind(this)
-        this.renderSortedGames = this.renderSortedGames.bind(this)
     }
 
     getThumbCounts() {
         // tally all votes for each game
         let counts = {}
-        for (const game of this.props.allgames) {
-            let defaultCount = 0
-            counts[game.name] = defaultCount
-            // playercount section of a game gets ONE TOTAL thumbsup if any of its supported playercounts gets a thumbsup
-            for (let playercount=game.minplayers; playercount<=game.maxplayers; playercount++) {
-                if (this.props.thumbs.players.hasOwnProperty(playercount + 'P')) {
-                    counts[game.name]++
-                    break
+        if (this.props.allgames.length) {
+            for (const game of this.props.allgames) {
+                let defaultCount = 0
+                counts[game.name] = defaultCount
+                // playercount section of a game gets ONE TOTAL thumbsup if any of its supported playercounts gets a thumbsup
+                for (let playercount=game.minplayers; playercount<=game.maxplayers; playercount++) {
+                    if (this.props.thumbs.players.hasOwnProperty(playercount + 'P')) {
+                        counts[game.name]++
+                        break
+                    }
                 }
-            }
-            // categories section of a game gets one thumbsup for each thumbed-up category
-            for (const category of game.categories) {
-                if (this.props.thumbs.category.hasOwnProperty(category)) {
-                    counts[game.name]++
+                // categories section of a game gets one thumbsup for each thumbed-up category
+                for (const category of game.categories) {
+                    if (this.props.thumbs.category.hasOwnProperty(category)) {
+                        counts[game.name]++
+                    }
                 }
-            }
-            // mechanics section of a game gets one thumbsup for each thumbed-up mechanic
-            for (const mechanic of game.mechanics) {
-                if (this.props.thumbs.mechanic.hasOwnProperty(mechanic)) {
-                    counts[game.name]++
+                // mechanics section of a game gets one thumbsup for each thumbed-up mechanic
+                for (const mechanic of game.mechanics) {
+                    if (this.props.thumbs.mechanic.hasOwnProperty(mechanic)) {
+                        counts[game.name]++
+                    }
                 }
             }
         }
@@ -47,9 +48,6 @@ export class GameList extends React.Component {
         this.setState({
             sortOrder: event.target.value
         })
-    }
-
-    renderSortedGames() {
     }
 
     render() {
@@ -91,7 +89,7 @@ export class GameList extends React.Component {
                 )}
                 {!this.props.allgames.length && (
                     <span className="warning">
-                        <p>THE GAMES LIST IS CURRENTLY EMTPY!</p>
+                        <p>THE GAMES LIST IS CURRENTLY EMPTY!</p>
                         <p>Please input game titles in the left sidebar.</p>
                     </span>
                 )}

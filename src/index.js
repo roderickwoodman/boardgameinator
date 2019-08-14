@@ -20,6 +20,6 @@ let gameListDefault = [
 ]
 
 render(
-    <Boardgameinator games={gameListDefault}/>,
+    <Boardgameinator defaultgames={gameListDefault}/>,
     document.getElementById('root')
 )

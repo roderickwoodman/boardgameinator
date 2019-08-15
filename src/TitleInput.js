@@ -11,6 +11,7 @@ export class TitleInput extends React.Component {
             statusMessages: [' ']
         }
         this.handleChange = this.handleChange.bind(this)
+        this.handleReset = this.handleReset.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
         this.searchApi = this.searchApi.bind(this)
         this.validateUserTitles = this.validateUserTitles.bind(this)
@@ -81,6 +82,10 @@ export class TitleInput extends React.Component {
         this.setState({value: event.target.value})
     }
 
+    handleReset(event) {
+        this.setState({value: ""})
+    }
+
     handleSubmit(event) {
         event.preventDefault()
         let gameTitlesArray = this.state.value
@@ -100,9 +105,10 @@ export class TitleInput extends React.Component {
             </span>
 
             <section id="input-by-title">
-                <form onSubmit={this.handleSubmit}>
+                <form onSubmit={this.handleSubmit} onReset={this.handleReset}>
                     <label htmlFor="titles-input">Game Title(s):</label>
                     <textarea rows="8" cols="30" value={this.state.value} onChange={this.handleChange} placeholder="(exact match only)" required/>
+                    <input type="reset" value="Reset" />
                     <input type="submit" value="Submit" />
                 </form>
                 <div id="status-messages">

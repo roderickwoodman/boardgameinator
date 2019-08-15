@@ -196,3 +196,8 @@ hr {
   padding: 0 30px;
   font-style: italic;
 }
+
+input, label, textarea {
+  display: block;
+  margin-left: 15px;
+}

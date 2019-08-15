@@ -33,8 +33,12 @@ export class TitleInput extends React.Component {
             if (Object.entries(info).length === 0) {
                 messages.push('ERROR: "' + gameTitles[idx] + '" is not in the BGG database')
             } else {
-                messages.push('"' + gameTitles[idx] + '" was added')
-                this.props.onnewtitle(info.id)
+                if (this.ifGameHasBeenAdded(info.id)) {
+                    messages.push('"' + gameTitles[idx] + '" was previously added')
+                } else {
+                    messages.push('"' + gameTitles[idx] + '" has now been added')
+                    this.props.onnewtitle(info.id)
+                }
             }
         })
         this.setState({ statusMessages: messages })
@@ -64,39 +68,52 @@ export class TitleInput extends React.Component {
         return game
     }
 
+    ifGameHasBeenAdded(gameId) {
+        for (let game of this.props.allgames) {
+            if (game.id === parseInt(gameId)) {
+                return true
+            }
+        }
+        return false
+    }
+
     handleChange(event) {
         this.setState({value: event.target.value})
     }
 
     handleSubmit(event) {
         event.preventDefault()
-        let gameTitlesArray = [this.state.value]
+        let gameTitlesArray = this.state.value
+            .split("\n")
+            .map(str => str.trim())
+            .filter( function(e){return e} );
         this.validateUserTitles(gameTitlesArray)
     }
 
     render() {
         return (
             <React.Fragment>
-            <span className='instructions'>
-                <span className='circledNumber'>&#9312;</span>Input your games.
+
+            <span className="instructions">
+                <span className="circledNumber">&#9312;</span>Input your games.
             </span>
 
-            <form onSubmit={this.handleSubmit}>
-                <label>
-                    Game Title:
-                    <input type="text" value={this.state.value} onChange={this.handleChange} placeholder="(exact match only)" />
-                </label>
-                <input type="submit" value="Submit" />
-            </form>
+            <section id="input-by-title">
+                <form onSubmit={this.handleSubmit}>
+                    <label htmlFor="titles-input">Game Title(s):</label>
+                    <textarea rows="8" cols="30" value={this.state.value} onChange={this.handleChange} placeholder="(exact match only)" required/>
+                    <input type="submit" value="Submit" />
+                </form>
+                <div id="status-messages">
+                    { this.state.statusMessages
+                        .map(
+                            (message, i) => 
+                                <p key={i} className="message">{message}</p>
+                        )
+                    }
+                </div>
+            </section>
 
-            <div id="status-messages">
-                { this.state.statusMessages
-                    .map(
-                        (message, i) => 
-                            <p key={i} className="message">{message}</p>
-                    )
-                }
-            </div>
             </React.Fragment>
         )
     }

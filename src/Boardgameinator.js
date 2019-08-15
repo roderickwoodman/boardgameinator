@@ -30,20 +30,21 @@ export class Boardgameinator extends React.Component {
     }
 
     onNewTitle(gameId) {
-        let newGames = []
+        let newGame = {}
         fetch(this.gamedataApi(gameId))
             .then(response => response.text())
             .then(text => this.extractFromGamedataApiXml(text))
             .then(json => {
-                newGames.push(json)
-                this.setState({ 
-                    allGames: newGames 
-                }, () => {
-                    this.updatePlayerCounts()
-                    this.updateCategoryCounts()
-                    this.updateMechanicCounts()
+                newGame = json
+                this.setState(prevState => {
+                    let allGames = prevState.allGames.slice()
+                    allGames.push(newGame)
+                    return { allGames }
                 })
-            })
+                this.updatePlayerCounts()
+                this.updateCategoryCounts()
+                this.updateMechanicCounts()
+        })
     }
 
     updatePlayerCounts() {
@@ -148,7 +149,7 @@ export class Boardgameinator extends React.Component {
         let responseDoc = new DOMParser().parseFromString(str, 'application/xml')
         let gamesHtmlCollection = responseDoc.getElementsByTagName("item")
         if (gamesHtmlCollection.length) {
-            game['id'] = gamesHtmlCollection[0].id
+            game['id'] = parseInt(gamesHtmlCollection[0].id)
             gamesHtmlCollection[0].childNodes.forEach(
                 function (node) {
                     if (node.nodeType === Node.ELEMENT_NODE) {

@@ -8,7 +8,6 @@ export class TitleInput extends React.Component {
     constructor(props) {
         super(props)
         this.state = { 
-            stagedGames: [],
             value: '',
             statusMessages: [' ']
         }
@@ -25,6 +24,7 @@ export class TitleInput extends React.Component {
 
     async validateUserTitles(gameTitles) {
         let messages = []
+        let newTextareaValue = ""
         const gameInfoJsonArray = await Promise.all(
             gameTitles.map(
                 gameTitle =>
@@ -35,6 +35,7 @@ export class TitleInput extends React.Component {
         gameInfoJsonArray.forEach( (info, idx) => {
             if (Object.entries(info).length === 0) {
                 messages.push('ERROR: "' + gameTitles[idx] + '" was not found in the BGG database')
+                newTextareaValue += gameTitles[idx] + '\n'
             } else {
                 if (this.ifGameHasBeenAdded(info.id)) {
                     messages.push('"' + gameTitles[idx] + '" was previously added')
@@ -44,8 +45,8 @@ export class TitleInput extends React.Component {
                 }
             }
         })
+        this.setState({ value: newTextareaValue })
         this.setState({ statusMessages: messages })
-        this.setState({ stagedGames: gameInfoJsonArray })
     }
 
     extractFromSearchApiXml(str) {
@@ -93,7 +94,7 @@ export class TitleInput extends React.Component {
         let gameTitlesArray = this.state.value
             .split("\n")
             .map(str => str.trim())
-            .map(str => str.replace(/[^a-zA-Z:()! ]/g, ""))
+            .map(str => str.replace(/[^a-zA-Z:()&! ]/g, ""))
             .filter( function(e){return e} )
         this.validateUserTitles(gameTitlesArray)
     }

@@ -33,11 +33,11 @@ body {
 
 #leftsidebar-wrapper {
   display: flex;
-  flex: 3;
+  flex: 4;
   order: -1;
   flex-direction: column;
   width: 25%;
-  max-width: 300px;
+  max-width: 350px;
 }
 
 #page-logo {
@@ -185,19 +185,30 @@ hr {
   font-size: 2.0em;
 }
 
-.warning {
+#resulting-games .message {
   margin: 30px;
+}
+
+.warning, .error {
   color: red;
   font-weight: 800;
-  font-style: italic;
 }
 
 .message {
-  padding: 0 30px;
-  font-style: italic;
+  margin: 0 30px;
 }
 
-input, label, textarea {
+.message.error, .message.warning {
+  padding: 10px;
+  background-color: lightpink;
+  color: black;
+  border: 3px solid red;
+  border-radius: 10px;
+}
+
+#input-by-title input, 
+#input-by-title label, 
+#input-by-title textarea {
   display: block;
   margin-left: 15px;
 }

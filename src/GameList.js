@@ -88,9 +88,9 @@ export class GameList extends React.Component {
                                     thumbcount={thumbcounts[game.name]}/>)
                 )}
                 {!this.props.allgames.length && (
-                    <span className="warning">
+                    <span className="message warning">
                         <p>THE GAMES LIST IS CURRENTLY EMPTY!</p>
-                        <p>Please input game titles in the left sidebar.</p>
+                        <p>Please add game titles using the form in the left sidebar.</p>
                     </span>
                 )}
             </div>

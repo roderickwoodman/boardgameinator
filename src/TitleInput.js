@@ -1,4 +1,6 @@
 import React from 'react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faLongArrowAltRight } from '@fortawesome/free-solid-svg-icons'
 
 
 export class TitleInput extends React.Component {
@@ -32,7 +34,7 @@ export class TitleInput extends React.Component {
             ))
         gameInfoJsonArray.forEach( (info, idx) => {
             if (Object.entries(info).length === 0) {
-                messages.push('ERROR: "' + gameTitles[idx] + '" is not in the BGG database')
+                messages.push('ERROR: "' + gameTitles[idx] + '" was not found in the BGG database')
             } else {
                 if (this.ifGameHasBeenAdded(info.id)) {
                     messages.push('"' + gameTitles[idx] + '" was previously added')
@@ -101,7 +103,7 @@ export class TitleInput extends React.Component {
             <React.Fragment>
 
             <span className="instructions">
-                <span className="circledNumber">&#9312;</span>Input your games.
+                <span className="circledNumber">&#9312;</span>Add your games.
             </span>
 
             <section id="input-by-title">
@@ -114,8 +116,11 @@ export class TitleInput extends React.Component {
                 <div id="status-messages">
                     { this.state.statusMessages
                         .map(
-                            (message, i) => 
-                                <p key={i} className="message">{message}</p>
+                            (message, i) => {
+                                return (message.toLowerCase().startsWith('error'))
+                                ? <p key={i} className="message error">{message}</p>
+                                : <p key={i} className="message"><FontAwesomeIcon icon={faLongArrowAltRight} /> {message}</p>
+                            }
                         )
                     }
                 </div>

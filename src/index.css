@@ -13,13 +13,23 @@ code {
 }
 
 h1 {
+  display: block;
+  text-align: center;
   color: white;
   text-shadow: -2px -2px 0 black, 2px -2px 0 black, -2px 2px 0 black, 2px 2px 0 black;
+}
+
+.subtitle {
+  display: block;
+  margin-top: -20px;
+  text-align: center;
+  font-style: italic;
 }
 
 ul {
   list-style: none;
 }
+
 body {
   background-color: lightyellow;
 }
@@ -41,7 +51,7 @@ body {
 }
 
 #page-logo {
-  display: flex;
+  display: block;
   flex: 1;
   order: -1;
   padding: 10px 30px;
@@ -194,10 +204,6 @@ hr {
   font-weight: 800;
 }
 
-.message {
-  margin: 0 30px;
-}
-
 .message.error, .message.warning {
   padding: 10px;
   background-color: lightpink;
@@ -206,9 +212,18 @@ hr {
   border-radius: 10px;
 }
 
+#input-by-title {
+  padding: 10px 0 25px 0;
+}
+
 #input-by-title input, 
 #input-by-title label, 
-#input-by-title textarea {
+#input-by-title textarea,
+#input-by-title .message {
   display: block;
-  margin-left: 15px;
+  margin: 0 30px;
+}
+
+form, #status-messages {
+  margin-bottom: 15px;
 }

@@ -204,6 +204,7 @@ export class Boardgameinator extends React.Component {
                 <div id="leftsidebar-wrapper">
                     <div id="page-logo">
                         <h1>Boardgameinator</h1>
+                        <p className="subtitle">now comparing {this.state.allGames.length} boardgame titles</p>
                     </div>
                     <div id="main-controls">
                         <TitleInput

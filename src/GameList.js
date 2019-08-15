@@ -1,6 +1,8 @@
 import React from 'react'
 import { ViewControls } from './ViewControls'
 import { Game } from './Game'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faLongArrowAltLeft } from '@fortawesome/free-solid-svg-icons'
 
 export class GameList extends React.Component {
 
@@ -60,7 +62,7 @@ export class GameList extends React.Component {
                     onChange={this.handleSortChange}/>
             </div>
             <div id="resulting-games">
-                {this.props.allgames.length && (
+                {this.props.allgames.length !== 0 && (
                     this.props.allgames
                         // sort by maxvotes...     FIRST: most votes,        SECOND: shortest playtime
                         // sort by maxplaytime...  FIRST: shortest playtime, SECOND: most votes
@@ -87,10 +89,15 @@ export class GameList extends React.Component {
                                     thumbs={this.props.thumbs} 
                                     thumbcount={thumbcounts[game.name]}/>)
                 )}
-                {!this.props.allgames.length && (
+                {this.props.allgames.length === 0 && (
                     <span className="message warning">
                         <p>THE GAMES LIST IS CURRENTLY EMPTY!</p>
                         <p>Please add game titles using the form in the left sidebar.</p>
+                        <p>
+                            <FontAwesomeIcon icon={faLongArrowAltLeft} />&nbsp;
+                            <FontAwesomeIcon icon={faLongArrowAltLeft} />&nbsp;
+                            <FontAwesomeIcon icon={faLongArrowAltLeft} />&nbsp;
+                        </p>
                     </span>
                 )}
             </div>

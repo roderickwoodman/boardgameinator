@@ -9,7 +9,7 @@ export class TitleInput extends React.Component {
         super(props)
         this.state = { 
             value: '',
-            statusMessages: [' ']
+            statusMessages: []
         }
         this.handleChange = this.handleChange.bind(this)
         this.handleReset = this.handleReset.bind(this)
@@ -110,7 +110,7 @@ export class TitleInput extends React.Component {
             <section id="input-by-title">
                 <form onSubmit={this.handleSubmit} onReset={this.handleReset}>
                     <label htmlFor="titles-input">Game Title(s):</label>
-                    <textarea rows="8" cols="30" value={this.state.value} onChange={this.handleChange} placeholder="(exact match only)" required/>
+                    <textarea rows="8" cols="40" value={this.state.value} onChange={this.handleChange} placeholder="(exact match only)" required/>
                     <input type="reset" value="Reset" />
                     <input type="submit" value="Submit" />
                 </form>

@@ -94,7 +94,7 @@ export class TitleInput extends React.Component {
         let gameTitlesArray = this.state.value
             .split("\n")
             .map(str => str.trim())
-            .map(str => str.replace(/[^a-zA-Z:()&! ]/g, ""))
+            .map(str => str.replace(/[^a-zA-Z:()&!–' ]/g, ""))
             .filter( function(e){return e} )
         this.validateUserTitles(gameTitlesArray)
     }

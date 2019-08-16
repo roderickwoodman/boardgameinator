@@ -42,16 +42,16 @@ export class VotingBox extends React.Component {
                 <span className='circledNumber'>&#9313;</span>Vote on parts.
             </span>
 
-            <div id="votesection-selector">
+            <div id="votingsection-selector">
                 <div>
                     <label>
-                        <input type='radio' key='players' id='players' name='votesection' checked={this.state.votingOn==='players'} value='players' onChange={this.handleSectionChange} /> 
+                        <input type='radio' key='players' id='players' name='votingsection' checked={this.state.votingOn==='players'} value='players' onChange={this.handleSectionChange} /> 
                         Players</label>
                     <label>
-                        <input type='radio' key='categories' id='categories' name='votesection' checked={this.state.votingOn==='categories'} value='categories' onChange={this.handleSectionChange} /> 
+                        <input type='radio' key='categories' id='categories' name='votingsection' checked={this.state.votingOn==='categories'} value='categories' onChange={this.handleSectionChange} /> 
                         Categories</label>
                     <label>
-                        <input type='radio' key='mechanics' id='mechanics' name='votesection' checked={this.state.votingOn==='mechanics'} value='mechanics' onChange={this.handleSectionChange} /> 
+                        <input type='radio' key='mechanics' id='mechanics' name='votingsection' checked={this.state.votingOn==='mechanics'} value='mechanics' onChange={this.handleSectionChange} /> 
                         Mechanics</label>
                 </div>
             </div>

@@ -1,6 +1,6 @@
 import React from 'react'
 import { GameList } from './GameList'
-import { TitleInput } from './TitleInput'
+import { InputBox } from './InputBox'
 import { VotingBox } from './VotingBox'
 
 
@@ -207,8 +207,8 @@ export class Boardgameinator extends React.Component {
                         <p className="subtitle">now comparing <span className="callout">{this.state.allGames.length}</span> boardgame titles</p>
                     </div>
                     <div id="main-controls">
-                        <div id="gametitle-controls">
-                            <TitleInput
+                        <div id="gameinput-controls">
+                            <InputBox
                                 allgames={this.state.allGames}
                                 onnewtitle={this.onNewTitle} />
                         </div>

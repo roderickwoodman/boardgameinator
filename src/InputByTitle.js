@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLongArrowAltRight } from '@fortawesome/free-solid-svg-icons'
 
 
-export class TitleInput extends React.Component {
+export class InputByTitle extends React.Component {
 
     constructor(props) {
         super(props)
@@ -101,12 +101,6 @@ export class TitleInput extends React.Component {
 
     render() {
         return (
-            <React.Fragment>
-
-            <span className="instructions">
-                <span className="circledNumber">&#9312;</span>Add your games.
-            </span>
-
             <section id="input-by-title">
                 <form onSubmit={this.handleSubmit} onReset={this.handleReset}>
                     <label htmlFor="titles-input">Game Title(s):</label>
@@ -126,8 +120,6 @@ export class TitleInput extends React.Component {
                     }
                 </div>
             </section>
-
-            </React.Fragment>
         )
     }
 }

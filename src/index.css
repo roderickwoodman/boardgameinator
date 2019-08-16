@@ -42,8 +42,8 @@ hr {
   flex: 4;
   order: -1;
   flex-direction: column;
-  width: 25%;
   max-width: 350px;
+  min-width: 350px;
   padding: 10px 25px;
 }
 
@@ -88,29 +88,23 @@ hr {
   order: -1;
 }
 
-#input-by-title > * {
-  margin-bottom: 15px;
+#gameinput-controls,
+#gamevoting-controls,
+#gamesorting-controls {
+  display:block;
+  margin: 15px 0;
+  padding: 0 30px;
 }
 
-#gametitle-controls .instructions,
+#gameinput-controls .instructions,
 #gamevoting-controls .instructions,
 #gamesorting-controls .instructions {
-  margin-left: 0px;
+  margin-left: -20px;
 }
 
-#gametitle-controls, #gamevoting-controls {
-  padding: 10px 0 25px 0;
-}
-
-#gametitle-controls input, 
-#gametitle-controls label, 
-#gametitle-controls textarea, 
-#gametitle-controls .message, 
-#gamevoting-controls button, 
-#gamevoting-controls .message,
-#gamesorting-controls label {
-  display: block;
-  margin: 0 30px;
+#inputsection-selector,
+#votingsection-selector {
+  margin-bottom: 15px;
 }
 
 #resulting-games {
@@ -228,6 +222,7 @@ li.thumbsup, li.thumbsdown, li.novote {
 }
 
 .message.error, .message.warning {
+  display: inline-block;
   padding: 10px;
   background-color: lightpink;
   color: black;

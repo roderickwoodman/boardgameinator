@@ -1,5 +1,7 @@
 import React from 'react'
 import { VotingSection } from './VotingSection';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faLongArrowAltUp } from '@fortawesome/free-solid-svg-icons'
 
 export class VotingBox extends React.Component {
 
@@ -9,12 +11,27 @@ export class VotingBox extends React.Component {
             votingOn: 'players',
         }
         this.handleSectionChange = this.handleSectionChange.bind(this)
+        this.emptyMessage = this.emptyMessage.bind(this)
     }
 
     handleSectionChange(event) {
         this.setState({
             votingOn: event.target.value
         })
+    }
+
+    emptyMessage() {
+        return (
+            <span className="message warning">
+                <p>START COMPARING BOARDGAMES!</p>
+                <p>Please add game titles using the form in the left sidebar.</p>
+                <p>
+                    <FontAwesomeIcon icon={faLongArrowAltUp} />&nbsp;
+                    <FontAwesomeIcon icon={faLongArrowAltUp} />&nbsp;
+                    <FontAwesomeIcon icon={faLongArrowAltUp} />&nbsp;
+                </p>
+            </span>
+        )
     }
 
     render() {
@@ -71,6 +88,12 @@ export class VotingBox extends React.Component {
                         thumbs={this.props.thumbs['mechanic']}
                         onnewvote={this.props.onnewvote}
                         onclearsectionvotes={this.props.onclearsectionvotes} />
+                )}
+                {this.props.playercounts.length === 0 
+                && this.props.categorycounts.length === 0
+                && this.props.mechaniccounts.length === 0
+                && (
+                    this.emptyMessage()
                 )}
             </div>
 

@@ -204,19 +204,23 @@ export class Boardgameinator extends React.Component {
                 <div id="leftsidebar-wrapper">
                     <div id="page-logo">
                         <h1>Boardgameinator</h1>
-                        <p className="subtitle">now comparing {this.state.allGames.length} boardgame titles</p>
+                        <p className="subtitle">now comparing <span className="callout">{this.state.allGames.length}</span> boardgame titles</p>
                     </div>
                     <div id="main-controls">
-                        <TitleInput
-                            allgames={this.state.allGames}
-                            onnewtitle={this.onNewTitle} />
-                        <VotingBox 
-                            thumbs={this.state.thumbs} 
-                            playercounts={this.state.playerCounts} 
-                            categorycounts={this.state.categoryCounts} 
-                            mechaniccounts={this.state.mechanicCounts}
-                            onnewvote={this.onNewVote}
-                            onclearsectionvotes={this.onClearSectionVotes} />
+                        <div id="gametitle-controls">
+                            <TitleInput
+                                allgames={this.state.allGames}
+                                onnewtitle={this.onNewTitle} />
+                        </div>
+                        <div id="gamevoting-controls">
+                            <VotingBox 
+                                thumbs={this.state.thumbs} 
+                                playercounts={this.state.playerCounts} 
+                                categorycounts={this.state.categoryCounts} 
+                                mechaniccounts={this.state.mechanicCounts}
+                                onnewvote={this.onNewVote}
+                                onclearsectionvotes={this.onClearSectionVotes} />
+                        </div>
                     </div>
                 </div>
                 <div id="content-wrapper">

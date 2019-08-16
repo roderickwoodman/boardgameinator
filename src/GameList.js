@@ -91,7 +91,7 @@ export class GameList extends React.Component {
                 )}
                 {this.props.allgames.length === 0 && (
                     <span className="message warning">
-                        <p>THE GAMES LIST IS CURRENTLY EMPTY!</p>
+                        <p>START COMPARING BOARDGAMES!</p>
                         <p>Please add game titles using the form in the left sidebar.</p>
                         <p>
                             <FontAwesomeIcon icon={faLongArrowAltLeft} />&nbsp;

@@ -1,5 +1,6 @@
 import React from 'react'
 import { InputByTitle } from './InputByTitle';
+import { GamesAdded } from './GamesAdded';
 
 export class InputBox extends React.Component {
 
@@ -35,7 +36,7 @@ export class InputBox extends React.Component {
                         By Collection</label>
                     <label>
                         <input type='radio' key='addedlist' id='addedlist' name='inputsection' checked={this.state.inputBy==='addedlist'} value='addedlist' onChange={this.handleSectionChange} /> 
-                        Added List</label>
+                        Added List ({this.props.allgames.length})</label>
                 </div>
             </div>
 
@@ -49,7 +50,8 @@ export class InputBox extends React.Component {
                     <p className="error">Input by collection is TBI.</p>
                 )}
                 {this.state.inputBy === 'addedlist' && (
-                    <p className="error">Input by added list is TBI.</p>
+                    <GamesAdded
+                        allgames={this.props.allgames} />
                 )}
             </div>
 

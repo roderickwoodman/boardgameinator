@@ -103,6 +103,7 @@ hr {
 #gamevoting-controls .instructions,
 #gamesorting-controls .instructions {
   margin-left: -20px;
+  margin-right: -20px;
 }
 
 #inputsection-selector,
@@ -228,7 +229,7 @@ li.thumbsup, li.thumbsdown, li.novote {
   font-weight: 800;
 }
 
-.message {
+.listing, .message {
   margin: 0;
 }
 

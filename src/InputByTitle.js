@@ -108,7 +108,7 @@ export class InputByTitle extends React.Component {
                     <input type="reset" value="Reset" />
                     <input type="submit" value="Submit" />
                 </form>
-                <div id="status-messages">
+                <div className="status-messages">
                     { this.state.statusMessages
                         .map(
                             (message, i) => {

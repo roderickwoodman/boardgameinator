@@ -91,9 +91,12 @@ hr {
 #gameinput-controls,
 #gamevoting-controls,
 #gamesorting-controls {
-  display:block;
   margin: 15px 0;
   padding: 0 30px;
+}
+
+#gamesorting-controls label {
+  display:block;
 }
 
 #gameinput-controls .instructions,
@@ -105,6 +108,10 @@ hr {
 #inputsection-selector,
 #votingsection-selector {
   margin-bottom: 15px;
+}
+
+.status-messages {
+  margin-top: 10px;
 }
 
 #resulting-games {
@@ -219,6 +226,10 @@ li.thumbsup, li.thumbsdown, li.novote {
 .warning, .error {
   color: red;
   font-weight: 800;
+}
+
+.message {
+  margin: 0;
 }
 
 .message.error, .message.warning {

@@ -18,15 +18,19 @@ export class InputByTitle extends React.Component {
         this.validateUserTitles = this.validateUserTitles.bind(this)
     }
 
-    searchApi(gameTitle) {
-        return 'https://boardgamegeek.com/xmlapi2/search?type=boardgame&exact=1&query=' + gameTitle.replace(' ', '+')
+    searchApi(title) {
+        return 'https://boardgamegeek.com/xmlapi2/search?type=boardgame&exact=1&query=' + this.withoutYear(title).replace(' ', '+')
     }
 
-    async validateUserTitles(gameTitles) {
+    withoutYear(title) {
+        return title.replace(/(( +)\((-?)\d{1,4}\))$/, '')
+    }
+
+    async validateUserTitles(userTitles) {
         let messages = []
         let newTextareaValue = ""
         const gamesApiResults = await Promise.all(
-            gameTitles.map(
+            userTitles.map(
                 gameTitle =>
                     fetch(this.searchApi(gameTitle))
                         .then(searchResponse => searchResponse.text())
@@ -34,17 +38,17 @@ export class InputByTitle extends React.Component {
             ))
         gamesApiResults.forEach( (titleMatches, titleMatchesIdx) => {
             if (titleMatches.length === 0) {
-                messages.push('ERROR: "' + gameTitles[titleMatchesIdx] + '" was not found in the BGG database')
-                newTextareaValue += gameTitles[titleMatchesIdx] + '\n'
+                messages.push('ERROR: "' + this.withoutYear(userTitles[titleMatchesIdx]) + '" was not found in the BGG database')
+                newTextareaValue += userTitles[titleMatchesIdx] + '\n'
             } else if (titleMatches.length > 1) {
-                messages.push('ERROR: "' + gameTitles[titleMatchesIdx] + '" has multiple matches in the BGG database')
-                newTextareaValue += gameTitles[titleMatchesIdx] + '\n'
+                messages.push('ERROR: "' + this.withoutYear(userTitles[titleMatchesIdx]) + '" has multiple matches in the BGG database')
+                newTextareaValue += userTitles[titleMatchesIdx] + '\n'
             } else {
                 titleMatches.forEach( (thisVersion) => {
                     if (this.ifGameHasBeenAdded(thisVersion.id)) {
-                        messages.push('"' + gameTitles[titleMatchesIdx] + '" was previously added')
+                        messages.push('"' + this.withoutYear(userTitles[titleMatchesIdx]) + '" was previously added')
                     } else {
-                        messages.push('"' + gameTitles[titleMatchesIdx] + '" has now been added')
+                        messages.push('"' + this.withoutYear(userTitles[titleMatchesIdx]) + '" has now been added')
                         this.props.onnewtitle(thisVersion.id)
                     }
                 })
@@ -100,7 +104,7 @@ export class InputByTitle extends React.Component {
         let gameTitlesArray = this.state.value
             .split("\n")
             .map(str => str.trim())
-            .map(str => str.replace(/[^a-zA-Z:()&!–' ]/g, ""))
+            .map(str => str.replace(/[^0-9a-zA-Z:()&!–' ]/g, ""))
             .filter( function(e){return e} )
         this.validateUserTitles(gameTitlesArray)
     }

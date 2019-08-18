@@ -36,7 +36,7 @@ export class InputBox extends React.Component {
                         By Collection</label>
                     <label>
                         <input type='radio' key='addedlist' id='addedlist' name='inputsection' checked={this.state.inputBy==='addedlist'} value='addedlist' onChange={this.handleSectionChange} /> 
-                        Added List ({this.props.allgames.length})</label>
+                        Added List</label>
                 </div>
             </div>
 

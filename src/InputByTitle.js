@@ -25,24 +25,29 @@ export class InputByTitle extends React.Component {
     async validateUserTitles(gameTitles) {
         let messages = []
         let newTextareaValue = ""
-        const gameInfoJsonArray = await Promise.all(
+        const gamesApiResults = await Promise.all(
             gameTitles.map(
                 gameTitle =>
                     fetch(this.searchApi(gameTitle))
                         .then(searchResponse => searchResponse.text())
                         .then(searchText => this.extractFromSearchApiXml(searchText))
             ))
-        gameInfoJsonArray.forEach( (info, idx) => {
-            if (Object.entries(info).length === 0) {
-                messages.push('ERROR: "' + gameTitles[idx] + '" was not found in the BGG database')
-                newTextareaValue += gameTitles[idx] + '\n'
+        gamesApiResults.forEach( (titleMatches, titleMatchesIdx) => {
+            if (titleMatches.length === 0) {
+                messages.push('ERROR: "' + gameTitles[titleMatchesIdx] + '" was not found in the BGG database')
+                newTextareaValue += gameTitles[titleMatchesIdx] + '\n'
+            } else if (titleMatches.length > 1) {
+                messages.push('ERROR: "' + gameTitles[titleMatchesIdx] + '" has multiple matches in the BGG database')
+                newTextareaValue += gameTitles[titleMatchesIdx] + '\n'
             } else {
-                if (this.ifGameHasBeenAdded(info.id)) {
-                    messages.push('"' + gameTitles[idx] + '" was previously added')
-                } else {
-                    messages.push('"' + gameTitles[idx] + '" has now been added')
-                    this.props.onnewtitle(info.id)
-                }
+                titleMatches.forEach( (thisVersion) => {
+                    if (this.ifGameHasBeenAdded(thisVersion.id)) {
+                        messages.push('"' + gameTitles[titleMatchesIdx] + '" was previously added')
+                    } else {
+                        messages.push('"' + gameTitles[titleMatchesIdx] + '" has now been added')
+                        this.props.onnewtitle(thisVersion.id)
+                    }
+                })
             }
         })
         this.setState({ value: newTextareaValue })
@@ -50,13 +55,13 @@ export class InputByTitle extends React.Component {
     }
 
     extractFromSearchApiXml(str) {
-
-        let game = {}
+        let games = []
         let responseDoc = new DOMParser().parseFromString(str, 'application/xml')
         let gamesHtmlCollection = responseDoc.getElementsByTagName("item")
-        if (gamesHtmlCollection.length) {
-            game['id'] = gamesHtmlCollection[0].id
-            gamesHtmlCollection[0].childNodes.forEach(
+        for (let matchedGame of gamesHtmlCollection) {
+            let game = {}
+            game['id'] = parseInt(matchedGame.id)
+            matchedGame.childNodes.forEach(
                 function (node) {
                     if (node.nodeType === Node.ELEMENT_NODE) {
                         if ( (node.tagName === "name") && (node.getAttribute("type") === "primary") ) {
@@ -68,8 +73,9 @@ export class InputByTitle extends React.Component {
                     }
                 }
             )
+            games.push(game)
         }
-        return game
+        return games
     }
 
     ifGameHasBeenAdded(gameId) {

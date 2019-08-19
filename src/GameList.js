@@ -87,7 +87,8 @@ export class GameList extends React.Component {
                                     categories={game.categories}
                                     mechanics={game.mechanics} 
                                     thumbs={this.props.thumbs} 
-                                    thumbcount={thumbcounts[game.name]}/>)
+                                    thumbcount={thumbcounts[game.name]}
+                                    ondelete={this.props.ondelete} />)
                 )}
                 {this.props.allgames.length === 0 && (
                     <span className="message warning">

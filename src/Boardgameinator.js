@@ -253,7 +253,8 @@ export class Boardgameinator extends React.Component {
                 <div id="content-wrapper">
                     <GameList
                         allgames={this.state.allGames} 
-                        thumbs={this.state.thumbs} />
+                        thumbs={this.state.thumbs} 
+                        ondelete={this.onDeleteTitle} />
                 </div>
             </div>
             </React.Fragment>

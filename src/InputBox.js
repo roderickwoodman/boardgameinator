@@ -52,7 +52,8 @@ export class InputBox extends React.Component {
                 {this.state.inputBy === 'addedlist' && (
                     <AddedList
                         allgames={this.props.allgames} 
-                        ondelete={this.props.ondelete} />
+                        ondelete={this.props.ondelete}
+                        ondeleteall={this.props.ondeleteall} />
                 )}
             </div>
 

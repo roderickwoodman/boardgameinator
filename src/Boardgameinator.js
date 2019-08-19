@@ -24,6 +24,7 @@ export class Boardgameinator extends React.Component {
         this.onNewTitle = this.onNewTitle.bind(this)
         this.onNewVote = this.onNewVote.bind(this)
         this.onDeleteTitle = this.onDeleteTitle.bind(this)
+        this.onDeleteAllTitles = this.onDeleteAllTitles.bind(this)
         this.onClearSectionVotes = this.onClearSectionVotes.bind(this)
     }
 
@@ -58,6 +59,14 @@ export class Boardgameinator extends React.Component {
         this.setState(prevState => {
             let allGames = prevState.allGames.slice()
             allGames = allGames.filter(game => game.id !== parseInt(id))
+            return { allGames }
+        })
+        this.updateCounts()
+    }
+
+    onDeleteAllTitles(event) {
+        this.setState(prevState => {
+            let allGames = []
             return { allGames }
         })
         this.updateCounts()
@@ -227,7 +236,8 @@ export class Boardgameinator extends React.Component {
                             <InputBox
                                 allgames={this.state.allGames}
                                 onnewtitle={this.onNewTitle} 
-                                ondelete={this.onDeleteTitle} />
+                                ondelete={this.onDeleteTitle}
+                                ondeleteall={this.onDeleteAllTitles} />
                         </div>
                         <div id="gamevoting-controls">
                             <VotingBox 

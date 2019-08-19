@@ -14,6 +14,7 @@ export class AddedList extends React.Component {
     render() {
         return (
             <ul id="games-added">
+                <button onClick={this.props.ondeleteall}>REMOVE ALL GAMES</button>
                 { this.props.allgames.length >= 0 && (
                     this.props.allgames
                         .sort( (a, b) => (a.name > b.name) ? 1 : -1 )

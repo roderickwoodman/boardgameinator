@@ -23,7 +23,8 @@ export class InputByTitle extends React.Component {
     }
 
     withYear(title, year) {
-        return title.replace(/(( +)\((-?)\d{1,4}\))$/, '').concat(' ('+year+')')
+        let printedYear = (year === null) ? "unknown" : year
+        return title.replace(/(( +)\((-?)\d{1,4}\))$/, '').concat(' ('+printedYear+')')
     }
 
     withoutYear(title) {
@@ -55,7 +56,7 @@ export class InputByTitle extends React.Component {
                 newTextareaValue += userTitles[titleMatchesIdx] + '\n'
             } else if (titleMatches.length > 1) {
                 let desiredYear = this.extractYearFromTitle(userTitles[titleMatchesIdx])
-                let matchedTitleAndYear = titleMatches.filter(ambiguousTitle => ambiguousTitle.yearpublished === desiredYear)
+                let matchedTitleAndYear = titleMatches.filter(ambiguousTitle => ambiguousTitle.yearpublished === desiredYear && desiredYear != null)
                 if (matchedTitleAndYear.length) {
                     if (this.ifGameHasBeenAdded(matchedTitleAndYear[0].id)) {
                         messages.push('"' + this.withYear(userTitles[titleMatchesIdx], matchedTitleAndYear[0].yearpublished) + '" was previously added')
@@ -104,7 +105,12 @@ export class InputByTitle extends React.Component {
                     }
                 }
             )
-            games.push(game)
+            if ("name" in game) {
+                games.push(game)
+            }
+            if (!("yearpublished" in game)) {
+                game["yearpublished"] = null
+            }
         }
         return games
     }

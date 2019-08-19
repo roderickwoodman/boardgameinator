@@ -22,8 +22,21 @@ export class InputByTitle extends React.Component {
         return 'https://boardgamegeek.com/xmlapi2/search?type=boardgame&exact=1&query=' + this.withoutYear(title).replace(' ', '+')
     }
 
+    withYear(title, year) {
+        return title.replace(/(( +)\((-?)\d{1,4}\))$/, '').concat(' ('+year+')')
+    }
+
     withoutYear(title) {
         return title.replace(/(( +)\((-?)\d{1,4}\))$/, '')
+    }
+
+    extractYearFromTitle(title) {
+        let date = title.match(/(( +)\((-?)\d{1,4}\))$/)
+        if (date !== null) {
+            return parseInt(date[0].replace(/[^0-9-]/g, ""))
+        } else {
+            return null
+        }
     }
 
     async validateUserTitles(userTitles) {
@@ -41,8 +54,22 @@ export class InputByTitle extends React.Component {
                 messages.push('ERROR: "' + this.withoutYear(userTitles[titleMatchesIdx]) + '" was not found in the BGG database')
                 newTextareaValue += userTitles[titleMatchesIdx] + '\n'
             } else if (titleMatches.length > 1) {
-                messages.push('ERROR: "' + this.withoutYear(userTitles[titleMatchesIdx]) + '" has multiple matches in the BGG database')
-                newTextareaValue += userTitles[titleMatchesIdx] + '\n'
+                let desiredYear = this.extractYearFromTitle(userTitles[titleMatchesIdx])
+                let matchedTitleAndYear = titleMatches.filter(ambiguousTitle => ambiguousTitle.yearpublished === desiredYear)
+                if (matchedTitleAndYear.length) {
+                    if (this.ifGameHasBeenAdded(matchedTitleAndYear[0].id)) {
+                        messages.push('"' + this.withYear(userTitles[titleMatchesIdx], matchedTitleAndYear[0].yearpublished) + '" was previously added')
+                    } else {
+                        messages.push('"' + this.withYear(userTitles[titleMatchesIdx], matchedTitleAndYear[0].yearpublished) + '" has now been added')
+                        this.props.onnewtitle(matchedTitleAndYear[0].id)
+                    }
+                } else {
+                    messages.push('ERROR: "' + this.withoutYear(userTitles[titleMatchesIdx]) + '" has multiple matches in the BGG database')
+                    for (let ambiguousTitle of titleMatches) {
+                        let disambiguousTitle = this.withYear(ambiguousTitle.name, ambiguousTitle.yearpublished)
+                        newTextareaValue += disambiguousTitle + '\n'
+                    }
+                }
             } else {
                 titleMatches.forEach( (thisVersion) => {
                     if (this.ifGameHasBeenAdded(thisVersion.id)) {

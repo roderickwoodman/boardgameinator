@@ -134,12 +134,12 @@ export class InputByTitle extends React.Component {
 
     handleSubmit(event) {
         event.preventDefault()
-        let gameTitlesArray = this.state.value
+        let userTitles = this.state.value
             .split("\n")
             .map(str => str.trim())
             .map(str => str.replace(/[^0-9a-zA-Z:()&!–' ]/g, ""))
             .filter( function(e){return e} )
-        this.validateUserTitles(gameTitlesArray)
+        this.validateUserTitles(Array.from(new Set(userTitles)))
     }
 
     render() {

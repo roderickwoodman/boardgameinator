@@ -1,6 +1,6 @@
 import React from 'react'
 import { InputByTitle } from './InputByTitle';
-import { GamesAdded } from './GamesAdded';
+import { AddedList } from './AddedList';
 
 export class InputBox extends React.Component {
 
@@ -50,8 +50,9 @@ export class InputBox extends React.Component {
                     <p className="error">Input by collection is TBI.</p>
                 )}
                 {this.state.inputBy === 'addedlist' && (
-                    <GamesAdded
-                        allgames={this.props.allgames} />
+                    <AddedList
+                        allgames={this.props.allgames} 
+                        ondelete={this.props.ondelete} />
                 )}
             </div>
 

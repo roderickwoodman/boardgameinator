@@ -17,16 +17,24 @@ export class Boardgameinator extends React.Component {
             sortOrder: 'maxvotes'
         }
         this.extractFromGamedataApiXml = this.extractFromGamedataApiXml.bind(this)
+        this.updateCounts = this.updateCounts.bind(this)
         this.updatePlayerCounts = this.updatePlayerCounts.bind(this)
         this.updateCategoryCounts = this.updateCategoryCounts.bind(this)
         this.updateMechanicCounts = this.updateMechanicCounts.bind(this)
         this.onNewTitle = this.onNewTitle.bind(this)
         this.onNewVote = this.onNewVote.bind(this)
+        this.onDeleteTitle = this.onDeleteTitle.bind(this)
         this.onClearSectionVotes = this.onClearSectionVotes.bind(this)
     }
 
     gamedataApi(gameId) {
         return 'https://boardgamegeek.com/xmlapi2/thing?type=boardgame&id=' + gameId
+    }
+
+    updateCounts() {
+        this.updatePlayerCounts()
+        this.updateCategoryCounts()
+        this.updateMechanicCounts()
     }
 
     onNewTitle(gameId) {
@@ -41,10 +49,18 @@ export class Boardgameinator extends React.Component {
                     allGames.push(newGame)
                     return { allGames }
                 })
-                this.updatePlayerCounts()
-                this.updateCategoryCounts()
-                this.updateMechanicCounts()
+                this.updateCounts()
         })
+    }
+
+    onDeleteTitle(event, id) {
+        console.log("deleting: ", id)
+        this.setState(prevState => {
+            let allGames = prevState.allGames.slice()
+            allGames = allGames.filter(game => game.id !== parseInt(id))
+            return { allGames }
+        })
+        this.updateCounts()
     }
 
     updatePlayerCounts() {
@@ -210,7 +226,8 @@ export class Boardgameinator extends React.Component {
                         <div id="gameinput-controls">
                             <InputBox
                                 allgames={this.state.allGames}
-                                onnewtitle={this.onNewTitle} />
+                                onnewtitle={this.onNewTitle} 
+                                ondelete={this.onDeleteTitle} />
                         </div>
                         <div id="gamevoting-controls">
                             <VotingBox 

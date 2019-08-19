@@ -247,3 +247,15 @@ li.thumbsup, li.thumbsdown, li.novote {
   text-decoration-line: underline;
   text-decoration-style: double;
 }
+
+.hovering {
+  color: red;
+}
+
+.nothovering {
+  color: black;
+}
+
+button {
+  cursor: pointer;
+}

@@ -10,10 +10,21 @@ export class GameList extends React.Component {
         super(props)
         this.state = {
             sortOrder: 'maxvotes',
+            showOnlyFavored: true
         }
         this.handleSortChange = this.handleSortChange.bind(this)
         this.getThumbCounts = this.getThumbCounts.bind(this)
+        this.handleShowingOnlyFavoredChange = this.handleShowingOnlyFavoredChange.bind(this)
     }
+
+    getThumbedPlayercounts() {
+        // collect all of the voted playercounts
+        let playercounts = []
+        for (let playercount in this.props.thumbs.players) {
+            playercounts.push(parseInt(playercount.slice(0, -1)))
+        }
+        return playercounts
+    } 
 
     getThumbCounts() {
         // tally all votes for each game
@@ -52,18 +63,39 @@ export class GameList extends React.Component {
         })
     }
 
+    handleShowingOnlyFavoredChange(event) {
+        this.setState({
+            showOnlyFavored: !this.state.showOnlyFavored
+        })
+    }
+
     render() {
         let thumbcounts = this.getThumbCounts()
+        let favoredPlayercounts = this.getThumbedPlayercounts()
         return (
             <React.Fragment>
             <div id="view-controls">
                 <ViewControls 
                     sortby={this.state.sortOrder}
-                    onChange={this.handleSortChange}/>
+                    onsortchange={this.handleSortChange}
+                    showonlyfavored={this.state.showOnlyFavored}
+                    onshowingfavoredchange={this.handleShowingOnlyFavoredChange} />
             </div>
             <div id="resulting-games">
                 {this.props.allgames.length !== 0 && (
                     this.props.allgames
+                        .filter( (game) => {
+                            if (!this.state.showOnlyFavored || favoredPlayercounts.length === 0) {
+                                return true
+                            } else {
+                                for (let playercount=game.minplayers; playercount<=game.maxplayers; playercount++) {
+                                    if (favoredPlayercounts.includes(playercount)) {
+                                        return true
+                                    }
+                                }
+                                return false
+                            }
+                        })
                         // sort by maxvotes...     FIRST: most votes,        SECOND: shortest playtime
                         // sort by maxplaytime...  FIRST: shortest playtime, SECOND: most votes
                         // sort by maxplayers...   FIRST: most players,      SECOND: most votes

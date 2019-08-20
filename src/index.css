@@ -90,7 +90,8 @@ hr {
 
 #gameinput-controls,
 #gamevoting-controls,
-#gamesorting-controls {
+#gamesorting-controls,
+#gamefiltering-controls {
   margin: 15px 0;
   padding: 0 30px;
 }
@@ -101,7 +102,8 @@ hr {
 
 #gameinput-controls .instructions,
 #gamevoting-controls .instructions,
-#gamesorting-controls .instructions {
+#gamesorting-controls .instructions,
+#gamefiltering-controls .instructions {
   margin-left: -20px;
   margin-right: -20px;
 }

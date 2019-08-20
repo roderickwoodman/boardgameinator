@@ -1,4 +1,6 @@
 import React from 'react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faLongArrowAltRight } from '@fortawesome/free-solid-svg-icons'
 
 export const ViewControls = (props) => {
     return (
@@ -24,6 +26,9 @@ export const ViewControls = (props) => {
             <label>
                 <input type="checkbox" id="showonlyfavored" checked={props.showonlyfavored} onChange={props.onshowingfavoredchange} />
                 show only games supporting the voted playercounts</label>
+            <div className="status-messages">
+                <p className="message"><FontAwesomeIcon icon={faLongArrowAltRight} /> {props.filtermessage}</p>
+            </div>
         </div>
         </React.Fragment>
     )

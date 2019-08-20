@@ -72,6 +72,20 @@ export class GameList extends React.Component {
     render() {
         let thumbcounts = this.getThumbCounts()
         let favoredPlayercounts = this.getThumbedPlayercounts()
+        let filteredGames = this.props.allgames
+            .filter( (game) => {
+                if (!this.state.showOnlyFavored || favoredPlayercounts.length === 0) {
+                    return true
+                } else {
+                    for (let playercount=game.minplayers; playercount<=game.maxplayers; playercount++) {
+                        if (favoredPlayercounts.includes(playercount)) {
+                            return true
+                        }
+                    }
+                    return false
+                }
+            })
+        let filterMessage = 'now showing ' + filteredGames.length + ' of ' + this.props.allgames.length + ' games'
         return (
             <React.Fragment>
             <div id="view-controls">
@@ -79,23 +93,12 @@ export class GameList extends React.Component {
                     sortby={this.state.sortOrder}
                     onsortchange={this.handleSortChange}
                     showonlyfavored={this.state.showOnlyFavored}
-                    onshowingfavoredchange={this.handleShowingOnlyFavoredChange} />
+                    onshowingfavoredchange={this.handleShowingOnlyFavoredChange}
+                    filtermessage={filterMessage} />
             </div>
             <div id="resulting-games">
-                {this.props.allgames.length !== 0 && (
-                    this.props.allgames
-                        .filter( (game) => {
-                            if (!this.state.showOnlyFavored || favoredPlayercounts.length === 0) {
-                                return true
-                            } else {
-                                for (let playercount=game.minplayers; playercount<=game.maxplayers; playercount++) {
-                                    if (favoredPlayercounts.includes(playercount)) {
-                                        return true
-                                    }
-                                }
-                                return false
-                            }
-                        })
+                {filteredGames.length !== 0 && (
+                    filteredGames
                         // sort by maxvotes...     FIRST: most votes,        SECOND: shortest playtime
                         // sort by maxplaytime...  FIRST: shortest playtime, SECOND: most votes
                         // sort by maxplayers...   FIRST: most players,      SECOND: most votes

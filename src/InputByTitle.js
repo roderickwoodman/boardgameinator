@@ -14,12 +14,17 @@ export class InputByTitle extends React.Component {
         this.handleChange = this.handleChange.bind(this)
         this.handleReset = this.handleReset.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
+        this.exactSearchApi = this.exactSearchApi.bind(this)
         this.searchApi = this.searchApi.bind(this)
         this.validateUserTitles = this.validateUserTitles.bind(this)
     }
 
-    searchApi(title) {
+    exactSearchApi(title) {
         return 'https://boardgamegeek.com/xmlapi2/search?type=boardgame&exact=1&query=' + this.withoutYear(title).replace(' ', '+')
+    }
+
+    searchApi(title) {
+        return 'https://boardgamegeek.com/xmlapi2/search?type=boardgame&query=' + this.withoutYear(title).replace(' ', '+')
     }
 
     withYear(title, year) {
@@ -43,14 +48,28 @@ export class InputByTitle extends React.Component {
     async validateUserTitles(userTitles) {
         let messages = []
         let newTextareaValue = ""
-        const gamesApiResults = await Promise.all(
+        const exactSearchApiResults = await Promise.all(
             userTitles.map(
                 gameTitle =>
-                    fetch(this.searchApi(gameTitle))
-                        .then(searchResponse => searchResponse.text())
-                        .then(searchText => this.extractFromSearchApiXml(searchText))
+                    fetch(this.exactSearchApi(gameTitle))
+                        .then(exactSearchResponse => exactSearchResponse.text())
+                        .then(exactSearchText => this.parseSearchApiXml(exactSearchText))
             ))
-        gamesApiResults.forEach( (titleMatches, titleMatchesIdx) => {
+        const searchApiResults = await Promise.all(
+            exactSearchApiResults.map(
+                (exactSearchApiResult, idx) => {
+                    if (Object.entries(exactSearchApiResult).length !== 0) {
+                        return exactSearchApiResult
+                    } else {
+                        return (
+                            fetch(this.searchApi(userTitles[idx]))
+                                .then(searchResponse => searchResponse.text())
+                                .then(searchText => this.parseSearchApiXml(searchText))
+                        )
+                    }
+                }
+            ))
+        searchApiResults.forEach( (titleMatches, titleMatchesIdx) => {
             if (titleMatches.length === 0) {
                 messages.push('ERROR: "' + this.withoutYear(userTitles[titleMatchesIdx]) + '" was not found in the BGG database')
                 newTextareaValue += userTitles[titleMatchesIdx] + '\n'
@@ -86,7 +105,7 @@ export class InputByTitle extends React.Component {
         this.setState({ statusMessages: messages })
     }
 
-    extractFromSearchApiXml(str) {
+    parseSearchApiXml(str) {
         let games = []
         let responseDoc = new DOMParser().parseFromString(str, 'application/xml')
         let gamesHtmlCollection = responseDoc.getElementsByTagName("item")

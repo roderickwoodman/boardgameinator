@@ -91,12 +91,12 @@ export class InputByTitle extends React.Component {
                     }
                 }
             } else {
-                titleMatches.forEach( (thisVersion) => {
-                    if (this.ifGameHasBeenAdded(thisVersion.id)) {
-                        messages.push('"' + this.withoutYear(userTitles[titleMatchesIdx]) + '" was previously added')
+                titleMatches.forEach( (thisPublishedVersion) => {
+                    if (this.ifGameHasBeenAdded(thisPublishedVersion.id)) {
+                        messages.push('"' + this.withoutYear(thisPublishedVersion.name) + '" was previously added')
                     } else {
-                        messages.push('"' + this.withoutYear(userTitles[titleMatchesIdx]) + '" has now been added')
-                        this.props.onnewtitle(thisVersion.id)
+                        messages.push('"' + this.withoutYear(thisPublishedVersion.name) + '" has now been added')
+                        this.props.onnewtitle(thisPublishedVersion.id)
                     }
                 })
             }

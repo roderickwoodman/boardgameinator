@@ -59,6 +59,7 @@ export class InputByTitle extends React.Component {
     async validateUserTitles(userTitles) {
         let messages = []
         let newTextareaValue = ""
+        // search for an exact title match (BGG API)
         const exactSearchApiResults = await Promise.all(
             userTitles.map(
                 gameTitle =>
@@ -66,6 +67,7 @@ export class InputByTitle extends React.Component {
                         .then(exactSearchResponse => exactSearchResponse.text())
                         .then(exactSearchText => this.parseSearchApiXml(exactSearchText))
             ))
+        // if necessary, do a non-exact title match (BGG API)
         const searchApiResults = await Promise.all(
             exactSearchApiResults.map(
                 (exactSearchApiResult, idx) => {
@@ -80,6 +82,7 @@ export class InputByTitle extends React.Component {
                     }
                 }
             ))
+        // for each title match result returned, tag with release date if needed to remove ambiguity OR pull game data (BGG API)
         searchApiResults.forEach( (titleMatches, titleMatchesIdx) => {
             if (titleMatches.length === 0) {
                 messages.push('ERROR: "' + this.withoutYear(userTitles[titleMatchesIdx]) + '" was not found in the BGG database')
@@ -99,7 +102,14 @@ export class InputByTitle extends React.Component {
                         fetch(this.gamedataApi(yearMatches[0].id))
                             .then(response => response.text())
                             .then(text => this.parseGamedataApiXml(text))
-                            .then(json => this.props.onnewtitle(json))
+                            .then(json => {
+                                if (json.hasOwnProperty('id')) {
+                                    messages.push('"' + this.withoutYear(yearMatches[0].name) + '" has now been added')
+                                    this.props.onnewtitle(json)
+                                } else {
+                                    messages.push('ERROR: "' + this.withoutYear(yearMatches[0].name) + '" is not producing data from the BGG API, so deleting it from your input')
+                                }
+                            })
                     }
                 } else {
                     messages.push('ERROR: "' + this.withoutYear(userTitles[titleMatchesIdx]) + '" has multiple matches in the BGG database')
@@ -109,17 +119,22 @@ export class InputByTitle extends React.Component {
                     }
                 }
             } else {
-                titleMatches.forEach( (thisPublishedVersion) => {
-                    if (this.ifGameHasBeenAdded(thisPublishedVersion.id)) {
-                        messages.push('"' + this.withoutYear(thisPublishedVersion.name) + '" was previously added')
-                    } else {
-                        messages.push('"' + this.withoutYear(thisPublishedVersion.name) + '" has now been added')
-                        fetch(this.gamedataApi(thisPublishedVersion.id))
-                            .then(response => response.text())
-                            .then(text => this.parseGamedataApiXml(text))
-                            .then(json => this.props.onnewtitle(json))
-                    }
-                })
+                if (this.ifGameHasBeenAdded(titleMatches[0].id)) {
+                    messages.push('"' + this.withoutYear(titleMatches[0].name) + '" was previously added')
+                } else {
+                    fetch(this.gamedataApi(titleMatches[0].id))
+                        .then(response => response.text())
+                        .then(text => this.parseGamedataApiXml(text))
+                        .then(json => {
+                            if (json.hasOwnProperty('id')) {
+                                messages.push('"' + this.withoutYear(titleMatches[0].name) + '" has now been added')
+                                this.props.onnewtitle(json)
+                            } else {
+                                messages.push('ERROR: "' + this.withoutYear(titleMatches[0].name) + '" is not producing data from the BGG API, so deleting it from your input')
+                                newTextareaValue += ''
+                            }
+                        })
+                }
             }
         })
         this.setState({ value: newTextareaValue })
@@ -205,7 +220,7 @@ export class InputByTitle extends React.Component {
                 }
             )
         }
-        if ( !game.hasOwnProperty('yearpublished') || game['yearpublished'] === 0) {
+        if ( Object.keys(game) && (!game.hasOwnProperty('yearpublished') || game['yearpublished'] === 0) ) {
             game['yearpublished'] = null
         }
         return game

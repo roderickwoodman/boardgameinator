@@ -86,7 +86,11 @@ export class InputByTitle extends React.Component {
                         messages.push('"' + this.withYear(userTitles[titleMatchesIdx], matchedTitleAndYear[0].yearpublished) + '" was previously added')
                     } else {
                         messages.push('"' + this.withYear(userTitles[titleMatchesIdx], matchedTitleAndYear[0].yearpublished) + '" has now been added')
-                        this.props.onnewtitle(matchedTitleAndYear[0].id)
+                        // this.props.onnewtitle(matchedTitleAndYear[0].id)
+                        fetch(this.gamedataApi(matchedTitleAndYear[0].id))
+                            .then(response => response.text())
+                            .then(text => this.parseGamedataApiXml(text))
+                            .then(json => this.props.onnewtitle(json))
                     }
                 } else {
                     messages.push('ERROR: "' + this.withoutYear(userTitles[titleMatchesIdx]) + '" has multiple matches in the BGG database')
@@ -143,7 +147,7 @@ export class InputByTitle extends React.Component {
     }
 
     parseGamedataApiXml(str) {
-        let game = {}
+        let game = {'categories': [], 'mechanics': []}
         let responseDoc = new DOMParser().parseFromString(str, 'application/xml')
         let gamesHtmlCollection = responseDoc.getElementsByTagName("item")
         if (gamesHtmlCollection.length) {
@@ -177,7 +181,7 @@ export class InputByTitle extends React.Component {
                             if (game.hasOwnProperty('categories')) {
                                 game['categories'].push(node.getAttribute("value"))
                             } else {
-                                game['categories'] = new Array(node.getAttribute("value"))
+                                game['categories'].push(node.getAttribute("value"))
                             }
                         }
                         if ( (node.tagName === "link")
@@ -185,7 +189,7 @@ export class InputByTitle extends React.Component {
                             if (game.hasOwnProperty('mechanics')) {
                                 game['mechanics'].push(node.getAttribute("value"))
                             } else {
-                                game['mechanics'] = new Array(node.getAttribute("value"))
+                                game['mechanics'].push(node.getAttribute("value"))
                             }
                         }
                     }

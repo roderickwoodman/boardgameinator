@@ -56,11 +56,17 @@ export class GameCardFront extends React.Component {
                 </ul>
                 <hr />
                 <ul className="details minor">
-                    {categories.map(value => <li key={value} className={this.getMyVote('category', value)}>{value}</li>)}
+                    {(categories.length)
+                        ? categories.map(value => <li key={value} className={this.getMyVote('category', value)}>{value}</li>)
+                        : <li>(no categories)</li>
+                    }
                 </ul>
                 <hr />
                 <ul className="details minor">
-                    {mechanics.map(value => <li key={value} className={this.getMyVote('mechanic', value)}>{value}</li>)}
+                    {(mechanics.length)
+                        ? mechanics.map(value => <li key={value} className={this.getMyVote('mechanic', value)}>{value}</li>)
+                        : <li>(no mechanics)</li>
+                    }
                 </ul>
                 <section>
                     <GameFooter gameid={id}/>

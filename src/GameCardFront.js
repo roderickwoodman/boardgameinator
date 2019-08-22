@@ -38,7 +38,10 @@ export class GameCardFront extends React.Component {
             <section className="cardFront">
                 <section className="details major">
                     <h2 className="game-name">{name}</h2>
-                    <h4 className="game-yearpublished">({yearpublished})</h4>
+                    {(yearpublished !== null) 
+                        ? <h4 className="game-yearpublished">({yearpublished})</h4>
+                        : <h4 className="game-yearpublished">(#{id})</h4>
+                    }
                 </section>
                 <ul className="summary major">
                     <li><FontAwesomeIcon icon={faThumbsUp} /> : {thumbcount}</li>

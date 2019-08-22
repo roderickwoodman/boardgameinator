@@ -32,21 +32,27 @@ export class InputByTitle extends React.Component {
         return 'https://boardgamegeek.com/xmlapi2/thing?type=boardgame&id=' + gameId
     }
 
-    withYear(title, year) {
-        let printedYear = (year === null) ? "unknown" : year
-        return title.replace(/(( +)\((-?)\d{1,4}\))$/, '').concat(' ('+printedYear+')')
+    withYear(title, year, id) {
+        let printedYear = (year === null) ? '#'+id : year
+        return title.replace(/(( +)\(([-#]?)\d{1,6}\))$/, '').concat(' ('+printedYear+')')
     }
 
     withoutYear(title) {
-        return title.replace(/(( +)\((-?)\d{1,4}\))$/, '')
+        return title.replace(/(( +)\(([-#]?)\d{1,6}\))$/, '')
     }
 
+    // for disambiguation of titles, the game ID will be put in parentheses when the API does not provide yearpublished info
     extractYearFromTitle(title) {
-        let date = title.match(/(( +)\((-?)\d{1,4}\))$/)
-        if (date !== null) {
-            return parseInt(date[0].replace(/[^0-9-]/g, ""))
+        let matchesDate = title.match(/(( +)\((-?)\d{1,4}\))$/)
+        if (matchesDate !== null) {
+            return matchesDate[0].replace(/[^0-9-]/g, "")
         } else {
-            return null
+            let matchesId = title.match(/(( +)\(#\d{1,6}\))$/)
+            if (matchesId !== null) {
+                return matchesId[0].replace(/[^#0-9-]/g, "")
+            } else {
+                return null
+            }
         }
     }
 
@@ -80,14 +86,17 @@ export class InputByTitle extends React.Component {
                 newTextareaValue += userTitles[titleMatchesIdx] + '\n'
             } else if (titleMatches.length > 1) {
                 let desiredYear = this.extractYearFromTitle(userTitles[titleMatchesIdx])
-                let matchedTitleAndYear = titleMatches.filter(ambiguousTitle => ambiguousTitle.yearpublished === desiredYear && desiredYear != null)
-                if (matchedTitleAndYear.length) {
-                    if (this.ifGameHasBeenAdded(matchedTitleAndYear[0].id)) {
-                        messages.push('"' + this.withYear(userTitles[titleMatchesIdx], matchedTitleAndYear[0].yearpublished) + '" was previously added')
+                let yearMatches = titleMatches
+                    .filter(ambiguousTitle => 
+                        desiredYear != null
+                        && ( (desiredYear.startsWith('#') && ambiguousTitle.id === parseInt(desiredYear.substr(1)))
+                            || ambiguousTitle.yearpublished === parseInt(desiredYear) ))
+                if (yearMatches.length) {
+                    if (this.ifGameHasBeenAdded(yearMatches[0].id)) {
+                        messages.push('"' + this.withYear(userTitles[titleMatchesIdx], yearMatches[0].yearpublished, yearMatches[0].id) + '" was previously added')
                     } else {
-                        messages.push('"' + this.withYear(userTitles[titleMatchesIdx], matchedTitleAndYear[0].yearpublished) + '" has now been added')
-                        // this.props.onnewtitle(matchedTitleAndYear[0].id)
-                        fetch(this.gamedataApi(matchedTitleAndYear[0].id))
+                        messages.push('"' + this.withYear(userTitles[titleMatchesIdx], yearMatches[0].yearpublished, yearMatches[0].id) + '" has now been added')
+                        fetch(this.gamedataApi(yearMatches[0].id))
                             .then(response => response.text())
                             .then(text => this.parseGamedataApiXml(text))
                             .then(json => this.props.onnewtitle(json))
@@ -95,7 +104,7 @@ export class InputByTitle extends React.Component {
                 } else {
                     messages.push('ERROR: "' + this.withoutYear(userTitles[titleMatchesIdx]) + '" has multiple matches in the BGG database')
                     for (let ambiguousTitle of titleMatches) {
-                        let disambiguousTitle = this.withYear(ambiguousTitle.name, ambiguousTitle.yearpublished)
+                        let disambiguousTitle = this.withYear(ambiguousTitle.name, ambiguousTitle.yearpublished, ambiguousTitle.id)
                         newTextareaValue += disambiguousTitle + '\n'
                     }
                 }
@@ -196,6 +205,9 @@ export class InputByTitle extends React.Component {
                 }
             )
         }
+        if ( !game.hasOwnProperty('yearpublished') || game['yearpublished'] === 0) {
+            game['yearpublished'] = null
+        }
         return game
     }
 
@@ -221,7 +233,7 @@ export class InputByTitle extends React.Component {
         let userTitles = this.state.value
             .split("\n")
             .map(str => str.trim())
-            .map(str => str.replace(/[^0-9a-zA-Z:()&!–' ]/g, ""))
+            .map(str => str.replace(/[^0-9a-zA-Z:()&!–#' ]/g, ""))
             .filter( function(e){return e} )
         this.validateUserTitles(Array.from(new Set(userTitles)))
     }

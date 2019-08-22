@@ -16,7 +16,6 @@ export class Boardgameinator extends React.Component {
             mechanicCounts: [],
             sortOrder: 'maxvotes'
         }
-        this.extractFromGamedataApiXml = this.extractFromGamedataApiXml.bind(this)
         this.updateCounts = this.updateCounts.bind(this)
         this.updatePlayerCounts = this.updatePlayerCounts.bind(this)
         this.updateCategoryCounts = this.updateCategoryCounts.bind(this)
@@ -28,34 +27,22 @@ export class Boardgameinator extends React.Component {
         this.onClearSectionVotes = this.onClearSectionVotes.bind(this)
     }
 
-    gamedataApi(gameId) {
-        return 'https://boardgamegeek.com/xmlapi2/thing?type=boardgame&id=' + gameId
-    }
-
     updateCounts() {
         this.updatePlayerCounts()
         this.updateCategoryCounts()
         this.updateMechanicCounts()
     }
 
-    onNewTitle(gameId) {
-        let newGame = {}
-        fetch(this.gamedataApi(gameId))
-            .then(response => response.text())
-            .then(text => this.extractFromGamedataApiXml(text))
-            .then(json => {
-                newGame = json
-                this.setState(prevState => {
-                    let allGames = prevState.allGames.slice()
-                    allGames.push(newGame)
-                    return { allGames }
-                })
-                this.updateCounts()
+    onNewTitle(newGame) {
+        this.setState(prevState => {
+            let allGames = prevState.allGames.slice()
+            allGames.push(newGame)
+            return { allGames }
         })
+        this.updateCounts()
     }
 
     onDeleteTitle(event, id) {
-        console.log("deleting: ", id)
         this.setState(prevState => {
             let allGames = prevState.allGames.slice()
             allGames = allGames.filter(game => game.id !== parseInt(id))
@@ -167,59 +154,6 @@ export class Boardgameinator extends React.Component {
                 return { thumbs }
             })
         })
-    }
-
-    extractFromGamedataApiXml(str) {
-        let game = {}
-        let responseDoc = new DOMParser().parseFromString(str, 'application/xml')
-        let gamesHtmlCollection = responseDoc.getElementsByTagName("item")
-        if (gamesHtmlCollection.length) {
-            game['id'] = parseInt(gamesHtmlCollection[0].id)
-            gamesHtmlCollection[0].childNodes.forEach(
-                function (node) {
-                    if (node.nodeType === Node.ELEMENT_NODE) {
-                        if ( (node.tagName === "name") && (node.getAttribute("type") === "primary") ) {
-                            game['name'] = node.getAttribute("value")
-                        }
-                        if (node.tagName === "description") {
-                            game['description'] = node.innerHTML
-                        }
-                        if (node.tagName === "yearpublished") {
-                            game['yearpublished'] = parseInt(node.getAttribute("value"))
-                        }
-                        if (node.tagName === "minplayers") {
-                            game['minplayers'] = parseInt(node.getAttribute("value"))
-                        }
-                        if (node.tagName === "maxplayers") {
-                            game['maxplayers'] = parseInt(node.getAttribute("value"))
-                        }
-                        if (node.tagName === "minplaytime") {
-                            game['minplaytime'] = parseInt(node.getAttribute("value"))
-                        }
-                        if (node.tagName === "maxplaytime") {
-                            game['maxplaytime'] = parseInt(node.getAttribute("value"))
-                        }
-                        if ( (node.tagName === "link")
-                            && (node.getAttribute("type") === "boardgamecategory") ) {
-                            if (game.hasOwnProperty('categories')) {
-                                game['categories'].push(node.getAttribute("value"))
-                            } else {
-                                game['categories'] = new Array(node.getAttribute("value"))
-                            }
-                        }
-                        if ( (node.tagName === "link")
-                            && (node.getAttribute("type") === "boardgamemechanic") ) {
-                            if (game.hasOwnProperty('mechanics')) {
-                                game['mechanics'].push(node.getAttribute("value"))
-                            } else {
-                                game['mechanics'] = new Array(node.getAttribute("value"))
-                            }
-                        }
-                    }
-                }
-            )
-        }
-        return game
     }
 
     render() {

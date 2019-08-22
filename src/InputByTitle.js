@@ -17,6 +17,7 @@ export class InputByTitle extends React.Component {
         this.exactSearchApi = this.exactSearchApi.bind(this)
         this.searchApi = this.searchApi.bind(this)
         this.validateUserTitles = this.validateUserTitles.bind(this)
+        this.parseGamedataApiXml = this.parseGamedataApiXml.bind(this)
     }
 
     exactSearchApi(title) {
@@ -25,6 +26,10 @@ export class InputByTitle extends React.Component {
 
     searchApi(title) {
         return 'https://boardgamegeek.com/xmlapi2/search?type=boardgame&query=' + this.withoutYear(title).replace(' ', '+')
+    }
+
+    gamedataApi(gameId) {
+        return 'https://boardgamegeek.com/xmlapi2/thing?type=boardgame&id=' + gameId
     }
 
     withYear(title, year) {
@@ -96,7 +101,10 @@ export class InputByTitle extends React.Component {
                         messages.push('"' + this.withoutYear(thisPublishedVersion.name) + '" was previously added')
                     } else {
                         messages.push('"' + this.withoutYear(thisPublishedVersion.name) + '" has now been added')
-                        this.props.onnewtitle(thisPublishedVersion.id)
+                        fetch(this.gamedataApi(thisPublishedVersion.id))
+                            .then(response => response.text())
+                            .then(text => this.parseGamedataApiXml(text))
+                            .then(json => this.props.onnewtitle(json))
                     }
                 })
             }
@@ -132,6 +140,59 @@ export class InputByTitle extends React.Component {
             }
         }
         return games
+    }
+
+    parseGamedataApiXml(str) {
+        let game = {}
+        let responseDoc = new DOMParser().parseFromString(str, 'application/xml')
+        let gamesHtmlCollection = responseDoc.getElementsByTagName("item")
+        if (gamesHtmlCollection.length) {
+            game['id'] = parseInt(gamesHtmlCollection[0].id)
+            gamesHtmlCollection[0].childNodes.forEach(
+                function (node) {
+                    if (node.nodeType === Node.ELEMENT_NODE) {
+                        if ( (node.tagName === "name") && (node.getAttribute("type") === "primary") ) {
+                            game['name'] = node.getAttribute("value")
+                        }
+                        if (node.tagName === "description") {
+                            game['description'] = node.innerHTML
+                        }
+                        if (node.tagName === "yearpublished") {
+                            game['yearpublished'] = parseInt(node.getAttribute("value"))
+                        }
+                        if (node.tagName === "minplayers") {
+                            game['minplayers'] = parseInt(node.getAttribute("value"))
+                        }
+                        if (node.tagName === "maxplayers") {
+                            game['maxplayers'] = parseInt(node.getAttribute("value"))
+                        }
+                        if (node.tagName === "minplaytime") {
+                            game['minplaytime'] = parseInt(node.getAttribute("value"))
+                        }
+                        if (node.tagName === "maxplaytime") {
+                            game['maxplaytime'] = parseInt(node.getAttribute("value"))
+                        }
+                        if ( (node.tagName === "link")
+                            && (node.getAttribute("type") === "boardgamecategory") ) {
+                            if (game.hasOwnProperty('categories')) {
+                                game['categories'].push(node.getAttribute("value"))
+                            } else {
+                                game['categories'] = new Array(node.getAttribute("value"))
+                            }
+                        }
+                        if ( (node.tagName === "link")
+                            && (node.getAttribute("type") === "boardgamemechanic") ) {
+                            if (game.hasOwnProperty('mechanics')) {
+                                game['mechanics'].push(node.getAttribute("value"))
+                            } else {
+                                game['mechanics'] = new Array(node.getAttribute("value"))
+                            }
+                        }
+                    }
+                }
+            )
+        }
+        return game
     }
 
     ifGameHasBeenAdded(gameId) {

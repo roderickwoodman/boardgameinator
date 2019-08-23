@@ -105,6 +105,7 @@ export class InputByTitle extends React.Component {
                             .then(json => {
                                 if (json.hasOwnProperty('id')) {
                                     messages.push('"' + this.withoutYear(yearMatches[0].name) + '" has now been added')
+                                    json["nameisunique"] = false
                                     this.props.onnewtitle(json)
                                 } else {
                                     messages.push('ERROR: "' + this.withoutYear(yearMatches[0].name) + '" is not producing data from the BGG API, so deleting it from your input')
@@ -128,6 +129,7 @@ export class InputByTitle extends React.Component {
                         .then(json => {
                             if (json.hasOwnProperty('id')) {
                                 messages.push('"' + this.withoutYear(titleMatches[0].name) + '" has now been added')
+                                json["nameisunique"] = true
                                 this.props.onnewtitle(json)
                             } else {
                                 messages.push('ERROR: "' + this.withoutYear(titleMatches[0].name) + '" is not producing data from the BGG API, so deleting it from your input')

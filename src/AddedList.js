@@ -24,6 +24,7 @@ export class AddedList extends React.Component {
                                     key={i}
                                     id={game.id}
                                     name={game.name}
+                                    nameisunique={game.nameisunique}
                                     yearpublished={game.yearpublished}
                                     ondelete={this.props.ondelete} />)
                 )}

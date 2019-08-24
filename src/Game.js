@@ -21,7 +21,7 @@ export class Game extends React.Component {
     }
 
     render() {
-        const { id, name, description, yearpublished, minplayers, maxplayers, minplaytime, maxplaytime, categories, mechanics, thumbs, thumbcount, ondelete } = this.props
+        const { id, name, description, yearpublished, minplayers, maxplayers, minplaytime, maxplaytime, averageweightname, categories, mechanics, thumbs, thumbcount, ondelete } = this.props
 
         return (
             <section className="game">
@@ -40,6 +40,7 @@ export class Game extends React.Component {
                         maxplayers={maxplayers}
                         minplaytime={minplaytime}
                         maxplaytime={maxplaytime}
+                        averageweightname={averageweightname}
                         categories={categories}
                         mechanics={mechanics}
                         thumbs={thumbs} 

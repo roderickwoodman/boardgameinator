@@ -10,14 +10,16 @@ export class Boardgameinator extends React.Component {
         super(props)
         this.state = { 
             allGames: [],
-            thumbs: {'players': {}, 'category': {}, 'mechanic': {}},
+            thumbs: {'players': {}, 'weight': {}, 'category': {}, 'mechanic': {}},
             playerCounts: [],
+            weightCounts: [],
             categoryCounts: [],
             mechanicCounts: [],
             sortOrder: 'maxvotes'
         }
         this.updateCounts = this.updateCounts.bind(this)
         this.updatePlayerCounts = this.updatePlayerCounts.bind(this)
+        this.updateWeightCounts = this.updateWeightCounts.bind(this)
         this.updateCategoryCounts = this.updateCategoryCounts.bind(this)
         this.updateMechanicCounts = this.updateMechanicCounts.bind(this)
         this.onNewTitle = this.onNewTitle.bind(this)
@@ -29,6 +31,7 @@ export class Boardgameinator extends React.Component {
 
     updateCounts() {
         this.updatePlayerCounts()
+        this.updateWeightCounts()
         this.updateCategoryCounts()
         this.updateMechanicCounts()
     }
@@ -80,6 +83,29 @@ export class Boardgameinator extends React.Component {
         })
         countsArray.sort((a, b) => (parseInt(a.attrName.slice(0, -1)) < parseInt(b.attrName.slice(0, -1))) ? 1 : -1)
         this.setState({ playerCounts: countsArray })
+    }
+
+    updateWeightCounts() {
+        // tally each weight occurrence across all games
+        let countsObj = {}
+        for (const game of this.state.allGames) {
+            if (countsObj.hasOwnProperty(game.averageweightname)) {
+                countsObj[game.averageweightname] = countsObj[game.averageweightname] + 1
+            } else {
+                countsObj[game.averageweightname] = 1
+            }
+        }
+        // sort weights into a predefined order
+        let weights = ["light", "medium light", "medium", "medium heavy", "heavy"]
+        let countsArray = []
+        for (let weight of weights) {
+            if (countsObj.hasOwnProperty(weight)) {
+                countsArray.push({'attrName': weight, 'attrCount': countsObj[weight]})
+            } else {
+                countsArray.push({'attrName': weight, 'attrCount': 0})
+            }
+        }
+        this.setState({ weightCounts: countsArray })
     }
 
     updateCategoryCounts() {
@@ -143,7 +169,7 @@ export class Boardgameinator extends React.Component {
         const clearVotes = {}
         let sections = []
         if (attrtype === 'all') {
-            sections = ['players', 'category', 'mechanic']
+            sections = ['players', 'weight', 'category', 'mechanic']
         } else {
             sections.push(attrtype)
         }
@@ -177,6 +203,7 @@ export class Boardgameinator extends React.Component {
                             <VotingBox 
                                 thumbs={this.state.thumbs} 
                                 playercounts={this.state.playerCounts} 
+                                weightcounts={this.state.weightCounts} 
                                 categorycounts={this.state.categoryCounts} 
                                 mechaniccounts={this.state.mechanicCounts}
                                 onnewvote={this.onNewVote}

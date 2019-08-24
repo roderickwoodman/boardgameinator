@@ -48,6 +48,9 @@ export class VotingBox extends React.Component {
                         <input type='radio' key='players' id='players' name='votingsection' checked={this.state.votingOn==='players'} value='players' onChange={this.handleSectionChange} /> 
                         Players</label>
                     <label>
+                        <input type='radio' key='weights' id='weights' name='votingsection' checked={this.state.votingOn==='weights'} value='weights' onChange={this.handleSectionChange} /> 
+                        Weights</label>
+                    <label>
                         <input type='radio' key='categories' id='categories' name='votingsection' checked={this.state.votingOn==='categories'} value='categories' onChange={this.handleSectionChange} /> 
                         Categories</label>
                     <label>
@@ -66,6 +69,16 @@ export class VotingBox extends React.Component {
                         title='PLAYERS:'
                         counts={this.props.playercounts}
                         thumbs={this.props.thumbs['players']}
+                        onnewvote={this.props.onnewvote}
+                        onclearsectionvotes={this.props.onclearsectionvotes} />
+                )}
+                {this.state.votingOn === 'weights' && (
+                    <VotingSection 
+                        type='weight'
+                        id='weight-counts'
+                        title='WEIGHT:'
+                        counts={this.props.weightcounts}
+                        thumbs={this.props.thumbs['weight']}
                         onnewvote={this.props.onnewvote}
                         onclearsectionvotes={this.props.onclearsectionvotes} />
                 )}
@@ -90,6 +103,7 @@ export class VotingBox extends React.Component {
                         onclearsectionvotes={this.props.onclearsectionvotes} />
                 )}
                 {this.props.playercounts.length === 0 
+                && this.props.weightcounts.length === 0 
                 && this.props.categorycounts.length === 0
                 && this.props.mechaniccounts.length === 0
                 && (

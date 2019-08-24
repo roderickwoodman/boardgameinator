@@ -29,7 +29,7 @@ export class InputByTitle extends React.Component {
     }
 
     gamedataApi(gameId) {
-        return 'https://boardgamegeek.com/xmlapi2/thing?type=boardgame&id=' + gameId
+        return 'https://boardgamegeek.com/xmlapi2/thing?type=boardgame&stats=1&id=' + gameId
     }
 
     withYear(title, year, id) {
@@ -217,6 +217,38 @@ export class InputByTitle extends React.Component {
                             } else {
                                 game['mechanics'].push(node.getAttribute("value"))
                             }
+                        }
+                        if ( node.tagName === "statistics") {
+                            node.childNodes.forEach(
+                                function (childNode) {
+                                    if (childNode.tagName === "ratings") {
+                                        childNode.childNodes.forEach(
+                                            function (grandchildNode) {
+                                                if (grandchildNode.tagName === "numweights") {
+                                                    game['numweights'] = grandchildNode.getAttribute("value")
+                                                }
+                                                if (grandchildNode.tagName === "averageweight") {
+                                                    game['averageweight'] = grandchildNode.getAttribute("value")
+                                                    let weight = parseFloat(game.averageweight)
+                                                    let weightname = null
+                                                    if (weight < 1.5) {
+                                                        weightname = "light"
+                                                    } else if (weight < 2.5) {
+                                                        weightname = "medium light"
+                                                    } else if (weight < 3.5) {
+                                                        weightname = "medium"
+                                                    } else if (weight < 4.5) {
+                                                        weightname = "medium heavy"
+                                                    } else {
+                                                        weightname = "heavy"
+                                                    }
+                                                    game['averageweightname'] = weightname
+                                                }
+                                            }
+                                        )
+                                    }
+                                }
+                            )
                         }
                     }
                 }

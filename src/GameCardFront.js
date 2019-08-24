@@ -18,22 +18,35 @@ export class GameCardFront extends React.Component {
     }
 
     // player count section gets only one, aggregated vote; only one <li> (ex: "2-6 players") 
-    getAggregatedPlayersVote(minplayers, maxplayers) {
-        let yesVotes = 0
-        Object.keys(this.props.thumbs.players).forEach( (attrName) => {
-            let myplayercount = parseInt(attrName.slice(0, -1))
-            if (myplayercount >= minplayers
-                && myplayercount <= maxplayers
-                && this.props.thumbs.players[attrName] === 'thumbsup')
+    getPlayersVote(myminplayers, mymaxplayers) {
+        let vote = "novote"
+        Object.keys(this.props.thumbs.players).forEach( (votedPlayercount) => {
+            let voted = parseInt(votedPlayercount.slice(0, -1))
+            if (voted >= myminplayers
+                && voted <= mymaxplayers
+                && this.props.thumbs.players[votedPlayercount] === 'thumbsup')
             {
-                yesVotes++
+                vote = "thumbsup"
             }
         })
-        return (yesVotes > 0) ? "thumbsup" : "novote"
+        return vote
+    }
+
+    // vote section gets only one, aggregated vote; only one <li> (ex: "medium heavy") 
+    getWeightVote(myweight) {
+        let vote = "novote"
+        Object.keys(this.props.thumbs.weight).forEach( (votedWeight) => {
+            if (myweight === votedWeight
+                && this.props.thumbs.weight[votedWeight] === 'thumbsup')
+            {
+                vote = "thumbsup"
+            }
+        })
+        return vote
     }
 
     render() {
-        const { id, name, yearpublished, minplayers, maxplayers, minplaytime, maxplaytime, categories, mechanics, thumbcount } = this.props
+        const { id, name, yearpublished, minplayers, maxplayers, minplaytime, maxplaytime, averageweightname, categories, mechanics, thumbcount } = this.props
         return (
             <section className="cardFront">
                 <section className="details major">
@@ -49,13 +62,14 @@ export class GameCardFront extends React.Component {
                 <hr />
                 <ul className="details major">
                     {(minplayers !== maxplayers)
-                        ? <li className={this.getAggregatedPlayersVote(minplayers, maxplayers)}>{minplayers}-{maxplayers} players</li>
-                        : <li className={this.getAggregatedPlayersVote(minplayers, maxplayers)}>{minplayers} players</li>
+                        ? <li className={this.getPlayersVote(minplayers, maxplayers)}>{minplayers}-{maxplayers} players</li>
+                        : <li className={this.getPlayersVote(minplayers, maxplayers)}>{minplayers} players</li>
                     }
                     {(minplaytime !== maxplaytime)
                         ? <li>{minplaytime}-{maxplaytime} minutes</li>
                         : <li>{minplaytime} minutes</li>
                     }
+                    <li className={this.getWeightVote(averageweightname)}>{averageweightname}</li>
                 </ul>
                 <hr />
                 <ul className="details minor">

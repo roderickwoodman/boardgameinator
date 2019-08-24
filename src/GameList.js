@@ -40,6 +40,10 @@ export class GameList extends React.Component {
                         break
                     }
                 }
+                // weight section of a game gets ONE TOTAL thumbsup if its weight has a thumbsup
+                if (this.props.thumbs.weight.hasOwnProperty(game.averageweightname)) {
+                    counts[game.name]++
+                }
                 // categories section of a game gets one thumbsup for each thumbed-up category
                 for (const category of game.categories) {
                     if (this.props.thumbs.category.hasOwnProperty(category)) {
@@ -119,6 +123,7 @@ export class GameList extends React.Component {
                                     maxplayers={game.maxplayers} 
                                     minplaytime={game.minplaytime} 
                                     maxplaytime={game.maxplaytime}
+                                    averageweightname={game.averageweightname}
                                     categories={game.categories}
                                     mechanics={game.mechanics} 
                                     thumbs={this.props.thumbs} 

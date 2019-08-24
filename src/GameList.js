@@ -10,7 +10,8 @@ export class GameList extends React.Component {
         super(props)
         this.state = {
             sortOrder: 'maxvotes',
-            showOnlyFavored: true
+            filterPlayercount: true,
+            filterWeight: true
         }
         this.handleSortChange = this.handleSortChange.bind(this)
         this.getThumbCounts = this.getThumbCounts.bind(this)
@@ -26,6 +27,17 @@ export class GameList extends React.Component {
             }
         }
         return playercounts
+    } 
+
+    getThumbedWeights() {
+        // collect all of the voted weights
+        let weights = []
+        if (this.props.thumbs.hasOwnProperty('weight')) {
+            for (let weight in this.props.thumbs.weight) {
+                weights.push(weight)
+            }
+        }
+        return weights
     } 
 
     getThumbCounts() {
@@ -70,17 +82,30 @@ export class GameList extends React.Component {
     }
 
     handleFilterChange(event) {
-        this.setState({
-            showOnlyFavored: !this.state.showOnlyFavored
-        })
+        switch (event.target.id) {
+            case 'filterplayercount':
+                this.setState({
+                    filterPlayercount: !this.state.filterPlayercount
+                })
+                break
+            case 'filterweight':
+                this.setState({
+                    filterWeight: !this.state.filterWeight
+                })
+                break
+            default:
+                break
+        }
     }
 
     render() {
         let thumbcounts = this.getThumbCounts()
         let favoredPlayercounts = this.getThumbedPlayercounts()
+        let favoredWeights = this.getThumbedWeights()
         let filteredGames = this.props.allgames
+            // if necessary, filter by playercount,
             .filter( (game) => {
-                if (!this.state.showOnlyFavored || favoredPlayercounts.length === 0) {
+                if (!this.state.filterPlayercount || favoredPlayercounts.length === 0) {
                     return true
                 } else {
                     for (let playercount=game.minplayers; playercount<=game.maxplayers; playercount++) {
@@ -91,6 +116,18 @@ export class GameList extends React.Component {
                     return false
                 }
             })
+            // if necessary, filter by weight,
+            .filter( (game) => {
+                if (!this.state.filterWeight || favoredWeights.length === 0) {
+                    return true
+                } else {
+                    if (favoredWeights.includes(game.averageweightname)) {
+                        return true
+                    } else {
+                        return false
+                    }
+                }
+            })
         let filterMessage = 'now showing ' + filteredGames.length + ' of ' + this.props.allgames.length + ' games'
         return (
             <React.Fragment>
@@ -98,8 +135,9 @@ export class GameList extends React.Component {
                 <ViewControls 
                     sortby={this.state.sortOrder}
                     onsortchange={this.handleSortChange}
-                    showonlyfavored={this.state.showOnlyFavored}
-                    onshowingfavoredchange={this.handleFilterChange}
+                    filterplayercount={this.state.filterPlayercount}
+                    filterweight={this.state.filterWeight}
+                    onfilterchange={this.handleFilterChange}
                     filtermessage={filterMessage} />
             </div>
             <div id="resulting-games">

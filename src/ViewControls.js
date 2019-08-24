@@ -24,8 +24,11 @@ export const ViewControls = (props) => {
                 <span className='circledNumber'>&#9315;</span>Filter the results.
             </span>
             <label>
-                <input type="checkbox" id="showonlyfavored" checked={props.showonlyfavored} onChange={props.onshowingfavoredchange} />
+                <input type="checkbox" id="filterplayercount" checked={props.filterplayercount} onChange={props.onfilterchange} />
                 show only games supporting the voted playercounts</label>
+            <label>
+                <input type="checkbox" id="filterweight" checked={props.filterweight} onChange={props.onfilterchange} />
+                show only games matching the voted weights</label>
             <div className="status-messages">
                 <p className="message"><FontAwesomeIcon icon={faLongArrowAltRight} /> {props.filtermessage}</p>
             </div>

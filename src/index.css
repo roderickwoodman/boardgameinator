@@ -96,7 +96,8 @@ hr {
   padding: 0 30px;
 }
 
-#gamesorting-controls label {
+#gamesorting-controls label,
+#gamefiltering-controls label {
   display:block;
 }
 

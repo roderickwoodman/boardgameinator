@@ -14,14 +14,16 @@ export class GameList extends React.Component {
         }
         this.handleSortChange = this.handleSortChange.bind(this)
         this.getThumbCounts = this.getThumbCounts.bind(this)
-        this.handleShowingOnlyFavoredChange = this.handleShowingOnlyFavoredChange.bind(this)
+        this.handleFilterChange = this.handleFilterChange.bind(this)
     }
 
     getThumbedPlayercounts() {
         // collect all of the voted playercounts
         let playercounts = []
-        for (let playercount in this.props.thumbs.players) {
-            playercounts.push(parseInt(playercount.slice(0, -1)))
+        if (this.props.thumbs.hasOwnProperty('players')) {
+            for (let playercount in this.props.thumbs.players) {
+                playercounts.push(parseInt(playercount.slice(0, -1)))
+            }
         }
         return playercounts
     } 
@@ -67,7 +69,7 @@ export class GameList extends React.Component {
         })
     }
 
-    handleShowingOnlyFavoredChange(event) {
+    handleFilterChange(event) {
         this.setState({
             showOnlyFavored: !this.state.showOnlyFavored
         })
@@ -97,7 +99,7 @@ export class GameList extends React.Component {
                     sortby={this.state.sortOrder}
                     onsortchange={this.handleSortChange}
                     showonlyfavored={this.state.showOnlyFavored}
-                    onshowingfavoredchange={this.handleShowingOnlyFavoredChange}
+                    onshowingfavoredchange={this.handleFilterChange}
                     filtermessage={filterMessage} />
             </div>
             <div id="resulting-games">

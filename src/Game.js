@@ -1,8 +1,7 @@
 import React from 'react'
 import { GameCardFront } from './GameCardFront'
 import { GameCardBack } from './GameCardBack'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTrash } from '@fortawesome/free-solid-svg-icons'
+
 
 export class Game extends React.Component {
 
@@ -25,12 +24,6 @@ export class Game extends React.Component {
 
         return (
             <section className="game">
-                <section className="details">
-                    <button onClick={this.toggleFrontBack}>more...</button>
-                    <button onClick={ (e) => ondelete(e, id) }>
-                        <FontAwesomeIcon icon={faTrash} />
-                    </button>
-                </section>
                 { this.state.viewingGameCardFront 
                     ? <GameCardFront 
                         id={id}
@@ -44,12 +37,16 @@ export class Game extends React.Component {
                         categories={categories}
                         mechanics={mechanics}
                         thumbs={thumbs} 
-                        thumbcount={thumbcount} />
+                        thumbcount={thumbcount} 
+                        ontoggleside={this.toggleFrontBack} 
+                        ondelete={ondelete} />
                     : <GameCardBack 
                         id={id}
                         name={name}
                         yearpublished={yearpublished}
-                        description={description}/>
+                        description={description}
+                        ontoggleside={this.toggleFrontBack} 
+                        ondelete={ondelete} />
                 }
             </section>
         )

@@ -1,6 +1,7 @@
 import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faThumbsUp } from '@fortawesome/free-solid-svg-icons'
+import { faTrash } from '@fortawesome/free-solid-svg-icons'
 import { GameFooter } from './GameFooter'
 
 export class GameCardFront extends React.Component {
@@ -46,9 +47,15 @@ export class GameCardFront extends React.Component {
     }
 
     render() {
-        const { id, name, yearpublished, minplayers, maxplayers, minplaytime, maxplaytime, averageweightname, categories, mechanics, thumbcount } = this.props
+        const { id, name, yearpublished, minplayers, maxplayers, minplaytime, maxplaytime, averageweightname, categories, mechanics, thumbcount, ontoggleside, ondelete } = this.props
         return (
             <section className="cardFront">
+                <section className="details">
+                    <button onClick={ontoggleside}>more...</button>
+                    <button onClick={ (e) => ondelete(e, id) }>
+                        <FontAwesomeIcon icon={faTrash} />
+                    </button>
+                </section>
                 <section className="details major">
                     <h2 className="game-name">{name}</h2>
                     {(yearpublished !== null) 

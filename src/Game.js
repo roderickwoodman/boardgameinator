@@ -8,7 +8,7 @@ export class Game extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            viewingGameCardFront: true
+            viewingGameCardFront: this.props.viewfront
         }
         this.toggleFrontBack = this.toggleFrontBack.bind(this)
     }

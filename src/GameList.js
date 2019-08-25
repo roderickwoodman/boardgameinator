@@ -155,6 +155,7 @@ export class GameList extends React.Component {
                             (game, i) => 
                                 <Game
                                     key={i}
+                                    viewfront={true}
                                     id={game.id} 
                                     name={game.name} 
                                     description={game.description} 

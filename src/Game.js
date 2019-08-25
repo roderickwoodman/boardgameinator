@@ -21,9 +21,9 @@ export class Game extends React.Component {
 
     render() {
         const { id, name, description, yearpublished, minplayers, maxplayers, minplaytime, maxplaytime, averageweightname, categories, mechanics, thumbs, thumbcount, ondelete } = this.props
-
+        let cardWidth = (this.state.viewingGameCardFront) ? "game narrow" : "game wide"
         return (
-            <section className="game">
+            <section className={cardWidth}>
                 { this.state.viewingGameCardFront 
                     ? <GameCardFront 
                         id={id}

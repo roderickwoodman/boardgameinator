@@ -192,7 +192,8 @@ li.thumbsup, li.thumbsdown, li.novote {
   margin:2px 10px;
 }
 
-.game {
+.game.narrow,
+.game.wide {
   display: flex;
   flex-direction: column;
   flex: 0 0 none;
@@ -208,6 +209,10 @@ li.thumbsup, li.thumbsdown, li.novote {
   border-radius: 10px;
   color: white;
   text-align: center;
+}
+
+.game.wide {
+  min-width: 500px;
 }
 
 .game img {

@@ -7,7 +7,7 @@ import { faTrash } from '@fortawesome/free-solid-svg-icons'
 export const GameCardBack = (props) => {
     const { id, name, yearpublished, description, ontoggleside, ondelete } = props
     return (
-        <section className="cardBack">
+        <section className="card-back">
             <section className="details">
                 <button onClick={ontoggleside}>more...</button>
                 <button onClick={ (e) => ondelete(e, id) }>

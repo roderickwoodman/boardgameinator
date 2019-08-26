@@ -50,24 +50,24 @@ export class GameCardFront extends React.Component {
         const { id, name, yearpublished, minplayers, maxplayers, minplaytime, maxplaytime, averageweightname, categories, mechanics, thumbcount, ontoggleinspection, ondelete } = this.props
         return (
             <section className="game">
-                <section className="details">
+                <section className="gamecard-header">
                     <button id={id} onClick={ontoggleinspection}>more...</button>
                     <button onClick={ (e) => ondelete(e, id) }>
                         <FontAwesomeIcon icon={faTrash} />
                     </button>
                 </section>
-                <section className="details major">
+                <section className="gamecard-title">
                     <h2 className="game-name">{name}</h2>
                     {(yearpublished !== null) 
                         ? <h4 className="game-yearpublished">({yearpublished})</h4>
                         : <h4 className="game-yearpublished">(#{id})</h4>
                     }
                 </section>
-                <ul className="summary major">
+                <ul className="gamecard-details summary">
                     <li><FontAwesomeIcon icon={faThumbsUp} /> : {thumbcount}</li>
                 </ul>
                 <hr />
-                <ul className="details major">
+                <ul className="gamecard-details major">
                     {(minplayers !== maxplayers)
                         ? <li className={this.getPlayersVote(minplayers, maxplayers)}>{minplayers}-{maxplayers} players</li>
                         : <li className={this.getPlayersVote(minplayers, maxplayers)}>{minplayers} players</li>
@@ -79,20 +79,20 @@ export class GameCardFront extends React.Component {
                     <li className={this.getWeightVote(averageweightname)}>{averageweightname}</li>
                 </ul>
                 <hr />
-                <ul className="details minor">
+                <ul className="gamecard-details minor">
                     {(categories.length)
                         ? categories.map(value => <li key={value} className={this.getMyVote('category', value)}>{value}</li>)
                         : <li>(no categories)</li>
                     }
                 </ul>
                 <hr />
-                <ul className="details minor">
+                <ul className="gamecard-details minor">
                     {(mechanics.length)
                         ? mechanics.map(value => <li key={value} className={this.getMyVote('mechanic', value)}>{value}</li>)
                         : <li>(no mechanics)</li>
                     }
                 </ul>
-                <section>
+                <section className="gamecard-footer">
                     <GameFooter gameid={id}/>
                 </section>
             </section>

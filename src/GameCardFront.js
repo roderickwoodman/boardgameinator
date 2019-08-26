@@ -47,11 +47,11 @@ export class GameCardFront extends React.Component {
     }
 
     render() {
-        const { id, name, yearpublished, minplayers, maxplayers, minplaytime, maxplaytime, averageweightname, categories, mechanics, thumbcount, ontoggleside, ondelete } = this.props
+        const { id, name, yearpublished, minplayers, maxplayers, minplaytime, maxplaytime, averageweightname, categories, mechanics, thumbcount, ontoggleinspection, ondelete } = this.props
         return (
-            <section className="card-front">
+            <section className="game">
                 <section className="details">
-                    <button onClick={ontoggleside}>more...</button>
+                    <button id={id} onClick={ontoggleinspection}>more...</button>
                     <button onClick={ (e) => ondelete(e, id) }>
                         <FontAwesomeIcon icon={faTrash} />
                     </button>

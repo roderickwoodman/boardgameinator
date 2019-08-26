@@ -5,50 +5,38 @@ import { GameCardBack } from './GameCardBack'
 
 export class Game extends React.Component {
 
-    constructor(props) {
-        super(props)
-        this.state = {
-            viewingGameCardFront: this.props.viewfront
-        }
-        this.toggleFrontBack = this.toggleFrontBack.bind(this)
-    }
-
-    toggleFrontBack() {
-        this.setState(prevState => ({
-            viewingGameCardFront: !prevState.viewingGameCardFront
-        }))
-    }
-
     render() {
-        const { id, name, description, yearpublished, minplayers, maxplayers, minplaytime, maxplaytime, averageweightname, categories, mechanics, thumbs, thumbcount, ondelete } = this.props
-        let cardWidth = (this.state.viewingGameCardFront) ? "game narrow" : "game wide"
-        return (
-            <section className={cardWidth}>
-                { this.state.viewingGameCardFront 
-                    ? <GameCardFront 
-                        id={id}
-                        name={name}
-                        yearpublished={yearpublished}
-                        minplayers={minplayers}
-                        maxplayers={maxplayers}
-                        minplaytime={minplaytime}
-                        maxplaytime={maxplaytime}
-                        averageweightname={averageweightname}
-                        categories={categories}
-                        mechanics={mechanics}
-                        thumbs={thumbs} 
-                        thumbcount={thumbcount} 
-                        ontoggleside={this.toggleFrontBack} 
-                        ondelete={ondelete} />
-                    : <GameCardBack 
-                        id={id}
-                        name={name}
-                        yearpublished={yearpublished}
-                        description={description}
-                        ontoggleside={this.toggleFrontBack} 
-                        ondelete={ondelete} />
-                }
-            </section>
+        const { id, underinspection, name, description, yearpublished, minplayers, maxplayers, minplaytime, maxplaytime, averageweightname, categories, mechanics, thumbs, thumbcount, ondelete, ontoggleinspection } = this.props
+        let gamecard
+        if (id !== underinspection) {
+            gamecard = <GameCardFront 
+                id={id}
+                name={name}
+                yearpublished={yearpublished}
+                minplayers={minplayers}
+                maxplayers={maxplayers}
+                minplaytime={minplaytime}
+                maxplaytime={maxplaytime}
+                averageweightname={averageweightname}
+                categories={categories}
+                mechanics={mechanics}
+                thumbs={thumbs} 
+                thumbcount={thumbcount} 
+                ontoggleinspection={ontoggleinspection} 
+                ondelete={ondelete} />
+        } else {
+            gamecard = <GameCardBack 
+                id={id}
+                name={name}
+                yearpublished={yearpublished}
+                description={description}
+                ontoggleinspection={ontoggleinspection} 
+                ondelete={ondelete} />
+        }
+        return(
+            <div>
+                {gamecard}
+            </div>
         )
     }
 }

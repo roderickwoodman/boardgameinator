@@ -192,8 +192,7 @@ li.thumbsup, li.thumbsdown, li.novote {
   margin:2px 10px;
 }
 
-.game.narrow,
-.game.wide {
+.game {
   display: flex;
   flex-direction: column;
   flex: 0 0 none;
@@ -211,7 +210,7 @@ li.thumbsup, li.thumbsdown, li.novote {
   text-align: center;
 }
 
-.game.wide {
+.game.inspecting {
   min-width: 500px;
 }
 

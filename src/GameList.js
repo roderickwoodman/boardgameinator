@@ -9,6 +9,7 @@ export class GameList extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
+            underInspection: null,
             sortOrder: 'maxvotes',
             filterPlayercount: true,
             filterWeight: true
@@ -16,6 +17,7 @@ export class GameList extends React.Component {
         this.handleSortChange = this.handleSortChange.bind(this)
         this.getThumbCounts = this.getThumbCounts.bind(this)
         this.handleFilterChange = this.handleFilterChange.bind(this)
+        this.handleInspectionChange = this.handleInspectionChange.bind(this)
     }
 
     getThumbedPlayercounts() {
@@ -98,6 +100,19 @@ export class GameList extends React.Component {
         }
     }
 
+    handleInspectionChange(event) {
+        let gameId = parseInt(event.target.id)
+        if (this.state.underInspection === gameId) {
+            this.setState({
+                underInspection: null
+            })
+        } else {
+            this.setState({
+                underInspection: parseInt(event.target.id)
+            })
+        }
+    }
+
     render() {
         let thumbcounts = this.getThumbCounts()
         let favoredPlayercounts = this.getThumbedPlayercounts()
@@ -155,8 +170,8 @@ export class GameList extends React.Component {
                             (game, i) => 
                                 <Game
                                     key={i}
-                                    viewfront={true}
                                     id={game.id} 
+                                    underinspection={this.state.underInspection}
                                     name={game.name} 
                                     description={game.description} 
                                     yearpublished={game.yearpublished} 
@@ -169,7 +184,8 @@ export class GameList extends React.Component {
                                     mechanics={game.mechanics} 
                                     thumbs={this.props.thumbs} 
                                     thumbcount={thumbcounts[game.name]}
-                                    ondelete={this.props.ondelete} />)
+                                    ondelete={this.props.ondelete}
+                                    ontoggleinspection={this.handleInspectionChange} />)
                 )}
                 {this.props.allgames.length === 0 && (
                     <span className="message warning">

@@ -174,7 +174,11 @@ export class InputByTitle extends React.Component {
     }
 
     parseIntoParagraphs(str) {
-      let paragraphs = str.replace(/&amp;/g, "&").split('&#10;');
+      let paragraphs = str
+        .replace(/&amp;/g, '&')
+        .replace(/&rsquo;/g, "'")
+        .replace(/&quot;/g, '"')
+        .split('&#10;');
       console.log(paragraphs)
       return paragraphs;
     }

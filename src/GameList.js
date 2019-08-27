@@ -79,7 +79,8 @@ export class GameList extends React.Component {
 
     handleSortChange(event) {
         this.setState({
-            sortOrder: event.target.value
+            sortOrder: event.target.value,
+            underInspection: null
         })
     }
 
@@ -87,12 +88,14 @@ export class GameList extends React.Component {
         switch (event.target.id) {
             case 'filterplayercount':
                 this.setState({
-                    filterPlayercount: !this.state.filterPlayercount
+                    filterPlayercount: !this.state.filterPlayercount,
+                    underInspection: null
                 })
                 break
             case 'filterweight':
                 this.setState({
-                    filterWeight: !this.state.filterWeight
+                    filterWeight: !this.state.filterWeight,
+                    underInspection: null
                 })
                 break
             default:

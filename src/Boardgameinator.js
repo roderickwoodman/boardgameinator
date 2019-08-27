@@ -120,7 +120,8 @@ export class Boardgameinator extends React.Component {
     onDeleteAllTitles(event) {
         this.setState(prevState => {
             let allGames = []
-            return { allGames }
+            let thumbs = {'players': {}, 'weight': {}, 'category': {}, 'mechanic': {}}
+            return { allGames: allGames, thumbs:thumbs }
         })
     }
 

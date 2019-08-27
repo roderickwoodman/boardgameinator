@@ -8,6 +8,7 @@ export class Game extends React.Component {
     render() {
         const { id, underinspection, name, description, yearpublished, minplayers, maxplayers, minplaytime, maxplaytime, averageweightname, categories, mechanics, thumbs, thumbcount, ondelete, ontoggleinspection } = this.props
         let gamecard
+        let gamecardClasses = (id === underinspection) ? "game inspecting" : "game"
         if (id !== underinspection) {
             gamecard = <GameCardFront 
                 id={id}
@@ -34,9 +35,9 @@ export class Game extends React.Component {
                 ondelete={ondelete} />
         }
         return(
-            <div>
+            <section className={gamecardClasses}>
                 {gamecard}
-            </div>
+            </section>
         )
     }
 }

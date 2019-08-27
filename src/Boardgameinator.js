@@ -17,6 +17,7 @@ export class Boardgameinator extends React.Component {
         this.tallyWeightCounts = this.tallyWeightCounts.bind(this)
         this.tallyCategoryCounts = this.tallyCategoryCounts.bind(this)
         this.tallyMechanicCounts = this.tallyMechanicCounts.bind(this)
+        this.gameSupportsPlayercount = this.gameSupportsPlayercount.bind(this)
         this.onNewTitle = this.onNewTitle.bind(this)
         this.onNewVote = this.onNewVote.bind(this)
         this.onDeleteTitle = this.onDeleteTitle.bind(this)
@@ -32,11 +33,87 @@ export class Boardgameinator extends React.Component {
         })
     }
 
+    gameSupportsPlayercount(game, playercount) {
+        let number = playercount.slice(0, -1)
+        if (number <= game.maxplayers && number >= game.minplayers) {
+            return true
+        } else {
+            return false
+        }
+    }
+
     onDeleteTitle(event, id) {
         this.setState(prevState => {
+
+            // remove the game from the game list
             let allGames = prevState.allGames.slice()
             allGames = allGames.filter(game => game.id !== parseInt(id))
-            return { allGames }
+
+
+            // remove any votable attributes no longer occurring (in any games) from the preferences list
+            let thumbs = Object.assign({}, prevState.thumbs)
+            for (let attrName in thumbs) {
+                if (attrName === 'players') {
+                    for (let votedplayercount in thumbs[attrName]) {
+                        let attributeStillOccurs = false
+                        for (let game of allGames) {
+                            if (this.gameSupportsPlayercount(game, votedplayercount)) {
+                                attributeStillOccurs = true
+                                break
+                            }
+                        }
+                        if (!attributeStillOccurs) {
+                            delete thumbs[attrName][votedplayercount]
+                        }
+                    }
+                } else if (attrName === 'weight') {
+                    for (let votedweight in thumbs[attrName]) {
+                        let attributeStillOccurs = false
+                        for (let game of allGames) {
+                            if (game.weight === votedweight) {
+                                attributeStillOccurs = true
+                                break
+                            }
+                        }
+                        if (!attributeStillOccurs) {
+                            delete thumbs[attrName][votedweight]
+                        }
+                    }
+                } else if (attrName === 'category') {
+                    for (let votedcategory in thumbs[attrName]) {
+                        let attributeStillOccurs = false
+                        for (let game of allGames) {
+                            for (let category of game.categories) {
+                                if (category === votedcategory) {
+                                    attributeStillOccurs = true
+                                    break
+                                }
+                            }
+                        }
+                        if (!attributeStillOccurs) {
+                            delete thumbs[attrName][votedcategory]
+                        }
+                    }
+                } else if (attrName === 'mechanic') {
+                    for (let votedmechanic in thumbs[attrName]) {
+                        let attributeStillOccurs = false
+                        for (let game of allGames) {
+                            for (let mechanic of game.mechanics) {
+                                if (mechanic === votedmechanic) {
+                                    attributeStillOccurs = true
+                                    break
+                                }
+                            }
+                        }
+                        if (!attributeStillOccurs) {
+                            delete thumbs[attrName][votedmechanic]
+                        }
+                    }
+                }
+            }
+
+            // push these changes into 2 state variables
+            return { allGames: allGames, thumbs:thumbs }
         })
     }
 

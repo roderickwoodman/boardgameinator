@@ -179,7 +179,6 @@ export class InputByTitle extends React.Component {
         .replace(/&rsquo;/g, "'")
         .replace(/&quot;/g, '"')
         .split('&#10;');
-      console.log(paragraphs)
       return paragraphs;
     }
 
@@ -197,7 +196,6 @@ export class InputByTitle extends React.Component {
                             game['name'] = node.getAttribute("value")
                         }
                         if (node.tagName === "description") {
-                            console.log(node.innerHTML)
                             game['description'] = makeReadable(node.innerHTML)
                         }
                         if (node.tagName === "yearpublished") {

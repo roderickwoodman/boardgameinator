@@ -11,29 +11,17 @@ export class Boardgameinator extends React.Component {
         this.state = { 
             allGames: [],
             thumbs: {'players': {}, 'weight': {}, 'category': {}, 'mechanic': {}},
-            playerCounts: [],
-            weightCounts: [],
-            categoryCounts: [],
-            mechanicCounts: [],
             sortOrder: 'maxvotes'
         }
-        this.updateCounts = this.updateCounts.bind(this)
-        this.updatePlayerCounts = this.updatePlayerCounts.bind(this)
-        this.updateWeightCounts = this.updateWeightCounts.bind(this)
-        this.updateCategoryCounts = this.updateCategoryCounts.bind(this)
-        this.updateMechanicCounts = this.updateMechanicCounts.bind(this)
+        this.tallyPlayerCounts = this.tallyPlayerCounts.bind(this)
+        this.tallyWeightCounts = this.tallyWeightCounts.bind(this)
+        this.tallyCategoryCounts = this.tallyCategoryCounts.bind(this)
+        this.tallyMechanicCounts = this.tallyMechanicCounts.bind(this)
         this.onNewTitle = this.onNewTitle.bind(this)
         this.onNewVote = this.onNewVote.bind(this)
         this.onDeleteTitle = this.onDeleteTitle.bind(this)
         this.onDeleteAllTitles = this.onDeleteAllTitles.bind(this)
         this.onClearSectionVotes = this.onClearSectionVotes.bind(this)
-    }
-
-    updateCounts() {
-        this.updatePlayerCounts()
-        this.updateWeightCounts()
-        this.updateCategoryCounts()
-        this.updateMechanicCounts()
     }
 
     onNewTitle(newGame) {
@@ -42,7 +30,6 @@ export class Boardgameinator extends React.Component {
             allGames.push(newGame)
             return { allGames }
         })
-        this.updateCounts()
     }
 
     onDeleteTitle(event, id) {
@@ -51,7 +38,6 @@ export class Boardgameinator extends React.Component {
             allGames = allGames.filter(game => game.id !== parseInt(id))
             return { allGames }
         })
-        this.updateCounts()
     }
 
     onDeleteAllTitles(event) {
@@ -59,10 +45,9 @@ export class Boardgameinator extends React.Component {
             let allGames = []
             return { allGames }
         })
-        this.updateCounts()
     }
 
-    updatePlayerCounts() {
+    tallyPlayerCounts() {
         // tally each allowable player count occurrence across all games
         let countsObj = {}
         for (const game of this.state.allGames) {
@@ -82,10 +67,10 @@ export class Boardgameinator extends React.Component {
             countsArray.push(newCount)
         })
         countsArray.sort((a, b) => (parseInt(a.attrName.slice(0, -1)) < parseInt(b.attrName.slice(0, -1))) ? 1 : -1)
-        this.setState({ playerCounts: countsArray })
+        return countsArray
     }
 
-    updateWeightCounts() {
+    tallyWeightCounts() {
         // tally each weight occurrence across all games
         let countsObj = {}
         for (const game of this.state.allGames) {
@@ -105,10 +90,10 @@ export class Boardgameinator extends React.Component {
                 countsArray.push({'attrName': weight, 'attrCount': 0})
             }
         }
-        this.setState({ weightCounts: countsArray })
+        return countsArray
     }
 
-    updateCategoryCounts() {
+    tallyCategoryCounts() {
         // tally each attribute's occurrence across all games
         let countsObj = {}
         for (const game of this.state.allGames) {
@@ -126,10 +111,10 @@ export class Boardgameinator extends React.Component {
             countsArray.push({'attrName': elementTag, 'attrCount': countsObj[elementTag]})
         })
         countsArray.sort((a, b) => (a.attrCount < b.attrCount) ? 1 : (a.attrCount === b.attrCount) && (a.attrName > b.attrName) ? 1 : -1)
-        this.setState({ categoryCounts: countsArray })
+        return countsArray
     }
 
-    updateMechanicCounts() {
+    tallyMechanicCounts() {
         // tally each attribute's occurrence across all games
         let countsObj = {}
         for (const game of this.state.allGames) {
@@ -147,7 +132,7 @@ export class Boardgameinator extends React.Component {
             countsArray.push({'attrName': elementTag, 'attrCount': countsObj[elementTag]})
         })
         countsArray.sort((a, b) => (a.attrCount < b.attrCount) ? 1 : (a.attrCount === b.attrCount) && (a.attrName > b.attrName) ? 1 : -1)
-        this.setState({ mechanicCounts: countsArray })
+        return countsArray
     }
 
     onNewVote(event) {
@@ -183,6 +168,10 @@ export class Boardgameinator extends React.Component {
     }
 
     render() {
+        let playercounts = this.tallyPlayerCounts()
+        let weightcounts = this.tallyWeightCounts()
+        let categorycounts = this.tallyCategoryCounts()
+        let mechaniccounts = this.tallyMechanicCounts()
         return (
             <React.Fragment>
             <div id="page-wrapper">
@@ -202,10 +191,10 @@ export class Boardgameinator extends React.Component {
                         <div id="gamevoting-controls">
                             <VotingBox 
                                 thumbs={this.state.thumbs} 
-                                playercounts={this.state.playerCounts} 
-                                weightcounts={this.state.weightCounts} 
-                                categorycounts={this.state.categoryCounts} 
-                                mechaniccounts={this.state.mechanicCounts}
+                                playercounts={playercounts} 
+                                weightcounts={weightcounts}
+                                categorycounts={categorycounts} 
+                                mechaniccounts={mechaniccounts}
                                 onnewvote={this.onNewVote}
                                 onclearsectionvotes={this.onClearSectionVotes} />
                         </div>

@@ -163,6 +163,11 @@ hr {
   line-height: 1.5em;
 }
 
+.gamecard-details.minor p {
+  padding: 0 15px;
+  text-align: left;
+}
+
 .gamecard-footer {
   height: 50px;
 }

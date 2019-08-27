@@ -19,7 +19,7 @@ export const GameCardBack = (props) => {
                 <h4 className="game-yearpublished">({yearpublished})</h4>
             </section>
             <section className="gamecard-details minor">
-                <p>{description}</p>
+                { description.map( (paragraph, idx) => <p key={idx}>{paragraph}</p>)}
             </section>
             <section className="gamecard-footer">
                 <GameFooter gameid={id}/>

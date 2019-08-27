@@ -17,6 +17,7 @@ export class InputByTitle extends React.Component {
         this.exactSearchApi = this.exactSearchApi.bind(this)
         this.searchApi = this.searchApi.bind(this)
         this.validateUserTitles = this.validateUserTitles.bind(this)
+        this.parseIntoParagraphs = this.parseIntoParagraphs.bind(this)
         this.parseGamedataApiXml = this.parseGamedataApiXml.bind(this)
     }
 
@@ -172,10 +173,17 @@ export class InputByTitle extends React.Component {
         return games
     }
 
+    parseIntoParagraphs(str) {
+      let paragraphs = str.replace(/&amp;/g, "&").split('&#10;');
+      console.log(paragraphs)
+      return paragraphs;
+    }
+
     parseGamedataApiXml(str) {
         let game = {'categories': [], 'mechanics': []}
         let responseDoc = new DOMParser().parseFromString(str, 'application/xml')
         let gamesHtmlCollection = responseDoc.getElementsByTagName("item")
+        let makeReadable = this.parseIntoParagraphs
         if (gamesHtmlCollection.length) {
             game['id'] = parseInt(gamesHtmlCollection[0].id)
             gamesHtmlCollection[0].childNodes.forEach(
@@ -185,7 +193,8 @@ export class InputByTitle extends React.Component {
                             game['name'] = node.getAttribute("value")
                         }
                         if (node.tagName === "description") {
-                            game['description'] = node.innerHTML
+                            console.log(node.innerHTML)
+                            game['description'] = makeReadable(node.innerHTML)
                         }
                         if (node.tagName === "yearpublished") {
                             game['yearpublished'] = parseInt(node.getAttribute("value"))

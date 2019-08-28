@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLongArrowAltRight } from '@fortawesome/free-solid-svg-icons'
 
 
-export class InputByTitle extends React.Component {
+export class AddByTitle extends React.Component {
 
     constructor(props) {
         super(props)

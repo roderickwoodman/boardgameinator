@@ -1,8 +1,8 @@
 import React from 'react'
-import { InputByTitle } from './InputByTitle';
+import { AddByTitle } from './AddByTitle';
 import { AddedList } from './AddedList';
 
-export class InputBox extends React.Component {
+export class AddGamesBox extends React.Component {
 
     constructor(props) {
         super(props)
@@ -42,7 +42,7 @@ export class InputBox extends React.Component {
 
             <div id="input-section">
                 {this.state.inputBy === 'title' && (
-                    <InputByTitle
+                    <AddByTitle
                         allgames={this.props.allgames}
                         onnewtitle={this.props.onnewtitle} />
                 )}

@@ -1,6 +1,6 @@
 import React from 'react'
 import { GameList } from './GameList'
-import { InputBox } from './InputBox'
+import { AddGamesBox } from './AddGamesBox'
 import { VotingBox } from './VotingBox'
 
 
@@ -260,7 +260,7 @@ export class Boardgameinator extends React.Component {
                     </div>
                     <div id="main-controls">
                         <div id="gameinput-controls">
-                            <InputBox
+                            <AddGamesBox
                                 allgames={this.state.allGames}
                                 onnewtitle={this.onNewTitle} 
                                 ondelete={this.onDeleteTitle}

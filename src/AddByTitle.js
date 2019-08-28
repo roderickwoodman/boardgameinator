@@ -178,6 +178,7 @@ export class AddByTitle extends React.Component {
         .replace(/&amp;/g, '&')
         .replace(/&rsquo;/g, "'")
         .replace(/&quot;/g, '"')
+        .replace(/&ndash;/g, '–')
         .split('&#10;');
       return paragraphs;
     }

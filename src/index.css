@@ -82,6 +82,12 @@ hr {
   overflow-y: auto;
 }
 
+#main-controls {
+  height: 125px;
+  font-size: 0.9em;
+  line-height: 1.5em;
+}
+
 #view-controls {
   display: flex;
   flex: 1;
@@ -126,46 +132,49 @@ hr {
   overflow-x: auto;
 }
 
-.gamecard-details, .gamecard-header, .gamecard-title {
+.gamecard-title,
+.gamecard-header,
+.gamecard-details {
   margin: 0;
-  padding: 10px 0;
+  padding: 10px;
+  font-size: 1.0em;
+  line-height: 1.25em;
+}
+
+.gamecard-title,
+.gamecard-header {
   height: 15px;
 }
 
-.gamecard-details.major,
-.gamecard-details.summary {
-  height: 75px;
-  font-size: 2.0em;
-  line-height: 1.5em;
-  font-weight:800;
+.gamecard-title {
+  height: 50px;
 }
 
-.gamecard-details.summary {
-  margin: -30px 0;
+.gamecard-details {
+  height: 125px;
 }
 
 .gamecard-details.major {
-  margin: -15px 0;
+  height: 75px;
 }
 
+.game.inspecting .gamecard-details.minor {
+  height: 165px;
+  text-align: left;
+}
 
 .gamecard-title,
 .gamecard-details.major {
-  height: 75px;
   font-size: 1.0em;
   line-height: 1.5em;
-  font-weight:800;
+  font-weight: 800;
 }
 
-.gamecard-details.minor, #main-controls {
-  height: 125px;
-  font-size: 0.9em;
+.gamecard-details.summary {
+  font-size: 2.0em;
   line-height: 1.5em;
-}
-
-.gamecard-details.minor p {
-  padding: 0 15px;
-  text-align: left;
+  font-weight: 800;
+  margin-bottom: -30px;
 }
 
 .gamecard-footer {

@@ -15,24 +15,60 @@ function Description(props) {
     )
 }
 
-export const GameCardBack = (props) => {
-    const { id, name, yearpublished, description, ontoggleinspection, ondelete } = props
-    return (
-        <React.Fragment>
-        <section className="gamecard-header">
-            <button id={id} onClick={ontoggleinspection}>more...</button>
-            <button onClick={ (e) => ondelete(e, id) }>
-                <FontAwesomeIcon icon={faTrash} />
-            </button>
-        </section>
-        <section className="gamecard-title">
-            <h2 className="game-name">{name}</h2>
-            <h4 className="game-yearpublished">({yearpublished})</h4>
-        </section>
-        <Description description={description} />
-        <section className="gamecard-footer">
-            <GameFooter gameid={id}/>
-        </section>
-        </React.Fragment>
-    )
+export class GameCardBack extends React.Component {
+
+    constructor(props) {
+        super(props)
+        this.state = {
+            inspecting: 'description',
+        }
+        this.handleSectionChange = this.handleSectionChange.bind(this)
+    }
+
+    handleSectionChange(event) {
+        this.setState({
+            inspecting: event.target.value
+        })
+    }
+
+    render() {
+        const { id, name, yearpublished, description, ontoggleinspection, ondelete } = this.props
+        return (
+            <React.Fragment>
+            <section className="gamecard-header">
+                <button id={id} onClick={ontoggleinspection}>more...</button>
+                <button onClick={ (e) => ondelete(e, id) }>
+                    <FontAwesomeIcon icon={faTrash} />
+                </button>
+            </section>
+            <section className="gamecard-title">
+                <h2 className="game-name">{name}</h2>
+                <h4 className="game-yearpublished">({yearpublished})</h4>
+            </section>
+            <div id="inspectionsection-selector">
+                <label>
+                    <input type='radio' key='description' id='description' name='inspectingsection' checked={this.state.inspecting==='description'} value='description' onChange={this.handleSectionChange} /> 
+                    Description</label>
+                <label>
+                    <input type='radio' key='comments' id='comments' name='inspectingsection' checked={this.state.inspecting==='comments'} value='comments' onChange={this.handleSectionChange} /> 
+                    Comments</label>
+                <label>
+                    <input type='radio' key='videos' id='videos' name='inspectingsection' checked={this.state.inspecting==='videos'} value='videos' onChange={this.handleSectionChange} /> 
+                    Videos</label>
+            </div>
+            {this.state.inspecting === 'description' && (
+                <Description description={description} />
+            )}
+            {this.state.inspecting === 'comments' && (
+                <i class="warning">Comments section is TBI</i>
+            )}
+            {this.state.inspecting === 'videos' && (
+                <i class="warning">Videos section is TBI</i>
+            )}
+            <section className="gamecard-footer">
+                <GameFooter gameid={id}/>
+            </section>
+            </React.Fragment>
+        )
+    }
 }

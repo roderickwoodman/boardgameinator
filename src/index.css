@@ -256,6 +256,19 @@ li.thumbsup, li.thumbsdown, li.novote {
   padding-bottom: 10px;
 }
 
+.game.inspecting a {
+  color: white;
+}
+
+.game.inspecting a:visited {
+  color: lightgray;
+}
+
+.game.inspecting a:hover {
+  color: lightpink;
+}
+
+
 .game img {
   position: absolute;
   right: 0;

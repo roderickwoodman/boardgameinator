@@ -26,6 +26,17 @@ function Comments(props) {
     )
 }
 
+function Videos(props) {
+    const videos = props.videos.map ( (video, idx) =>
+        <li key={idx}><b>{video.author}: </b><a href={video.link} target="_blank">{video.title}</a></li>
+    )
+    return (
+        <ul className="gamecard-details text">
+            { videos }
+        </ul>
+    )
+}
+
 export class GameCardBack extends React.Component {
 
     constructor(props) {
@@ -43,7 +54,7 @@ export class GameCardBack extends React.Component {
     }
 
     render() {
-        const { id, name, yearpublished, description, comments, ontoggleinspection, ondelete } = this.props
+        const { id, name, yearpublished, description, comments, videos, ontoggleinspection, ondelete } = this.props
         return (
             <React.Fragment>
             <section className="gamecard-header">
@@ -74,7 +85,7 @@ export class GameCardBack extends React.Component {
                 <Comments comments={comments} />
             )}
             {this.state.inspecting === 'videos' && (
-                <i className="warning">Videos section is TBI</i>
+                <Videos videos={videos} />
             )}
             <section className="gamecard-footer">
                 <GameFooter gameid={id}/>

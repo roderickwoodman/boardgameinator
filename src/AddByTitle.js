@@ -30,7 +30,7 @@ export class AddByTitle extends React.Component {
     }
 
     gamedataApi(gameId) {
-        return 'https://boardgamegeek.com/xmlapi2/thing?type=boardgame&stats=1&ratingcomments=1&id=' + gameId
+        return 'https://boardgamegeek.com/xmlapi2/thing?type=boardgame&stats=1&ratingcomments=1&videos=1&id=' + gameId
     }
 
     withYear(title, year, id) {
@@ -275,6 +275,23 @@ export class AddByTitle extends React.Component {
                                             } else {
                                                 game["comments"] = [newComment]
                                             }
+                                        }
+                                    }
+                        })}
+                        if ( node.tagName === "videos") {
+                            node.childNodes.forEach(
+                                function (childNode) {
+                                    if ((childNode.tagName === "video") 
+                                        && (childNode.getAttribute("language") === "English")
+                                        && (childNode.getAttribute("category") === "review")) {
+                                        let title = childNode.getAttribute("title")
+                                        let link = childNode.getAttribute("link")
+                                        let author = childNode.getAttribute("username")
+                                        let newVideo = {"title": title, "link": link, "author": author}
+                                        if (game.hasOwnProperty("videos")) {
+                                            game["videos"].push(newVideo)
+                                        } else {
+                                            game["videos"] = [newVideo]
                                         }
                                     }
                         })}

@@ -186,6 +186,7 @@ export class GameList extends React.Component {
                                     categories={game.categories}
                                     mechanics={game.mechanics} 
                                     comments={game.comments}
+                                    videos={game.videos}
                                     thumbs={this.props.thumbs} 
                                     thumbcount={thumbcounts[game.name]}
                                     ondelete={this.props.ondelete}

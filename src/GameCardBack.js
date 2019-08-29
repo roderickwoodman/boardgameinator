@@ -15,6 +15,17 @@ function Description(props) {
     )
 }
 
+function Comments(props) {
+    const comments = props.comments.map ( (comment, idx) =>
+        <li key={idx}>{comment}</li>
+    )
+    return (
+        <ul className="gamecard-details text">
+            { comments }
+        </ul>
+    )
+}
+
 export class GameCardBack extends React.Component {
 
     constructor(props) {
@@ -32,7 +43,7 @@ export class GameCardBack extends React.Component {
     }
 
     render() {
-        const { id, name, yearpublished, description, ontoggleinspection, ondelete } = this.props
+        const { id, name, yearpublished, description, comments, ontoggleinspection, ondelete } = this.props
         return (
             <React.Fragment>
             <section className="gamecard-header">
@@ -60,10 +71,10 @@ export class GameCardBack extends React.Component {
                 <Description description={description} />
             )}
             {this.state.inspecting === 'comments' && (
-                <i class="warning">Comments section is TBI</i>
+                <Comments comments={comments} />
             )}
             {this.state.inspecting === 'videos' && (
-                <i class="warning">Videos section is TBI</i>
+                <i className="warning">Videos section is TBI</i>
             )}
             <section className="gamecard-footer">
                 <GameFooter gameid={id}/>

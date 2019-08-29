@@ -247,6 +247,15 @@ li.thumbsup, li.thumbsdown, li.novote {
   min-width: 500px;
 }
 
+.game.inspecting ul {
+  padding: 30px;
+  list-style-type: disc;
+}
+
+.game.inspecting li {
+  padding-bottom: 10px;
+}
+
 .game img {
   position: absolute;
   right: 0;

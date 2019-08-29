@@ -185,6 +185,7 @@ export class GameList extends React.Component {
                                     averageweightname={game.averageweightname}
                                     categories={game.categories}
                                     mechanics={game.mechanics} 
+                                    comments={game.comments}
                                     thumbs={this.props.thumbs} 
                                     thumbcount={thumbcounts[game.name]}
                                     ondelete={this.props.ondelete}

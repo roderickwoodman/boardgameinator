@@ -30,7 +30,7 @@ export class AddByTitle extends React.Component {
     }
 
     gamedataApi(gameId) {
-        return 'https://boardgamegeek.com/xmlapi2/thing?type=boardgame&stats=1&id=' + gameId
+        return 'https://boardgamegeek.com/xmlapi2/thing?type=boardgame&stats=1&ratingcomments=1&id=' + gameId
     }
 
     withYear(title, year, id) {
@@ -155,10 +155,10 @@ export class AddByTitle extends React.Component {
                 function (node) {
                     if (node.nodeType === Node.ELEMENT_NODE) {
                         if ( (node.tagName === "name") && (node.getAttribute("type") === "primary") ) {
-                            game['name'] = node.getAttribute("value")
+                            game["name"] = node.getAttribute("value")
                         }
                         if (node.tagName === "yearpublished") {
-                            game['yearpublished'] = parseInt(node.getAttribute("value"))
+                            game["yearpublished"] = parseInt(node.getAttribute("value"))
                         }
                     }
                 }
@@ -184,50 +184,50 @@ export class AddByTitle extends React.Component {
     }
 
     parseGamedataApiXml(str) {
-        let game = {'categories': [], 'mechanics': []}
-        let responseDoc = new DOMParser().parseFromString(str, 'application/xml')
+        let game = {"categories": [], "mechanics": []}
+        let responseDoc = new DOMParser().parseFromString(str, "application/xml")
         let gamesHtmlCollection = responseDoc.getElementsByTagName("item")
         let makeReadable = this.parseIntoParagraphs
         if (gamesHtmlCollection.length) {
-            game['id'] = parseInt(gamesHtmlCollection[0].id)
+            game["id"] = parseInt(gamesHtmlCollection[0].id)
             gamesHtmlCollection[0].childNodes.forEach(
                 function (node) {
                     if (node.nodeType === Node.ELEMENT_NODE) {
                         if ( (node.tagName === "name") && (node.getAttribute("type") === "primary") ) {
-                            game['name'] = node.getAttribute("value")
+                            game["name"] = node.getAttribute("value")
                         }
                         if (node.tagName === "description") {
-                            game['description'] = makeReadable(node.innerHTML)
+                            game["description"] = makeReadable(node.innerHTML)
                         }
                         if (node.tagName === "yearpublished") {
-                            game['yearpublished'] = parseInt(node.getAttribute("value"))
+                            game["yearpublished"] = parseInt(node.getAttribute("value"))
                         }
                         if (node.tagName === "minplayers") {
-                            game['minplayers'] = parseInt(node.getAttribute("value"))
+                            game["minplayers"] = parseInt(node.getAttribute("value"))
                         }
                         if (node.tagName === "maxplayers") {
-                            game['maxplayers'] = parseInt(node.getAttribute("value"))
+                            game["maxplayers"] = parseInt(node.getAttribute("value"))
                         }
                         if (node.tagName === "minplaytime") {
-                            game['minplaytime'] = parseInt(node.getAttribute("value"))
+                            game["minplaytime"] = parseInt(node.getAttribute("value"))
                         }
                         if (node.tagName === "maxplaytime") {
-                            game['maxplaytime'] = parseInt(node.getAttribute("value"))
+                            game["maxplaytime"] = parseInt(node.getAttribute("value"))
                         }
                         if ( (node.tagName === "link")
                             && (node.getAttribute("type") === "boardgamecategory") ) {
-                            if (game.hasOwnProperty('categories')) {
-                                game['categories'].push(node.getAttribute("value"))
+                            if (game.hasOwnProperty("categories")) {
+                                game["categories"].push(node.getAttribute("value"))
                             } else {
-                                game['categories'].push(node.getAttribute("value"))
+                                game["categories"] = [node.getAttribute("value")]
                             }
                         }
                         if ( (node.tagName === "link")
                             && (node.getAttribute("type") === "boardgamemechanic") ) {
-                            if (game.hasOwnProperty('mechanics')) {
-                                game['mechanics'].push(node.getAttribute("value"))
+                            if (game.hasOwnProperty("mechanics")) {
+                                game["mechanics"].push(node.getAttribute("value"))
                             } else {
-                                game['mechanics'].push(node.getAttribute("value"))
+                                game["mechanics"] = [node.getAttribute("value")]
                             }
                         }
                         if ( node.tagName === "statistics") {
@@ -237,10 +237,10 @@ export class AddByTitle extends React.Component {
                                         childNode.childNodes.forEach(
                                             function (grandchildNode) {
                                                 if (grandchildNode.tagName === "numweights") {
-                                                    game['numweights'] = grandchildNode.getAttribute("value")
+                                                    game["numweights"] = grandchildNode.getAttribute("value")
                                                 }
                                                 if (grandchildNode.tagName === "averageweight") {
-                                                    game['averageweight'] = grandchildNode.getAttribute("value")
+                                                    game["averageweight"] = grandchildNode.getAttribute("value")
                                                     let weight = parseFloat(game.averageweight)
                                                     let weightname = null
                                                     if (weight < 1.5) {
@@ -254,7 +254,7 @@ export class AddByTitle extends React.Component {
                                                     } else {
                                                         weightname = "heavy"
                                                     }
-                                                    game['averageweightname'] = weightname
+                                                    game["averageweightname"] = weightname
                                                 }
                                             }
                                         )
@@ -262,12 +262,26 @@ export class AddByTitle extends React.Component {
                                 }
                             )
                         }
+                        if ( node.tagName === "comments") {
+                            node.childNodes.forEach(
+                                function (childNode) {
+                                    if (childNode.tagName === "comment") {
+                                        let comment = childNode.getAttribute("value")
+                                        if (comment.length > 30 && comment.length < 800) {
+                                            if (game.hasOwnProperty("comments")) {
+                                                game["comments"].push(comment)
+                                            } else {
+                                                game["comments"] = [comment]
+                                            }
+                                        }
+                                    }
+                        })}
                     }
                 }
             )
         }
-        if ( Object.keys(game) && (!game.hasOwnProperty('yearpublished') || game['yearpublished'] === 0) ) {
-            game['yearpublished'] = null
+        if ( Object.keys(game) && (!game.hasOwnProperty("yearpublished") || game["yearpublished"] === 0) ) {
+            game["yearpublished"] = null
         }
         return game
     }
@@ -312,7 +326,7 @@ export class AddByTitle extends React.Component {
                     { this.state.statusMessages
                         .map(
                             (message, i) => {
-                                return (message.toLowerCase().startsWith('error'))
+                                return (message.toLowerCase().startsWith("error"))
                                 ? <p key={i} className="message error">{message}</p>
                                 : <p key={i} className="message"><FontAwesomeIcon icon={faLongArrowAltRight} /> {message}</p>
                             }

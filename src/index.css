@@ -141,7 +141,6 @@ hr {
   line-height: 1.25em;
 }
 
-.gamecard-title,
 .gamecard-header {
   height: 15px;
 }
@@ -150,7 +149,7 @@ hr {
   height: 50px;
 }
 
-.gamecard-details {
+.gamecard-details.summary {
   height: 125px;
 }
 
@@ -158,9 +157,15 @@ hr {
   height: 75px;
 }
 
-.game.inspecting .gamecard-details.minor {
-  height: 165px;
+.gamecard-details.minor {
+  height: 125px;
+  overflow-y: auto;
+}
+
+.gamecard-details.text {
+  height: 500px;
   text-align: left;
+  overflow-y: auto;
 }
 
 .gamecard-title,

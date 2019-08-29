@@ -9,7 +9,7 @@ function Description(props) {
         <p key={idx}>{paragraph}</p>
     )
     return (
-        <section className="gamecard-details minor">
+        <section className="gamecard-details text">
             { paragraphs }
         </section>
     )

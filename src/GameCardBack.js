@@ -17,7 +17,7 @@ function Description(props) {
 
 function Comments(props) {
     const comments = props.comments.map ( (comment, idx) =>
-        <li key={idx}>{comment}</li>
+        <li key={idx}><b>{comment.author}: </b>{comment.comment}</li>
     )
     return (
         <ul className="gamecard-details text">

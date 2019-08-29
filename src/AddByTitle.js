@@ -268,10 +268,12 @@ export class AddByTitle extends React.Component {
                                     if (childNode.tagName === "comment") {
                                         let comment = childNode.getAttribute("value")
                                         if (comment.length > 30 && comment.length < 800) {
+                                            let author = childNode.getAttribute("username")
+                                            let newComment = {"comment": comment, "author": author}
                                             if (game.hasOwnProperty("comments")) {
-                                                game["comments"].push(comment)
+                                                game["comments"].push(newComment)
                                             } else {
-                                                game["comments"] = [comment]
+                                                game["comments"] = [newComment]
                                             }
                                         }
                                     }

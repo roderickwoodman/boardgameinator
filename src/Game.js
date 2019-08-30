@@ -6,10 +6,10 @@ import { GameCardBack } from './GameCardBack'
 export class Game extends React.Component {
 
     render() {
-        const { id, underinspection, name, description, yearpublished, minplayers, maxplayers, minplaytime, maxplaytime, averageweightname, categories, mechanics, comments, videos, thumbs, thumbcount, ondelete, ontoggleinspection } = this.props
+        const { id, idunderinspection, inspectingsection, name, description, yearpublished, minplayers, maxplayers, minplaytime, maxplaytime, averageweightname, categories, mechanics, comments, videos, thumbs, thumbcount, ondelete, ontoggleinspection, oninspectionsectionchange } = this.props
         let gamecard
-        let gamecardClasses = (id === underinspection) ? "game inspecting" : "game"
-        if (id !== underinspection) {
+        let gamecardClasses = (id === idunderinspection) ? "game inspecting" : "game"
+        if (id !== idunderinspection) {
             gamecard = <GameCardFront 
                 id={id}
                 name={name}
@@ -31,9 +31,11 @@ export class Game extends React.Component {
                 name={name}
                 yearpublished={yearpublished}
                 description={description}
+                inspectingsection={inspectingsection}
                 comments={comments}
                 videos={videos}
                 ontoggleinspection={ontoggleinspection} 
+                oninspectionsectionchange={oninspectionsectionchange} 
                 ondelete={ondelete} />
         }
         return(

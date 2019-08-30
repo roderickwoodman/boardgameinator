@@ -9,7 +9,8 @@ export class GameList extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            underInspection: null,
+            idUnderInspection: null,
+            inspectingSection: 'description',
             sortOrder: 'maxvotes',
             filterPlayercount: true,
             filterWeight: true
@@ -18,6 +19,7 @@ export class GameList extends React.Component {
         this.getThumbCounts = this.getThumbCounts.bind(this)
         this.handleFilterChange = this.handleFilterChange.bind(this)
         this.handleInspectionChange = this.handleInspectionChange.bind(this)
+        this.handleInspectionSectionChange = this.handleInspectionSectionChange.bind(this)
     }
 
     getThumbedPlayercounts() {
@@ -80,7 +82,7 @@ export class GameList extends React.Component {
     handleSortChange(event) {
         this.setState({
             sortOrder: event.target.value,
-            underInspection: null
+            idUnderInspection: null
         })
     }
 
@@ -89,13 +91,13 @@ export class GameList extends React.Component {
             case 'filterplayercount':
                 this.setState({
                     filterPlayercount: !this.state.filterPlayercount,
-                    underInspection: null
+                    idUnderInspection: null
                 })
                 break
             case 'filterweight':
                 this.setState({
                     filterWeight: !this.state.filterWeight,
-                    underInspection: null
+                    idUnderInspection: null
                 })
                 break
             default:
@@ -105,15 +107,21 @@ export class GameList extends React.Component {
 
     handleInspectionChange(event) {
         let gameId = parseInt(event.target.id)
-        if (this.state.underInspection === gameId) {
+        if (this.state.idUnderInspection === gameId) {
             this.setState({
-                underInspection: null
+                idUnderInspection: null
             })
         } else {
             this.setState({
-                underInspection: parseInt(event.target.id)
+                idUnderInspection: parseInt(event.target.id)
             })
         }
+    }
+
+    handleInspectionSectionChange(event) {
+        this.setState({
+            inspectingSection: event.target.value
+        })
     }
 
     render() {
@@ -174,7 +182,8 @@ export class GameList extends React.Component {
                                 <Game
                                     key={i}
                                     id={game.id} 
-                                    underinspection={this.state.underInspection}
+                                    idunderinspection={this.state.idUnderInspection}
+                                    inspectingsection={this.state.inspectingSection}
                                     name={game.name} 
                                     description={game.description} 
                                     yearpublished={game.yearpublished} 
@@ -190,7 +199,8 @@ export class GameList extends React.Component {
                                     thumbs={this.props.thumbs} 
                                     thumbcount={thumbcounts[game.name]}
                                     ondelete={this.props.ondelete}
-                                    ontoggleinspection={this.handleInspectionChange} />)
+                                    ontoggleinspection={this.handleInspectionChange}
+                                    oninspectionsectionchange={this.handleInspectionSectionChange} />)
                 )}
                 {this.props.allgames.length === 0 && (
                     <span className="message warning">

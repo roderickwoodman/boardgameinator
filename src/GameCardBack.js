@@ -28,7 +28,7 @@ function Comments(props) {
 
 function Videos(props) {
     const videos = props.videos.map ( (video, idx) =>
-        <li key={idx}><b>{video.author}: </b><a href={video.link} target="_blank">{video.title}</a></li>
+        <li key={idx}><b>{video.author}: </b><a href={video.link} target="_blank" rel="noopener noreferrer">{video.title}</a></li>
     )
     return (
         <ul className="gamecard-details text">
@@ -39,22 +39,8 @@ function Videos(props) {
 
 export class GameCardBack extends React.Component {
 
-    constructor(props) {
-        super(props)
-        this.state = {
-            inspecting: 'description',
-        }
-        this.handleSectionChange = this.handleSectionChange.bind(this)
-    }
-
-    handleSectionChange(event) {
-        this.setState({
-            inspecting: event.target.value
-        })
-    }
-
     render() {
-        const { id, name, yearpublished, description, comments, videos, ontoggleinspection, ondelete } = this.props
+        const { id, name, yearpublished, description, inspectingsection, comments, videos, ontoggleinspection, oninspectionsectionchange, ondelete } = this.props
         return (
             <React.Fragment>
             <section className="gamecard-header">
@@ -69,22 +55,22 @@ export class GameCardBack extends React.Component {
             </section>
             <div id="inspectionsection-selector">
                 <label>
-                    <input type='radio' key='description' id='description' name='inspectingsection' checked={this.state.inspecting==='description'} value='description' onChange={this.handleSectionChange} /> 
+                    <input type='radio' key='description' id='description' name='inspectingsection' checked={inspectingsection==='description'} value='description' onChange={oninspectionsectionchange} /> 
                     Description</label>
                 <label>
-                    <input type='radio' key='comments' id='comments' name='inspectingsection' checked={this.state.inspecting==='comments'} value='comments' onChange={this.handleSectionChange} /> 
+                    <input type='radio' key='comments' id='comments' name='inspectingsection' checked={inspectingsection==='comments'} value='comments' onChange={oninspectionsectionchange} /> 
                     Comments</label>
                 <label>
-                    <input type='radio' key='videos' id='videos' name='inspectingsection' checked={this.state.inspecting==='videos'} value='videos' onChange={this.handleSectionChange} /> 
+                    <input type='radio' key='videos' id='videos' name='inspectingsection' checked={inspectingsection==='videos'} value='videos' onChange={oninspectionsectionchange} /> 
                     Videos</label>
             </div>
-            {this.state.inspecting === 'description' && (
+            {inspectingsection === 'description' && (
                 <Description description={description} />
             )}
-            {this.state.inspecting === 'comments' && (
+            {inspectingsection === 'comments' && (
                 <Comments comments={comments} />
             )}
-            {this.state.inspecting === 'videos' && (
+            {inspectingsection === 'videos' && (
                 <Videos videos={videos} />
             )}
             <section className="gamecard-footer">

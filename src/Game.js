@@ -6,12 +6,13 @@ import { GameCardBack } from './GameCardBack'
 export class Game extends React.Component {
 
     render() {
-        const { id, idunderinspection, inspectingsection, name, description, yearpublished, minplayers, maxplayers, minplaytime, maxplaytime, averageweightname, categories, mechanics, comments, videos, thumbs, thumbcount, ondelete, ontoggleinspection, oninspectionsectionchange } = this.props
+        const { id, idunderinspection, inspectingsection, name, thumbnail, description, yearpublished, minplayers, maxplayers, minplaytime, maxplaytime, averageweightname, categories, mechanics, comments, videos, thumbs, thumbcount, ondelete, ontoggleinspection, oninspectionsectionchange } = this.props
         let gamecard
         let gamecardClasses = (id === idunderinspection) ? "game inspecting" : "game"
         if (id !== idunderinspection) {
             gamecard = <GameCardFront 
                 id={id}
+                thumbnail={thumbnail}
                 name={name}
                 yearpublished={yearpublished}
                 minplayers={minplayers}

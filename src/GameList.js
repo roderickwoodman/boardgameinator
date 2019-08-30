@@ -185,6 +185,7 @@ export class GameList extends React.Component {
                                     idunderinspection={this.state.idUnderInspection}
                                     inspectingsection={this.state.inspectingSection}
                                     name={game.name} 
+                                    thumbnail={game.thumbnail} 
                                     description={game.description} 
                                     yearpublished={game.yearpublished} 
                                     minplayers={game.minplayers} 

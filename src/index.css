@@ -150,7 +150,8 @@ hr {
 }
 
 .gamecard-details.summary {
-  height: 125px;
+  margin-top: 10px;
+  height: 175px;
 }
 
 .gamecard-details.major {
@@ -268,8 +269,13 @@ li.thumbsup, li.thumbsdown, li.novote {
   color: lightpink;
 }
 
+.gamecard-details img {
+  max-width: 150px;
+  object-fit: contain;
+  border: 2px solid white;
+}
 
-.game img {
+.gamecard-footer img {
   position: absolute;
   right: 0;
   bottom: 0;

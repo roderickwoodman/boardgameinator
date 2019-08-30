@@ -196,6 +196,9 @@ export class AddByTitle extends React.Component {
                         if ( (node.tagName === "name") && (node.getAttribute("type") === "primary") ) {
                             game["name"] = node.getAttribute("value")
                         }
+                        if (node.tagName === "thumbnail") {
+                            game["thumbnail"] = node.innerHTML
+                        }
                         if (node.tagName === "description") {
                             game["description"] = makeReadable(node.innerHTML)
                         }

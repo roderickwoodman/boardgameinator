@@ -4,6 +4,14 @@ import { faThumbsUp } from '@fortawesome/free-solid-svg-icons'
 import { faTrash } from '@fortawesome/free-solid-svg-icons'
 import { GameFooter } from './GameFooter'
 
+function Thumbnail(props) {
+    return (
+        <React.Fragment>
+        <img src={props.url} alt="game box cover" />
+        </React.Fragment>
+    )
+}
+
 export class GameCardFront extends React.Component {
 
     constructor(props) {
@@ -47,7 +55,7 @@ export class GameCardFront extends React.Component {
     }
 
     render() {
-        const { id, name, yearpublished, minplayers, maxplayers, minplaytime, maxplaytime, averageweightname, categories, mechanics, thumbcount, ontoggleinspection, ondelete } = this.props
+        const { id, thumbnail, name, yearpublished, minplayers, maxplayers, minplaytime, maxplaytime, averageweightname, categories, mechanics, thumbcount, ontoggleinspection, ondelete } = this.props
         return (
             <React.Fragment>
             <section className="gamecard-header">
@@ -64,10 +72,10 @@ export class GameCardFront extends React.Component {
                 }
             </section>
             <ul className="gamecard-details summary">
-                <li><FontAwesomeIcon icon={faThumbsUp} /> : {thumbcount}</li>
+                <Thumbnail url={thumbnail} thumbcount={thumbcount} />
             </ul>
-            <hr />
             <ul className="gamecard-details major">
+                <div><FontAwesomeIcon icon={faThumbsUp} /> : {thumbcount}</div>
                 {(minplayers !== maxplayers)
                     ? <li className={this.getPlayersVote(minplayers, maxplayers)}>{minplayers}-{maxplayers} players</li>
                     : <li className={this.getPlayersVote(minplayers, maxplayers)}>{minplayers} players</li>

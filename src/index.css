@@ -149,7 +149,7 @@ hr {
   height: 50px;
 }
 
-.gamecard-details.summary {
+.gamecard-details.thumbnail {
   margin-top: 10px;
   height: 175px;
 }
@@ -176,7 +176,7 @@ hr {
   font-weight: 800;
 }
 
-.gamecard-details.summary {
+.gamecard-details.thumbnail {
   font-size: 2.0em;
   line-height: 1.5em;
   font-weight: 800;

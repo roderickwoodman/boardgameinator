@@ -2,6 +2,8 @@ import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faThumbsUp } from '@fortawesome/free-solid-svg-icons'
 import { faTrash } from '@fortawesome/free-solid-svg-icons'
+import { faClock } from '@fortawesome/free-solid-svg-icons'
+import { faUserFriends } from '@fortawesome/free-solid-svg-icons'
 import { GameFooter } from './GameFooter'
 
 function Thumbnail(props) {
@@ -71,18 +73,18 @@ export class GameCardFront extends React.Component {
                     : <h4 className="game-yearpublished">(#{id})</h4>
                 }
             </section>
-            <ul className="gamecard-details summary">
+            <ul className="gamecard-details thumbnail">
                 <Thumbnail url={thumbnail} thumbcount={thumbcount} />
             </ul>
             <ul className="gamecard-details major">
                 <div><FontAwesomeIcon icon={faThumbsUp} /> : {thumbcount}</div>
                 {(minplayers !== maxplayers)
-                    ? <li className={this.getPlayersVote(minplayers, maxplayers)}>{minplayers}-{maxplayers} players</li>
-                    : <li className={this.getPlayersVote(minplayers, maxplayers)}>{minplayers} players</li>
+                    ? <li className={this.getPlayersVote(minplayers, maxplayers)}><FontAwesomeIcon icon={faUserFriends}/> {minplayers}-{maxplayers}</li>
+                    : <li className={this.getPlayersVote(minplayers, maxplayers)}><FontAwesomeIcon icon={faUserFriends}/> {minplayers}</li>
                 }
                 {(minplaytime !== maxplaytime)
-                    ? <li>{minplaytime}-{maxplaytime} minutes</li>
-                    : <li>{minplaytime} minutes</li>
+                    ? <li><FontAwesomeIcon icon={faClock}/> {minplaytime}-{maxplaytime}'</li>
+                    : <li><FontAwesomeIcon icon={faClock}/> {minplaytime}'</li>
                 }
                 <li className={this.getWeightVote(averageweightname)}>{averageweightname}</li>
             </ul>

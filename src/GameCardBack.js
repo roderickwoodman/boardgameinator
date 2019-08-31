@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { GameFooter } from './GameFooter'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrash } from '@fortawesome/free-solid-svg-icons'
@@ -15,6 +16,10 @@ function Description(props) {
     )
 }
 
+Description.propTypes = {
+    description: PropTypes.array.isRequired,
+}
+
 function Comments(props) {
     const comments = props.comments.map ( (comment, idx) =>
         <li key={idx}><b>{comment.author}: </b>{comment.comment}</li>
@@ -26,6 +31,10 @@ function Comments(props) {
     )
 }
 
+Comments.propTypes = {
+    comments: PropTypes.array.isRequired,
+}
+
 function Videos(props) {
     const videos = props.videos.map ( (video, idx) =>
         <li key={idx}><b>{video.author}: </b><a href={video.link} target="_blank" rel="noopener noreferrer">{video.title}</a></li>
@@ -35,6 +44,10 @@ function Videos(props) {
             { videos }
         </ul>
     )
+}
+
+Videos.propTypes = {
+    videos: PropTypes.array.isRequired,
 }
 
 export class GameCardBack extends React.Component {
@@ -79,4 +92,17 @@ export class GameCardBack extends React.Component {
             </React.Fragment>
         )
     }
+}
+
+GameCardBack.propTypes = {
+    comments: PropTypes.array.isRequired,
+    description: PropTypes.array.isRequired,
+    id: PropTypes.number.isRequired,
+    inspectingsection: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    ondelete: PropTypes.func.isRequired,
+    oninspectionsectionchange: PropTypes.func.isRequired,
+    ontoggleinspection: PropTypes.func.isRequired,
+    videos: PropTypes.array.isRequired,
+    yearpublished: PropTypes.number.isRequired,
 }

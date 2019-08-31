@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { ViewControls } from './ViewControls'
 import { Game } from './Game'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -218,4 +219,10 @@ export class GameList extends React.Component {
             </React.Fragment>
         )
     }
+}
+
+GameList.propTypes = {
+    allgames: PropTypes.array.isRequired,
+    ondelete: PropTypes.func.isRequired,
+    thumbs: PropTypes.object.isRequired,
 }

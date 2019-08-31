@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { GameList } from './GameList'
 import { AddGamesBox } from './AddGamesBox'
 import { VotingBox } from './VotingBox'
@@ -288,4 +289,8 @@ export class Boardgameinator extends React.Component {
             </React.Fragment>
         )
     }
+}
+
+Boardgameinator.propTypes = {
+    defaultgames: PropTypes.array.isRequired,
 }

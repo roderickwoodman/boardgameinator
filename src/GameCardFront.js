@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faThumbsUp } from '@fortawesome/free-solid-svg-icons'
 import { faTrash } from '@fortawesome/free-solid-svg-icons'
@@ -12,6 +13,11 @@ function Thumbnail(props) {
         <img src={props.url} alt="game box cover" />
         </React.Fragment>
     )
+}
+
+Thumbnail.propTypes = {
+    thumbcount: PropTypes.number.isRequired,
+    url: PropTypes.string.isRequired,
 }
 
 export class GameCardFront extends React.Component {
@@ -108,4 +114,22 @@ export class GameCardFront extends React.Component {
             </React.Fragment>
         )
     }
+}
+
+GameCardFront.propTypes = {
+    averageweightname: PropTypes.string.isRequired,
+    categories: PropTypes.array.isRequired,
+    id: PropTypes.number.isRequired,
+    maxplayers: PropTypes.number.isRequired,
+    maxplaytime: PropTypes.number.isRequired,
+    mechanics: PropTypes.array.isRequired,
+    minplayers: PropTypes.number.isRequired,
+    minplaytime: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
+    ondelete: PropTypes.func.isRequired,
+    ontoggleinspection: PropTypes.func.isRequired,
+    thumbcount: PropTypes.number.isRequired,
+    thumbnail: PropTypes.string.isRequired,
+    thumbs: PropTypes.object.isRequired,
+    yearpublished: PropTypes.number.isRequired,
 }

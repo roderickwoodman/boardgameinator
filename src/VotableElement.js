@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 export class VotableElement extends React.Component {
 
@@ -19,4 +20,13 @@ export class VotableElement extends React.Component {
             </li>
         )
     }
+}
+
+VotableElement.propTypes = {
+    attrcount: PropTypes.number.isRequired,
+    attrname: PropTypes.string.isRequired,
+    attrtype: PropTypes.string.isRequired,
+    counts: PropTypes.array.isRequired,
+    onnewvote: PropTypes.func.isRequired,
+    preferences: PropTypes.object.isRequired,
 }

@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLongArrowAltRight } from '@fortawesome/free-solid-svg-icons'
 
@@ -35,4 +36,13 @@ export const ViewControls = (props) => {
         </div>
         </React.Fragment>
     )
+}
+
+ViewControls.propTypes = {
+    filtermessage: PropTypes.string.isRequired,
+    filterplayercount: PropTypes.bool.isRequired,
+    filterweight: PropTypes.bool.isRequired,
+    onfilterchange: PropTypes.func.isRequired,
+    onsortchange: PropTypes.func.isRequired,
+    sortby: PropTypes.string.isRequired,
 }

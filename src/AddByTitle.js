@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLongArrowAltRight } from '@fortawesome/free-solid-svg-icons'
 
@@ -358,4 +359,9 @@ export class AddByTitle extends React.Component {
             </section>
         )
     }
+}
+
+AddByTitle.propTypes = {
+    allgames: PropTypes.array.isRequired,
+    onnewtitle: PropTypes.func.isRequired,
 }

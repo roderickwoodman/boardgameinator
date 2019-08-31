@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { VotingSection } from './VotingSection';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLongArrowAltUp } from '@fortawesome/free-solid-svg-icons'
@@ -65,7 +66,7 @@ export class VotingBox extends React.Component {
                 {this.state.votingOn === 'players' && (
                     <VotingSection 
                         type='players'
-                        id='supported-players'
+                        elementid='supported-players'
                         title='PLAYERS:'
                         counts={this.props.playercounts}
                         thumbs={this.props.thumbs['players']}
@@ -114,4 +115,14 @@ export class VotingBox extends React.Component {
             </React.Fragment>
         )
     }
+}
+
+VotingBox.propTypes = {
+    categorycounts: PropTypes.array.isRequired,
+    mechaniccounts: PropTypes.array.isRequired,
+    onclearsectionvotes: PropTypes.func.isRequired,
+    onnewvote: PropTypes.func.isRequired,
+    playercounts: PropTypes.array.isRequired,
+    thumbs: PropTypes.object.isRequired,
+    weightcounts: PropTypes.array.isRequired,
 }

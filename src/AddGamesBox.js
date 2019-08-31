@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { AddByTitle } from './AddByTitle';
 import { AddedList } from './AddedList';
 
@@ -60,4 +61,11 @@ export class AddGamesBox extends React.Component {
             </React.Fragment>
         )
     }
+}
+
+AddGamesBox.propTypes = {
+    allgames: PropTypes.array.isRequired,
+    ondelete: PropTypes.func.isRequired,
+    ondeleteall: PropTypes.func.isRequired,
+    onnewtitle: PropTypes.func.isRequired,
 }

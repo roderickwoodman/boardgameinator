@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import bggLogo from './bgg-logo-50.png'
 
 export const GameFooter = (props) => {
@@ -7,4 +8,8 @@ export const GameFooter = (props) => {
             <img src={bggLogo} alt="BoardGameGeek website logo" />
         </a>
     )
+}
+
+GameFooter.propTypes = {
+    gameid: PropTypes.number.isRequired,
 }

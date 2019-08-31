@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { AddedElement } from './AddedElement';
 
 
@@ -36,4 +37,10 @@ export class AddedList extends React.Component {
             </ul>
         )
     }
+}
+
+AddedList.propTypes = {
+    allgames: PropTypes.array.isRequired,
+    ondelete: PropTypes.func.isRequired,
+    ondeleteall: PropTypes.func.isRequired,
 }

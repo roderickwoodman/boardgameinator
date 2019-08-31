@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { GameCardFront } from './GameCardFront'
 import { GameCardBack } from './GameCardBack'
 
@@ -45,4 +46,28 @@ export class Game extends React.Component {
             </section>
         )
     }
+}
+
+Game.propTypes = {
+    averageweightname: PropTypes.string.isRequired,
+    categories: PropTypes.array.isRequired,
+    comments: PropTypes.array.isRequired,
+    description: PropTypes.array.isRequired,
+    id: PropTypes.number.isRequired,
+    idunderinspection: PropTypes.number,
+    inspectingsection: PropTypes.string.isRequired,
+    maxplayers: PropTypes.number.isRequired,
+    maxplaytime: PropTypes.number.isRequired,
+    mechanics: PropTypes.array.isRequired,
+    minplayers: PropTypes.number.isRequired,
+    minplaytime: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
+    ondelete: PropTypes.func.isRequired,
+    oninspectionsectionchange: PropTypes.func.isRequired,
+    ontoggleinspection: PropTypes.func.isRequired,
+    thumbcount: PropTypes.number.isRequired,
+    thumbnail: PropTypes.string.isRequired,
+    thumbs: PropTypes.object.isRequired,
+    videos: PropTypes.array.isRequired,
+    yearpublished: PropTypes.number.isRequired,
 }

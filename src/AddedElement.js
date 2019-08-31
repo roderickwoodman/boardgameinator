@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrash } from '@fortawesome/free-solid-svg-icons'
 
@@ -40,4 +41,12 @@ export class AddedElement extends React.Component {
             </li>
         )
     }
+}
+
+AddedElement.propTypes = {
+    id: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
+    nameisunique: PropTypes.bool.isRequired,
+    ondelete: PropTypes.func.isRequired,
+    yearpublished: PropTypes.number.isRequired,
 }

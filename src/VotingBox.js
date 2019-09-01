@@ -76,7 +76,7 @@ export class VotingBox extends React.Component {
                 {this.state.votingOn === 'weights' && (
                     <VotingSection 
                         type='weight'
-                        id='weight-counts'
+                        elementid='weight-counts'
                         title='WEIGHT:'
                         counts={this.props.weightcounts}
                         thumbs={this.props.thumbs['weight']}
@@ -86,7 +86,7 @@ export class VotingBox extends React.Component {
                 {this.state.votingOn === 'categories' && (
                     <VotingSection 
                         type='category'
-                        id='category-counts'
+                        elementid='category-counts'
                         title='CATEGORY:'
                         counts={this.props.categorycounts}
                         thumbs={this.props.thumbs['category']}
@@ -96,7 +96,7 @@ export class VotingBox extends React.Component {
                 {this.state.votingOn === 'mechanics' && (
                     <VotingSection 
                         type='mechanic'
-                        id='mechanic-counts'
+                        elementid='mechanic-counts'
                         title='MECHANIC:'
                         counts={this.props.mechaniccounts}
                         thumbs={this.props.thumbs['mechanic']}

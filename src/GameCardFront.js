@@ -131,5 +131,5 @@ GameCardFront.propTypes = {
     thumbcount: PropTypes.number.isRequired,
     thumbnail: PropTypes.string.isRequired,
     thumbs: PropTypes.object.isRequired,
-    yearpublished: PropTypes.number.isRequired,
+    yearpublished: PropTypes.number,
 }

@@ -306,6 +306,9 @@ export class AddByTitle extends React.Component {
         if ( Object.keys(game) && (!game.hasOwnProperty("yearpublished") || game["yearpublished"] === 0) ) {
             game["yearpublished"] = null
         }
+        if ( Object.keys(game) && (!game.hasOwnProperty("videos")) ) {
+            game["videos"] = []
+        }
         return game
     }
 

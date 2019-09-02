@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faThumbsUp } from '@fortawesome/free-solid-svg-icons'
+import { faInfoCircle } from '@fortawesome/free-solid-svg-icons'
 import { faTrash } from '@fortawesome/free-solid-svg-icons'
 import { faClock } from '@fortawesome/free-solid-svg-icons'
 import { faUserFriends } from '@fortawesome/free-solid-svg-icons'
@@ -68,10 +69,8 @@ export class GameCardFront extends React.Component {
         return (
             <React.Fragment>
             <section className="gamecard-header">
-                <button id={id} onClick={ontoggleinspection}>more...</button>
-                <button onClick={ (e) => ondelete(e, id) }>
-                    <FontAwesomeIcon icon={faTrash} />
-                </button>
+                <FontAwesomeIcon className="fa-button" icon={faTrash} onClick={ (e) => ondelete(e, id) }/>
+                <FontAwesomeIcon className="fa-button" icon={faInfoCircle} onClick={ (e) => ontoggleinspection(e, id) }/>
             </section>
             <section className="gamecard-title">
                 <h2 className="game-name">{name}</h2>

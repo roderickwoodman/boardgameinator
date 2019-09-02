@@ -106,15 +106,15 @@ export class GameList extends React.Component {
         }
     }
 
-    handleInspectionChange(event) {
-        let gameId = parseInt(event.target.id)
+    handleInspectionChange(event, id) {
+        let gameId = parseInt(id)
         if (this.state.idUnderInspection === gameId) {
             this.setState({
                 idUnderInspection: null
             })
         } else {
             this.setState({
-                idUnderInspection: parseInt(event.target.id)
+                idUnderInspection: gameId
             })
         }
     }

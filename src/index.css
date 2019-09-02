@@ -132,8 +132,15 @@ hr {
   overflow-x: auto;
 }
 
+.gamecard-header {
+  display: flex;
+  flex-direction: row-reverse;
+  margin-top: 5px;
+  padding-top: 5px;
+  height: 10px;
+}
+
 .gamecard-title,
-.gamecard-header,
 .gamecard-details {
   margin: 0;
   padding: 10px;
@@ -141,12 +148,9 @@ hr {
   line-height: 1.25em;
 }
 
-.gamecard-header {
-  height: 10px;
-}
-
 .gamecard-title {
   height: 50px;
+  line-height: 1.5em;
 }
 
 .gamecard-thumbnail {
@@ -338,6 +342,8 @@ li.thumbsup, li.thumbsdown, li.novote {
   color: black;
 }
 
-button {
+button,
+.fa-button {
+  margin: 0 5px;
   cursor: pointer;
 }

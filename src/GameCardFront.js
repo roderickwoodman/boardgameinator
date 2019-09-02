@@ -11,6 +11,7 @@ function Thumbnail(props) {
     return (
         <React.Fragment>
         <img src={props.url} alt="game box cover" />
+        <div className="votes"><FontAwesomeIcon icon={faThumbsUp} />:{props.thumbcount}</div>
         </React.Fragment>
     )
 }
@@ -79,11 +80,10 @@ export class GameCardFront extends React.Component {
                     : <h4 className="game-yearpublished">(#{id})</h4>
                 }
             </section>
-            <ul className="gamecard-details thumbnail">
+            <ul className="gamecard-thumbnail">
                 <Thumbnail url={thumbnail} thumbcount={thumbcount} />
             </ul>
             <ul className="gamecard-details major">
-                <div><FontAwesomeIcon icon={faThumbsUp} /> : {thumbcount}</div>
                 {(minplayers !== maxplayers)
                     ? <li className={this.getPlayersVote(minplayers, maxplayers)}><FontAwesomeIcon icon={faUserFriends}/> {minplayers}-{maxplayers}</li>
                     : <li className={this.getPlayersVote(minplayers, maxplayers)}><FontAwesomeIcon icon={faUserFriends}/> {minplayers}</li>

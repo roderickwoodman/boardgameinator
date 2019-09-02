@@ -149,11 +149,22 @@ hr {
   height: 50px;
 }
 
-.gamecard-details.thumbnail {
+.gamecard-thumbnail {
+  position: relative;
+  text-align: center;
   display: flex;
   margin-top: 10px;
   height: 175px;
   align-self: center;
+}
+
+.gamecard-thumbnail .votes {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  background-color: black;
 }
 
 .gamecard-details.major {
@@ -178,11 +189,12 @@ hr {
   font-weight: 800;
 }
 
-.gamecard-details.thumbnail {
+.gamecard-thumbnail {
   font-size: 2.0em;
   line-height: 1.5em;
   font-weight: 800;
   margin-bottom: -30px;
+  padding: 0;
 }
 
 .gamecard-footer {
@@ -271,7 +283,7 @@ li.thumbsup, li.thumbsdown, li.novote {
   color: lightpink;
 }
 
-.gamecard-details img {
+.gamecard-thumbnail img {
   max-width: 150px;
   object-fit: contain;
 }

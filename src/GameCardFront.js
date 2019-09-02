@@ -84,24 +84,22 @@ export class GameCardFront extends React.Component {
                 <Thumbnail url={thumbnail} thumbcount={thumbcount} />
             </ul>
             <ul className="gamecard-details major">
-                {(minplayers !== maxplayers)
+                {/* {(minplayers !== maxplayers)
                     ? <li className={this.getPlayersVote(minplayers, maxplayers)}><FontAwesomeIcon icon={faUserFriends}/> {minplayers}-{maxplayers}</li>
                     : <li className={this.getPlayersVote(minplayers, maxplayers)}><FontAwesomeIcon icon={faUserFriends}/> {minplayers}</li>
                 }
                 {(minplaytime !== maxplaytime)
                     ? <li><FontAwesomeIcon icon={faClock}/> {minplaytime}-{maxplaytime}'</li>
                     : <li><FontAwesomeIcon icon={faClock}/> {minplaytime}'</li>
-                }
+                } */}
                 <li className={this.getWeightVote(averageweightname)}>{averageweightname}</li>
             </ul>
-            <hr />
             <ul className="gamecard-details minor">
                 {(categories.length)
                     ? categories.map(value => <li key={value} className={this.getMyVote('category', value)}>{value}</li>)
                     : <li>(no categories)</li>
                 }
             </ul>
-            <hr />
             <ul className="gamecard-details minor">
                 {(mechanics.length)
                     ? mechanics.map(value => <li key={value} className={this.getMyVote('mechanic', value)}>{value}</li>)

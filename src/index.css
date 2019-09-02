@@ -142,7 +142,7 @@ hr {
 }
 
 .gamecard-header {
-  height: 15px;
+  height: 10px;
 }
 
 .gamecard-title {
@@ -150,11 +150,19 @@ hr {
 }
 
 .gamecard-thumbnail {
+  font-size: 2.0em;
+  line-height: 1.5em;
+  font-weight: 800;
+  padding: 0;
+}
+
+.gamecard-thumbnail {
   position: relative;
   text-align: center;
   display: flex;
   margin-top: 10px;
-  height: 175px;
+  margin-bottom: -10px;
+  height: 200px;
   align-self: center;
 }
 
@@ -168,11 +176,11 @@ hr {
 }
 
 .gamecard-details.major {
-  height: 75px;
+  height: 25px;
 }
 
 .gamecard-details.minor {
-  height: 125px;
+  height: 175px;
   overflow-y: auto;
 }
 
@@ -185,16 +193,7 @@ hr {
 .gamecard-title,
 .gamecard-details.major {
   font-size: 1.0em;
-  line-height: 1.5em;
   font-weight: 800;
-}
-
-.gamecard-thumbnail {
-  font-size: 2.0em;
-  line-height: 1.5em;
-  font-weight: 800;
-  margin-bottom: -30px;
-  padding: 0;
 }
 
 .gamecard-footer {

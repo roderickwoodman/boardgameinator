@@ -228,7 +228,9 @@ hr {
 ** MISCELLANEOUS STYLES (FOR THE VISUAL COMPONENTS)
 */
 
-li.thumbsup, li.thumbsdown, li.novote {
+#voting-section li.thumbsup, 
+#voting-section li.thumbsdown, 
+#voting-section li.novote {
   cursor: pointer;
 }
 

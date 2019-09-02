@@ -100,7 +100,6 @@ export class AddByTitle extends React.Component {
                     if (this.ifGameHasBeenAdded(yearMatches[0].id)) {
                         messages.push('"' + this.withYear(userTitles[titleMatchesIdx], yearMatches[0].yearpublished, yearMatches[0].id) + '" was previously added')
                     } else {
-                        messages.push('"' + this.withYear(userTitles[titleMatchesIdx], yearMatches[0].yearpublished, yearMatches[0].id) + '" has now been added')
                         fetch(this.gamedataApi(yearMatches[0].id))
                             .then(response => response.text())
                             .then(text => this.parseGamedataApiXml(text))

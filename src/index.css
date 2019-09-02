@@ -150,8 +150,10 @@ hr {
 }
 
 .gamecard-details.thumbnail {
+  display: flex;
   margin-top: 10px;
   height: 175px;
+  align-self: center;
 }
 
 .gamecard-details.major {
@@ -272,7 +274,6 @@ li.thumbsup, li.thumbsdown, li.novote {
 .gamecard-details img {
   max-width: 150px;
   object-fit: contain;
-  border: 2px solid white;
 }
 
 .gamecard-footer img {

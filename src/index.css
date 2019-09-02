@@ -173,6 +173,8 @@ hr {
   transform: translate(-50%, -50%);
   width: 100%;
   background-color: black;
+  border-top: 1px solid silver;
+  border-bottom: 1px solid silver;
 }
 
 .gamecard-details.major {

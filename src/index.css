@@ -295,6 +295,25 @@ hr {
   object-fit: contain;
 }
 
+.showinspection-enter {
+  opacity: 0;
+  position: absolute;
+}
+
+.showinspection-enter-active {
+  opacity: 1;
+  transition: opacity 500ms ease-in;
+}
+
+.showinspection-exit {
+  opacity: 1;
+}
+
+.showinspection-exit-active {
+  opacity: 0;
+  transition: opacity 500ms ease-in;
+}
+
 .gamecard-footer img {
   position: absolute;
   right: 0;

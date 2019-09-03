@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { GameFooter } from './GameFooter'
+import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons'
 import { faTrash } from '@fortawesome/free-solid-svg-icons'
@@ -76,15 +77,41 @@ export class GameCardBack extends React.Component {
                     <input type='radio' key='videos' id='videos' name='inspectingsection' checked={inspectingsection==='videos'} value='videos' onChange={oninspectionsectionchange} /> 
                     Videos</label>
             </div>
-            {inspectingsection === 'description' && (
-                <Description description={description} />
-            )}
-            {inspectingsection === 'comments' && (
-                <Comments comments={comments} />
-            )}
-            {inspectingsection === 'videos' && (
-                <Videos videos={videos} />
-            )}
+            <TransitionGroup>
+                {inspectingsection === "description" &&
+                    <CSSTransition 
+                        key={0}
+                        in={true}
+                        appear={false}
+                        timeout={2000}
+                        classNames={"showinspection"}
+                    >
+                        <Description description={description} />
+                    </CSSTransition>
+                }
+                {inspectingsection === "comments" &&
+                    <CSSTransition 
+                        key={1}
+                        in={true}
+                        appear={false}
+                        timeout={2000}
+                        classNames={"showinspection"}
+                    >
+                        <Comments comments={comments} />
+                    </CSSTransition>
+                }
+                {inspectingsection === "videos" &&
+                    <CSSTransition 
+                        key={2}
+                        in={true}
+                        appear={false}
+                        timeout={2000}
+                        classNames={"showinspection"}
+                    >
+                        <Videos videos={videos} />
+                    </CSSTransition>
+                }
+            </TransitionGroup>
             <section className="gamecard-footer">
                 <GameFooter gameid={id}/>
             </section>

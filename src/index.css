@@ -181,6 +181,11 @@ hr {
   border-bottom: 1px solid silver;
 }
 
+.gamecard-thumbnailil-overlay {
+  width: 100%;
+  border: 1px solid red;
+}
+
 .gamecard-details.major {
   height: 25px;
 }
@@ -194,6 +199,27 @@ hr {
   height: 500px;
   text-align: left;
   overflow-y: auto;
+}
+
+.gamecard-thumbnail-overlay {
+  position: absolute;
+  min-width: 100px;
+  text-align: left;
+  top: 50%;
+  left: 50%;
+  transform: translate(-27%, 40%);
+}
+
+.gamecard-thumbnail-overlay li {
+  margin: 5px 0;
+  padding: 0 3px;
+  background-color: darkred;
+  line-height: 1.5em;
+  font-size: 0.45em;
+  border-top: 1px solid orange;
+  border-bottom: 1px solid orange;
+  border-left: 1px solid orange;
+  border-radius: 5px 0 0 5px;
 }
 
 .gamecard-title,
@@ -239,12 +265,17 @@ hr {
   font-weight: 800;
 }
 
-.game .thumbsup {
+.gamecard-details li.thumbsup {
   color: green;
   background-color: white;
   border-radius: 5px;
   font-weight: 900px;
   margin:2px 10px;
+}
+
+.gamecard-thumbnail-overlay li.thumbsup {
+  color: green;
+  background-color: white;
 }
 
 .game {
@@ -297,7 +328,6 @@ hr {
 
 .showinspection-enter {
   opacity: 0;
-  position: absolute;
 }
 
 .showinspection-enter-active {

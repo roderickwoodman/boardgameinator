@@ -81,16 +81,18 @@ export class GameCardFront extends React.Component {
             </section>
             <ul className="gamecard-thumbnail">
                 <Thumbnail url={thumbnail} thumbcount={thumbcount} />
+                <ul className="gamecard-thumbnail-overlay">
+                    {(minplayers !== maxplayers)
+                        ? <li className={this.getPlayersVote(minplayers, maxplayers)}><FontAwesomeIcon icon={faUserFriends}/> {minplayers}-{maxplayers}</li>
+                        : <li className={this.getPlayersVote(minplayers, maxplayers)}><FontAwesomeIcon icon={faUserFriends}/> {minplayers}</li>
+                    }
+                    {(minplaytime !== maxplaytime)
+                        ? <li><FontAwesomeIcon icon={faClock}/> {minplaytime}-{maxplaytime}'</li>
+                        : <li><FontAwesomeIcon icon={faClock}/> {minplaytime}'</li>
+                    }
+                </ul>
             </ul>
             <ul className="gamecard-details major">
-                {/* {(minplayers !== maxplayers)
-                    ? <li className={this.getPlayersVote(minplayers, maxplayers)}><FontAwesomeIcon icon={faUserFriends}/> {minplayers}-{maxplayers}</li>
-                    : <li className={this.getPlayersVote(minplayers, maxplayers)}><FontAwesomeIcon icon={faUserFriends}/> {minplayers}</li>
-                }
-                {(minplaytime !== maxplaytime)
-                    ? <li><FontAwesomeIcon icon={faClock}/> {minplaytime}-{maxplaytime}'</li>
-                    : <li><FontAwesomeIcon icon={faClock}/> {minplaytime}'</li>
-                } */}
                 <li className={this.getWeightVote(averageweightname)}>{averageweightname}</li>
             </ul>
             <ul className="gamecard-details minor">

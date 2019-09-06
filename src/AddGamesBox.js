@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { AddByCollection } from './AddByCollection';
 import { AddByTitle } from './AddByTitle';
 import { AddedList } from './AddedList';
 
@@ -48,7 +49,7 @@ export class AddGamesBox extends React.Component {
                         onnewtitle={this.props.onnewtitle} />
                 )}
                 {this.state.inputBy === 'collection' && (
-                    <p className="error">Input by collection is TBI.</p>
+                    <AddByCollection />
                 )}
                 {this.state.inputBy === 'addedlist' && (
                     <AddedList

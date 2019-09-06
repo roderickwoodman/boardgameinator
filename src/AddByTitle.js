@@ -18,8 +18,6 @@ export class AddByTitle extends React.Component {
         this.exactSearchApi = this.exactSearchApi.bind(this)
         this.searchApi = this.searchApi.bind(this)
         this.validateUserTitles = this.validateUserTitles.bind(this)
-        this.parseIntoParagraphs = this.parseIntoParagraphs.bind(this)
-        this.parseGamedataApiXml = this.parseGamedataApiXml.bind(this)
     }
 
     exactSearchApi(title) {
@@ -28,10 +26,6 @@ export class AddByTitle extends React.Component {
 
     searchApi(title) {
         return 'https://boardgamegeek.com/xmlapi2/search?type=boardgame&query=' + this.withoutYear(title).replace(' ', '+')
-    }
-
-    gamedataApi(gameId) {
-        return 'https://boardgamegeek.com/xmlapi2/thing?type=boardgame&stats=1&ratingcomments=1&videos=1&id=' + gameId
     }
 
     withYear(title, year, id) {
@@ -100,9 +94,9 @@ export class AddByTitle extends React.Component {
                     if (this.ifGameHasBeenAdded(yearMatches[0].id)) {
                         messages.push('"' + this.withYear(userTitles[titleMatchesIdx], yearMatches[0].yearpublished, yearMatches[0].id) + '" was previously added')
                     } else {
-                        fetch(this.gamedataApi(yearMatches[0].id))
+                        this.props.dogamedataapi(yearMatches[0].id)
                             .then(response => response.text())
-                            .then(text => this.parseGamedataApiXml(text))
+                            .then(text => this.props.parsegamedataxml(text))
                             .then(json => {
                                 if (json.hasOwnProperty('id')) {
                                     messages.push('"' + this.withoutYear(yearMatches[0].name) + '" has now been added')
@@ -124,9 +118,9 @@ export class AddByTitle extends React.Component {
                 if (this.ifGameHasBeenAdded(titleMatches[0].id)) {
                     messages.push('"' + this.withoutYear(titleMatches[0].name) + '" was previously added')
                 } else {
-                    fetch(this.gamedataApi(titleMatches[0].id))
+                    this.props.dogamedataapi(titleMatches[0].id)
                         .then(response => response.text())
-                        .then(text => this.parseGamedataApiXml(text))
+                        .then(text => this.props.parsegamedataxml(text))
                         .then(json => {
                             if (json.hasOwnProperty('id')) {
                                 messages.push('"' + this.withoutYear(titleMatches[0].name) + '" has now been added')
@@ -171,144 +165,6 @@ export class AddByTitle extends React.Component {
             }
         }
         return games
-    }
-
-    parseIntoParagraphs(str) {
-      let paragraphs = str
-        .replace(/&amp;/g, '&')
-        .replace(/&rsquo;/g, "'")
-        .replace(/&quot;/g, '"')
-        .replace(/&ndash;/g, '–')
-        .split('&#10;');
-      return paragraphs;
-    }
-
-    parseGamedataApiXml(str) {
-        let game = {"categories": [], "mechanics": []}
-        let responseDoc = new DOMParser().parseFromString(str, "application/xml")
-        let gamesHtmlCollection = responseDoc.getElementsByTagName("item")
-        let makeReadable = this.parseIntoParagraphs
-        if (gamesHtmlCollection.length) {
-            game["id"] = parseInt(gamesHtmlCollection[0].id)
-            gamesHtmlCollection[0].childNodes.forEach(
-                function (node) {
-                    if (node.nodeType === Node.ELEMENT_NODE) {
-                        if ( (node.tagName === "name") && (node.getAttribute("type") === "primary") ) {
-                            game["name"] = node.getAttribute("value")
-                        }
-                        if (node.tagName === "thumbnail") {
-                            game["thumbnail"] = node.innerHTML
-                        }
-                        if (node.tagName === "description") {
-                            game["description"] = makeReadable(node.innerHTML)
-                        }
-                        if (node.tagName === "yearpublished") {
-                            game["yearpublished"] = parseInt(node.getAttribute("value"))
-                        }
-                        if (node.tagName === "minplayers") {
-                            game["minplayers"] = parseInt(node.getAttribute("value"))
-                        }
-                        if (node.tagName === "maxplayers") {
-                            game["maxplayers"] = parseInt(node.getAttribute("value"))
-                        }
-                        if (node.tagName === "minplaytime") {
-                            game["minplaytime"] = parseInt(node.getAttribute("value"))
-                        }
-                        if (node.tagName === "maxplaytime") {
-                            game["maxplaytime"] = parseInt(node.getAttribute("value"))
-                        }
-                        if ( (node.tagName === "link")
-                            && (node.getAttribute("type") === "boardgamecategory") ) {
-                            if (game.hasOwnProperty("categories")) {
-                                game["categories"].push(node.getAttribute("value"))
-                            } else {
-                                game["categories"] = [node.getAttribute("value")]
-                            }
-                        }
-                        if ( (node.tagName === "link")
-                            && (node.getAttribute("type") === "boardgamemechanic") ) {
-                            if (game.hasOwnProperty("mechanics")) {
-                                game["mechanics"].push(node.getAttribute("value"))
-                            } else {
-                                game["mechanics"] = [node.getAttribute("value")]
-                            }
-                        }
-                        if ( node.tagName === "statistics") {
-                            node.childNodes.forEach(
-                                function (childNode) {
-                                    if (childNode.tagName === "ratings") {
-                                        childNode.childNodes.forEach(
-                                            function (grandchildNode) {
-                                                if (grandchildNode.tagName === "numweights") {
-                                                    game["numweights"] = grandchildNode.getAttribute("value")
-                                                }
-                                                if (grandchildNode.tagName === "averageweight") {
-                                                    game["averageweight"] = grandchildNode.getAttribute("value")
-                                                    let weight = parseFloat(game.averageweight)
-                                                    let weightname = null
-                                                    if (weight < 1.5) {
-                                                        weightname = "light"
-                                                    } else if (weight < 2.5) {
-                                                        weightname = "medium light"
-                                                    } else if (weight < 3.5) {
-                                                        weightname = "medium"
-                                                    } else if (weight < 4.5) {
-                                                        weightname = "medium heavy"
-                                                    } else {
-                                                        weightname = "heavy"
-                                                    }
-                                                    game["averageweightname"] = weightname
-                                                }
-                                            }
-                                        )
-                                    }
-                                }
-                            )
-                        }
-                        if ( node.tagName === "comments") {
-                            node.childNodes.forEach(
-                                function (childNode) {
-                                    if (childNode.tagName === "comment") {
-                                        let comment = childNode.getAttribute("value")
-                                        if (comment.length > 30 && comment.length < 800) {
-                                            let author = childNode.getAttribute("username")
-                                            let newComment = {"comment": comment, "author": author}
-                                            if (game.hasOwnProperty("comments")) {
-                                                game["comments"].push(newComment)
-                                            } else {
-                                                game["comments"] = [newComment]
-                                            }
-                                        }
-                                    }
-                        })}
-                        if ( node.tagName === "videos") {
-                            node.childNodes.forEach(
-                                function (childNode) {
-                                    if ((childNode.tagName === "video") 
-                                        && (childNode.getAttribute("language") === "English")
-                                        && (childNode.getAttribute("category") === "review")) {
-                                        let title = childNode.getAttribute("title")
-                                        let link = childNode.getAttribute("link")
-                                        let author = childNode.getAttribute("username")
-                                        let newVideo = {"title": title, "link": link, "author": author}
-                                        if (game.hasOwnProperty("videos")) {
-                                            game["videos"].push(newVideo)
-                                        } else {
-                                            game["videos"] = [newVideo]
-                                        }
-                                    }
-                        })}
-                    }
-                }
-            )
-        }
-        if ( Object.keys(game) && (!game.hasOwnProperty("yearpublished") || game["yearpublished"] === 0) ) {
-            game["yearpublished"] = null
-        }
-        if ( Object.keys(game) && (!game.hasOwnProperty("videos")) ) {
-            game["videos"] = []
-        }
-        return game
     }
 
     ifGameHasBeenAdded(gameId) {
@@ -366,4 +222,5 @@ export class AddByTitle extends React.Component {
 AddByTitle.propTypes = {
     allgames: PropTypes.array.isRequired,
     onnewtitle: PropTypes.func.isRequired,
+    dogamedataapi: PropTypes.func.isRequired,
 }

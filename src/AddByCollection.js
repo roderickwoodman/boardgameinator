@@ -16,6 +16,10 @@ export class AddByCollection extends React.Component {
         this.handleSubmit = this.handleSubmit.bind(this)
     }
 
+    usercollectionApi(username) {
+        return 'https://boardgamegeek.com/xmlapi2/collection?subtype=boardgame&sername=' + username
+    }
+
     handleChange(event) {
         this.setState({value: event.target.value})
     }
@@ -32,6 +36,11 @@ export class AddByCollection extends React.Component {
             .replace(/[^0-9a-zA-Z ]/g, "")
         let messages = []
         messages.push('Collection of BGG user "' + username + '" will be searched (FIXME)')
+
+        fetch(this.usercollectionApi(username))
+            // FIXME: workaround BGG server-side CORS misconfig here...
+            .then(response => response.text())
+            // FIXME: decode XML here...
         this.setState({ statusMessages: messages })
     }
 

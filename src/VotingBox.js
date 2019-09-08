@@ -16,8 +16,9 @@ export class VotingBox extends React.Component {
     }
 
     handleSectionChange(event) {
+        let newSelection = event.target.id.replace(/select-/g, '')
         this.setState({
-            votingOn: event.target.value
+            votingOn: newSelection
         })
     }
 
@@ -43,22 +44,12 @@ export class VotingBox extends React.Component {
                 <span className='circledNumber'>&#9313;</span>Vote on parts.
             </span>
 
-            <div id="votingsection-selector">
-                <div>
-                    <label>
-                        <input type='radio' key='players' id='players' name='votingsection' checked={this.state.votingOn==='players'} value='players' onChange={this.handleSectionChange} /> 
-                        Players</label>
-                    <label>
-                        <input type='radio' key='weights' id='weights' name='votingsection' checked={this.state.votingOn==='weights'} value='weights' onChange={this.handleSectionChange} /> 
-                        Weights</label>
-                    <label>
-                        <input type='radio' key='categories' id='categories' name='votingsection' checked={this.state.votingOn==='categories'} value='categories' onChange={this.handleSectionChange} /> 
-                        Categories</label>
-                    <label>
-                        <input type='radio' key='mechanics' id='mechanics' name='votingsection' checked={this.state.votingOn==='mechanics'} value='mechanics' onChange={this.handleSectionChange} /> 
-                        Mechanics</label>
-                </div>
-            </div>
+            <ul id="votingsection-selector">
+                <li id="select-players" className={"selector" + (this.state.votingOn === "players" ? " selected" : "")} onClick={this.handleSectionChange}>Players</li>
+                <li id="select-weights" className={"selector" + (this.state.votingOn === "weights" ? " selected" : "")} onClick={this.handleSectionChange}>Weights</li>
+                <li id="select-categories" className={"selector" + (this.state.votingOn === "categories" ? " selected" : "")} onClick={this.handleSectionChange}>Categories</li>
+                <li id="select-mechanics" className={"selector" + (this.state.votingOn === "mechanics" ? " selected" : "")} onClick={this.handleSectionChange}>Mechanics</li>
+            </ul>
 
             <button data-attrtype="all" onClick={this.props.onclearsectionvotes}>CLEAR ALL VOTES</button>
 

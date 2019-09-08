@@ -99,7 +99,7 @@ hr {
 #gamesorting-controls,
 #gamefiltering-controls {
   margin: 15px 0;
-  padding: 0 30px;
+  padding: 0 20px;
 }
 
 #gamesorting-controls label,
@@ -115,9 +115,37 @@ hr {
   margin-right: -20px;
 }
 
-#inputsection-selector,
-#votingsection-selector {
+#inputsection-selector {
   margin-bottom: 15px;
+}
+
+#votingsection-selector {
+  margin: 3px 0;
+  padding: 0;
+}
+
+#votingsection-selector > :first-child {
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+
+#votingsection-selector > :last-child {
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+.selector {
+  display: inline-block;
+  padding: 2px 3px;
+  background-color: white;
+  color: purple;
+  border: 1px solid purple;
+}
+
+.selector.selected {
+  background-color: purple;
+  color: white;
+  font-weight: 800;
 }
 
 .status-messages {

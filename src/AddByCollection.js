@@ -35,8 +35,8 @@ export class AddByCollection extends React.Component {
             .trim()
             .replace(/[^0-9a-zA-Z ]/g, "")
         let messages = []
-        messages.push('Collection of BGG user "' + username + '" will be searched (FIXME)')
-
+        // messages.push('Collection of BGG user "' + username + '" will be searched (FIXME)')
+        messages.push('ERROR: this feature is not yet implemented, it requires a workaround to handle the incorrect BGG API response.')
         fetch(this.usercollectionApi(username))
             // FIXME: workaround BGG server-side CORS misconfig here...
             .then(response => response.text())

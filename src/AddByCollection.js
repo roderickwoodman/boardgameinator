@@ -49,9 +49,11 @@ export class AddByCollection extends React.Component {
             <section id="input-by-collection">
                 <form onSubmit={this.handleSubmit} onReset={this.handleReset}>
                     <label htmlFor="bggusername-input">BGG Username:</label>
-                    <input type="text" value={this.state.value} onChange={this.handleChange} placeholder="(BoardGameGeek.com username)" required/>
-                    <input type="reset" value="Reset" />
-                    <input type="submit" value="Submit" />
+                    <input type="text" value={this.state.value} onChange={this.handleChange} required/>
+                    <section className="buttonrow">
+                        <input type="reset" value="Reset" />
+                        <input type="submit" value="Submit" />
+                    </section>
                 </form>
                 <div className="status-messages">
                     { this.state.statusMessages

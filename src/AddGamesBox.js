@@ -177,7 +177,10 @@ export class AddGamesBox extends React.Component {
             <React.Fragment>
 
             <span className="instructions">
-                <span className="circledNumber">&#9312;</span>Add your games.
+                <span className="leftGroup">
+                    <span className="circledNumber">&#9312;</span>Add your games.
+                </span>
+                <button className="rightGroup" onClick={this.props.ondeleteall}>REMOVE ALL</button>
             </span>
 
             <ul id="inputsection-selector">
@@ -200,8 +203,7 @@ export class AddGamesBox extends React.Component {
                 {this.state.inputBy === 'addedlist' && (
                     <AddedList
                         allgames={this.props.allgames} 
-                        ondelete={this.props.ondelete}
-                        ondeleteall={this.props.ondeleteall} />
+                        ondelete={this.props.ondelete} />
                 )}
             </div>
 

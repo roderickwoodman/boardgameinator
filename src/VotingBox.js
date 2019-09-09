@@ -40,8 +40,11 @@ export class VotingBox extends React.Component {
         return (
             <React.Fragment>
 
-            <span className='instructions'>
-                <span className='circledNumber'>&#9313;</span>Vote on parts.
+            <span className="instructions">
+                <span className="leftGroup">
+                    <span className="circledNumber">&#9313;</span>Vote on parts.
+                </span>
+                <button className="rightGroup" data-attrtype="all" onClick={this.props.onclearsectionvotes}>CLEAR ALL</button>
             </span>
 
             <ul id="votingsection-selector">
@@ -50,8 +53,6 @@ export class VotingBox extends React.Component {
                 <li id="select-categories" className={"selector" + (this.state.votingOn === "categories" ? " selected" : "")} onClick={this.handleSectionChange}>Categories</li>
                 <li id="select-mechanics" className={"selector" + (this.state.votingOn === "mechanics" ? " selected" : "")} onClick={this.handleSectionChange}>Mechanics</li>
             </ul>
-
-            <button data-attrtype="all" onClick={this.props.onclearsectionvotes}>CLEAR ALL VOTES</button>
 
             <div id="voting-section">
                 {this.state.votingOn === 'players' && (

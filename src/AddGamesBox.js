@@ -166,8 +166,9 @@ export class AddGamesBox extends React.Component {
     }
   
     handleSectionChange(event) {
+        let newSelection = event.target.id.replace(/select-/g, '')
         this.setState({
-            inputBy: event.target.value
+            inputBy: newSelection
         })
     }
 
@@ -179,19 +180,11 @@ export class AddGamesBox extends React.Component {
                 <span className="circledNumber">&#9312;</span>Add your games.
             </span>
 
-            <div id="inputsection-selector">
-                <div>
-                    <label>
-                        <input type='radio' key='title' id='title' name='inputsection' checked={this.state.inputBy==='title'} value='title' onChange={this.handleSectionChange} /> 
-                        By Title</label>
-                    <label>
-                        <input type='radio' key='collection' id='collection' name='inputsection' checked={this.state.inputBy==='collection'} value='collection' onChange={this.handleSectionChange} /> 
-                        By Collection</label>
-                    <label>
-                        <input type='radio' key='addedlist' id='addedlist' name='inputsection' checked={this.state.inputBy==='addedlist'} value='addedlist' onChange={this.handleSectionChange} /> 
-                        Added List</label>
-                </div>
-            </div>
+            <ul id="inputsection-selector">
+                <li id="select-title" className={"selector" + (this.state.inputBy === "title" ? " selected" : "")} onClick={this.handleSectionChange}>By Title</li>
+                <li id="select-collection" className={"selector" + (this.state.inputBy === "collection" ? " selected" : "")} onClick={this.handleSectionChange}>By Collection</li>
+                <li id="select-addedlist" className={"selector" + (this.state.inputBy === "addedlist" ? " selected" : "")} onClick={this.handleSectionChange}>Added List</li>
+            </ul>
 
             <div id="input-section">
                 {this.state.inputBy === 'title' && (

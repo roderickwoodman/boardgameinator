@@ -115,20 +115,19 @@ hr {
   margin-right: -20px;
 }
 
-#inputsection-selector {
-  margin-bottom: 15px;
-}
-
+#inputsection-selector,
 #votingsection-selector {
   margin: 3px 0;
   padding: 0;
 }
 
+#inputsection-selector > :first-child,
 #votingsection-selector > :first-child {
   border-top-left-radius: 5px;
   border-bottom-left-radius: 5px;
 }
 
+#inputsection-selector > :last-child,
 #votingsection-selector > :last-child {
   border-top-right-radius: 5px;
   border-bottom-right-radius: 5px;

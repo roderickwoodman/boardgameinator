@@ -99,7 +99,11 @@ export class AddByTitle extends React.Component {
                             .then(text => this.props.parsegamedataxml(text))
                             .then(json => {
                                 if (json.hasOwnProperty('id')) {
-                                    messages.push('"' + this.withoutYear(yearMatches[0].name) + '" has now been added')
+                                    if (desiredYear !== null) {
+                                        messages.push('"' + this.withYear(yearMatches[0].name, yearMatches[0].yearpublished, yearMatches[0].id) + '" has now been added')
+                                    } else {
+                                        messages.push('"' + this.withoutYear(yearMatches[0].name) + '" has now been added')
+                                    }
                                     json["nameisunique"] = false
                                     this.props.onnewtitle(json)
                                 } else {
@@ -116,7 +120,7 @@ export class AddByTitle extends React.Component {
                 }
             } else {
                 if (this.ifGameHasBeenAdded(titleMatches[0].id)) {
-                    messages.push('"' + this.withoutYear(titleMatches[0].name) + '" was previously added')
+                    messages.push('"' + this.withYear(titleMatches[0].name) + '" was previously added')
                 } else {
                     this.props.dogamedataapi(titleMatches[0].id)
                         .then(response => response.text())

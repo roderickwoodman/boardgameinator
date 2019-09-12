@@ -231,18 +231,17 @@ export class Boardgameinator extends React.Component {
     onClearSectionVotes(event) {
         const { attrtype } = Object.assign({}, event.target.dataset)
         const clearVotes = {}
-        let sections = []
-        if (attrtype === 'all') {
-            sections = ['players', 'weight', 'category', 'mechanic']
-        } else {
-            sections.push(attrtype)
-        }
-        sections.forEach((section) => {
-            this.setState(prevState => {
-                let thumbs = Object.assign({}, prevState.thumbs)
-                thumbs[section] = clearVotes
-                return { thumbs }
-            })
+        this.setState(prevState => {
+            let thumbs = Object.assign({}, prevState.thumbs)
+            if (attrtype === 'all') {
+                thumbs['players'] = clearVotes
+                thumbs['weight'] = clearVotes
+                thumbs['category'] = clearVotes
+                thumbs['mechanic'] = clearVotes
+            } else {
+                thumbs[attrtype] = clearVotes
+            }
+            return { thumbs: thumbs }
         })
     }
 

@@ -180,7 +180,7 @@ export class AddGamesBox extends React.Component {
                 <span className="leftGroup">
                     <span className="circledNumber">&#9312;</span>Add your games.
                 </span>
-                <button className="rightGroup" onClick={this.props.ondeleteall}>REMOVE ALL</button>
+                <button className="rightGroup" onClick={this.props.ondeleteall} disabled={this.props.allgames.length===0}>REMOVE ALL</button>
             </span>
 
             <ul id="inputsection-selector">

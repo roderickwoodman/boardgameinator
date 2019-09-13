@@ -429,5 +429,9 @@ hr {
 button,
 .fa-button {
   margin: 0 5px;
+}
+
+button:enabled,
+.fa-button:enabled {
   cursor: pointer;
 }

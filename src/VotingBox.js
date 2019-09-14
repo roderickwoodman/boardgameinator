@@ -38,7 +38,6 @@ export class VotingBox extends React.Component {
 
     render() {
         let numvotes = Object.keys(this.props.thumbs.players).length
-            + Object.keys(this.props.thumbs.players).length
             + Object.keys(this.props.thumbs.weight).length
             + Object.keys(this.props.thumbs.category).length
             + Object.keys(this.props.thumbs.mechanic).length

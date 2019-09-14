@@ -37,6 +37,11 @@ export class VotingBox extends React.Component {
     }
 
     render() {
+        let numvotes = Object.keys(this.props.thumbs.players).length
+            + Object.keys(this.props.thumbs.players).length
+            + Object.keys(this.props.thumbs.weight).length
+            + Object.keys(this.props.thumbs.category).length
+            + Object.keys(this.props.thumbs.mechanic).length
         return (
             <React.Fragment>
 
@@ -44,7 +49,7 @@ export class VotingBox extends React.Component {
                 <span className="leftGroup">
                     <span className="circledNumber">&#9313;</span>Vote on parts.
                 </span>
-                <button className="rightGroup" data-attrtype="all" onClick={this.props.onclearsectionvotes}>CLEAR ALL</button>
+                <button className="rightGroup" data-attrtype="all" onClick={this.props.onclearsectionvotes}>CLEAR ALL {numvotes}</button>
             </span>
 
             <ul id="votingsection-selector">

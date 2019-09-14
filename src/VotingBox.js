@@ -49,7 +49,7 @@ export class VotingBox extends React.Component {
                 <span className="leftGroup">
                     <span className="circledNumber">&#9313;</span>Vote on parts.
                 </span>
-                <button className="rightGroup" data-attrtype="all" onClick={this.props.onclearsectionvotes}>CLEAR ALL {numvotes}</button>
+                <button className="rightGroup" data-attrtype="all" onClick={this.props.onclearsectionvotes} disabled={numvotes===0}>CLEAR ALL {numvotes}</button>
             </span>
 
             <ul id="votingsection-selector">

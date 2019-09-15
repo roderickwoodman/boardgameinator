@@ -26,10 +26,16 @@ export class Boardgameinator extends React.Component {
         this.onClearSectionVotes = this.onClearSectionVotes.bind(this)
     }
 
+    componentDidMount() {
+        const allGames = JSON.parse(localStorage.getItem("allGames"))
+        this.setState({ allGames })
+    }
+
     onNewTitle(newGame) {
         this.setState(prevState => {
             let allGames = prevState.allGames.slice()
             allGames.push(newGame)
+            localStorage.setItem('allGames', JSON.stringify(allGames))
             return { allGames }
         })
     }
@@ -113,6 +119,8 @@ export class Boardgameinator extends React.Component {
                 }
             }
 
+            localStorage.setItem('allGames', JSON.stringify(allGames))
+
             // push these changes into 2 state variables
             return { allGames: allGames, thumbs:thumbs }
         })
@@ -122,6 +130,7 @@ export class Boardgameinator extends React.Component {
         this.setState(prevState => {
             let allGames = []
             let thumbs = {'players': {}, 'weight': {}, 'category': {}, 'mechanic': {}}
+            localStorage.setItem('allGames', JSON.stringify(allGames))
             return { allGames: allGames, thumbs:thumbs }
         })
     }

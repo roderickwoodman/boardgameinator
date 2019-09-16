@@ -13,7 +13,12 @@ export class AddedList extends React.Component {
     }
 
     render() {
+        let clipboardValue = "" // FIXME: hardcoded for now, but will derive from allGames
+        clipboardValue += "Belfort\n"
+        clipboardValue += "Cuba Libre\n"
+        clipboardValue += "El Grande\n"
         return (
+            <React.Fragment>
             <ul id="games-added">
                 { this.props.allgames.length >= 0 && (
                     this.props.allgames
@@ -34,6 +39,12 @@ export class AddedList extends React.Component {
                     </span>
                 )}
             </ul>
+            <section id="games-clipboard">
+                <form>
+                    <textarea rows="8" cols="40" value={clipboardValue} onChange={this.handleChange} placeholder="(exact match only)" required/>
+                </form>
+            </section>
+            </React.Fragment>
         )
     }
 }

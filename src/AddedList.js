@@ -10,16 +10,29 @@ export class AddedList extends React.Component {
         this.state = { 
             statusMessages: []
         }
+        this.handleCopyToClipboard = this.handleCopyToClipboard.bind(this)
+    }
+
+    handleCopyToClipboard(event) {
+        document.getElementById("games-clipboard").select()
+        document.execCommand("copy")
     }
 
     render() {
-        let clipboardValue = "" // FIXME: hardcoded for now, but will derive from allGames
-        clipboardValue += "Belfort\n"
-        clipboardValue += "Cuba Libre\n"
-        clipboardValue += "El Grande\n"
+        let clipboardValue = ""
+        this.props.allgames.forEach((game) => {
+            clipboardValue += game.name.concat((game.hasOwnProperty("nameisunique") && game["nameisunique"] === false) ? game["disambiguation"] : "").concat("\n")
+        })
+        let inlineStyle = {
+            // display: 'none'
+            position: "absolute",
+            left: "-1000px",
+            top: "-1000px"
+        }
         return (
             <React.Fragment>
             <ul id="games-added">
+            <li><b>ADDED GAMES:</b><button onClick={this.handleCopyToClipboard}>copy to clipboard</button></li>
                 { this.props.allgames.length >= 0 && (
                     this.props.allgames
                         .sort( (a, b) => (a.name > b.name) ? 1 : -1 )
@@ -38,9 +51,9 @@ export class AddedList extends React.Component {
                     </span>
                 )}
             </ul>
-            <section id="games-clipboard">
+            <section>
                 <form>
-                    <textarea rows="8" cols="40" value={clipboardValue} onChange={this.handleChange} placeholder="(exact match only)" required/>
+                    <textarea id="games-clipboard" style={inlineStyle} defaultValue={clipboardValue}></textarea>
                 </form>
             </section>
             </React.Fragment>

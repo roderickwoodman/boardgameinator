@@ -121,7 +121,7 @@ export class GameCardBack extends React.Component {
 }
 
 GameCardBack.propTypes = {
-    comments: PropTypes.array.isRequired,
+    comments: PropTypes.array,
     description: PropTypes.array.isRequired,
     id: PropTypes.number.isRequired,
     inspectingsection: PropTypes.string.isRequired,
@@ -131,4 +131,8 @@ GameCardBack.propTypes = {
     ontoggleinspection: PropTypes.func.isRequired,
     videos: PropTypes.array.isRequired,
     yearpublished: PropTypes.number.isRequired,
+}
+
+GameCardBack.defaultProps = {
+    comments: [{author: "ERROR", comment: "(no comments for this game exist on BoardGameGeek.com)"}]
 }

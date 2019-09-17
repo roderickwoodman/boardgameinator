@@ -51,7 +51,7 @@ export class Game extends React.Component {
 Game.propTypes = {
     averageweightname: PropTypes.string.isRequired,
     categories: PropTypes.array.isRequired,
-    comments: PropTypes.array.isRequired,
+    comments: PropTypes.array,
     description: PropTypes.array.isRequired,
     id: PropTypes.number.isRequired,
     idunderinspection: PropTypes.number,

@@ -129,10 +129,11 @@ GameCardBack.propTypes = {
     ondelete: PropTypes.func.isRequired,
     oninspectionsectionchange: PropTypes.func.isRequired,
     ontoggleinspection: PropTypes.func.isRequired,
-    videos: PropTypes.array.isRequired,
+    videos: PropTypes.array,
     yearpublished: PropTypes.number.isRequired,
 }
 
 GameCardBack.defaultProps = {
-    comments: [{author: "ERROR", comment: "(no comments for this game exist on BoardGameGeek.com)"}]
+    comments: [{author: "ERROR", comment: "(no comments for this game exist on BoardGameGeek.com)"}],
+    videos: [{author: "ERROR", link: "#", title: "(no videos for this game exist on BoardGameGeek.com)"}]
 }

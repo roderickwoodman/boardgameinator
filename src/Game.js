@@ -68,6 +68,6 @@ Game.propTypes = {
     thumbcount: PropTypes.number.isRequired,
     thumbnail: PropTypes.string.isRequired,
     thumbs: PropTypes.object.isRequired,
-    videos: PropTypes.array.isRequired,
+    videos: PropTypes.array,
     yearpublished: PropTypes.number,
 }

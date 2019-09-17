@@ -20,11 +20,11 @@ export class AddedList extends React.Component {
         this.props.allgames.forEach((game) => {
             games += game.name.concat((game.hasOwnProperty("nameisunique") && game["nameisunique"] === false) ? game["disambiguation"] : "").concat("\n")
         })
+        let messages = []
         let clipboardElement = document.getElementById("games-clipboard")
         clipboardElement.value = games
         clipboardElement.select()
         document.execCommand("copy")
-        let messages = []
         let numgames = document.getElementById("games-clipboard").value.split("\n").length - 1
         messages.push("Copied " + numgames + " games to clipboard")
         this.setState({ statusMessages: messages })
@@ -40,7 +40,7 @@ export class AddedList extends React.Component {
         return (
             <React.Fragment>
             <ul id="games-added">
-            <li><b>ADDED GAMES:</b><button onClick={this.handleCopyToClipboard}>copy to clipboard</button></li>
+            <li><b>ADDED GAMES:</b><button onClick={this.handleCopyToClipboard} disabled={!this.props.allgames.length}>copy to clipboard</button></li>
                 { this.props.allgames.length >= 0 && (
                     this.props.allgames
                         .sort( (a, b) => (a.name + a.disambiguation > b.name + b.disambiguation) ? 1 : -1 )

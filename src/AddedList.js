@@ -16,7 +16,13 @@ export class AddedList extends React.Component {
     }
 
     handleCopyToClipboard(event) {
-        document.getElementById("games-clipboard").select()
+        let games = ""
+        this.props.allgames.forEach((game) => {
+            games += game.name.concat((game.hasOwnProperty("nameisunique") && game["nameisunique"] === false) ? game["disambiguation"] : "").concat("\n")
+        })
+        let clipboardElement = document.getElementById("games-clipboard")
+        clipboardElement.value = games
+        clipboardElement.select()
         document.execCommand("copy")
         let messages = []
         let numgames = document.getElementById("games-clipboard").value.split("\n").length - 1
@@ -26,9 +32,6 @@ export class AddedList extends React.Component {
 
     render() {
         let clipboardValue = ""
-        this.props.allgames.forEach((game) => {
-            clipboardValue += game.name.concat((game.hasOwnProperty("nameisunique") && game["nameisunique"] === false) ? game["disambiguation"] : "").concat("\n")
-        })
         let inlineStyle = {
             position: "absolute",
             left: "-1000px",

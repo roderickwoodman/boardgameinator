@@ -19,11 +19,6 @@ export class AddedElement extends React.Component {
 
     render() {
         let elementStyle = (this.state.hover) ? "listing hovering" : "listing nothovering"
-        let disambiguation = (this.props.nameisunique) 
-            ? "" 
-            : (this.props.yearpublished !== null)
-                ? "("+ this.props.yearpublished + ")"
-                : "(#" + this.props.id + ")"
         return (
             <li 
                 className={elementStyle}
@@ -37,7 +32,7 @@ export class AddedElement extends React.Component {
                         <FontAwesomeIcon icon={faTrash} />
                     </button>
                 )}
-                &nbsp;{this.props.name} {disambiguation}
+                &nbsp;{this.props.name}
             </li>
         )
     }
@@ -46,7 +41,6 @@ export class AddedElement extends React.Component {
 AddedElement.propTypes = {
     id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
-    nameisunique: PropTypes.bool.isRequired,
     ondelete: PropTypes.func.isRequired,
     yearpublished: PropTypes.number.isRequired,
 }

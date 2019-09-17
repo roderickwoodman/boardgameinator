@@ -28,8 +28,7 @@ export class AddedList extends React.Component {
                                 <AddedElement
                                     key={i}
                                     id={game.id}
-                                    name={game.name}
-                                    nameisunique={game.nameisunique}
+                                    name={game.name.concat((game.hasOwnProperty("nameisunique") && game["nameisunique"] === false) ? game["disambiguation"] : "")}
                                     yearpublished={game.yearpublished}
                                     ondelete={this.props.ondelete} />)
                 )}

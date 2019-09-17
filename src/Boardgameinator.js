@@ -32,6 +32,12 @@ export class Boardgameinator extends React.Component {
     }
 
     onNewTitle(newGame) {
+        if (newGame.hasOwnProperty("nameisunique") && newGame["nameisunique"] !== true) {
+            let disambiguation = (newGame.yearpublished !== null)
+                ? "("+ newGame.yearpublished + ")"
+                : "(#" + newGame.id + ")"
+            newGame["disambiguation"] = disambiguation
+        }
         this.setState(prevState => {
             let allGames = prevState.allGames.slice()
             allGames.push(newGame)

@@ -40,7 +40,7 @@ export class AddedList extends React.Component {
             <li><b>ADDED GAMES:</b><button onClick={this.handleCopyToClipboard}>copy to clipboard</button></li>
                 { this.props.allgames.length >= 0 && (
                     this.props.allgames
-                        .sort( (a, b) => (a.name > b.name) ? 1 : -1 )
+                        .sort( (a, b) => (a.name + a.disambiguation > b.name + b.disambiguation) ? 1 : -1 )
                         .map(
                             (game, i) =>
                                 <AddedElement

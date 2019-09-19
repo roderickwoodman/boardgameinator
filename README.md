@@ -1,16 +1,18 @@
 ## What is this thing?
 
-**Boardgameinator** is a tool that allows a user to compare multiple boardgames and rank their attributes according preference.
+**Boardgameinator** is a high-level comparison tool for boardgames. It allows users to iteratively build a long list of games by title and upvote their attributes, while always providing the guidance of game descriptions and short user review comments just a "double-click" away.
 
 ## Who is this thing for?
 
-There has been an explosion of the designer boardgame industry in recent years. This tool is for the gamer who is aware of the huge number of boargame titles that are now on the market (or in their closet!), and needs help figuring out what to buy or play next.
+This tool if for anyone who is generally familiar with modern boardgaming, but who is not quite familiar with all of the game titles. These people need help determining what to play or what to buy. 
+
+Selecting a boardgame for a gaming event is a multi-dimensional, ever-changing process; preferences for player count, complexity, theme, and game mechanics change from day to day and group to group.
 
 ## Why is this thing so awesome?
 
-This tool pieces apart the firehose of boardgame data at the much-loved [BoardGameGeek.com](https://boardgamegeek.com) website, cuts through their crude rankings and cult-of-the-new hotness, and prioritizes a list of boardgame titles according to the user's preferences. This provides a high-level comparison across games that is difficult to get from the encyclopedia-style game review and reference websites. 
+This tool surfaces, in a visually side-by-side fashion, the more qualitative pieces from the firehose of boardgame data at the much-loved [BoardGameGeek.com](https://boardgamegeek.com) website. It de-nerdifies BGG. It gives you comparision that you can hopefully use, but is not so encyclopedic while doing so. You don't have to be a BGG user or have your collection saved online in order to use this tool. 
 
-This tool is opinionated, in the (unpopular) direction of shorter games that support more players. It doesn't let you geek out on every possible sort order. If you are thinking of playing or buying a long or a hyped game, then you already have many boardgame geeks on the Internet supporting you. So just do it. You don't need this tool. :-)
+This tool is also opinionated, in the (unpopular) direction of shorter games that support more players. It doesn't let you geek out on every possible sort order. Because in the end, what makes boardgames so great and why they can affect different people so differently is that they are too complex to be so simply ranked by one metric, like BGG and many BGG tools tend to do.
 
 ## How does this thing work?
 

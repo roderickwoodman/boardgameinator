@@ -55,7 +55,7 @@ Videos.propTypes = {
 export class GameCardBack extends React.Component {
 
     render() {
-        const { id, name, yearpublished, description, inspectingsection, comments, videos, ontoggleinspection, oninspectionsectionchange, ondelete } = this.props
+        const { id, name, yearpublished, disambiguation, description, inspectingsection, comments, videos, ontoggleinspection, oninspectionsectionchange, ondelete } = this.props
         return (
             <React.Fragment>
             <section className="gamecard-header">
@@ -64,7 +64,7 @@ export class GameCardBack extends React.Component {
             </section>
             <section className="gamecard-title">
                 <h2 className="game-name">{name}</h2>
-                <h4 className="game-yearpublished">({yearpublished})</h4>
+                <h4 className="game-yearpublished">({(yearpublished !== null) ? yearpublished : disambiguation})</h4>
             </section>
             <div id="inspectionsection-selector">
                 <label>

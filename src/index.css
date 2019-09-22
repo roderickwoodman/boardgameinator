@@ -431,6 +431,7 @@ button,
   margin: 0 5px;
 }
 
+.selector,
 button:enabled,
 .fa-button:enabled {
   cursor: pointer;

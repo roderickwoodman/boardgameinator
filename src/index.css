@@ -399,7 +399,7 @@ hr {
   font-weight: 800;
 }
 
-.listing, .message {
+.addedgame, .message {
   margin: 0;
 }
 
@@ -418,11 +418,16 @@ hr {
   text-decoration-style: double;
 }
 
-.hovering {
+.addedgame.hovering {
   color: red;
 }
 
-.nothovering {
+.voteable.hovering.novote {
+  color: green;
+  font-weight: 800;
+}
+
+.voteable.hovering.thumbsup {
   color: black;
 }
 

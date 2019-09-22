@@ -18,7 +18,7 @@ export class AddedElement extends React.Component {
     }
 
     render() {
-        let elementStyle = (this.state.hover) ? "listing hovering" : "listing nothovering"
+        let elementStyle = (this.state.hover) ? "addedgame hovering" : "addedgame nothovering"
         return (
             <li 
                 className={elementStyle}

@@ -26,9 +26,18 @@ export class Boardgameinator extends React.Component {
         this.onClearSectionVotes = this.onClearSectionVotes.bind(this)
     }
 
+    gamedataVersion = 1
+
     componentDidMount() {
-        const allGames = JSON.parse(localStorage.getItem("allGames"))
-        this.setState({ allGames })
+        const stored_gamedataVersion = JSON.parse(localStorage.getItem("gamedataVersion"))
+        let allGames = []
+        if (stored_gamedataVersion === this.gamedataVersion) {
+            allGames = JSON.parse(localStorage.getItem("allGames"))
+            this.setState({ allGames })
+        } else {
+            localStorage.setItem('gamedataVersion', JSON.stringify(this.gamedataVersion))
+            localStorage.setItem('allGames', JSON.stringify(allGames))
+        }
     }
 
     onNewTitle(newGame) {

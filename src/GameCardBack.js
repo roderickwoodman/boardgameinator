@@ -55,7 +55,8 @@ Videos.propTypes = {
 export class GameCardBack extends React.Component {
 
     render() {
-        const { id, name, yearpublished, disambiguation, description, inspectingsection, comments, videos, ontoggleinspection, oninspectionsectionchange, ondelete } = this.props
+
+        const { id, name, yearpublished, description, inspectingsection, comments, videos, ontoggleinspection, oninspectionsectionchange, ondelete } = this.props
         return (
             <React.Fragment>
             <section className="gamecard-header">
@@ -64,7 +65,10 @@ export class GameCardBack extends React.Component {
             </section>
             <section className="gamecard-title">
                 <h2 className="game-name">{name}</h2>
-                <h4 className="game-yearpublished">({(yearpublished !== null) ? yearpublished : disambiguation})</h4>
+                {(yearpublished !== null) 
+                    ? <h4 className="game-yearpublished">({yearpublished})</h4>
+                    : <h4 className="game-yearpublished">(#{id})</h4>
+                }
             </section>
             <div id="inspectionsection-selector">
                 <label>
@@ -121,16 +125,16 @@ export class GameCardBack extends React.Component {
 }
 
 GameCardBack.propTypes = {
-    comments: PropTypes.array,
-    description: PropTypes.array.isRequired,
     id: PropTypes.number.isRequired,
-    inspectingsection: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
-    ondelete: PropTypes.func.isRequired,
-    oninspectionsectionchange: PropTypes.func.isRequired,
-    ontoggleinspection: PropTypes.func.isRequired,
+    yearpublished: PropTypes.number,
+    description: PropTypes.array.isRequired,
+    inspectingsection: PropTypes.string.isRequired,
+    comments: PropTypes.array,
     videos: PropTypes.array,
-    yearpublished: PropTypes.number.isRequired,
+    ontoggleinspection: PropTypes.func.isRequired,
+    oninspectionsectionchange: PropTypes.func.isRequired,
+    ondelete: PropTypes.func.isRequired,
 }
 
 GameCardBack.defaultProps = {

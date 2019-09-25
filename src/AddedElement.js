@@ -42,5 +42,5 @@ AddedElement.propTypes = {
     id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
     ondelete: PropTypes.func.isRequired,
-    yearpublished: PropTypes.number.isRequired,
+    yearpublished: PropTypes.number,
 }

@@ -359,20 +359,20 @@ hr {
   object-fit: contain;
 }
 
-.showinspection-enter {
+.showsegment-enter {
   opacity: 0;
 }
 
-.showinspection-enter-active {
+.showsegment-enter-active {
   opacity: 1;
   transition: opacity 500ms ease-in;
 }
 
-.showinspection-exit {
+.showsegment-exit {
   opacity: 1;
 }
 
-.showinspection-exit-active {
+.showsegment-exit-active {
   opacity: 0;
   transition: opacity 500ms ease-in;
 }

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { AddByCollection } from './AddByCollection';
 import { AddByTitle } from './AddByTitle';
 import { AddedList } from './AddedList';
+import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
 
 export class AddGamesBox extends React.Component {
@@ -187,21 +188,49 @@ export class AddGamesBox extends React.Component {
             </ul>
 
             <div id="input-section">
-                {this.state.inputBy === 'title' && (
-                    <AddByTitle
-                        allgames={this.props.allgames}
-                        onnewtitle={this.props.onnewtitle} 
-                        dogamedataapi={this.doGamedataApi}
-                        parsegamedataxml={this.parseGamedataApiXml}/>
-                )}
-                {this.state.inputBy === 'collection' && (
-                    <AddByCollection />
-                )}
-                {this.state.inputBy === 'addedlist' && (
-                    <AddedList
-                        allgames={this.props.allgames} 
-                        ondelete={this.props.ondelete} />
-                )}
+                <TransitionGroup>
+                {this.state.inputBy === 'title' &&
+                    <CSSTransition
+                        key={0}
+                        in={true}
+                        appear={false}
+                        timeout={2000}
+                        classNames={"showsegment"}
+                    >
+                        <AddByTitle
+                            allgames={this.props.allgames}
+                            onnewtitle={this.props.onnewtitle} 
+                            dogamedataapi={this.doGamedataApi}
+                            parsegamedataxml={this.parseGamedataApiXml}
+                        />
+                    </CSSTransition>
+                }
+                {this.state.inputBy === 'collection' &&
+                    <CSSTransition
+                        key={1}
+                        in={true}
+                        appear={false}
+                        timeout={2000}
+                        classNames={"showsegment"}
+                    >
+                        <AddByCollection />
+                    </CSSTransition>
+                }
+                {this.state.inputBy === 'addedlist' &&
+                    <CSSTransition
+                        key={2}
+                        in={true}
+                        appear={false}
+                        timeout={2000}
+                        classNames={"showsegment"}
+                    >
+                        <AddedList
+                            allgames={this.props.allgames} 
+                            ondelete={this.props.ondelete} 
+                        />
+                    </CSSTransition>
+                }
+                </TransitionGroup>
             </div>
 
             </React.Fragment>

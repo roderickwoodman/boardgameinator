@@ -88,7 +88,7 @@ export class GameCardBack extends React.Component {
                         in={true}
                         appear={false}
                         timeout={2000}
-                        classNames={"showinspection"}
+                        classNames={"showsegment"}
                     >
                         <Description description={description} />
                     </CSSTransition>
@@ -99,7 +99,7 @@ export class GameCardBack extends React.Component {
                         in={true}
                         appear={false}
                         timeout={2000}
-                        classNames={"showinspection"}
+                        classNames={"showsegment"}
                     >
                         <Comments comments={comments} />
                     </CSSTransition>
@@ -110,7 +110,7 @@ export class GameCardBack extends React.Component {
                         in={true}
                         appear={false}
                         timeout={2000}
-                        classNames={"showinspection"}
+                        classNames={"showsegment"}
                     >
                         <Videos videos={videos} />
                     </CSSTransition>

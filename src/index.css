@@ -437,6 +437,22 @@ button,
   cursor: pointer;
 }
 
+.gamecard-header {
+  padding: 1px 2px 2px 0;
+}
+
+.gamecard-header .fa-button {
+  margin: 1px;
+  padding: 4px;
+  border-radius: 4px;
+}
+
+.gamecard-header .fa-button:hover {
+  color: purple;
+  background-color: white;
+}
+
+
 .selector,
 button:enabled,
 .fa-button:enabled {

@@ -71,9 +71,9 @@ export class GameCardBack extends React.Component {
                 }
             </section>
             <ul id="inspectionsection-selector">
-                <li id="select-description" className={"selector" + (inspectingsection === "description" ? " selected" : "")} onClick={oninspectionsectionchange}>Description</li>
-                <li id="select-comments" className={"selector" + (inspectingsection === "comments" ? " selected" : "")} onClick={oninspectionsectionchange}>Comments</li>
-                <li id="select-videos" className={"selector" + (inspectingsection === "videos" ? " selected" : "")} onClick={oninspectionsectionchange}>Videos</li>
+                <li id="select-description" className={"selector darkbg" + (inspectingsection === "description" ? " selected" : "")} onClick={oninspectionsectionchange}>Description</li>
+                <li id="select-comments" className={"selector darkbg" + (inspectingsection === "comments" ? " selected" : "")} onClick={oninspectionsectionchange}>Comments</li>
+                <li id="select-videos" className={"selector darkbg" + (inspectingsection === "videos" ? " selected" : "")} onClick={oninspectionsectionchange}>Videos</li>
             </ul>
             <TransitionGroup>
                 {inspectingsection === "description" &&

@@ -115,19 +115,22 @@ hr {
 }
 
 #inputsection-selector,
-#votingsection-selector {
+#votingsection-selector,
+#inspectionsection-selector {
   margin: 3px 0;
   padding: 0;
 }
 
 #inputsection-selector > :first-child,
-#votingsection-selector > :first-child {
+#votingsection-selector > :first-child,
+#inspectionsection-selector > :first-child {
   border-top-left-radius: 5px;
   border-bottom-left-radius: 5px;
 }
 
 #inputsection-selector > :last-child,
-#votingsection-selector > :last-child {
+#votingsection-selector > :last-child,
+#inspectionsection-selector > :last-child {
   border-top-right-radius: 5px;
   border-bottom-right-radius: 5px;
 }
@@ -140,9 +143,23 @@ hr {
   border: 1px solid purple;
 }
 
+.selector.darkbg {
+  display: inline-block;
+  padding: 2px 3px;
+  background-color: purple;
+  color: white;
+  border: 1px solid white;
+}
+
 .selector.selected {
   background-color: purple;
   color: white;
+  font-weight: 800;
+}
+
+.selector.darkbg.selected {
+  background-color: white;
+  color: purple;
   font-weight: 800;
 }
 
@@ -331,11 +348,6 @@ hr {
 
 .game.inspecting {
   min-width: 500px;
-}
-
-.game.inspecting ul {
-  padding: 30px;
-  list-style-type: disc;
 }
 
 .game.inspecting li {

@@ -1,12 +1,14 @@
 ## What is this thing?
 
-**Boardgameinator** is a high-level comparison tool for boardgames. It provides a playground where users can iteratively build a list of games, upvote those games' attributes, and get simple guidance (like game descriptions and short review comments) along the way.
+Behold! My latest invention... the **BOARDGAMEINATOR**! It allows users to cut through the hype and eliminate boardgame titles of no value. (naming hat tip: [Dr. Doofenshmirtz](https://www.youtube.com/watch?v=Sj7yxI-r_ag))
 
-Selecting a boardgame for any size of gaming event is a multi-dimensional, ever-changing process. Preferences for things like player count, complexity, and theme always change from day to day and from one gaming group to another.
+## How does it work?
+
+Selecting a boardgame to play or buy is a multi-dimensional process. And this tool provides a playground where users can iteratively build a list of games, upvote those games' attributes, and get simple guidance (like game descriptions and short review comments) along the way.
 
 ## Who is this thing for?
 
-In recent years, there has been such an explosion in the "designer" boardgame industry that that it can now be a little intimidating to confidently select a game to play or to buy without having the first-hand experience of playing it before. This tool attempts to help those users who are unfamiliar with the game titles they are considering to make that first-pass cut they need so that they can dig deeper on a select few. 
+This tool is for those gamers who are unfamiliar with the game titles they are considering to make that first-pass cut they need so that they can dig deeper on only a select few. 
 
 Secondarily, because this tool generates some statistics on the games that it is given, it can also be informative to gamers with big collections who want to achieve some kind of balance in the different types of games that they own.
 

@@ -70,17 +70,11 @@ export class GameCardBack extends React.Component {
                     : <h4 className="game-yearpublished">(#{id})</h4>
                 }
             </section>
-            <div id="inspectionsection-selector">
-                <label>
-                    <input type='radio' key='description' id='description' name='inspectingsection' checked={inspectingsection==='description'} value='description' onChange={oninspectionsectionchange} /> 
-                    Description</label>
-                <label>
-                    <input type='radio' key='comments' id='comments' name='inspectingsection' checked={inspectingsection==='comments'} value='comments' onChange={oninspectionsectionchange} /> 
-                    Comments</label>
-                <label>
-                    <input type='radio' key='videos' id='videos' name='inspectingsection' checked={inspectingsection==='videos'} value='videos' onChange={oninspectionsectionchange} /> 
-                    Videos</label>
-            </div>
+            <ul id="inspectionsection-selector">
+                <li id="select-description" className={"selector" + (inspectingsection === "description" ? " selected" : "")} onClick={oninspectionsectionchange}>Description</li>
+                <li id="select-comments" className={"selector" + (inspectingsection === "comments" ? " selected" : "")} onClick={oninspectionsectionchange}>Comments</li>
+                <li id="select-videos" className={"selector" + (inspectingsection === "videos" ? " selected" : "")} onClick={oninspectionsectionchange}>Videos</li>
+            </ul>
             <TransitionGroup>
                 {inspectingsection === "description" &&
                     <CSSTransition 

@@ -120,8 +120,9 @@ export class GameList extends React.Component {
     }
 
     handleInspectionSectionChange(event) {
+        let newSelection = event.target.id.replace(/select-/g, '')
         this.setState({
-            inspectingSection: event.target.value
+            inspectingSection: newSelection
         })
     }
 

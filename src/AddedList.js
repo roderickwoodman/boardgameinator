@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { AddedElement } from './AddedElement';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLongArrowAltRight } from '@fortawesome/free-solid-svg-icons'
+import { faClipboard } from '@fortawesome/free-solid-svg-icons'
 
 
 export class AddedList extends React.Component {
@@ -40,7 +41,7 @@ export class AddedList extends React.Component {
         return (
             <React.Fragment>
             <ul id="games-added">
-            <li><b>ADDED GAMES:</b><button onClick={this.handleCopyToClipboard} disabled={!this.props.allgames.length}>copy to clipboard</button></li>
+            <li><b>ADDED GAMES: </b><FontAwesomeIcon className="fa-button" icon={faClipboard} onClick={this.handleCopyToClipboard} disabled={!this.props.allgames.length} /></li>
                 { this.props.allgames.length >= 0 && (
                     this.props.allgames
                         .sort( (a, b) => (a.name + a.disambiguation > b.name + b.disambiguation) ? 1 : -1 )

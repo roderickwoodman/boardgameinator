@@ -1,25 +1,22 @@
 ## What is this thing?
 
-Behold! My latest invention... the **BOARDGAMEINATOR**! It allows users to cut through the hype and eliminate boardgame titles of no value. (naming hat tip: [Dr. Doofenshmirtz](https://www.youtube.com/watch?v=Sj7yxI-r_ag))
+Behold! My latest invention... the **BOARDGAMEINATOR**! It allows users to cut through the hype and eliminate boardgame titles of no value. Okay, that's enough of my [Dr. Doofenshmirtz](https://www.youtube.com/watch?v=Sj7yxI-r_ag) accent.
 
 ## How does it work?
 
-Selecting a boardgame to play or buy is a multi-dimensional process. And this tool provides a playground where users can iteratively build a list of games, upvote those games' attributes, and get simple guidance (like game descriptions and short review comments) along the way.
+This tool provides a playground where users can iteratively build a list of games (to play or buy), upvote those games' attributes, and get simple guidance (like game descriptions and short review comments) along the way. 
 
 ## Who is this thing for?
 
-This tool is for those gamers who are unfamiliar with the game titles they are considering to make that first-pass cut they need so that they can dig deeper on only a select few. 
+First of all, this IS NOT for geeks to manage their huge collections.
 
-Secondarily, because this tool generates some statistics on the games that it is given, it can also be informative to gamers with big collections who want to achieve some kind of balance in the different types of games that they own.
-
+But it IS for anyone who is stalled in selecting a game from a pile of games because he or she is unfamiliar with a few of them.
 
 ## Why is this thing so awesome?
 
-This tool recognizes that a boardgame is a quite complex and subjective beast to analyze, and it also recognizes that documenting this complexity in a deep, encyclopedia-style format (like most review resources including BoardGameGeek.com do), is not useful for comparison shoppers. Heck, modern e-commerce sites don't give you pages and pages of product descriptions for you to research your decision on your own, instead they give you clickable checkboxes across several factors that let you filter down closer to what you might actually want to buy. And this is the approach taken by **Boardgameinator**.
+For good reason, the boardgameiverse starts and ends with [BoardGameGeek](https://boardgamegeek.com). It has everything. But that website and their tools have an immensely deep, encyclopedia-style bias.
 
-Here, the more qualitative, high-level game facets are surfaced in a visually side-by-side fashion. No community ranking information. No keeping separate browser tabs open showing everything for each game. And you don't have to be a BGG user or have your collection saved online in order to use this tool. It de-nerdifies the content from BoardGameGeek.com. 
-
-Note that this tool won't let you geek out on every possible sort of the game list. It has a simpler interface because it favors shorter games as well as those games that support more players.
+This tool, however, treats converging on a boardgame to play or buy as if it were an e-commerce shopping experience. It presents games in a visually side-by-side fashion and hands users the ability to personalize the results. No BGG userid is needed.
 
 ## How does this thing work?
 

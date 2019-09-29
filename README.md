@@ -2,25 +2,23 @@
 
 Behold! My latest invention... the **BOARDGAMEINATOR**! It allows users to cut through the hype and eliminate boardgame titles of no value. Okay, that's enough of my [Dr. Doofenshmirtz](https://www.youtube.com/watch?v=Sj7yxI-r_ag) accent.
 
-## How does it work?
-
 This tool provides a playground where users can iteratively build a list of games (to play or buy), upvote those games' attributes, and get simple guidance (like game descriptions and short review comments) along the way. 
 
 ## Who is this thing for?
 
 First of all, this IS NOT for geeks to manage their huge collections.
 
-But it IS for anyone who is stalled in selecting a game from a pile of games because he or she is unfamiliar with a few of them.
+But it IS for anyone who has stalled out in selecting a game from a pile of games because he or she is unfamiliar with a few of them.
 
 ## Why is this thing so awesome?
 
-For good reason, the boardgameiverse starts and ends with [BoardGameGeek](https://boardgamegeek.com). It has everything. But that website and their tools have an immensely deep, encyclopedia-style bias.
+For good reason, the boardgameiverse starts and ends with [BoardGameGeek](https://boardgamegeek.com) (BGG). It has everything. But that website and their tools have an immensely deep, encyclopedia-style bias.
 
 This tool, however, treats converging on a boardgame to play or buy as if it were an e-commerce shopping experience. It presents games in a visually side-by-side fashion and hands users the ability to personalize the results. No BGG userid is needed.
 
 ## How does this thing work?
 
-This app overlays its user's likes on top of boardgame metadata ingested from [the BoardGameGeek API](https://boardgamegeek.com/wiki/page/BGG_XML_API2) to produce a list of boardgames sorted by the user's preferences of the moment.
+This app overlays its user's likes on top of boardgame metadata ingested from [the BoardGameGeek API](https://boardgamegeek.com/wiki/page/BGG_XML_API2) to produce a sorted list of boardgames.
 
 ## How do I run it?
 

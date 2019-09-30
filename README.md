@@ -2,23 +2,23 @@
 
 Behold! My latest invention... the **BOARDGAMEINATOR**! It allows users to cut through the hype and eliminate boardgame titles of no value. Okay, that's enough of my [Dr. Doofenshmirtz](https://www.youtube.com/watch?v=Sj7yxI-r_ag) accent.
 
-This tool provides a playground where users can iteratively build a list of games (to play or buy), upvote those games' attributes, and get simple guidance (like game descriptions and short review comments) along the way. 
+This app is a sandbox for users to build and prioritize a list of boardgames that they are considering playing or purchasing. It supports an iterative process of adding and removing games, collecting summary information, and upvoting game features.
 
-## Who is this thing for?
+## Who is it for?
 
-First of all, this IS NOT for geeks to manage their huge collections.
+First of all, Boardgameinator IS NOT for geeks to manage their huge collections.
 
-But it IS for anyone who has stalled out in selecting a game from a pile of games because he or she is unfamiliar with a few of them.
+Instead, this app IS for anyone who has stalled out in selecting a game from a pile of games because he or she is unfamiliar with a few of them.
 
-## Why is this thing so awesome?
+## Why is it so awesome?
 
-For good reason, the boardgameiverse starts and ends with [BoardGameGeek](https://boardgamegeek.com) (BGG). It has everything. But that website and their tools have an immensely deep, encyclopedia-style bias.
+The website [BoardGameGeek](https://boardgamegeek.com) (BGG) already has everything that you would want to know about boardgames. It is organized like an encyclopedia. This is great so long as you know what you are looking for and you can visit one game at a time.
 
-This tool, however, treats converging on a boardgame to play or buy as if it were an e-commerce shopping experience. It presents games in a visually side-by-side fashion and hands users the ability to personalize the results. No BGG userid is needed.
+Boardgameinator, however, treats converging on a boardgame to play or buy as if it were an e-commerce shopping experience. It presents all of the games at the same time in a visually side-by-side fashion and it hands users the ability to personalize the results. No BGG userid is needed.
 
-## How does this thing work?
+## How does Boardgameinator work?
 
-This app overlays its user's likes on top of boardgame metadata ingested from [the BoardGameGeek API](https://boardgamegeek.com/wiki/page/BGG_XML_API2) to produce a sorted list of boardgames.
+It overlays its user's likes on top of boardgame metadata ingested from [the BoardGameGeek API](https://boardgamegeek.com/wiki/page/BGG_XML_API2) to produce a sorted list of boardgames.
 
 ## How do I run it?
 

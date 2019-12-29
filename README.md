@@ -1,24 +1,24 @@
 ## What is this thing?
 
-Behold! My latest invention... the **BOARDGAMEINATOR**! It allows users to cut through the hype and eliminate boardgame titles of no value. Okay, that's enough of my [Dr. Doofenshmirtz](https://www.youtube.com/watch?v=Sj7yxI-r_ag) accent.
+Behold, the **BOARDGAMEINATOR**!  (...said in my best [Dr. Doofenshmirtz](https://www.youtube.com/watch?v=Sj7yxI-r_ag) accent)
 
-This app is a sandbox for users to build and prioritize a list of boardgames that they are considering playing or purchasing. It supports an iterative process of adding and removing games, collecting summary information, and upvoting game features.
+This app is a sandbox for users to prioritize a list of boardgames that they are considering playing or purchasing. Once a game has been added, a small amount of its summary information is presented and its features can then be upvoted.
 
 ## Who is it for?
 
-First of all, Boardgameinator IS NOT for geeks to manage their huge collections.
+First of all, **Boardgameinator** IS NOT for geeks to manage their huge collections.
 
-Instead, this app IS for anyone who has stalled out in selecting a game from a pile of games because he or she is unfamiliar with a few of them.
+Instead, this app IS for anyone who feels overwhelmed or who has stalled out in selecting a boardgame. And with all of the new titles and all of the hype these days, I feel your pain.
 
 ## Why is it so awesome?
 
-The website [BoardGameGeek](https://boardgamegeek.com) (BGG) already has everything that you would want to know about boardgames. It is organized like an encyclopedia. This is great so long as you know what you are looking for and you can visit one game at a time.
+If you have ever looked for information about a boardgame, you probably found yourself on the [BoardGameGeek](https://boardgamegeek.com) (BGG) website. It is a great resource, but it is a firehose. Often there is actually too much information there, and the way it is organized it forces you to focus on one game at a time.
 
-Boardgameinator, however, treats converging on a boardgame to play or buy as if it were an e-commerce shopping experience. It presents all of the games at the same time in a visually side-by-side fashion and it hands users the ability to personalize the results. No BGG userid is needed.
+**Boardgameinator**, however, is a comparison tool that sits on top of all of that BGG data. It feels more like an e-commerce shopping experience. It presents all of the games at the same time in a visually side-by-side fashion with only a little bit of high-level information. From there, users can filter the results to meet their own preferences.
 
 ## How does Boardgameinator work?
 
-It overlays its user's likes on top of boardgame metadata ingested from [the BoardGameGeek API](https://boardgamegeek.com/wiki/page/BGG_XML_API2) to produce a sorted list of boardgames.
+The app looks up titles and pulls game information from [the BoardGameGeek API](https://boardgamegeek.com/wiki/page/BGG_XML_API2). It persists the user's game list and likes in their browser's local storage area. And finally, the various input controls on the page produce the final ordered and filtered list of games that the user sees.
 
 ## How do I run it?
 

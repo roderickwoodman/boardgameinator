@@ -2,6 +2,7 @@
   "name": "boardgameinator",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://roderickwoodman.github.io/boardgameinator",
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.21",
     "@fortawesome/free-solid-svg-icons": "^5.10.1",
@@ -13,8 +14,9 @@
     "react-transition-group": "^4.2.2"
   },
   "scripts": {
+    "deploy": "react-scripts build && rm -rf docs && mv build docs",
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "react-scripts build && rm -rf docs && mv build docs",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

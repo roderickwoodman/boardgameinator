@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "7941bf81d28bc3eb48a24ddb0632a398",
+    "revision": "07d663a018778824f751ba4d632ae399",
     "url": "/boardgameinator/index.html"
   },
   {

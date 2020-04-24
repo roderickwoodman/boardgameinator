@@ -10,19 +10,21 @@ This app is a sandbox for users to prioritize a list of boardgames that they are
 
 First of all, **Boardgameinator** IS NOT for geeks to manage their huge collections.
 
-Instead, this app IS for anyone who feels overwhelmed or who has stalled out in selecting a boardgame. And with all of the new titles and all of the hype these days, I feel your pain.
+Instead, this app IS for anyone who feels overwhelmed or who has stalled out in selecting a boardgame. And with all of the new titles and all of the hype these days, I do feel your pain.
 
 ## Why is it so awesome?
 
-The likability of a board game is so subjective and multifactorial. And unfortunately, the primary online  resource for the industry is a firehose of information called [BoardGameGeek](https://boardgamegeek.com) (BGG).  And it can be overwhelming for casual boardgamers. Often there is actually too much information there, and the way it is organized forces you to focus on one game at a time.
+The likability of any board game is so subjective and multifactorial. And unfortunately, the primary online  resource for the industry is a firehose of information called [BoardGameGeek](https://boardgamegeek.com) (BGG), which can be a bit overwhelming for casual boardgamers. Often there is actually too much information there, and the way it is organized forces you to focus on one game at a time.
 
-**Boardgameinator**, however, is a comparison tool that sits on top of all of that BGG data and presents only a few bits of filterable, high-level characteristics in a visually side-by-side fashion. It feels more like an e-commerce shopping experience designed for users to converge only those results that meet their own preferences.
+**Boardgameinator**, however, is a comparison tool that sits on top of all of that BGG data and shows you only a few bits of filterable, high-level characteristics in a visually side-by-side fashion. It feels more like an e-commerce shopping experience that is designed for users to converge on only those results that meet their own preferences.
 
 ## How does Boardgameinator work?
 
 The app pulls game information from [the BoardGameGeek API](https://boardgamegeek.com/wiki/page/BGG_XML_API2) and stores both it and the user's likes in the browser's local storage area. Then, the aggregated likes plus other input controls determine the final filtered and order list of games that the user sees on the page.
 
-## How do I run it?
+## How do I run it in development mode on my machine?
+
+For most people, [the link above](https://roderickwoodman.github.io/boardgameinator/) will take you to the live, production version of the app on the Internet. But for developers who would like to run this app in development mode...
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).  You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 

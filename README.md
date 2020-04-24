@@ -1,4 +1,4 @@
-([click here to visit this app](https://roderickwoodman.github.io/boardgameinator/))
+([click here to visit this app on the Internet!](https://roderickwoodman.github.io/boardgameinator/))
 
 ## What is this thing?
 
@@ -20,7 +20,7 @@ The likability of any board game is so subjective and multifactorial. And unfort
 
 ## How does Boardgameinator work?
 
-The app pulls game information from [the BoardGameGeek API](https://boardgamegeek.com/wiki/page/BGG_XML_API2) and stores both it and the user's likes in the browser's local storage area. Then, the aggregated likes plus other input controls determine the final filtered and order list of games that the user sees on the page.
+The app pulls game information from [the BoardGameGeek API](https://boardgamegeek.com/wiki/page/BGG_XML_API2) and stores both it and the user's likes in the browser's local storage area. Then, the aggregated likes plus other input controls determine the final filtered, ordered list of games that the user sees on the page.
 
 ## How do I run it in development mode on my machine?
 

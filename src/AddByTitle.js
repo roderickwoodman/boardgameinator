@@ -190,8 +190,14 @@ export class AddByTitle extends React.Component {
 
     handleSubmit(event) {
         event.preventDefault()
+        let delimiter, num_nonblank_lines = this.state.value.split(/\r\n|\r|\n/).filter(line => line !== '').length
+        if (num_nonblank_lines > 1) {
+            delimiter = '\n'
+        } else {
+            delimiter = ','
+        }
         let userTitles = this.state.value
-            .split("\n")
+            .split(delimiter)
             .map(str => str.trim())
             .map(str => str.replace(/[^0-9a-zA-Z:()&!–#' ]/g, ""))
             .filter( function(e){return e} )

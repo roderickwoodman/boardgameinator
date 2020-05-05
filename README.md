@@ -31,17 +31,16 @@ This app has been designed for the author's needs only, in the author's spare ti
 
 For most people, [the link above](https://roderickwoodman.github.io/boardgameinator/) will take you to the live, production version of the app on the Internet. But for developers who would like to run this app in development mode...
 
-### Running Locally
+### Running This App Locally
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).  You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+As a one-time setup, copy the code for this app to your local machine. 
+#### `git clone https://github.com/roderickwoodman/boardgameinator.git`
+#### `cd boardgameinator`
+#### `npm install`
 
-As with other Create React App projects, from the project directory you can run:
-
+Now, every time you want to run the app, just run a script that starts up a development server with the code. This will run the app in development mode.
 #### `npm start`
 
-This runs the app in the development mode.<br> 
- Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Doing this will open a browser tab for viewing the app at [http://localhost:3000](http://localhost:3000). The page will reload if you make edits to your local code copies. You will also see any lint errors in the browser console. 
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
-
+FYI, this project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).  You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).

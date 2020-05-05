@@ -211,8 +211,8 @@ export class AddByTitle extends React.Component {
                     <label htmlFor="titles-input">Game Title(s):</label>
                     <textarea rows="8" cols="40" value={this.state.value} onChange={this.handleChange} placeholder="(exact match only)" required/>
                     <section className="buttonrow">
-                        <input type="reset" value="Reset" />
-                        <input type="submit" value="Submit" />
+                        <button type="reset" class="default-styles">Reset</button>
+                        <button type="submit" class="default-styles">Submit</button>
                     </section>
                 </form>
                 <div className="status-messages">

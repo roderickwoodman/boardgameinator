@@ -1,4 +1,17 @@
 /*
+** NORMALIZE
+*/
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+
+/*
 ** GLOBAL STYLES (FOR HTML TAGS)
 */
 

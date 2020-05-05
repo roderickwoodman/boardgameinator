@@ -41,7 +41,7 @@ export class AddedList extends React.Component {
         return (
             <React.Fragment>
             <ul id="games-added">
-            <li><b>ADDED GAMES: </b><FontAwesomeIcon className="fa-button" icon={faClipboard} onClick={this.handleCopyToClipboard} disabled={!this.props.allgames.length} /></li>
+            <li><b>ADDED GAMES: </b><button className="fa-button"><FontAwesomeIcon icon={faClipboard} onClick={this.handleCopyToClipboard} disabled={!this.props.allgames.length} /></button></li>
                 { this.props.allgames.length >= 0 && (
                     this.props.allgames
                         .sort( (a, b) => (a.name + a.disambiguation > b.name + b.disambiguation) ? 1 : -1 )

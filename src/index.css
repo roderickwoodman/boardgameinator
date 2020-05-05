@@ -218,11 +218,6 @@ hr {
   border-bottom: 1px solid silver;
 }
 
-.gamecard-thumbnailil-overlay {
-  width: 100%;
-  border: 1px solid red;
-}
-
 .gamecard-details.major {
   height: 25px;
 }
@@ -438,7 +433,7 @@ hr {
 }
 
 button.default-styles,
-.fa-button {
+button.fa-button {
   margin: 0.25rem;
   padding: 0.25rem 0.5rem;
   border: 0;
@@ -453,25 +448,24 @@ button.default-styles,
   cursor: pointer;
 }
 
-.fa-button {
+button.fa-button {
   background: transparent;
 }
 
-.gamecard-header {
+.game .gamecard-header {
   padding: 1px 2px 2px 0;
 }
 
-.gamecard-header .fa-button {
+.game .gamecard-header button.fa-button {
   margin: 1px;
   padding: 4px;
   border-radius: 4px;
 }
 
-.gamecard-header .fa-button:hover {
+.game .gamecard-header button.fa-button:hover {
   color: purple;
   background-color: white;
 }
-
 
 .selector,
 button:enabled,

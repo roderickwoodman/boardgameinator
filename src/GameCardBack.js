@@ -60,8 +60,8 @@ export class GameCardBack extends React.Component {
         return (
             <React.Fragment>
             <section className="gamecard-header">
-                <FontAwesomeIcon className="fa-button" icon={faTrash} onClick={ (e) => ondelete(e, id) }/>
-                <FontAwesomeIcon className="fa-button" icon={faInfoCircle} onClick={ (e) => ontoggleinspection(e, id) }/>
+                <button className="fa-button" onClick={ (e) => ondelete(e, id) }><FontAwesomeIcon icon={faTrash}/></button>
+                <button className="fa-button" onClick={ (e) => ontoggleinspection(e, id) }><FontAwesomeIcon icon={faInfoCircle}/></button>
             </section>
             <section className="gamecard-title">
                 <h2 className="game-name">{name}</h2>

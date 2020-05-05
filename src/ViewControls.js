@@ -24,7 +24,7 @@ export const ViewControls = (props) => {
     return (
         <React.Fragment>
         <div id="view-controls">
-            <button class="default-styles" onClick={showModal}>Settings</button>
+            <button className="default-styles" onClick={showModal}>Settings</button>
             <Modal show={isOpen} onHide={hideModal}>
                 <ModalHeader>
                     <ModalTitle>Settings</ModalTitle>

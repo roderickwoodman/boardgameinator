@@ -7,7 +7,7 @@ export class VotingSection extends React.Component {
     render() {
         return (
             <ul id={this.props.elementid}>
-                <li><b>{this.props.title}</b><button class="default-styles" data-attrtype={this.props.type} onClick={this.props.onclearsectionvotes}>Reset</button></li>
+                <li><b>{this.props.title}</b><button className="default-styles" data-attrtype={this.props.type} onClick={this.props.onclearsectionvotes}>Reset</button></li>
                 {this.props.counts.map((key, index) => {
                     return <VotableElement 
                         key={key.attrName}

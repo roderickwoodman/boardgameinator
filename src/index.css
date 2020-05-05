@@ -390,11 +390,22 @@ hr {
   transition: opacity 500ms ease-in;
 }
 
-.gamecard-footer img {
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  padding: 5px;
+.gamecard-footer {
+  font-size: 0.9rem;
+  line-height: 1;
+}
+
+.footer a {
+  color: yellow;
+  text-decoration: underline;
+}
+
+.footer a:hover {
+  color: red;
+}
+
+.footer img {
+  height: 2.5rem;
 }
 
 .game-name {
@@ -456,7 +467,6 @@ button.fa-button {
   font-size: 1rem;
   line-height: 1.2;
   white-space: nowrap;
-  text-decoration: none;
   cursor: pointer;
 }
 

@@ -4,9 +4,12 @@ import bggLogo from './bgg-logo-50.png'
 
 export const GameFooter = (props) => {
     return (
-        <a href={'https://boardgamegeek.com/boardgame/' + props.gameid } target="_blank" rel="noopener noreferrer">
-            <img src={bggLogo} alt="BoardGameGeek website logo" />
-        </a>
+        <div className="footer">
+            <a href={"https://boardgamegeek.com/boardgame/" + props.gameid } rel="noopener noreferrer">
+                this on BGG
+            </a>&nbsp;
+            <img src={bggLogo} alt="BoardGameGeek logo" />
+        </div>
     )
 }
 

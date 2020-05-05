@@ -88,12 +88,6 @@ hr {
   line-height: 1.5em;
 }
 
-#view-controls {
-  display: flex;
-  flex: 1;
-  order: -1;
-}
-
 #gameinput-controls,
 #gamevoting-controls,
 #gamesorting-controls,

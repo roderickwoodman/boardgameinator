@@ -159,15 +159,13 @@ export class GameList extends React.Component {
         let filterMessage = 'now showing ' + filteredGames.length + ' of ' + this.props.allgames.length + ' games'
         return (
             <React.Fragment>
-            <div id="view-controls">
-                <ViewControls 
-                    sortby={this.state.sortOrder}
-                    onsortchange={this.handleSortChange}
-                    filterplayercount={this.state.filterPlayercount}
-                    filterweight={this.state.filterWeight}
-                    onfilterchange={this.handleFilterChange}
-                    filtermessage={filterMessage} />
-            </div>
+            <ViewControls 
+                sortby={this.state.sortOrder}
+                onsortchange={this.handleSortChange}
+                filterplayercount={this.state.filterPlayercount}
+                filterweight={this.state.filterWeight}
+                onfilterchange={this.handleFilterChange}
+                filtermessage={filterMessage} />
             <div id="resulting-games">
                 {filteredGames.length !== 0 && (
                     filteredGames

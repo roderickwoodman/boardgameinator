@@ -175,6 +175,10 @@ hr {
   overflow-x: auto;
 }
 
+.game {
+  overflow-x: hidden;
+}
+
 .gamecard-header {
   display: flex;
   flex-direction: row-reverse;
@@ -195,17 +199,16 @@ hr {
   line-height: 1.5em;
 }
 
-.gamecard-thumbnail {
+.gamecard-visual {
   font-size: 2.0em;
   line-height: 1.5em;
   font-weight: 800;
   padding: 0;
 }
 
-.gamecard-thumbnail {
+.gamecard-visual {
   position: relative;
   text-align: center;
-  display: flex;
   margin-top: 10px;
   margin-bottom: -10px;
   height: 200px;
@@ -238,16 +241,15 @@ hr {
   overflow-y: auto;
 }
 
-.gamecard-thumbnail-overlay {
+.gamecard-visual-overlay {
   position: absolute;
-  min-width: 100px;
+  width: 100px;
   text-align: left;
-  top: 50%;
-  left: 50%;
-  transform: translate(-27%, 40%);
+  top: 65%;
+  left: 40%;
 }
 
-.gamecard-thumbnail-overlay li {
+.gamecard-visual-overlay div {
   margin: 5px 0;
   padding: 0 3px;
   background-color: darkred;
@@ -312,7 +314,7 @@ hr {
   margin:2px 10px;
 }
 
-.gamecard-thumbnail-overlay li.thumbsup {
+.gamecard-visual-overlay div.thumbsup {
   color: green;
   background-color: white;
 }
@@ -360,7 +362,7 @@ hr {
   color: yellow;
 }
 
-.gamecard-thumbnail img {
+.gamecard-visual img {
   max-width: 150px;
   object-fit: contain;
 }

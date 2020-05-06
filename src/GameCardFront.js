@@ -10,10 +10,10 @@ import { GameFooter } from './GameFooter'
 
 function Thumbnail(props) {
     return (
-        <React.Fragment>
-        <img src={props.url} alt="game box cover" />
-        <div className="votes"><FontAwesomeIcon icon={faThumbsUp} />:{props.thumbcount}</div>
-        </React.Fragment>
+        <div className="gamecard-thumbnail">
+            <img src={props.url} alt="game box cover" />
+            <div className="votes"><FontAwesomeIcon icon={faThumbsUp} />:{props.thumbcount}</div>
+        </div>
     )
 }
 
@@ -79,19 +79,19 @@ export class GameCardFront extends React.Component {
                     : <h4 className="game-yearpublished">(#{id})</h4>
                 }
             </section>
-            <ul className="gamecard-thumbnail">
+            <section className="gamecard-visual">
                 <Thumbnail url={thumbnail} thumbcount={thumbcount} />
-                <ul className="gamecard-thumbnail-overlay">
+                <div className="gamecard-visual-overlay">
                     {(minplayers !== maxplayers)
-                        ? <li className={this.getPlayersVote(minplayers, maxplayers)}><FontAwesomeIcon icon={faUserFriends}/> {minplayers}-{maxplayers}</li>
-                        : <li className={this.getPlayersVote(minplayers, maxplayers)}><FontAwesomeIcon icon={faUserFriends}/> {minplayers}</li>
+                        ? <div className={this.getPlayersVote(minplayers, maxplayers)}><FontAwesomeIcon icon={faUserFriends}/> {minplayers}-{maxplayers}</div>
+                        : <div className={this.getPlayersVote(minplayers, maxplayers)}><FontAwesomeIcon icon={faUserFriends}/> {minplayers}</div>
                     }
                     {(minplaytime !== maxplaytime)
-                        ? <li><FontAwesomeIcon icon={faClock}/> {minplaytime}-{maxplaytime}'</li>
-                        : <li><FontAwesomeIcon icon={faClock}/> {minplaytime}'</li>
+                        ? <div><FontAwesomeIcon icon={faClock}/> {minplaytime}-{maxplaytime}'</div>
+                        : <div><FontAwesomeIcon icon={faClock}/> {minplaytime}'</div>
                     }
-                </ul>
-            </ul>
+                </div>
+            </section>
             <ul className="gamecard-details major">
                 <li className={this.getWeightVote(averageweightname)}>{averageweightname}</li>
             </ul>

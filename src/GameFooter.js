@@ -6,7 +6,7 @@ export const GameFooter = (props) => {
     return (
         <div className="footer">
             <a href={"https://boardgamegeek.com/boardgame/" + props.gameid } rel="noopener noreferrer">
-                this on BGG
+                this game on BGG
             </a>&nbsp;
             <img src={bggLogo} alt="BoardGameGeek logo" />
         </div>

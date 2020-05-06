@@ -6,8 +6,6 @@ import ModalHeader from 'react-bootstrap/ModalHeader'
 import ModalTitle from 'react-bootstrap/ModalTitle'
 import ModalFooter from 'react-bootstrap/ModalFooter'
 import 'bootstrap/dist/css/bootstrap.min.css'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faLongArrowAltRight } from '@fortawesome/free-solid-svg-icons'
 
 export const ViewControls = (props) => {
 
@@ -24,7 +22,7 @@ export const ViewControls = (props) => {
     return (
         <React.Fragment>
         <div id="view-controls">
-            <button className="default-styles" onClick={showModal}>Settings</button>
+            <button className="default-styles" onClick={showModal}>Settings</button>{props.filtermessage}
             <Modal show={isOpen} onHide={hideModal}>
                 <ModalHeader>
                     <ModalTitle>Settings</ModalTitle>
@@ -32,9 +30,7 @@ export const ViewControls = (props) => {
                 <ModalBody>
                     <div id="gamesorting-controls">
                         <span className="instructions">
-                            <span className="leftGroup">
-                                <span className="circledNumber">&#9314;</span>Sort the results.
-                            </span>
+                            <span className="leftGroup">Sort the results.</span>
                         </span>
                         <label>
                             <input type="radio" key="maxvotes" id="maxvotes" name="sortorder" checked={props.sortby==="maxvotes"} value="maxvotes" onChange={props.onsortchange} /> 
@@ -48,9 +44,7 @@ export const ViewControls = (props) => {
                     </div>
                     <div id="gamefiltering-controls">
                         <span className="instructions">
-                            <span className="leftGroup">
-                                <span className="circledNumber">&#9315;</span>Filter the results.
-                            </span>
+                            <span className="leftGroup">Filter the results.</span>
                         </span>
                         <label>
                             <input type="checkbox" id="filterplayercount" checked={props.filterplayercount} onChange={props.onfilterchange} />
@@ -58,9 +52,6 @@ export const ViewControls = (props) => {
                         <label>
                             <input type="checkbox" id="filterweight" checked={props.filterweight} onChange={props.onfilterchange} />
                             show only games matching the voted weights</label>
-                        <div className="status-messages">
-                            <p className="message"><FontAwesomeIcon icon={faLongArrowAltRight} /> {props.filtermessage}</p>
-                        </div>
                     </div>
                 </ModalBody>
                 <ModalFooter> 

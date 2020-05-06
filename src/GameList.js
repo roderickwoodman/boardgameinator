@@ -130,7 +130,7 @@ export class GameList extends React.Component {
         let thumbcounts = this.getThumbCounts()
         let favoredPlayercounts = this.getThumbedPlayercounts()
         let favoredWeights = this.getThumbedWeights()
-        let filteredGames = this.props.allgames
+        let filterStr, filteredGames = this.props.allgames
             // if necessary, filter by playercount,
             .filter( (game) => {
                 if (!this.state.filterPlayercount || favoredPlayercounts.length === 0) {
@@ -156,7 +156,11 @@ export class GameList extends React.Component {
                     }
                 }
             })
-        let filterMessage = 'now showing ' + filteredGames.length + ' of ' + this.props.allgames.length + ' games'
+        if (filteredGames.length !== this.props.allgames.length) {
+            filterStr = 'now showing ' + filteredGames.length + ' of ' + this.props.allgames.length + ' games'
+        } else {
+            filterStr = 'now showing ' + filteredGames.length + ' games'
+        }
         return (
             <React.Fragment>
             <ViewControls 
@@ -165,7 +169,7 @@ export class GameList extends React.Component {
                 filterplayercount={this.state.filterPlayercount}
                 filterweight={this.state.filterWeight}
                 onfilterchange={this.handleFilterChange}
-                filtermessage={filterMessage} />
+                filtermessage={filterStr} />
             <div id="resulting-games">
                 {filteredGames.length !== 0 && (
                     filteredGames

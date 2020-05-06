@@ -75,7 +75,7 @@ hr {
 
 #page-logo .subtitle {
   display: block;
-  margin-top: -20px;
+  margin-top: -0.5rem;
   text-align: center;
   font-style: italic;
 }
@@ -112,13 +112,6 @@ hr {
 #gamesorting-controls label,
 #gamefiltering-controls label {
   display:block;
-}
-
-#gameinput-controls .instructions,
-#gamevoting-controls .instructions,
-#gamesorting-controls .instructions,
-#gamefiltering-controls .instructions {
-  margin-left: -20px;
 }
 
 #inputsection-selector,
@@ -291,11 +284,6 @@ hr {
   align-items: center;
 }
 
-.circledNumber {
-  display: inline-block;
-  font-size: 2.0em;
-}
-
 #resulting-games .message {
   margin: 30px;
 }
@@ -365,6 +353,11 @@ hr {
 
 .game.inspecting a:hover {
   color: lightpink;
+}
+
+.game.inspecting .footer a,
+.game.inspecting .footer a:visited {
+  color: yellow;
 }
 
 .gamecard-thumbnail img {

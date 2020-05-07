@@ -74,7 +74,6 @@ export class VotingBox extends React.Component {
                             counts={this.props.playercounts}
                             thumbs={this.props.thumbs['players']}
                             onnewvote={this.props.onnewvote}
-                            onclearsectionvotes={this.props.onclearsectionvotes} 
                         />
                     </CSSTransition>
                 }
@@ -93,7 +92,6 @@ export class VotingBox extends React.Component {
                             counts={this.props.weightcounts}
                             thumbs={this.props.thumbs['weight']}
                             onnewvote={this.props.onnewvote}
-                            onclearsectionvotes={this.props.onclearsectionvotes} 
                         />
                     </CSSTransition>
                 }
@@ -112,7 +110,6 @@ export class VotingBox extends React.Component {
                             counts={this.props.categorycounts}
                             thumbs={this.props.thumbs['category']}
                             onnewvote={this.props.onnewvote}
-                            onclearsectionvotes={this.props.onclearsectionvotes} 
                         />
                     </CSSTransition>
                 }
@@ -131,7 +128,6 @@ export class VotingBox extends React.Component {
                             counts={this.props.mechaniccounts}
                             thumbs={this.props.thumbs['mechanic']}
                             onnewvote={this.props.onnewvote}
-                            onclearsectionvotes={this.props.onclearsectionvotes} 
                         />
                     </CSSTransition>
                 }

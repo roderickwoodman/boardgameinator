@@ -7,7 +7,7 @@ export class VotingSection extends React.Component {
     render() {
         return (
             <ul id={this.props.elementid}>
-                <li><b>{this.props.title}</b><button className="default-styles" data-attrtype={this.props.type} onClick={this.props.onclearsectionvotes}>Reset</button></li>
+                <li><b>{this.props.title}</b></li>
                 {this.props.counts.map((key, index) => {
                     return <VotableElement 
                         key={key.attrName}
@@ -26,7 +26,6 @@ export class VotingSection extends React.Component {
 VotingSection.propTypes = {
     counts: PropTypes.array.isRequired,
     elementid: PropTypes.string.isRequired,
-    onclearsectionvotes: PropTypes.func.isRequired,
     onnewvote: PropTypes.func.isRequired,
     thumbs: PropTypes.object.isRequired,
     title: PropTypes.string.isRequired,

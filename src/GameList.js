@@ -87,15 +87,15 @@ export class GameList extends React.Component {
         })
     }
 
-    handleFilterChange(event) {
-        switch (event.target.id) {
-            case 'filterplayercount':
+    handleFilterChange(event, value) {
+        switch (value) {
+            case 'playercount':
                 this.setState({
                     filterPlayercount: !this.state.filterPlayercount,
                     idUnderInspection: null
                 })
                 break
-            case 'filterweight':
+            case 'weight':
                 this.setState({
                     filterWeight: !this.state.filterWeight,
                     idUnderInspection: null

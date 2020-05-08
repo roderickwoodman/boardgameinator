@@ -35,13 +35,9 @@ export const ViewControls = (props) => {
                         <button className="default-styles" onClick={ (e) => props.onsortchange(e, "maxplayers") }>players</button>
                     </div>
                     <div id="gamefiltering-controls">
-                        <h4>Filter the games.</h4>
-                        <label>
-                            <input type="checkbox" id="filterplayercount" checked={props.filterplayercount} onChange={props.onfilterchange} />
-                            show only games supporting the voted playercounts</label>
-                        <label>
-                            <input type="checkbox" id="filterweight" checked={props.filterweight} onChange={props.onfilterchange} />
-                            show only games matching the voted weights</label>
+                        <h4>Show only games that support...</h4>
+                        <button className="default-styles" onClick={ (e) => props.onfilterchange(e, "playercount") }>upvoted player counts</button>
+                        <button className="default-styles" onClick={ (e) => props.onfilterchange(e, "weight") }>upvoted weights</button>
                     </div>
                 </ModalBody>
                 <ModalFooter> 

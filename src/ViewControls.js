@@ -23,15 +23,13 @@ export const ViewControls = (props) => {
         <React.Fragment>
         <div id="view-controls">
             <button className="default-styles" onClick={showModal}>Settings</button>{props.filtermessage}
-            <Modal show={isOpen} onHide={hideModal}>
+            <Modal size="md" show={isOpen} onHide={hideModal}>
                 <ModalHeader>
                     <ModalTitle>Settings</ModalTitle>
                 </ModalHeader>
                 <ModalBody>
                     <div id="gamesorting-controls">
-                        <span className="instructions">
-                            <span className="leftGroup">Sort the results.</span>
-                        </span>
+                        <h4>Sort the games.</h4>
                         <label>
                             <input type="radio" key="maxvotes" id="maxvotes" name="sortorder" checked={props.sortby==="maxvotes"} value="maxvotes" onChange={props.onsortchange} /> 
                             sort by thumbsup votes</label>
@@ -43,9 +41,7 @@ export const ViewControls = (props) => {
                             sort by player count</label>
                     </div>
                     <div id="gamefiltering-controls">
-                        <span className="instructions">
-                            <span className="leftGroup">Filter the results.</span>
-                        </span>
+                        <h4>Filter the games.</h4>
                         <label>
                             <input type="checkbox" id="filterplayercount" checked={props.filterplayercount} onChange={props.onfilterchange} />
                             show only games supporting the voted playercounts</label>
@@ -55,7 +51,7 @@ export const ViewControls = (props) => {
                     </div>
                 </ModalBody>
                 <ModalFooter> 
-                    <button onClick={hideModal}>Close</button>
+                    <button className="default-styles" onClick={hideModal}>Close</button>
                 </ModalFooter>
             </Modal>
         </div>

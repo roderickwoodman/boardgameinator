@@ -102,16 +102,14 @@ hr {
 }
 
 #gameinput-controls,
-#gamevoting-controls,
-#gamesorting-controls,
-#gamefiltering-controls {
+#gamevoting-controls {
   margin: 15px 0;
   padding: 0 20px;
 }
 
-#gamesorting-controls label,
-#gamefiltering-controls label {
-  display:block;
+#gamesorting-controls,
+#gamefiltering-controls {
+  margin: 10px 10px 20px 10px;
 }
 
 #inputsection-selector,

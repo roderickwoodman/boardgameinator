@@ -450,6 +450,7 @@ hr {
 
 button.default-primary-styles,
 button.default-secondary-styles,
+button.default-danger-styles,
 button.fa-button {
   margin: 0.25rem;
   padding: 0.25rem 0.5rem;
@@ -479,6 +480,11 @@ button.default-secondary-styles {
 
 button.default-secondary-styles.active-button {
   background: green;
+}
+
+button.default-danger-styles {
+  background: red;
+  color: white;
 }
 
 .game .gamecard-header {

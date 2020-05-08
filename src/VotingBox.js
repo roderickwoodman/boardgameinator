@@ -47,7 +47,7 @@ export class VotingBox extends React.Component {
 
             <span className="instructions">
                 <span className="leftGroup">Vote.</span>
-                <button className="rightGroup default-styles" data-attrtype="all" onClick={this.props.onclearsectionvotes} disabled={numvotes===0}>Reset</button>
+                <button className="rightGroup default-primary-styles" data-attrtype="all" onClick={this.props.onclearsectionvotes} disabled={numvotes===0}>Reset</button>
             </span>
 
             <ul id="votingsection-selector">

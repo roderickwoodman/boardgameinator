@@ -22,7 +22,7 @@ export const ViewControls = (props) => {
     return (
         <React.Fragment>
         <div id="view-controls">
-            <button className="default-styles" onClick={showModal}>Settings</button>{props.filtermessage}
+            <button className="default-primary-styles" onClick={showModal}>Settings</button>{props.filtermessage}
             <Modal size="md" show={isOpen} onHide={hideModal}>
                 <ModalHeader>
                     <ModalTitle>Settings</ModalTitle>
@@ -30,18 +30,18 @@ export const ViewControls = (props) => {
                 <ModalBody>
                     <div id="gamesorting-controls">
                         <h4>Sort the games by...</h4>
-                        <button className="default-styles" onClick={ (e) => props.onsortchange(e, "maxvotes") }>votes</button>
-                        <button className="default-styles" onClick={ (e) => props.onsortchange(e, "maxplaytime") }>playtime</button>
-                        <button className="default-styles" onClick={ (e) => props.onsortchange(e, "maxplayers") }>players</button>
+                        <button className={`default-secondary-styles ${(props.sortby === 'maxvotes') ? 'active-button' : ''}`} onClick={ (e) => props.onsortchange(e, "maxvotes") }>votes</button>
+                        <button className={`default-secondary-styles ${(props.sortby === 'maxplaytime') ? 'active-button' : ''}`} onClick={ (e) => props.onsortchange(e, "maxplaytime") }>playtime</button>
+                        <button className={`default-secondary-styles ${(props.sortby === 'maxplayers') ? 'active-button' : ''}`} onClick={ (e) => props.onsortchange(e, "maxplayers") }>players</button>
                     </div>
                     <div id="gamefiltering-controls">
                         <h4>Show only games that support...</h4>
-                        <button className="default-styles" onClick={ (e) => props.onfilterchange(e, "playercount") }>upvoted player counts</button>
-                        <button className="default-styles" onClick={ (e) => props.onfilterchange(e, "weight") }>upvoted weights</button>
+                        <button className={`default-secondary-styles ${(props.filterplayercount) ? 'active-button' : ''}`} onClick={ (e) => props.onfilterchange(e, "playercount") }>upvoted player counts</button>
+                        <button className={`default-secondary-styles ${(props.filterweight) ? 'active-button' : ''}`} onClick={ (e) => props.onfilterchange(e, "weight") }>upvoted weights</button>
                     </div>
                 </ModalBody>
                 <ModalFooter> 
-                    <button className="default-styles" onClick={hideModal}>Close</button>
+                    <button className="default-primary-styles" onClick={hideModal}>Close</button>
                 </ModalFooter>
             </Modal>
         </div>

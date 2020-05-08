@@ -29,16 +29,10 @@ export const ViewControls = (props) => {
                 </ModalHeader>
                 <ModalBody>
                     <div id="gamesorting-controls">
-                        <h4>Sort the games.</h4>
-                        <label>
-                            <input type="radio" key="maxvotes" id="maxvotes" name="sortorder" checked={props.sortby==="maxvotes"} value="maxvotes" onChange={props.onsortchange} /> 
-                            sort by thumbsup votes</label>
-                        <label>
-                            <input type="radio" key="maxplaytime" id="maxplaytime" name="sortorder" checked={props.sortby==="maxplaytime"} value="maxplaytime" onChange={props.onsortchange} /> 
-                            sort by playtime</label>
-                        <label>
-                            <input type="radio" key="maxplayers" id="maxplayers" name="sortorder" checked={props.sortby==="maxplayers"} value="maxplayers" onChange={props.onsortchange} /> 
-                            sort by player count</label>
+                        <h4>Sort the games by...</h4>
+                        <button className="default-styles" onClick={ (e) => props.onsortchange(e, "maxvotes") }>votes</button>
+                        <button className="default-styles" onClick={ (e) => props.onsortchange(e, "maxplaytime") }>playtime</button>
+                        <button className="default-styles" onClick={ (e) => props.onsortchange(e, "maxplayers") }>players</button>
                     </div>
                     <div id="gamefiltering-controls">
                         <h4>Filter the games.</h4>

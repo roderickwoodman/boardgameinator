@@ -80,9 +80,9 @@ export class GameList extends React.Component {
         return counts
     } 
 
-    handleSortChange(event) {
+    handleSortChange(event, value) {
         this.setState({
-            sortOrder: event.target.value,
+            sortOrder: value,
             idUnderInspection: null
         })
     }

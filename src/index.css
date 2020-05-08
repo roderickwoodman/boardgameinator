@@ -174,32 +174,33 @@ hr {
 }
 
 .game {
+  display: flex;
+  flex-direction: column;
   overflow-x: hidden;
+  font-size: 1rem;
+  line-height: 1.5;
+  white-space: wrap;
 }
 
 .gamecard-header {
   display: flex;
   flex-direction: row-reverse;
+  flex: 0 0 1rem;
   margin-top: 5px;
   padding-top: 5px;
+  margin-bottom: -5px;
 }
 
-.gamecard-title,
-.gamecard-details {
-  margin: 0;
-  padding: 10px;
-  font-size: 1.0em;
-  line-height: 1.25em;
+.gamecard-title {
+  flex: 0 0 5rem;
 }
 
 .gamecard-title {
   height: 50px;
-  line-height: 1.5em;
 }
 
 .gamecard-visual {
-  font-size: 2.0em;
-  line-height: 1.5em;
+  font-size: 1.7em;
   font-weight: 800;
   padding: 0;
 }
@@ -207,8 +208,8 @@ hr {
 .gamecard-visual {
   position: relative;
   text-align: center;
-  margin-top: 10px;
-  margin-bottom: -10px;
+  /* margin-top: 10px; */
+  /* margin-bottom: -10px; */
   height: 200px;
   align-self: center;
 }
@@ -224,12 +225,22 @@ hr {
   border-bottom: 1px solid silver;
 }
 
-.gamecard-details.major {
-  height: 25px;
+.gamecard-details {
+  margin: 0;
+  padding: 10px;
 }
 
-.gamecard-details.minor {
-  height: 175px;
+.gamecard-details.weight {
+  flex: 1 1 1.5rem;
+}
+
+.gamecard-details.categories {
+  flex: 1 1 10rem;
+  overflow-y: auto;
+}
+
+.gamecard-details.mechanics {
+  flex: 1 1 14rem;
   overflow-y: auto;
 }
 
@@ -251,8 +262,8 @@ hr {
   margin: 5px 0;
   padding: 0 3px;
   background-color: darkred;
-  line-height: 1.5em;
-  font-size: 0.45em;
+  line-height: 1.5;
+  font-size: 0.85rem;
   border-top: 1px solid orange;
   border-bottom: 1px solid orange;
   border-left: 1px solid orange;
@@ -260,8 +271,7 @@ hr {
 }
 
 .gamecard-title,
-.gamecard-details.major {
-  font-size: 1.0em;
+.gamecard-details.weight {
   font-weight: 800;
 }
 

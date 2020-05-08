@@ -73,10 +73,10 @@ export class GameCardFront extends React.Component {
                 <button className="fa fa-button" onClick={ (e) => ontoggleinspection(e, id) }><FontAwesomeIcon icon={faInfoCircle}/></button>
             </section>
             <section className="gamecard-title">
-                <h2 className="game-name">{name}</h2>
+                <h5 className="game-name">{name}</h5>
                 {(yearpublished !== null) 
-                    ? <h4 className="game-yearpublished">({yearpublished})</h4>
-                    : <h4 className="game-yearpublished">(#{id})</h4>
+                    ? <h6 className="game-yearpublished">({yearpublished})</h6>
+                    : <h6 className="game-yearpublished">(#{id})</h6>
                 }
             </section>
             <section className="gamecard-visual">
@@ -92,16 +92,16 @@ export class GameCardFront extends React.Component {
                     }
                 </div>
             </section>
-            <ul className="gamecard-details major">
+            <ul className="gamecard-details weight">
                 <li className={this.getWeightVote(averageweightname)}>{averageweightname}</li>
             </ul>
-            <ul className="gamecard-details minor">
+            <ul className="gamecard-details categories">
                 {(categories.length)
                     ? categories.map(value => <li key={value} className={this.getMyVote('category', value)}>{value}</li>)
                     : <li>(no categories)</li>
                 }
             </ul>
-            <ul className="gamecard-details minor">
+            <ul className="gamecard-details mechanics">
                 {(mechanics.length)
                     ? mechanics.map(value => <li key={value} className={this.getMyVote('mechanic', value)}>{value}</li>)
                     : <li>(no mechanics)</li>

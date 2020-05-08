@@ -64,10 +64,10 @@ export class GameCardBack extends React.Component {
                 <button className="fa-button" onClick={ (e) => ontoggleinspection(e, id) }><FontAwesomeIcon icon={faInfoCircle}/></button>
             </section>
             <section className="gamecard-title">
-                <h2 className="game-name">{name}</h2>
+                <h5 className="game-name">{name}</h5>
                 {(yearpublished !== null) 
-                    ? <h4 className="game-yearpublished">({yearpublished})</h4>
-                    : <h4 className="game-yearpublished">(#{id})</h4>
+                    ? <h6 className="game-yearpublished">({yearpublished})</h6>
+                    : <h6 className="game-yearpublished">(#{id})</h6>
                 }
             </section>
             <ul id="inspectionsection-selector">

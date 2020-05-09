@@ -190,6 +190,9 @@ hr {
 }
 
 .gamecard-title {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   flex: 0 0 5rem;
 }
 

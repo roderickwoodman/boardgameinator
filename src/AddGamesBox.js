@@ -2,7 +2,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { AddByCollection } from './AddByCollection';
 import { AddByTitle } from './AddByTitle';
-import { AddedList } from './AddedList';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
 
@@ -176,13 +175,11 @@ export class AddGamesBox extends React.Component {
 
             <span className="instructions">
                 <span className="leftGroup">Add games.</span>
-                <button className="rightGroup default-danger-styles" onClick={this.props.ondeleteall} disabled={this.props.allgames.length===0}>Remove All</button>
             </span>
 
             <ul id="inputsection-selector">
                 <li id="select-title" className={"selector" + (this.state.inputBy === "title" ? " selected" : "")} onClick={this.handleSectionChange}>By Title</li>
                 <li id="select-collection" className={"selector" + (this.state.inputBy === "collection" ? " selected" : "")} onClick={this.handleSectionChange}>By Collection</li>
-                <li id="select-addedlist" className={"selector" + (this.state.inputBy === "addedlist" ? " selected" : "")} onClick={this.handleSectionChange}>Added List</li>
             </ul>
 
             <div id="input-section">
@@ -214,20 +211,6 @@ export class AddGamesBox extends React.Component {
                         <AddByCollection />
                     </CSSTransition>
                 }
-                {this.state.inputBy === 'addedlist' &&
-                    <CSSTransition
-                        key={2}
-                        in={true}
-                        appear={false}
-                        timeout={2000}
-                        classNames={"showsegment"}
-                    >
-                        <AddedList
-                            allgames={this.props.allgames} 
-                            ondelete={this.props.ondelete} 
-                        />
-                    </CSSTransition>
-                }
                 </TransitionGroup>
             </div>
 
@@ -238,7 +221,5 @@ export class AddGamesBox extends React.Component {
 
 AddGamesBox.propTypes = {
     allgames: PropTypes.array.isRequired,
-    ondelete: PropTypes.func.isRequired,
-    ondeleteall: PropTypes.func.isRequired,
     onnewtitle: PropTypes.func.isRequired,
 }

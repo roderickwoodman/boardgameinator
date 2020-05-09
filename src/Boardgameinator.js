@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { GameList } from './GameList'
 import { AddGamesBox } from './AddGamesBox'
+import { AddedList } from './AddedList';
 import { VotingBox } from './VotingBox'
 
 
@@ -286,7 +287,11 @@ export class Boardgameinator extends React.Component {
                         <div id="gameinput-controls">
                             <AddGamesBox
                                 allgames={this.state.allGames}
-                                onnewtitle={this.onNewTitle} 
+                                onnewtitle={this.onNewTitle}  />
+                        </div>
+                        <div id="gamelisting-controls">
+                            <AddedList
+                                allgames={this.state.allGames} 
                                 ondelete={this.onDeleteTitle}
                                 ondeleteall={this.onDeleteAllTitles} />
                         </div>

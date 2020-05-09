@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { AddByTitle } from './AddByTitle';
-import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
 
 export class AddGamesBox extends React.Component {

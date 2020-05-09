@@ -113,21 +113,18 @@ hr {
   margin: 10px 10px 20px 10px;
 }
 
-#inputsection-selector,
 #votingsection-selector,
 #inspectionsection-selector {
   margin: 3px 0;
   padding: 0;
 }
 
-#inputsection-selector > :first-child,
 #votingsection-selector > :first-child,
 #inspectionsection-selector > :first-child {
   border-top-left-radius: 5px;
   border-bottom-left-radius: 5px;
 }
 
-#inputsection-selector > :last-child,
 #votingsection-selector > :last-child,
 #inspectionsection-selector > :last-child {
   border-top-right-radius: 5px;

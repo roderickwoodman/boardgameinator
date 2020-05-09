@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { AddByCollection } from './AddByCollection';
 import { AddByTitle } from './AddByTitle';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
@@ -177,41 +176,13 @@ export class AddGamesBox extends React.Component {
                 <span className="leftGroup">Add games.</span>
             </span>
 
-            <ul id="inputsection-selector">
-                <li id="select-title" className={"selector" + (this.state.inputBy === "title" ? " selected" : "")} onClick={this.handleSectionChange}>By Title</li>
-                <li id="select-collection" className={"selector" + (this.state.inputBy === "collection" ? " selected" : "")} onClick={this.handleSectionChange}>By Collection</li>
-            </ul>
-
             <div id="input-section">
-                <TransitionGroup>
-                {this.state.inputBy === 'title' &&
-                    <CSSTransition
-                        key={0}
-                        in={true}
-                        appear={false}
-                        timeout={2000}
-                        classNames={"showsegment"}
-                    >
-                        <AddByTitle
-                            allgames={this.props.allgames}
-                            onnewtitle={this.props.onnewtitle} 
-                            dogamedataapi={this.doGamedataApi}
-                            parsegamedataxml={this.parseGamedataApiXml}
-                        />
-                    </CSSTransition>
-                }
-                {this.state.inputBy === 'collection' &&
-                    <CSSTransition
-                        key={1}
-                        in={true}
-                        appear={false}
-                        timeout={2000}
-                        classNames={"showsegment"}
-                    >
-                        <AddByCollection />
-                    </CSSTransition>
-                }
-                </TransitionGroup>
+                <AddByTitle
+                    allgames={this.props.allgames}
+                    onnewtitle={this.props.onnewtitle} 
+                    dogamedataapi={this.doGamedataApi}
+                    parsegamedataxml={this.parseGamedataApiXml}
+                />
             </div>
 
             </React.Fragment>

@@ -46,13 +46,13 @@ hr {
 #page-wrapper {
   display: flex;
   flex-direction: row;
-  background-color: lightyellow;
-  max-height: 900px;
+  background: lightyellow;
+  height: 100vh;
 }
 
 #leftsidebar-wrapper {
   display: flex;
-  flex: 4;
+  flex: 1 1 auto;
   order: -1;
   flex-direction: column;
   max-width: 425px;
@@ -62,7 +62,6 @@ hr {
 
 #page-logo {
   display: block;
-  flex: 1;
   order: -1;
 }
 
@@ -82,7 +81,6 @@ hr {
 
 #content-wrapper {
   display: flex;
-  flex: 7;
   flex-direction: column;
   width: 80%;
   padding-top: 50px;
@@ -90,7 +88,7 @@ hr {
 
 #main-controls {
   display: flex;
-  flex: 7;
+  flex: auto;
   flex-direction: column;
   overflow-y: auto;
 }
@@ -232,16 +230,18 @@ hr {
 }
 
 .gamecard-details.weight {
-  flex: 1 1 1.5rem;
+  flex: 0 0 1.5rem; /* one line @ 1.5 spacing */
 }
 
 .gamecard-details.categories {
-  flex: 1 1 10rem;
+  flex: 1 1 4.5rem; /* basis: 3 lines @ 1.5 spacing */
+  max-height: 7.5rem; /* max: 5 lines @ 1.5 spacing */
   overflow-y: auto;
 }
 
 .gamecard-details.mechanics {
-  flex: 1 1 14rem;
+  flex: 1 1 10.5rem; /* basis: 7 lines @ 1.5 spacing */ 
+  max-height: 15rem; /* max: 10 lines @ 1.5 spacing */
   overflow-y: auto;
 }
 

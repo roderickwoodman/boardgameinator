@@ -55,8 +55,8 @@ hr {
   flex: 4;
   order: -1;
   flex-direction: column;
-  max-width: 375px;
-  min-width: 375px;
+  max-width: 425px;
+  min-width: 425px;
   padding: 10px 25px;
 }
 

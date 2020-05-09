@@ -172,6 +172,7 @@ hr {
 .game {
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   overflow-x: hidden;
   font-size: 1rem;
   line-height: 1.5;
@@ -277,7 +278,9 @@ hr {
 }
 
 .gamecard-footer {
-  height: 50px;
+  flex: 0 0 3rem;
+  font-size: 0.9rem;
+  line-height: 1.5rem;
 }
 
 .instructions {
@@ -394,11 +397,6 @@ hr {
   transition: opacity 500ms ease-in;
 }
 
-.gamecard-footer {
-  font-size: 0.9rem;
-  line-height: 1;
-}
-
 .footer a {
   color: yellow;
   text-decoration: underline;
@@ -409,7 +407,7 @@ hr {
 }
 
 .footer img {
-  height: 2.5rem;
+  height: 2rem;
 }
 
 .game-name {

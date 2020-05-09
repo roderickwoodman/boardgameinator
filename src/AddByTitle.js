@@ -53,8 +53,10 @@ export class AddByTitle extends React.Component {
     }
 
     async validateUserTitles(userTitles) {
+
         let messages = []
         let newTextareaValue = ""
+
         // search for an exact title match (BGG API)
         const exactSearchApiResults = await Promise.all(
             userTitles.map(
@@ -63,7 +65,8 @@ export class AddByTitle extends React.Component {
                         .then(exactSearchResponse => exactSearchResponse.text())
                         .then(exactSearchText => this.parseSearchApiXml(exactSearchText))
             ))
-        // if necessary, do a non-exact title match (BGG API)
+
+        // if there was no response to the exact title search, do a non-exact one (BGG API)
         const searchApiResults = await Promise.all(
             exactSearchApiResults.map(
                 (exactSearchApiResult, idx) => {
@@ -78,11 +81,16 @@ export class AddByTitle extends React.Component {
                     }
                 }
             ))
-        // for each title match result returned, tag with release date if needed to remove ambiguity OR pull game data (BGG API)
+
+        // the search result for each user-supplied title may have returned multiple possible BGG titles
         searchApiResults.forEach( (titleMatches, titleMatchesIdx) => {
+
+            // no BGG titles were found
             if (titleMatches.length === 0) {
                 messages.push('ERROR: "' + this.withoutYear(userTitles[titleMatchesIdx]) + '" was not found in the BGG database')
                 newTextareaValue += userTitles[titleMatchesIdx] + '\n'
+
+            // multiple BGG titles were found, so do disambiguation by year published
             } else if (titleMatches.length > 1) {
                 let desiredYear = this.extractYearFromTitle(userTitles[titleMatchesIdx])
                 let yearMatches = titleMatches
@@ -90,6 +98,7 @@ export class AddByTitle extends React.Component {
                         desiredYear != null
                         && ( (desiredYear.startsWith('#') && ambiguousTitle.id === parseInt(desiredYear.substr(1)))
                             || ambiguousTitle.yearpublished === parseInt(desiredYear) ))
+                // the user's search submission did provide a publishing year that matches that of a BGG title
                 if (yearMatches.length) {
                     if (this.ifGameHasBeenAdded(yearMatches[0].id)) {
                         messages.push('"' + this.withYear(userTitles[titleMatchesIdx], yearMatches[0].yearpublished, yearMatches[0].id) + '" was previously added')
@@ -111,6 +120,7 @@ export class AddByTitle extends React.Component {
                                 }
                             })
                     }
+                // re-populate the user's input textarea with titles that have disambiguation applied (so they can re-submit immediately)
                 } else {
                     messages.push('ERROR: "' + this.withoutYear(userTitles[titleMatchesIdx]) + '" has multiple matches in the BGG database')
                     for (let ambiguousTitle of titleMatches) {
@@ -118,6 +128,7 @@ export class AddByTitle extends React.Component {
                         newTextareaValue += disambiguousTitle + '\n'
                     }
                 }
+            // exactly 1 BGG title was found
             } else {
                 if (this.ifGameHasBeenAdded(titleMatches[0].id)) {
                     messages.push('"' + this.withYear(titleMatches[0].name) + '" was previously added')

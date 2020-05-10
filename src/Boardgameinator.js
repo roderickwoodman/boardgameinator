@@ -320,5 +320,5 @@ export class Boardgameinator extends React.Component {
 }
 
 Boardgameinator.propTypes = {
-    defaultgames: PropTypes.array.isRequired,
+    location: PropTypes.object.isRequired,
 }

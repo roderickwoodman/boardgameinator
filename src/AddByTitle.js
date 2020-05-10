@@ -17,7 +17,6 @@ export class AddByTitle extends React.Component {
         this.handleSubmit = this.handleSubmit.bind(this)
         this.exactSearchApi = this.exactSearchApi.bind(this)
         this.searchApi = this.searchApi.bind(this)
-        this.titleIsId = this.titleIsId.bind(this)
         this.validateUserTitles = this.validateUserTitles.bind(this)
     }
 
@@ -51,14 +50,6 @@ export class AddByTitle extends React.Component {
                 return null
             }
         }
-    }
-
-    titleIsId(title) {
-        return (parseInt(title) === 'NaN') ? false : true
-    }
-
-    exactsearch_fn(game_name_string) {
-        return (this.titleIsId(game_name_string)) ? this.idSearchApi : this.exactSearchApi
     }
 
     async validateUserTitles(userTitles) {

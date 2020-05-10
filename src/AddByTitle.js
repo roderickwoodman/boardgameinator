@@ -17,6 +17,7 @@ export class AddByTitle extends React.Component {
         this.handleSubmit = this.handleSubmit.bind(this)
         this.exactSearchApi = this.exactSearchApi.bind(this)
         this.searchApi = this.searchApi.bind(this)
+        this.titleIsId = this.titleIsId.bind(this)
         this.validateUserTitles = this.validateUserTitles.bind(this)
     }
 
@@ -52,6 +53,14 @@ export class AddByTitle extends React.Component {
         }
     }
 
+    titleIsId(title) {
+        return (parseInt(title) === 'NaN') ? false : true
+    }
+
+    exactsearch_fn(game_name_string) {
+        return (this.titleIsId(game_name_string)) ? this.idSearchApi : this.exactSearchApi
+    }
+
     async validateUserTitles(userTitles) {
 
         let messages = []
@@ -85,13 +94,16 @@ export class AddByTitle extends React.Component {
         // the search result for each user-supplied title may have returned multiple possible BGG titles
         searchApiResults.forEach( (titleMatches, titleMatchesIdx) => {
 
+            // if an ID was searched for and not a title name, no disambiguation will be needed
+            let idMatches = titleMatches.filter( titleMatch => titleMatch.id === parseInt(userTitles[titleMatchesIdx]))
+
             // no BGG titles were found
             if (titleMatches.length === 0) {
                 messages.push('ERROR: "' + this.withoutYear(userTitles[titleMatchesIdx]) + '" was not found in the BGG database')
                 newTextareaValue += userTitles[titleMatchesIdx] + '\n'
 
-            // multiple BGG titles were found, so do disambiguation by year published
-            } else if (titleMatches.length > 1) {
+            // multiple BGG titles were found (without an exact ID match), so do disambiguation by year published
+            } else if (titleMatches.length > 1 && idMatches.length !== 1) {
                 let desiredYear = this.extractYearFromTitle(userTitles[titleMatchesIdx])
                 let yearMatches = titleMatches
                     .filter(ambiguousTitle => 
@@ -153,9 +165,9 @@ export class AddByTitle extends React.Component {
         this.setState({ statusMessages: messages })
     }
 
-    parseSearchApiXml(str) {
+    parseSearchApiXml(resp_str) {
         let games = []
-        let responseDoc = new DOMParser().parseFromString(str, 'application/xml')
+        let responseDoc = new DOMParser().parseFromString(resp_str, 'application/xml')
         let gamesHtmlCollection = responseDoc.getElementsByTagName("item")
         for (let matchedGame of gamesHtmlCollection) {
             let game = {}

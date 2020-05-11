@@ -50,12 +50,8 @@ export class AddByTitle extends React.Component {
 
         // search for an exact title match (BGG API)
         const exactSearchApiResults = await Promise.all(
-            userTitles.map(
-                gameTitle =>
-                    fetch(exactSearchApi(this.withoutYear(gameTitle)))
-                        .then(exactSearchResponse => exactSearchResponse.text())
-                        .then(exactSearchText => this.parseSearchApiXml(exactSearchText))
-            ))
+            userTitles.map( gameTitle => exactSearchApi(this.withoutYear(gameTitle)) )
+        )
 
         // if there was no response to the exact title search, do a non-exact one (BGG API)
         const searchApiResults = await Promise.all(
@@ -65,9 +61,7 @@ export class AddByTitle extends React.Component {
                         return exactSearchApiResult
                     } else {
                         return (
-                            fetch(searchApi(userTitles[idx]))
-                                .then(searchResponse => searchResponse.text())
-                                .then(searchText => this.parseSearchApiXml(searchText))
+                            searchApi(userTitles[idx])
                         )
                     }
                 }
@@ -97,9 +91,7 @@ export class AddByTitle extends React.Component {
                     if (this.ifGameHasBeenAdded(yearMatches[0].id)) {
                         messages.push('"' + this.withYear(userTitles[titleMatchesIdx], yearMatches[0].yearpublished, yearMatches[0].id) + '" was previously added')
                     } else {
-                        fetch(gamedataApi(yearMatches[0].id))
-                            .then(response => response.text())
-                            .then(text => this.props.parsegamedataxml(text))
+                        gamedataApi(yearMatches[0].id)
                             .then(json => {
                                 if (json.hasOwnProperty('id')) {
                                     if (desiredYear !== null) {
@@ -127,9 +119,7 @@ export class AddByTitle extends React.Component {
                 if (this.ifGameHasBeenAdded(titleMatches[0].id)) {
                     messages.push('"' + this.withYear(titleMatches[0].name) + '" was previously added')
                 } else {
-                    fetch(gamedataApi(titleMatches[0].id))
-                        .then(response => response.text())
-                        .then(text => this.props.parsegamedataxml(text))
+                    gamedataApi(titleMatches[0].id)
                         .then(json => {
                             if (json.hasOwnProperty('id')) {
                                 messages.push('"' + this.withoutYear(titleMatches[0].name) + '" has now been added')
@@ -145,35 +135,6 @@ export class AddByTitle extends React.Component {
         })
         this.setState({ value: newTextareaValue })
         this.setState({ statusMessages: messages })
-    }
-
-    parseSearchApiXml(resp_str) {
-        let games = []
-        let responseDoc = new DOMParser().parseFromString(resp_str, 'application/xml')
-        let gamesHtmlCollection = responseDoc.getElementsByTagName("item")
-        for (let matchedGame of gamesHtmlCollection) {
-            let game = {}
-            game['id'] = parseInt(matchedGame.id)
-            matchedGame.childNodes.forEach(
-                function (node) {
-                    if (node.nodeType === Node.ELEMENT_NODE) {
-                        if ( (node.tagName === "name") && (node.getAttribute("type") === "primary") ) {
-                            game["name"] = node.getAttribute("value")
-                        }
-                        if (node.tagName === "yearpublished") {
-                            game["yearpublished"] = parseInt(node.getAttribute("value"))
-                        }
-                    }
-                }
-            )
-            if ("name" in game) {
-                games.push(game)
-            }
-            if (!("yearpublished" in game)) {
-                game["yearpublished"] = null
-            }
-        }
-        return games
     }
 
     ifGameHasBeenAdded(gameId) {

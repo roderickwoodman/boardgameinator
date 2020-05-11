@@ -66,7 +66,7 @@ Game.propTypes = {
     oninspectionsectionchange: PropTypes.func.isRequired,
     ontoggleinspection: PropTypes.func.isRequired,
     thumbcount: PropTypes.number.isRequired,
-    thumbnail: PropTypes.string.isRequired,
+    thumbnail: PropTypes.string,
     thumbs: PropTypes.object.isRequired,
     videos: PropTypes.array,
     yearpublished: PropTypes.number,

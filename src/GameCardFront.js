@@ -19,7 +19,7 @@ function Thumbnail(props) {
 
 Thumbnail.propTypes = {
     thumbcount: PropTypes.number.isRequired,
-    url: PropTypes.string.isRequired,
+    url: PropTypes.string,
 }
 
 export class GameCardFront extends React.Component {
@@ -128,7 +128,7 @@ GameCardFront.propTypes = {
     ondelete: PropTypes.func.isRequired,
     ontoggleinspection: PropTypes.func.isRequired,
     thumbcount: PropTypes.number.isRequired,
-    thumbnail: PropTypes.string.isRequired,
+    thumbnail: PropTypes.string,
     thumbs: PropTypes.object.isRequired,
     yearpublished: PropTypes.number,
 }

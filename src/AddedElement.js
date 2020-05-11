@@ -26,7 +26,7 @@ export class AddedElement extends React.Component {
                 onMouseLeave={this.toggleHover}
             >
                 {this.state.hover && (
-                    <button 
+                    <button className="fa fa-button default-primary-styles"
                         onClick={ (e) => this.props.ondelete(e, this.props.id) }
                     >
                         <FontAwesomeIcon icon={faTrash} />

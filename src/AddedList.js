@@ -45,7 +45,7 @@ export class AddedList extends React.Component {
                 <button className="rightGroup default-danger-styles" onClick={this.props.ondeleteall} disabled={this.props.allgames.length===0}>Remove All</button>
             </span>
             <ul id="games-added">
-            <li><b>ALL ADDED GAMES: </b><button className="fa-button"><FontAwesomeIcon icon={faClipboard} onClick={this.handleCopyToClipboard} disabled={!this.props.allgames.length} /></button></li>
+            <li><b>ALL ADDED GAMES: </b><button className="fa fa-button default-secondary-styles"><FontAwesomeIcon icon={faClipboard} onClick={this.handleCopyToClipboard} disabled={!this.props.allgames.length} /></button></li>
                 { this.props.allgames.length >= 0 && (
                     this.props.allgames
                         .sort( (a, b) => (a.name + a.disambiguation > b.name + b.disambiguation) ? 1 : -1 )

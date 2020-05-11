@@ -11,18 +11,8 @@ export class AddGamesBox extends React.Component {
             inputBy: 'title',
         }
         this.handleSectionChange = this.handleSectionChange.bind(this)
-        this.gamedataApi = this.gamedataApi.bind(this)
-        this.doGamedataApi = this.doGamedataApi.bind(this)
         this.parseGamedataApiXml = this.parseGamedataApiXml.bind(this)
         this.parseIntoParagraphs = this.parseIntoParagraphs.bind(this)
-    }
-
-    gamedataApi(gameId) {
-        return 'https://boardgamegeek.com/xmlapi2/thing?type=boardgame&stats=1&ratingcomments=1&videos=1&id=' + gameId
-    }
-
-    doGamedataApi(gameId) {
-        return fetch(this.gamedataApi(gameId))
     }
 
     parseGamedataApiXml(str) {
@@ -179,7 +169,6 @@ export class AddGamesBox extends React.Component {
                 <AddByTitle
                     allgames={this.props.allgames}
                     onnewtitle={this.props.onnewtitle} 
-                    dogamedataapi={this.doGamedataApi}
                     parsegamedataxml={this.parseGamedataApiXml}
                 />
             </div>

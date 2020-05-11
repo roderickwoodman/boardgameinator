@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLongArrowAltRight } from '@fortawesome/free-solid-svg-icons'
+import { searchApi, exactSearchApi, gamedataApi } from './Api.js'
 
 
 export class AddByTitle extends React.Component {
@@ -15,17 +16,7 @@ export class AddByTitle extends React.Component {
         this.handleChange = this.handleChange.bind(this)
         this.handleReset = this.handleReset.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
-        this.exactSearchApi = this.exactSearchApi.bind(this)
-        this.searchApi = this.searchApi.bind(this)
         this.validateUserTitles = this.validateUserTitles.bind(this)
-    }
-
-    exactSearchApi(title) {
-        return 'https://boardgamegeek.com/xmlapi2/search?type=boardgame&exact=1&query=' + this.withoutYear(title).replace(' ', '+')
-    }
-
-    searchApi(title) {
-        return 'https://boardgamegeek.com/xmlapi2/search?type=boardgame&query=' + this.withoutYear(title).replace(' ', '+')
     }
 
     withYear(title, year, id) {
@@ -61,7 +52,7 @@ export class AddByTitle extends React.Component {
         const exactSearchApiResults = await Promise.all(
             userTitles.map(
                 gameTitle =>
-                    fetch(this.exactSearchApi(gameTitle))
+                    fetch(exactSearchApi(this.withoutYear(gameTitle)))
                         .then(exactSearchResponse => exactSearchResponse.text())
                         .then(exactSearchText => this.parseSearchApiXml(exactSearchText))
             ))
@@ -74,7 +65,7 @@ export class AddByTitle extends React.Component {
                         return exactSearchApiResult
                     } else {
                         return (
-                            fetch(this.searchApi(userTitles[idx]))
+                            fetch(searchApi(userTitles[idx]))
                                 .then(searchResponse => searchResponse.text())
                                 .then(searchText => this.parseSearchApiXml(searchText))
                         )
@@ -106,7 +97,7 @@ export class AddByTitle extends React.Component {
                     if (this.ifGameHasBeenAdded(yearMatches[0].id)) {
                         messages.push('"' + this.withYear(userTitles[titleMatchesIdx], yearMatches[0].yearpublished, yearMatches[0].id) + '" was previously added')
                     } else {
-                        this.props.dogamedataapi(yearMatches[0].id)
+                        fetch(gamedataApi(yearMatches[0].id))
                             .then(response => response.text())
                             .then(text => this.props.parsegamedataxml(text))
                             .then(json => {
@@ -136,7 +127,7 @@ export class AddByTitle extends React.Component {
                 if (this.ifGameHasBeenAdded(titleMatches[0].id)) {
                     messages.push('"' + this.withYear(titleMatches[0].name) + '" was previously added')
                 } else {
-                    this.props.dogamedataapi(titleMatches[0].id)
+                    fetch(gamedataApi(titleMatches[0].id))
                         .then(response => response.text())
                         .then(text => this.props.parsegamedataxml(text))
                         .then(json => {
@@ -248,5 +239,4 @@ export class AddByTitle extends React.Component {
 AddByTitle.propTypes = {
     allgames: PropTypes.array.isRequired,
     onnewtitle: PropTypes.func.isRequired,
-    dogamedataapi: PropTypes.func.isRequired,
 }

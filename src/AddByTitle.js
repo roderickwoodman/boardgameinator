@@ -17,6 +17,8 @@ export class AddByTitle extends React.Component {
         this.handleReset = this.handleReset.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
         this.validateUserTitles = this.validateUserTitles.bind(this)
+        this.extractYearFromTitle = this.extractYearFromTitle.bind(this)
+        this.ifGameHasBeenAdded = this.ifGameHasBeenAdded.bind(this)
     }
 
     withYear(title, year, id) {
@@ -25,22 +27,120 @@ export class AddByTitle extends React.Component {
     }
 
     withoutYear(title) {
-        return title.replace(/(( +)\(([-#]?)\d{1,6}\))$/, '')
+        if (typeof title === 'string' && title.length) {
+            return title.replace(/(( +)\(([-#]?)\d{1,6}\))$/, '')
+        } else {
+            return title
+        }
     }
 
     // for disambiguation of titles, the game ID will be put in parentheses when the API does not provide yearpublished info
     extractYearFromTitle(title) {
-        let matchesDate = title.match(/(( +)\((-?)\d{1,4}\))$/)
-        if (matchesDate !== null) {
-            return matchesDate[0].replace(/[^0-9-]/g, "")
-        } else {
-            let matchesId = title.match(/(( +)\(#\d{1,6}\))$/)
-            if (matchesId !== null) {
-                return matchesId[0].replace(/[^#0-9-]/g, "")
+        if (typeof title === 'string' && title.length) {
+            let matchesDate = title.match(/(( +)\((-?)\d{1,4}\))$/)
+            if (matchesDate !== null) {
+                return matchesDate[0].replace(/[^0-9-]/g, "")
             } else {
-                return null
+                let matchesId = title.match(/(( +)\(#\d{1,6}\))$/)
+                if (matchesId !== null) {
+                    return matchesId[0].replace(/[^#0-9-]/g, "")
+                } else {
+                    return null
+                }
             }
         }
+    }
+
+    async validateUserTitlesV2(userTitles) {
+        let messages = []
+        let newTextareaValue = ""
+        let self = this
+        const titleData = await Promise.all(
+            userTitles.map( function(gameTitle) {
+                return (
+                    // STEP 1: do BGG exact search API, using user-supplied name string
+                    exactSearchApi(gameTitle)
+
+                    // OPTIONAL STEP 2 (if no matches were found): do BGG non-exact search API, using user-supplied name string
+                    .then( function(exactSearchData, idx) {
+                        if (Object.entries(exactSearchData.length !==0)) {
+                            return (exactSearchData)
+                        } else {
+                            return searchApi(userTitles[idx])
+                        }})
+
+                    // (EVENTUAL) STEP 3: do BGG game data API, using BGG-API-supplied game ID
+                    .then( function(nonexactSearchData, idx2) {
+
+                        // if an ID was searched for and not a title name, no disambiguation will be needed
+                        let idMatches = nonexactSearchData.filter( titleMatch => titleMatch.id === parseInt(userTitles[idx2]))
+
+                        // no BGG titles were found
+                        if (nonexactSearchData.length === 0) {
+                            messages.push('ERROR: "' + self.withoutYear(userTitles[idx2]) + '" was not found in the BGG database')
+                            newTextareaValue += userTitles[idx2] + '\n'
+
+                        // multiple BGG titles were found (without an exact ID match), so do disambiguation by year published
+                        } else if (nonexactSearchData.length > 1 && idMatches.length !== 1) {
+                            let desiredYear = self.extractYearFromTitle(userTitles[idx2])
+                            let yearMatches = nonexactSearchData
+                                .filter(ambiguousTitle => 
+                                    desiredYear != null
+                                    && ( (desiredYear.startsWith('#') && ambiguousTitle.id === parseInt(desiredYear.substr(1)))
+                                        || ambiguousTitle.yearpublished === parseInt(desiredYear) ))
+                            // the user's search submission did provide a publishing year that matches that of a BGG title
+                            if (yearMatches.length) {
+                                if (self.ifGameHasBeenAdded(yearMatches[0].id)) {
+                                    messages.push('"' + self.withYear(userTitles[idx2], yearMatches[0].yearpublished, yearMatches[0].id) + '" was previously added')
+                                } else {
+                                    gamedataApi(yearMatches[0].id)
+                                        .then(json => {
+                                            if (json.hasOwnProperty('id')) {
+                                                if (desiredYear !== null) {
+                                                    messages.push('"' + self.withYear(yearMatches[0].name, yearMatches[0].yearpublished, yearMatches[0].id) + '" has now been added')
+                                                } else {
+                                                    messages.push('"' + self.withoutYear(yearMatches[0].name) + '" has now been added')
+                                                }
+                                                json["nameisunique"] = false
+                                                self.props.onnewtitle(json)
+                                            } else {
+                                                messages.push('ERROR: "' + self.withoutYear(yearMatches[0].name) + '" is not producing data from the BGG API, so deleting it from your input')
+                                            }
+                                        })
+                                }
+                            // re-populate the user's input textarea with titles that have disambiguation applied (so they can re-submit immediately)
+                            } else {
+                                messages.push('ERROR: "' + self.withoutYear(userTitles[idx2]) + '" has multiple matches in the BGG database')
+                                for (let ambiguousTitle of nonexactSearchData) {
+                                    let disambiguousTitle = self.withYear(ambiguousTitle.name, ambiguousTitle.yearpublished, ambiguousTitle.id)
+                                    newTextareaValue += disambiguousTitle + '\n'
+                                }
+                            }
+                        // exactly 1 BGG title was found
+                        } else {
+                            if (self.ifGameHasBeenAdded(nonexactSearchData[0].id)) {
+                                messages.push('"' + self.withYear(nonexactSearchData[0].name) + '" was previously added')
+                            } else {
+                                gamedataApi(nonexactSearchData[0].id)
+                                    .then(json => {
+                                        if (json.hasOwnProperty('id')) {
+                                            // messages.push('"' + this.withoutYear(nonexactSearchData[0].name) + '" has now been added')
+                                            json["nameisunique"] = true
+                                            self.props.onnewtitle(json)
+                                            } else {
+                                                // messages.push('ERROR: "' + this.withoutYear(nonexactSearchData[0].name) + '" is not producing data from the BGG API, so deleting it from your input')
+                                                newTextareaValue += ''
+                                            }
+                                        })
+                                }
+                            }
+                        // FIXME: re-enable status messages and textarea updates
+                        // this.setState({ value: newTextareaValue })
+                        // this.setState({ statusMessages: messages })
+                        })
+                    )
+            })
+        )
     }
 
     async validateUserTitles(userTitles) {
@@ -167,7 +267,7 @@ export class AddByTitle extends React.Component {
             .map(str => str.trim())
             .map(str => str.replace(/[^0-9a-zA-Z:()&!–#' ]/g, ""))
             .filter( function(e){return e} )
-        this.validateUserTitles(Array.from(new Set(userTitles)))
+        this.validateUserTitlesV2(Array.from(new Set(userTitles)))
     }
 
     render() {

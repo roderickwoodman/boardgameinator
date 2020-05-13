@@ -11,19 +11,19 @@ This app is a sandbox for users to prioritize a list of boardgames that they are
 
 ### Who is it for?
 
-First of all, **Boardgameinator** IS NOT for geeks to manage their huge collections.
+First of all, **Boardgameinator** IS NOT FOR geeks to manage their huge collections.
 
-Instead, this app IS for anyone who feels overwhelmed or who has stalled out in selecting a boardgame. And with all of the new titles and all of the hype these days, I do feel your pain.
+Instead, this app IS FOR anyone who feels overwhelmed or who has stalled out in selecting a boardgame. And with all of the new titles and all of the hype these days, I do feel your pain.
 
 ### Why is it so awesome?
 
-The likability of any board game is so subjective and multifactorial. And unfortunately, the primary online  resource for the industry is a firehose of information called [BoardGameGeek](https://boardgamegeek.com) (BGG), which can be a bit overwhelming for casual boardgamers. Often there is actually too much information there, and the way it is organized forces you to focus on one game at a time.
+The likability of any board game is so subjective and multifactorial, sort of like a novel is. And unfortunately, the primary online  resource for the industry is a firehose of information called [BoardGameGeek](https://boardgamegeek.com) (BGG). Yes, the geeks are the most vocal group of boardgamers on the Internet, so be very careful. The BGG website is organized like an encyclopedia, which forces you to focus on one game at a time.
 
-**Boardgameinator**, however, is a comparison tool that sits on top of all of that BGG data and shows you only a few bits of filterable, high-level characteristics in a visually side-by-side fashion. It feels more like an e-commerce shopping experience that is designed for users to converge on only those results that meet their own preferences.
+**Boardgameinator**, however, is a user-driven comparison tool for filtering through all of that BGG data in a visually side-by-side fashion. Only a few bits of information are shown for each game title, and simple mouse clicks either promote or eliminate games. It feels like a light e-commerce shopping experience.
 
 ### What is it doing under the hood?
 
-The app pulls game information from [the BoardGameGeek API](https://boardgamegeek.com/wiki/page/BGG_XML_API2) and stores both it and the user's likes in the browser's local storage area. Then, the aggregated likes plus other input controls determine the final filtered, ordered list of games that the user sees on the page.
+The browser stores the user's likes locally, along with game information that it pulls from [the BoardGameGeek API](https://boardgamegeek.com/wiki/page/BGG_XML_API2). It then determines how to sort and filter it all to produce the ordered list of games that the user sees on the page.
 
 ### DISCLAIMER
 

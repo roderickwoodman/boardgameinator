@@ -7,23 +7,23 @@
 
 Behold, the **BOARDGAMEINATOR**!  (...said in my best [Dr. Doofenshmirtz](https://www.youtube.com/watch?v=Sj7yxI-r_ag) accent)
 
-This app is a sandbox for users to prioritize a list of boardgames that they are considering playing or purchasing. Once a game has been added (by name), the user is given a set of that game's characteristics for upvoting. And the more upvoted characteristics a game gets, the higher it will bubble up in the user's overall ranking of all of the added games.
+This app is a sandbox for users to prioritize a list of boardgames that they are considering playing or purchasing. Users add the names of games to this site, and immediately the app returns some data about each of them that can be upvoted. Any characteristic (for example, the theme or the player count) from any game that has been added to this site can be upvoted. And the games that get the most votes are displayed the most prominently. Simple.
 
 ### Who is it for?
 
 First of all, **Boardgameinator** IS NOT FOR geeks to manage their huge collections.
 
-Instead, this app IS FOR anyone who feels overwhelmed or who has stalled out in selecting a boardgame. And with all of the new titles and all of the hype these days, I do feel your pain.
+Instead, this app IS FOR anyone who feels overwhelmed or who has stalled out in selecting a boardgame. And with so many new titles and all of the hype these days, I do feel your pain.
 
 ### Why is it so awesome?
 
-The likability of any board game is so subjective and multifactorial, sort of like a novel is. And unfortunately, the primary online  resource for the industry is a firehose of information called [BoardGameGeek](https://boardgamegeek.com) (BGG). Yes, the geeks are the most vocal group of boardgamers on the Internet, so be very careful. The BGG website is organized like an encyclopedia, which forces you to focus on one game at a time.
+The likability of any board game is so subjective and multifactorial, in the same way that a novel is. And unfortunately, the primary online  resource for the board game industry is a firehose of information called [BoardGameGeek](https://boardgamegeek.com) (BGG). Yes, the geeks are the most vocal group of boardgamers on the Internet, so be very careful with even your most shallow research attempts. The BGG interface is very dense, and because it is organized like an encyclopedia, it forces you to focus on one game at a time.
 
-**Boardgameinator**, however, is a user-driven comparison tool for filtering through all of that BGG data in a visually side-by-side fashion. Only a few bits of information are shown for each game title, and simple mouse clicks either promote or eliminate games. It feels like a light e-commerce shopping experience.
+**Boardgameinator**, however, is a user-driven comparison tool that filters through those mountains of BGG data in a visually side-by-side fashion. There is no information overload, and simple mouse clicks either promote or eliminate games. It feels like driving a light e-commerce shopping experience as you converge on what you kinda-sorta knew what you wanted all along.
 
 ### What is it doing under the hood?
 
-The browser stores the user's likes locally, along with game information that it pulls from [the BoardGameGeek API](https://boardgamegeek.com/wiki/page/BGG_XML_API2). It then determines how to sort and filter it all to produce the ordered list of games that the user sees on the page.
+Game data is pulled from [the BoardGameGeek API](https://boardgamegeek.com/wiki/page/BGG_XML_API2). All data is stored locally in the user's browser data area (aka: "local storage"). There are no user sessions or sensitive data for this application.
 
 ### DISCLAIMER
 

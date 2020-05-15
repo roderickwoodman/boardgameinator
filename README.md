@@ -34,12 +34,16 @@ For most people, [the link above](https://roderickwoodman.github.io/boardgameina
 ### Running This App Locally
 
 As a one-time setup, copy the code for this app to your local machine. 
-#### `git clone https://github.com/roderickwoodman/boardgameinator.git`
-#### `cd boardgameinator`
-#### `npm install`
+```
+git clone https://github.com/roderickwoodman/boardgameinator.git
+cd boardgameinator
+npm install
+```
 
 Now, every time you want to run the app, just run a script that starts up a development server with the code. This will run the app in development mode.
-#### `npm start`
+```
+npm start
+```
 
 Doing this will open a browser tab for viewing the app at [http://localhost:3000](http://localhost:3000). The page will reload if you make edits to your local code copies. You will also see any lint errors in the browser console. 
 

@@ -192,10 +192,7 @@ hr {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  flex: 0 0 5rem;
-}
-
-.gamecard-title {
+  flex: 0.5 0.5 5rem;
   height: 50px;
 }
 

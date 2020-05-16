@@ -172,11 +172,11 @@ hr {
 .game {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-start;
   overflow-x: hidden;
-  font-size: 1rem;
   line-height: 1.5;
   white-space: wrap;
+  max-height: 850px;
 }
 
 .gamecard-header {
@@ -184,15 +184,16 @@ hr {
   flex-direction: row-reverse;
   flex: 0 0 1rem;
   margin-top: 5px;
-  padding-top: 5px;
-  margin-bottom: -5px;
+  padding-bottom: 0px;
+  margin-bottom: 0px;
 }
 
 .gamecard-title {
   display: flex;
+  padding-top: 5px;
   flex-direction: column;
   justify-content: center;
-  flex: 0.5 0.5 5rem;
+  flex: 0 1 5.5rem;
   height: 50px;
 }
 
@@ -245,7 +246,6 @@ hr {
 
 .gamecard-details.mechanics {
   flex: 1 1 10.5rem; /* basis: 7 lines @ 1.5 spacing */ 
-  max-height: 15rem; /* max: 10 lines @ 1.5 spacing */
   overflow-y: auto;
 }
 
@@ -338,13 +338,12 @@ hr {
   display: flex;
   flex-direction: column;
   flex: 0 0 none;
-  height: 100%;
   margin: 2px;
   padding: 0 2px;
   width: 200px;
   max-width: 275px;
   min-width: 175px;
-  max-height: 1000px;
+  /* max-height: 1000px; */
   position: relative;
   background-color: purple;
   border-radius: 10px;

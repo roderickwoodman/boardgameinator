@@ -329,6 +329,13 @@ hr {
   margin:2px 10px;
 }
 
+@media screen and (max-height: 800px) {
+  .gamecard-details.categories li.novote,
+  .gamecard-details.mechanics li.novote {
+    display: none;
+  }
+}
+
 .gamecard-visual-overlay div.thumbsup {
   color: green;
   background-color: white;

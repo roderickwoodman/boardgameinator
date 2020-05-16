@@ -203,6 +203,7 @@ hr {
   font-size: 1.7em;
   font-weight: 800;
   padding: 0;
+  flex: 0 0 175px; 
 }
 
 .gamecard-visual {

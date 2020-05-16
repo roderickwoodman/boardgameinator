@@ -200,6 +200,9 @@ hr {
 }
 
 .gamecard-visual {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   font-size: 1.7em;
   font-weight: 800;
   padding: 0;
@@ -209,8 +212,6 @@ hr {
 .gamecard-visual {
   position: relative;
   text-align: center;
-  /* margin-top: 10px; */
-  /* margin-bottom: -10px; */
   height: 200px;
   align-self: center;
 }
@@ -224,6 +225,10 @@ hr {
   background-color: black;
   border-top: 1px solid silver;
   border-bottom: 1px solid silver;
+}
+
+.gamecard-thumbnail img {
+  vertical-align: middle;
 }
 
 .gamecard-details {

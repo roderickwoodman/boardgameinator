@@ -193,7 +193,8 @@ hr {
   padding-top: 5px;
   flex-direction: column;
   justify-content: center;
-  flex: 0 1 5.5rem;
+  flex: 0 0 5.5rem;
+  max-height: 5.5rem;
 }
 
 .gamecard-visual {
@@ -547,7 +548,9 @@ button:enabled,
     /* flex-direction: column; */
     /* justify-content: center; */
     /* flex: 0 1 5.5rem; */
-    flex: 1 1 4rem;
+    flex: 0 0 4rem;
+    /* max-height: 5.5rem; */
+    max-height: 4rem;
   }
 
   .gamecard-visual {

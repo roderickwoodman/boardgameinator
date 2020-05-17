@@ -528,6 +528,7 @@ button:enabled,
 @media screen and (max-height: 800px) {
 
   .game-yearpublished,
+  .gamecard-visual .gamecard-visual-overlay,
   .gamecard-details.categories li.novote,
   .gamecard-details.mechanics li.novote {
     display: none;
@@ -557,12 +558,26 @@ button:enabled,
     overflow:hidden;
   }
 
+  .gamecard-visual .gamecard-visual-overlay div {
+    background-color: inherit;
+    border: 1px solid transparent;
+  }
+
+  .gamecard-overlay-text {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+  }
+
+  .gamecard-overlay-text > div {
+    width: 50%;
+  }
+
 }
 
 @media screen and (max-height: 600px) {
 
-  .gamecard-thumbnail img,
-  .gamecard-visual .gamecard-visual-overlay {
+  .gamecard-thumbnail img {
     display: none;
   }
 
@@ -593,21 +608,6 @@ button:enabled,
     background-color: inherit;
     /* border-top: 1px solid silver; */
     /* border-bottom: 1px solid silver; */
-  }
-
-  .gamecard-visual .gamecard-visual-overlay div {
-    background-color: inherit;
-    border: 1px solid transparent;
-  }
-
-  .gamecard-overlay-text {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
-  }
-
-  .gamecard-overlay-text > div {
-    width: 50%;
   }
 
 }

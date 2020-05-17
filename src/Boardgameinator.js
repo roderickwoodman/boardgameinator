@@ -30,6 +30,7 @@ export class Boardgameinator extends React.Component {
     gamedataVersion = 1
 
     componentDidMount() {
+
         const stored_gamedataVersion = JSON.parse(localStorage.getItem("gamedataVersion"))
         let allGames = []
         if (stored_gamedataVersion === this.gamedataVersion) {
@@ -39,6 +40,12 @@ export class Boardgameinator extends React.Component {
             localStorage.setItem('gamedataVersion', JSON.stringify(this.gamedataVersion))
             localStorage.setItem('allGames', JSON.stringify(allGames))
         }
+
+        const stored_thumbs = JSON.parse(localStorage.getItem("thumbs"))
+        if (stored_thumbs !== null) {
+            this.setState({ thumbs: stored_thumbs })
+        }
+
     }
 
     onNewTitle(newGame) {
@@ -136,6 +143,7 @@ export class Boardgameinator extends React.Component {
             }
 
             localStorage.setItem('allGames', JSON.stringify(allGames))
+            localStorage.setItem('thumbs', JSON.stringify(thumbs))
 
             // push these changes into 2 state variables
             return { allGames: allGames, thumbs:thumbs }
@@ -147,6 +155,7 @@ export class Boardgameinator extends React.Component {
             let allGames = []
             let thumbs = {'players': {}, 'weight': {}, 'category': {}, 'mechanic': {}}
             localStorage.setItem('allGames', JSON.stringify(allGames))
+            localStorage.setItem('thumbs', JSON.stringify(thumbs))
             return { allGames: allGames, thumbs:thumbs }
         })
     }
@@ -249,6 +258,7 @@ export class Boardgameinator extends React.Component {
             } else {
                 delete(thumbs[attrtype][attrname])
             }
+            localStorage.setItem('thumbs', JSON.stringify(thumbs))
             return { thumbs }
         })
     }
@@ -266,6 +276,7 @@ export class Boardgameinator extends React.Component {
             } else {
                 thumbs[attrtype] = clearVotes
             }
+            localStorage.setItem('thumbs', JSON.stringify(thumbs))
             return { thumbs: thumbs }
         })
     }

@@ -92,9 +92,19 @@ export class GameCardFront extends React.Component {
                     }
                 </div>
             </section>
-            <ul className="gamecard-details weight">
-                <li className={this.getWeightVote(averageweightname)}>{averageweightname}</li>
-            </ul>
+            <div className="gamecard-details weight">
+                <div className={this.getWeightVote(averageweightname)}>{averageweightname}</div>
+                <div className="gamecard-overlay-text">
+                    {(minplayers !== maxplayers)
+                        ? <div className={this.getPlayersVote(minplayers, maxplayers)}><FontAwesomeIcon icon={faUserFriends}/> {minplayers}-{maxplayers}</div>
+                        : <div className={this.getPlayersVote(minplayers, maxplayers)}><FontAwesomeIcon icon={faUserFriends}/> {minplayers}</div>
+                    }
+                    {(minplaytime !== maxplaytime)
+                        ? <div><FontAwesomeIcon icon={faClock}/> {minplaytime}-{maxplaytime}'</div>
+                        : <div><FontAwesomeIcon icon={faClock}/> {minplaytime}'</div>
+                    }
+                </div>
+            </div>
             <ul className="gamecard-details categories">
                 {(categories.length)
                     ? categories.map(value => <li key={value} className={this.getMyVote('category', value)}>{value}</li>)

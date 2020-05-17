@@ -271,6 +271,10 @@ hr {
   border-radius: 5px 0 0 5px;
 }
 
+.gamecard-overlay-text {
+  display: none;
+}
+
 .gamecard-title,
 .gamecard-details.weight {
   font-weight: 800;
@@ -531,7 +535,8 @@ button:enabled,
 @media screen and (max-height: 600px) {
 
   .game-yearpublished,
-  .gamecard-thumbnail img {
+  .gamecard-thumbnail img,
+  .gamecard-visual .gamecard-visual-overlay {
     display: none;
   }
 
@@ -573,15 +578,13 @@ button:enabled,
     /* border-bottom: 1px solid silver; */
   }
 
-  .gamecard-visual .gamecard-visual-overlay {
-    display: none;
-  }
-
   .gamecard-visual .gamecard-visual-overlay div {
     background-color: inherit;
     border: 1px solid transparent;
-
   }
 
+  .gamecard-overlay-text {
+    display: inline-block;
+  }
 
 }

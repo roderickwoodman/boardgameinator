@@ -588,7 +588,13 @@ button:enabled,
   }
 
   .gamecard-overlay-text {
-    display: inline-block;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+  }
+
+  .gamecard-overlay-text > div {
+    width: 50%;
   }
 
 }

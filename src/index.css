@@ -321,7 +321,8 @@ hr {
   font-weight: 800;
 }
 
-.gamecard-details li.thumbsup {
+.gamecard-details li.thumbsup,
+.gamecard-details div.thumbsup {
   color: green;
   background-color: white;
   border-radius: 5px;

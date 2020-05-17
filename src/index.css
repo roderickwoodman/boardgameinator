@@ -194,7 +194,6 @@ hr {
   flex-direction: column;
   justify-content: center;
   flex: 0 1 5.5rem;
-  height: 50px;
 }
 
 .gamecard-visual {
@@ -205,9 +204,6 @@ hr {
   font-weight: 800;
   padding: 0;
   flex: 0 0 175px; 
-}
-
-.gamecard-visual {
   position: relative;
   text-align: center;
   height: 200px;
@@ -327,13 +323,6 @@ hr {
   border-radius: 5px;
   font-weight: 900px;
   margin:2px 10px;
-}
-
-@media screen and (max-height: 800px) {
-  .gamecard-details.categories li.novote,
-  .gamecard-details.mechanics li.novote {
-    display: none;
-  }
 }
 
 .gamecard-visual-overlay div.thumbsup {
@@ -524,4 +513,75 @@ button.default-danger-styles {
 button:enabled,
 .fa-button:enabled {
   cursor: pointer;
+}
+
+
+
+
+
+@media screen and (max-height: 800px) {
+
+  .gamecard-details.categories li.novote,
+  .gamecard-details.mechanics li.novote {
+    display: none;
+  }
+
+}
+
+@media screen and (max-height: 600px) {
+
+  .game-yearpublished,
+  .gamecard-thumbnail img {
+    display: none;
+  }
+
+  .gamecard-title {
+    /* display: flex; */
+    /* padding-top: 5px; */
+    /* flex-direction: column; */
+    /* justify-content: center; */
+    /* flex: 0 1 5.5rem; */
+    flex: 1 1 4rem;
+  }
+
+  .gamecard-visual {
+    /* display: flex; */
+    /* flex-direction: column; */
+    /* justify-content: center; */
+    font-size: 1.7em;
+    font-weight: 800;
+    /* padding: 0; */
+    /* flex: 0 0 175px;  */
+    flex: 0 0 4rem; 
+    /* position: relative; */
+    /* text-align: center; */
+    /* height: 200px; */
+    /* align-self: center; */
+  }
+
+  .gamecard-thumbnail .votes {
+    position: relative;
+    border: none;
+    /* position: absolute; */
+    /* top: 50%; */
+    /* left: 50%; */
+    /* transform: translate(-50%, -50%); */
+    /* width: 100%; */
+    /* background-color: black; */
+    background-color: inherit;
+    /* border-top: 1px solid silver; */
+    /* border-bottom: 1px solid silver; */
+  }
+
+  .gamecard-visual .gamecard-visual-overlay {
+    display: none;
+  }
+
+  .gamecard-visual .gamecard-visual-overlay div {
+    background-color: inherit;
+    border: 1px solid transparent;
+
+  }
+
+
 }

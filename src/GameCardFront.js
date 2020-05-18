@@ -27,6 +27,8 @@ export class GameCardFront extends React.Component {
     constructor(props) {
         super(props)
         this.getMyVote = this.getMyVote.bind(this)
+        this.getUpvotedCategories = this.getUpvotedCategories.bind(this)
+        this.getUpvotedMechanics = this.getUpvotedMechanics.bind(this)
     }
 
     getMyVote(section, attrName) {
@@ -34,6 +36,14 @@ export class GameCardFront extends React.Component {
             ? 'thumbsup' //FIXME, derive from props: this.props.preferences['attrVote']
             : 'novote'
         return myVote
+    }
+
+    getUpvotedCategories() {
+        return Object.entries(this.props.thumbs['category']).filter( entry => entry[1] === 'thumbsup' ).map( entry => entry[0] )
+    }
+
+    getUpvotedMechanics() {
+        return Object.entries(this.props.thumbs['mechanic']).filter( entry => entry[1] === 'thumbsup' ).map( entry => entry[0] )
     }
 
     // player count section gets only one, aggregated vote; only one <li> (ex: "2-6 players") 
@@ -66,6 +76,7 @@ export class GameCardFront extends React.Component {
 
     render() {
         const { id, thumbnail, name, yearpublished, minplayers, maxplayers, minplaytime, maxplaytime, averageweightname, categories, mechanics, thumbcount, ontoggleinspection, ondelete } = this.props
+        let upvoted_attributes = [ ...this.getUpvotedCategories(), ...this.getUpvotedMechanics() ].sort()
         return (
             <React.Fragment>
             <section className="gamecard-header">
@@ -104,6 +115,11 @@ export class GameCardFront extends React.Component {
                         : <div><FontAwesomeIcon icon={faClock}/> {minplaytime}'</div>
                     }
                 </div>
+            </div>
+            <div className="gamecard-details upvoted-attributes">
+                { upvoted_attributes.map( (value) =>
+                    <div key={value} className="thumbsup">{value}</div>
+                )}
             </div>
             <ul className="gamecard-details categories">
                 {(categories.length)

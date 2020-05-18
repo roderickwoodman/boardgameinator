@@ -241,6 +241,11 @@ html, #root {
   grid-area: gc-weight;
 }
 
+.gamecard-details.upvoted-attributes {
+  grid-area: gc-upvotedattrs;
+  display: none;
+}
+
 .gamecard-details.categories {
   grid-area: gc-categories;
   overflow-y: auto;
@@ -645,19 +650,19 @@ button:enabled,
   }
 
   .game {
+    text-align: left;
     overflow-x: visible;
     max-height: 200px;
     min-height: 200px;
     max-width: 100%;
     min-width: 100%;
-    grid-template-rows: 1.5rem 1.5rem 1.5rem 1fr 1fr;
+    grid-template-rows: 1.5rem 1.5rem 1.5rem auto 1.5rem;
     grid-template-columns: 200px 1fr 1fr auto 75px;
     grid-template-areas:
       "gc-visual gc-title gc-title gc-title gc-header"
       "gc-visual gc-title gc-title gc-title ."
       "gc-visual gc-weight . . ."
-      "gc-visual gc-categories gc-categories gc-categories gc-categories"
-      "gc-visual gc-mechanics gc-mechanics gc-mechanics gc-mechanics"
+      "gc-visual gc-upvotedattrs gc-upvotedattrs gc-upvotedattrs gc-upvotedattrs"
       "gc-visual . gc-footer gc-footer gc-footer";
   }
 
@@ -672,4 +677,14 @@ button:enabled,
     background-color: inherit;
   }
 
+  .gamecard-details.upvoted-attributes,
+  .gamecard-details.upvoted-attributes > * {
+    display: inline-block;
+  }
+
+  .gamecard-details.categories,
+  .gamecard-details.mechanics {
+    display: none;
+  }
+  
 }

@@ -75,41 +75,43 @@ export class GameCardBack extends React.Component {
                 <li id="select-comments" className={"selector darkbg" + (inspectingsection === "comments" ? " selected" : "")} onClick={oninspectionsectionchange}>Comments</li>
                 <li id="select-videos" className={"selector darkbg" + (inspectingsection === "videos" ? " selected" : "")} onClick={oninspectionsectionchange}>Videos</li>
             </ul>
-            <TransitionGroup>
-                {inspectingsection === "description" &&
-                    <CSSTransition 
-                        key={0}
-                        in={true}
-                        appear={false}
-                        timeout={2000}
-                        classNames={"showsegment"}
-                    >
-                        <Description description={description} />
-                    </CSSTransition>
-                }
-                {inspectingsection === "comments" &&
-                    <CSSTransition 
-                        key={1}
-                        in={true}
-                        appear={false}
-                        timeout={2000}
-                        classNames={"showsegment"}
-                    >
-                        <Comments comments={comments} />
-                    </CSSTransition>
-                }
-                {inspectingsection === "videos" &&
-                    <CSSTransition 
-                        key={2}
-                        in={true}
-                        appear={false}
-                        timeout={2000}
-                        classNames={"showsegment"}
-                    >
-                        <Videos videos={videos} />
-                    </CSSTransition>
-                }
-            </TransitionGroup>
+            <section className="gamecard-variable">
+                <TransitionGroup>
+                    {inspectingsection === "description" &&
+                        <CSSTransition 
+                            key={0}
+                            in={true}
+                            appear={false}
+                            timeout={2000}
+                            classNames={"showsegment"}
+                        >
+                            <Description description={description} />
+                        </CSSTransition>
+                    }
+                    {inspectingsection === "comments" &&
+                        <CSSTransition 
+                            key={1}
+                            in={true}
+                            appear={false}
+                            timeout={2000}
+                            classNames={"showsegment"}
+                        >
+                            <Comments comments={comments} />
+                        </CSSTransition>
+                    }
+                    {inspectingsection === "videos" &&
+                        <CSSTransition 
+                            key={2}
+                            in={true}
+                            appear={false}
+                            timeout={2000}
+                            classNames={"showsegment"}
+                        >
+                            <Videos videos={videos} />
+                        </CSSTransition>
+                    }
+                </TransitionGroup>
+            </section>
             <section className="gamecard-footer">
                 <GameFooter gameid={id}/>
             </section>

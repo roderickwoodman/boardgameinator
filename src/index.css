@@ -180,13 +180,13 @@ html, #root {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  overflow-x: hidden;
   line-height: 1.5;
   white-space: wrap;
   max-height: 850px;
 }
 
 .gamecard-header {
+  grid-area: gc-header;
   display: flex;
   flex-direction: row-reverse;
   flex: 0 0 1.5rem;
@@ -194,6 +194,7 @@ html, #root {
 }
 
 .gamecard-title {
+  grid-area: gc-title;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -202,6 +203,7 @@ html, #root {
 }
 
 .gamecard-visual {
+  grid-area: gc-visual;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -236,17 +238,20 @@ html, #root {
 }
 
 .gamecard-details.weight {
-  flex: 0 0 1.5rem; /* one line @ 1.5 spacing */
+  grid-area: gc-weight;
+  /* flex: 0 0 1.5rem; */
 }
 
 .gamecard-details.categories {
-  flex: 1 1 4.5rem; /* basis: 3 lines @ 1.5 spacing */
-  max-height: 7.5rem; /* max: 5 lines @ 1.5 spacing */
+  grid-area: gc-categories;
+  /* flex: 1 1 4.5rem; */
+  /* max-height: 7.5rem; */
   overflow-y: auto;
 }
 
 .gamecard-details.mechanics {
-  flex: 1 1 10.5rem; /* basis: 7 lines @ 1.5 spacing */ 
+  grid-area: gc-mechanics;
+  /* flex: 1 1 10.5rem;  */
   overflow-y: auto;
 }
 
@@ -286,7 +291,7 @@ html, #root {
 }
 
 .gamecard-footer {
-  flex: 0 0 3rem;
+  grid-area: gc-footer;
   font-size: 0.9rem;
   line-height: 1.5rem;
 }
@@ -341,15 +346,22 @@ html, #root {
 }
 
 .game {
-  display: flex;
-  flex-direction: column;
-  flex: 0 0 none;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1.5rem 5.5rem 175px 3rem 4fr 5fr 1.5rem;
+  grid-template-areas:
+    "gc-header"
+    "gc-title"
+    "gc-visual"
+    "gc-weight"
+    "gc-categories"
+    "gc-mechanics"
+    "gc-footer";
   margin: 2px;
   padding: 0 2px;
   width: 200px;
   max-width: 275px;
   min-width: 175px;
-  /* max-height: 1000px; */
   position: relative;
   background-color: purple;
   border-radius: 10px;
@@ -359,6 +371,22 @@ html, #root {
 
 .game.inspecting {
   min-width: 500px;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1.5rem 5.5rem 3rem auto 1.5rem;
+  grid-template-areas:
+    "gc-header"
+    "gc-title"
+    "gc-selector"
+    "gc-variable"
+    "gc-footer";
+}
+
+#gamecard-variable {
+  grid-area: gc-variable;
+}
+
+#inspectionsection-selector {
+  grid-area: gc-selector;
 }
 
 .game.inspecting li {
@@ -525,22 +553,22 @@ button:enabled,
   viewport breakpoints:
 
     "tall and wide screen" (default)
-      => horizontal game cards
+      => horizontal game card list
       => the game image
       => all text
 
     "kinda short but still wide enough screen"
-      => horizontal game cards
+      => horizontal game card list
       => the game image
       => vertically economical text
 
     "really short but still wide enough screen"
-      => horizontal game cards
+      => horizontal game card list
       => no game image
       => vertically economical text
 
     "narrow screen"
-      => vertical game cards
+      => vertical game card list
       => the game image
       => vertically and horizontally economical text
 */
@@ -548,17 +576,17 @@ button:enabled,
 /* "kinda short but still wide enough screen" */
 @media only screen 
   and (min-width: 850px)
-  and (max-height: 725px) {
+  and (max-height: 750px) {
+
+  .game {
+    grid-template-rows: 1.5rem 3.25rem 175px 4.5rem 4fr 5fr 1.5rem;
+  }
 
   .game-yearpublished,
   .gamecard-visual .gamecard-visual-overlay,
   .gamecard-details.categories li.novote,
   .gamecard-details.mechanics li.novote {
     display: none;
-  }
-
-  .gamecard-title {
-    flex: 0 0 3.25rem;
   }
 
   .game-name {
@@ -588,7 +616,11 @@ button:enabled,
 /* "really short but still wide enough screen" */
 @media only screen 
   and (min-width: 850px)
-  and (max-height: 475px) {
+  and (max-height: 675px) {
+
+  .game {
+    grid-template-rows: 1.5rem 3.25rem 3rem 4.5rem 4fr 5fr 1.5rem;
+  }
 
   .gamecard-thumbnail img {
     display: none;
@@ -627,7 +659,6 @@ button:enabled,
   .gamecard-visual {
     font-size: 1.7em;
     font-weight: 800;
-    flex: 0 0 3rem; 
   }
 
   .gamecard-thumbnail .votes {

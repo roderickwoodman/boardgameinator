@@ -82,6 +82,7 @@ html, #root {
 
 #content-wrapper {
   grid-area: cardlist;
+  padding: 1rem;
   display: flex;
   justify-content: flex-start;
   flex-direction: column;
@@ -176,15 +177,6 @@ html, #root {
   overflow-x: auto;
 }
 
-.game {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  line-height: 1.5;
-  white-space: wrap;
-  max-height: 850px;
-}
-
 .gamecard-header {
   grid-area: gc-header;
   display: flex;
@@ -234,7 +226,7 @@ html, #root {
 
 .gamecard-details {
   margin: 0;
-  padding: 10px;
+  padding: 0;
 }
 
 .gamecard-details.weight {
@@ -354,6 +346,7 @@ html, #root {
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: 1.5rem 5.5rem 175px 3rem 4fr 5fr 2rem;
+  grid-gap: 0.5rem 0.5rem;
   grid-template-areas:
     "gc-header"
     "gc-title"
@@ -363,10 +356,13 @@ html, #root {
     "gc-mechanics"
     "gc-footer";
   margin: 2px;
-  padding: 0 2px;
+  padding: 0.5rem;
   width: 200px;
   max-width: 275px;
   min-width: 175px;
+  line-height: 1.5;
+  white-space: wrap;
+  max-height: 850px;
   position: relative;
   background-color: purple;
   border-radius: 10px;
@@ -648,23 +644,19 @@ button:enabled,
   #resulting-games {
     flex-direction: column;
     flex-wrap: nowrap;
-    overflow-y: auto;
+    /* overflow-y: auto; */
     align-items: stretch;
-    width: 100vw;
+    width: 100%;
   }
 
   .game {
     text-align: left;
     overflow-x: visible;
-    max-height: 200px;
-    min-height: 200px;
-    max-width: 100%;
     min-width: 100%;
-    grid-template-rows: 1.5rem 1.5rem 1.5rem auto 2rem;
+    grid-template-rows: 1.5rem 1.5rem auto 2rem;
     grid-template-columns: 200px 1fr 1fr auto 75px;
     grid-template-areas:
       "gc-visual gc-title gc-title gc-title gc-header"
-      "gc-visual gc-title gc-title gc-title ."
       "gc-visual gc-weight . . ."
       "gc-visual gc-upvotedattrs gc-upvotedattrs gc-upvotedattrs gc-upvotedattrs"
       "gc-visual . gc-footer gc-footer gc-footer";
@@ -686,6 +678,7 @@ button:enabled,
     display: inline-block;
   }
 
+  .game-yearpublished,
   .gamecard-details.categories,
   .gamecard-details.mechanics {
     display: none;

@@ -239,19 +239,15 @@ html, #root {
 
 .gamecard-details.weight {
   grid-area: gc-weight;
-  /* flex: 0 0 1.5rem; */
 }
 
 .gamecard-details.categories {
   grid-area: gc-categories;
-  /* flex: 1 1 4.5rem; */
-  /* max-height: 7.5rem; */
   overflow-y: auto;
 }
 
 .gamecard-details.mechanics {
   grid-area: gc-mechanics;
-  /* flex: 1 1 10.5rem;  */
   overflow-y: auto;
 }
 
@@ -649,11 +645,20 @@ button:enabled,
   }
 
   .game {
-    border: 1px solid orange;
-    flex-direction: row;
     overflow-x: visible;
+    max-height: 200px;
+    min-height: 200px;
     max-width: 100%;
     min-width: 100%;
+    grid-template-rows: 1.5rem 1.5rem 1.5rem 1fr 1fr;
+    grid-template-columns: 200px 1fr 1fr auto 75px;
+    grid-template-areas:
+      "gc-visual gc-title gc-title gc-title gc-header"
+      "gc-visual gc-title gc-title gc-title ."
+      "gc-visual gc-weight . . ."
+      "gc-visual gc-categories gc-categories gc-categories gc-categories"
+      "gc-visual gc-mechanics gc-mechanics gc-mechanics gc-mechanics"
+      "gc-visual . gc-footer gc-footer gc-footer";
   }
 
   .gamecard-visual {

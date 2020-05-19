@@ -12,7 +12,7 @@ function Thumbnail(props) {
     return (
         <div className="gamecard-thumbnail">
             <img src={props.url} alt="game box cover" />
-            <div className="votes"><FontAwesomeIcon icon={faThumbsUp} />:{props.thumbcount}</div>
+            <div className="vote-count"><FontAwesomeIcon icon={faThumbsUp} />:{props.thumbcount}</div>
         </div>
     )
 }
@@ -58,7 +58,7 @@ export class GameCardFront extends React.Component {
                 vote = "thumbsup"
             }
         })
-        return vote
+        return 'supported-playercount ' + vote
     }
 
     // vote section gets only one, aggregated vote; only one <li> (ex: "medium heavy") 
@@ -92,7 +92,7 @@ export class GameCardFront extends React.Component {
             </section>
             <section className="gamecard-visual">
                 <Thumbnail url={thumbnail} thumbcount={thumbcount} />
-                <div className="gamecard-visual-overlay">
+                <div className="overlay">
                     {(minplayers !== maxplayers)
                         ? <div className={this.getPlayersVote(minplayers, maxplayers)}><FontAwesomeIcon icon={faUserFriends}/> {minplayers}-{maxplayers}</div>
                         : <div className={this.getPlayersVote(minplayers, maxplayers)}><FontAwesomeIcon icon={faUserFriends}/> {minplayers}</div>
@@ -105,14 +105,14 @@ export class GameCardFront extends React.Component {
             </section>
             <div className="gamecard-weight">
                 <div className={this.getWeightVote(averageweightname)}>{averageweightname}</div>
-                <div className="gamecard-overlay-text">
+                <div className="overlay-text">
                     {(minplayers !== maxplayers)
                         ? <div className={this.getPlayersVote(minplayers, maxplayers)}><FontAwesomeIcon icon={faUserFriends}/> {minplayers}-{maxplayers}</div>
                         : <div className={this.getPlayersVote(minplayers, maxplayers)}><FontAwesomeIcon icon={faUserFriends}/> {minplayers}</div>
                     }
                     {(minplaytime !== maxplaytime)
-                        ? <div><FontAwesomeIcon icon={faClock}/> {minplaytime}-{maxplaytime}'</div>
-                        : <div><FontAwesomeIcon icon={faClock}/> {minplaytime}'</div>
+                        ? <div className="estimated-playtime"><FontAwesomeIcon icon={faClock}/> {minplaytime}-{maxplaytime}'</div>
+                        : <div className="estimated-playtime"><FontAwesomeIcon icon={faClock}/> {minplaytime}'</div>
                     }
                 </div>
             </div>

@@ -209,7 +209,7 @@ html, #root {
   align-self: center;
 }
 
-.gamecard-thumbnail .votes {
+.vote-count {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -262,7 +262,7 @@ html, #root {
   overflow-y: auto;
 }
 
-.gamecard-visual-overlay {
+.overlay {
   position: absolute;
   width: 100px;
   text-align: left;
@@ -270,7 +270,7 @@ html, #root {
   left: 40%;
 }
 
-.gamecard-visual-overlay div {
+.overlay div {
   margin: 5px 0;
   padding: 0 3px;
   background-color: darkred;
@@ -282,7 +282,7 @@ html, #root {
   border-radius: 5px 0 0 5px;
 }
 
-.gamecard-overlay-text {
+.overlay-text {
   display: none;
 }
 
@@ -336,8 +336,8 @@ html, #root {
   font-weight: 800;
 }
 
-.game li.thumbsup,
-.game div.thumbsup {
+.game div:not(.overlay) > li.thumbsup,
+.game div:not(.overlay) > div.thumbsup {
   color: green;
   background-color: white;
   border-radius: 5px;
@@ -345,7 +345,7 @@ html, #root {
   margin:2px 10px;
 }
 
-.gamecard-visual-overlay div.thumbsup {
+.overlay div.thumbsup {
   color: green;
   background-color: white;
 }
@@ -390,7 +390,7 @@ html, #root {
     "gc-footer";
 }
 
-#gamecard-variable {
+.gamecard-variable {
   grid-area: gc-variable;
 }
 
@@ -423,6 +423,9 @@ html, #root {
   max-width: 150px;
   object-fit: contain;
 }
+
+.gamecard-visual
+rodi
 
 .showsegment-enter {
   opacity: 0;
@@ -592,7 +595,7 @@ button:enabled,
   }
 
   .game-yearpublished,
-  .gamecard-visual .gamecard-visual-overlay,
+  .gamecard-visual .overlay,
   .gamecard-categories li.novote,
   .gamecard-mechanics li.novote {
     display: none;
@@ -605,18 +608,18 @@ button:enabled,
     overflow:hidden;
   }
 
-  .gamecard-visual .gamecard-visual-overlay div {
+  .gamecard-visual .overlay div {
     background-color: inherit;
     border: 1px solid transparent;
   }
 
-  .gamecard-overlay-text {
+  .overlay-text {
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
   }
 
-  .gamecard-overlay-text > div {
+  .overlay-text > div {
     width: 50%;
   }
 
@@ -675,7 +678,7 @@ button:enabled,
     font-weight: 800;
   }
 
-  .gamecard-thumbnail .votes {
+  .vote-count {
     position: relative;
     border: none;
     background-color: inherit;

@@ -220,7 +220,7 @@ html, #root {
   border-bottom: 1px solid silver;
 }
 
-.gamecard-thumbnail img {
+.thumbnail img {
   vertical-align: middle;
 }
 
@@ -336,7 +336,7 @@ html, #root {
   font-weight: 800;
 }
 
-.game div:not(.overlay) > li.thumbsup,
+.game li.thumbsup,
 .game div:not(.overlay) > div.thumbsup {
   color: green;
   background-color: white;
@@ -634,7 +634,7 @@ button:enabled,
     grid-template-rows: 1.5rem 3.25rem 3rem 4.5rem 4fr 5fr 2rem;
   }
 
-  .gamecard-thumbnail img {
+  .thumbnail img {
     display: none;
   }
 

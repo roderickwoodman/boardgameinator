@@ -23,6 +23,19 @@ export class GameList extends React.Component {
         this.handleInspectionSectionChange = this.handleInspectionSectionChange.bind(this)
     }
 
+    componentDidMount() {
+
+        const stored_filterplayercount = JSON.parse(localStorage.getItem("filterPlayercount"))
+        if (stored_filterplayercount !== null) {
+            this.setState({ filterPlayercount: stored_filterplayercount })
+        }
+
+        const stored_filterweight = JSON.parse(localStorage.getItem("filterWeight"))
+        if (stored_filterweight !== null) {
+            this.setState({ filterWeight: stored_filterweight })
+        }
+    }
+
     getThumbedPlayercounts() {
         // collect all of the voted playercounts
         let playercounts = []
@@ -90,15 +103,23 @@ export class GameList extends React.Component {
     handleFilterChange(event, value) {
         switch (value) {
             case 'playercount':
-                this.setState({
-                    filterPlayercount: !this.state.filterPlayercount,
-                    idUnderInspection: null
+                this.setState(prevState => {
+                    let filterPlayercount = !prevState.filterPlayercount
+                    localStorage.setItem('filterPlayercount', JSON.stringify(filterPlayercount))
+                    return { 
+                        filterPlayercount: !this.state.filterPlayercount,
+                        idUnderInspection: null
+                    }
                 })
                 break
             case 'weight':
-                this.setState({
-                    filterWeight: !this.state.filterWeight,
-                    idUnderInspection: null
+                this.setState(prevState => {
+                    let filterWeight = !prevState.filterWeight
+                    localStorage.setItem('filterWeight', JSON.stringify(filterWeight))
+                    return { 
+                        filterWeight: !this.state.filterWeight,
+                        idUnderInspection: null
+                    }
                 })
                 break
             default:

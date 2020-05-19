@@ -10,7 +10,7 @@ import { GameFooter } from './GameFooter'
 
 function Thumbnail(props) {
     return (
-        <div className="gamecard-thumbnail">
+        <div className="thumbnail">
             <img src={props.url} alt="game box cover" />
             <div className="vote-count"><FontAwesomeIcon icon={faThumbsUp} />:{props.thumbcount}</div>
         </div>

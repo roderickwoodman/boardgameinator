@@ -224,31 +224,39 @@ html, #root {
   vertical-align: middle;
 }
 
-.gamecard-details {
+.gamecard-weight,
+.gamecard-categories,
+.gamecard-mechanics,
+.gamecard-upvoted-attributes,
+.gamecard-description,
+.gamecard-comments,
+.gamecard-videos {
   margin: 0;
   padding: 0;
 }
 
-.gamecard-details.weight {
+.gamecard-weight {
   grid-area: gc-weight;
 }
 
-.gamecard-details.upvoted-attributes {
+.gamecard-upvoted-attributes {
   grid-area: gc-upvotedattrs;
   display: none;
 }
 
-.gamecard-details.categories {
+.gamecard-categories {
   grid-area: gc-categories;
   overflow-y: auto;
 }
 
-.gamecard-details.mechanics {
+.gamecard-mechanics {
   grid-area: gc-mechanics;
   overflow-y: auto;
 }
 
-.gamecard-details.text {
+.gamecard-description,
+.gamecard-comments,
+.gamecard-videos {
   height: 500px;
   text-align: left;
   overflow-y: auto;
@@ -279,7 +287,7 @@ html, #root {
 }
 
 .gamecard-title,
-.gamecard-details.weight {
+.gamecard-weight {
   font-weight: 800;
 }
 
@@ -328,8 +336,8 @@ html, #root {
   font-weight: 800;
 }
 
-.gamecard-details li.thumbsup,
-.gamecard-details div.thumbsup {
+.game li.thumbsup,
+.game div.thumbsup {
   color: green;
   background-color: white;
   border-radius: 5px;
@@ -585,8 +593,8 @@ button:enabled,
 
   .game-yearpublished,
   .gamecard-visual .gamecard-visual-overlay,
-  .gamecard-details.categories li.novote,
-  .gamecard-details.mechanics li.novote {
+  .gamecard-categories li.novote,
+  .gamecard-mechanics li.novote {
     display: none;
   }
 
@@ -673,14 +681,14 @@ button:enabled,
     background-color: inherit;
   }
 
-  .gamecard-details.upvoted-attributes,
-  .gamecard-details.upvoted-attributes > * {
+  .gamecard-upvoted-attributes,
+  .gamecard-upvoted-attributes > * {
     display: inline-block;
   }
 
   .game-yearpublished,
-  .gamecard-details.categories,
-  .gamecard-details.mechanics {
+  .gamecard-categories,
+  .gamecard-mechanics {
     display: none;
   }
   

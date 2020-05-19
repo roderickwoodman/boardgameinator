@@ -12,7 +12,7 @@ function Description(props) {
         <p key={idx}>{paragraph}</p>
     )
     return (
-        <section className="gamecard-details text">
+        <section className="gamecard-description">
             { paragraphs }
         </section>
     )
@@ -27,7 +27,7 @@ function Comments(props) {
         <li key={idx}><b>{comment.author}: </b>{comment.comment}</li>
     )
     return (
-        <ul className="gamecard-details text">
+        <ul className="gamecard-comments">
             { comments }
         </ul>
     )
@@ -42,7 +42,7 @@ function Videos(props) {
         <li key={idx}><b>{video.author}: </b><a href={video.link} target="_blank" rel="noopener noreferrer">{video.title}</a></li>
     )
     return (
-        <ul className="gamecard-details text">
+        <ul className="gamecard-videos">
             { videos }
         </ul>
     )

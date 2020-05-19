@@ -237,6 +237,20 @@ html, #root {
 
 .gamecard-weight {
   grid-area: gc-weight;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  line-height: 1.5;
+}
+
+.gamecard-weight .name {
+  flex: 0 0 100%;
+}
+
+.gamecard-weight .supported-playercount,
+.gamecard-weight .estimated-playtime {
+  flex: 0 0 44%;
 }
 
 .gamecard-upvoted-attributes {
@@ -282,7 +296,8 @@ html, #root {
   border-radius: 5px 0 0 5px;
 }
 
-.overlay-text {
+.gamecard-weight .supported-playercount,
+.gamecard-weight .estimated-playtime {
   display: none;
 }
 
@@ -341,7 +356,7 @@ html, #root {
   color: green;
   background-color: white;
   border-radius: 5px;
-  font-weight: 900px;
+  font-weight: 900;
   margin:2px 10px;
 }
 
@@ -613,14 +628,9 @@ button:enabled,
     border: 1px solid transparent;
   }
 
-  .overlay-text {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
-  }
-
-  .overlay-text > div {
-    width: 50%;
+  .gamecard-weight .supported-playercount,
+  .gamecard-weight .estimated-playtime {
+    display: inline-block;
   }
 
 }
@@ -668,7 +678,7 @@ button:enabled,
     grid-template-columns: 200px 1fr 1fr auto 75px;
     grid-template-areas:
       "gc-visual gc-title gc-title gc-title gc-header"
-      "gc-visual gc-weight . . ."
+      "gc-visual gc-weight gc-weight gc-weight gc-weight"
       "gc-visual gc-upvotedattrs gc-upvotedattrs gc-upvotedattrs gc-upvotedattrs"
       "gc-visual . gc-footer gc-footer gc-footer";
   }
@@ -687,6 +697,17 @@ button:enabled,
   .gamecard-upvoted-attributes,
   .gamecard-upvoted-attributes > * {
     display: inline-block;
+  }
+
+  .gamecard-weight .name,
+  .gamecard-weight .supported-playercount,
+  .gamecard-weight .estimated-playtime {
+    display: inline-block;
+    flex: 0 0 auto;
+  }
+
+  .gamecard-weight {
+    justify-content: flex-start;
   }
 
   .game-yearpublished,

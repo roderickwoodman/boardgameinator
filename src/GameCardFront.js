@@ -71,7 +71,7 @@ export class GameCardFront extends React.Component {
                 vote = "thumbsup"
             }
         })
-        return vote
+        return 'name ' + vote
     }
 
     render() {
@@ -104,17 +104,15 @@ export class GameCardFront extends React.Component {
                 </div>
             </section>
             <div className="gamecard-weight">
+                {(minplayers !== maxplayers)
+                    ? <div className={this.getPlayersVote(minplayers, maxplayers)}><FontAwesomeIcon icon={faUserFriends}/> {minplayers}-{maxplayers}</div>
+                    : <div className={this.getPlayersVote(minplayers, maxplayers)}><FontAwesomeIcon icon={faUserFriends}/> {minplayers}</div>
+                }
+                {(minplaytime !== maxplaytime)
+                    ? <div className="estimated-playtime"><FontAwesomeIcon icon={faClock}/> {minplaytime}-{maxplaytime}'</div>
+                    : <div className="estimated-playtime"><FontAwesomeIcon icon={faClock}/> {minplaytime}'</div>
+                }
                 <div className={this.getWeightVote(averageweightname)}>{averageweightname}</div>
-                <div className="overlay-text">
-                    {(minplayers !== maxplayers)
-                        ? <div className={this.getPlayersVote(minplayers, maxplayers)}><FontAwesomeIcon icon={faUserFriends}/> {minplayers}-{maxplayers}</div>
-                        : <div className={this.getPlayersVote(minplayers, maxplayers)}><FontAwesomeIcon icon={faUserFriends}/> {minplayers}</div>
-                    }
-                    {(minplaytime !== maxplaytime)
-                        ? <div className="estimated-playtime"><FontAwesomeIcon icon={faClock}/> {minplaytime}-{maxplaytime}'</div>
-                        : <div className="estimated-playtime"><FontAwesomeIcon icon={faClock}/> {minplaytime}'</div>
-                    }
-                </div>
             </div>
             <div className="gamecard-upvoted-attributes">
                 { upvoted_attributes.map( (value) =>

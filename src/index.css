@@ -197,16 +197,11 @@ html, #root {
 .gamecard-visual {
   grid-area: gc-visual;
   display: flex;
-  flex-direction: column;
   justify-content: center;
+  align-items: center;
   font-size: 1.7em;
   font-weight: 800;
   padding: 0;
-  flex: 0 0 175px; 
-  position: relative;
-  text-align: center;
-  height: 200px;
-  align-self: center;
 }
 
 .vote-count {
@@ -214,14 +209,20 @@ html, #root {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  object-fit: none;
   width: 100%;
   background-color: black;
   border-top: 1px solid silver;
   border-bottom: 1px solid silver;
+  text-align: center;
+}
+
+.thumbnail {
+  position: relative;
 }
 
 .thumbnail img {
-  vertical-align: middle;
+  /* vertical-align: middle; */
 }
 
 .gamecard-weight,
@@ -648,6 +649,21 @@ button:enabled,
     display: none;
   }
 
+  .thumbnail {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+  }
+
+  .vote-count {
+    position: relative;
+    flex: 1 1 100%;
+    transform: unset;
+    left: unset;
+    top: unset;
+  }
+
 }
 
 /* "narrow screen" */
@@ -688,12 +704,6 @@ button:enabled,
     font-weight: 800;
   }
 
-  .vote-count {
-    position: relative;
-    border: none;
-    background-color: inherit;
-  }
-
   .gamecard-upvoted-attributes,
   .gamecard-upvoted-attributes > * {
     display: inline-block;
@@ -710,6 +720,7 @@ button:enabled,
     justify-content: flex-start;
   }
 
+  .gamecard-visual .overlay,
   .game-yearpublished,
   .gamecard-categories,
   .gamecard-mechanics {

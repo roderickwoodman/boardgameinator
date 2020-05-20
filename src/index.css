@@ -195,6 +195,7 @@ html, #root {
 }
 
 .gamecard-visual {
+  position: relative;
   grid-area: gc-visual;
   display: flex;
   justify-content: center;
@@ -439,9 +440,6 @@ html, #root {
   max-width: 150px;
   object-fit: contain;
 }
-
-.gamecard-visual
-rodi
 
 .showsegment-enter {
   opacity: 0;

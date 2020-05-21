@@ -39,11 +39,11 @@ export class GameCardFront extends React.Component {
     }
 
     getUpvotedCategories() {
-        return Object.entries(this.props.thumbs['category']).filter( entry => entry[1] === 'thumbsup' ).map( entry => entry[0] )
+        return Object.entries(this.props.thumbs['category']).filter( entry => entry[1] === 'thumbsup' && this.props.categories.includes(entry[0]) ).map( entry => entry[0] )
     }
 
     getUpvotedMechanics() {
-        return Object.entries(this.props.thumbs['mechanic']).filter( entry => entry[1] === 'thumbsup' ).map( entry => entry[0] )
+        return Object.entries(this.props.thumbs['mechanic']).filter( entry => entry[1] === 'thumbsup' && this.props.mechanics.includes(entry[0]) ).map( entry => entry[0] )
     }
 
     // player count section gets only one, aggregated vote; only one <li> (ex: "2-6 players") 

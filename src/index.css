@@ -727,10 +727,15 @@ button:enabled,
     display: none;
   }
 
+  .gamecard-weight > *,
   .game li.thumbsup,
   .game div:not(.overlay) > div.thumbsup {
     margin: 2px;
     padding: 1px 2px;
+  }
+
+  .gamecard-weight > * {
+    margin-right: 1rem;
   }
 
 }

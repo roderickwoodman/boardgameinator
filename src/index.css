@@ -724,5 +724,11 @@ button:enabled,
   .gamecard-mechanics {
     display: none;
   }
-  
+
+  .game li.thumbsup,
+  .game div:not(.overlay) > div.thumbsup {
+    margin: 2px;
+    padding: 1px 2px;
+  }
+
 }

@@ -1,26 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faThumbsUp } from '@fortawesome/free-solid-svg-icons'
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons'
 import { faTrash } from '@fortawesome/free-solid-svg-icons'
 import { faClock } from '@fortawesome/free-solid-svg-icons'
 import { faUserFriends } from '@fortawesome/free-solid-svg-icons'
+import { Thumbnail } from './Thumbnail'
 import { GameFooter } from './GameFooter'
 
-function Thumbnail(props) {
-    return (
-        <div className="thumbnail">
-            <img src={props.url} alt="game box cover" />
-            <div className="vote-count"><FontAwesomeIcon icon={faThumbsUp} />:{props.thumbcount}</div>
-        </div>
-    )
-}
-
-Thumbnail.propTypes = {
-    thumbcount: PropTypes.number.isRequired,
-    url: PropTypes.string,
-}
 
 export class GameCardFront extends React.Component {
 

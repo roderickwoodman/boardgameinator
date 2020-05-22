@@ -185,6 +185,8 @@ function parseIntoParagraphs(str) {
       .replace(/&rsquo;/g, "'")
       .replace(/&quot;/g, '"')
       .replace(/&ndash;/g, '–')
+      .replace(/&mdash;/g, '–')
+      .replace(/&nbsp;/g, ' ')
       .split('&#10;');
     return paragraphs;
 }

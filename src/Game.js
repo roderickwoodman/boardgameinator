@@ -30,6 +30,8 @@ export class Game extends React.Component {
         } else {
             gamecard = <GameCardBack 
                 id={id}
+                thumbnail={thumbnail}
+                thumbcount={thumbcount} 
                 name={name}
                 yearpublished={yearpublished}
                 description={description}

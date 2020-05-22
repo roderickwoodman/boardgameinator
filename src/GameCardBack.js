@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { Thumbnail } from './Thumbnail'
 import { GameFooter } from './GameFooter'
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -56,7 +57,7 @@ export class GameCardBack extends React.Component {
 
     render() {
 
-        const { id, name, yearpublished, description, inspectingsection, comments, videos, ontoggleinspection, oninspectionsectionchange, ondelete } = this.props
+        const { id, name, yearpublished, description, inspectingsection, comments, videos, ontoggleinspection, oninspectionsectionchange, ondelete, thumbnail, thumbcount } = this.props
         return (
             <React.Fragment>
             <section className="gamecard-header">
@@ -69,6 +70,9 @@ export class GameCardBack extends React.Component {
                     ? <h6 className="game-yearpublished">({yearpublished})</h6>
                     : <h6 className="game-yearpublished">(#{id})</h6>
                 }
+            </section>
+            <section className="gamecard-visual">
+                <Thumbnail url={thumbnail} thumbcount={thumbcount} />
             </section>
             <ul id="inspectionsection-selector">
                 <li id="select-description" className={"selector darkbg" + (inspectingsection === "description" ? " selected" : "")} onClick={oninspectionsectionchange}>Description</li>

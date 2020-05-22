@@ -198,6 +198,7 @@ html, #root {
   position: relative;
   grid-area: gc-visual;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   font-size: 1.7em;
@@ -730,6 +731,10 @@ button:enabled,
   }
 
   .gamecard-weight {
+    justify-content: flex-start;
+  }
+
+  .gamecard-visual {
     justify-content: flex-start;
   }
 

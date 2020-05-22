@@ -34,6 +34,11 @@ export class GameList extends React.Component {
         if (stored_filterweight !== null) {
             this.setState({ filterWeight: stored_filterweight })
         }
+
+        const stored_idUnderInspection = JSON.parse(localStorage.getItem("idUnderInspection"))
+        if (stored_filterplayercount !== null) {
+            this.setState({ idUnderInspection: stored_idUnderInspection })
+        }
     }
 
     getThumbedPlayercounts() {
@@ -94,6 +99,7 @@ export class GameList extends React.Component {
     } 
 
     handleSortChange(event, value) {
+        localStorage.setItem('idUnderInspection', JSON.stringify(null))
         this.setState({
             sortOrder: value,
             idUnderInspection: null
@@ -106,6 +112,7 @@ export class GameList extends React.Component {
                 this.setState(prevState => {
                     let filterPlayercount = !prevState.filterPlayercount
                     localStorage.setItem('filterPlayercount', JSON.stringify(filterPlayercount))
+                    localStorage.setItem('idUnderInspection', JSON.stringify(null))
                     return { 
                         filterPlayercount: !this.state.filterPlayercount,
                         idUnderInspection: null
@@ -116,6 +123,7 @@ export class GameList extends React.Component {
                 this.setState(prevState => {
                     let filterWeight = !prevState.filterWeight
                     localStorage.setItem('filterWeight', JSON.stringify(filterWeight))
+                    localStorage.setItem('idUnderInspection', JSON.stringify(null))
                     return { 
                         filterWeight: !this.state.filterWeight,
                         idUnderInspection: null
@@ -130,10 +138,12 @@ export class GameList extends React.Component {
     handleInspectionChange(event, id) {
         let gameId = parseInt(id)
         if (this.state.idUnderInspection === gameId) {
+            localStorage.setItem('idUnderInspection', JSON.stringify(null))
             this.setState({
                 idUnderInspection: null
             })
         } else {
+            localStorage.setItem('idUnderInspection', JSON.stringify(gameId))
             this.setState({
                 idUnderInspection: gameId
             })

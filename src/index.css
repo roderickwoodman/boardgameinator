@@ -181,6 +181,7 @@ html, #root {
   grid-area: gc-header;
   display: flex;
   flex-direction: row-reverse;
+  align-items: center;
   flex: 0 0 1.5rem;
   margin-bottom: 0px;
 }

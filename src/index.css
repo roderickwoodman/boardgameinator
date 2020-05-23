@@ -644,6 +644,13 @@ button:enabled,
     grid-template-rows: 1.5rem 3.25rem 3rem 4.5rem 4fr 5fr 2rem;
   }
 
+  .game-name {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow:hidden;
+  }
+
   .thumbnail img {
     display: none;
   }
@@ -711,6 +718,13 @@ button:enabled,
       "gc-visual gc-selector gc-selector gc-selector gc-selector"
       "gc-visual gc-variable gc-variable gc-variable gc-variable"
       "gc-visual . gc-footer gc-footer gc-footer";
+  }
+
+  .game-name {
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow:hidden;
   }
 
   .gamecard-visual {

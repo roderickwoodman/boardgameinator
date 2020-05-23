@@ -810,11 +810,12 @@ button:enabled,
     max-height: 450px;
     min-height: 450px;
     min-width: 100%;
-    grid-template-rows: 1.5rem 3rem auto 2rem;
+    grid-template-rows: 1.5rem 1.5rem 1.5rem auto 2rem;
     grid-template-columns: 75px auto;
     grid-template-areas:
       "gc-visual gc-title"
       "gc-visual gc-selector"
+      "gc-header gc-selector"
       "gc-header gc-variable"
       "gc-header gc-footer";
   }

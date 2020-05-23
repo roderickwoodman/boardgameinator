@@ -642,6 +642,11 @@ button:enabled,
     display: inline-block;
   }
 
+  .gamecard-header button.fa.fa-button {
+    margin: 0.25rem;
+    flex: 1 1 auto;
+  }
+
 }
 
 /* "really short but still wide enough screen" */

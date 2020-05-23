@@ -397,9 +397,10 @@ html, #root {
 }
 
 .game.inspecting {
+  display: grid;
   min-width: 500px;
   grid-template-columns: 1fr;
-  grid-template-rows: 1.5rem 5.5rem 3rem auto 2rem;
+  grid-template-rows: 1.5rem 5.5rem 3rem 1fr 2rem;
   grid-template-areas:
     "gc-header"
     "gc-title"
@@ -414,6 +415,7 @@ html, #root {
 
 .gamecard-variable {
   grid-area: gc-variable;
+  overflow-y: auto;
 }
 
 #inspectionsection-selector {

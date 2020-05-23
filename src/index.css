@@ -223,10 +223,6 @@ html, #root {
   position: relative;
 }
 
-.thumbnail img {
-  /* vertical-align: middle; */
-}
-
 .gamecard-weight,
 .gamecard-categories,
 .gamecard-mechanics,
@@ -268,14 +264,6 @@ html, #root {
 
 .gamecard-mechanics {
   grid-area: gc-mechanics;
-  overflow-y: auto;
-}
-
-.gamecard-description,
-.gamecard-comments,
-.gamecard-videos {
-  height: 500px;
-  text-align: left;
   overflow-y: auto;
 }
 
@@ -415,7 +403,9 @@ html, #root {
 
 .gamecard-variable {
   grid-area: gc-variable;
+  text-align: left;
   overflow-y: auto;
+  height: 100%;
 }
 
 #inspectionsection-selector {
@@ -680,6 +670,7 @@ button:enabled,
   and (max-width: 849px) {
 
   #page-wrapper {
+    display: grid;
     grid-template-columns: 1fr;
     grid-template-rows: 1fr 3fr;
     grid-template-areas:
@@ -690,7 +681,6 @@ button:enabled,
   #resulting-games {
     flex-direction: column;
     flex-wrap: nowrap;
-    /* overflow-y: auto; */
     align-items: stretch;
     width: 100%;
   }

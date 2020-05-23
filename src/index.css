@@ -718,7 +718,7 @@ button:enabled,
       "gc-visual gc-title gc-title gc-title gc-header"
       "gc-visual gc-weight gc-weight gc-weight gc-weight"
       "gc-visual gc-upvotedattrs gc-upvotedattrs gc-upvotedattrs gc-upvotedattrs"
-      "gc-visual . gc-footer gc-footer gc-footer";
+      "gc-visual gc-footer gc-footer gc-footer gc-footer";
   }
 
   .game.inspecting {
@@ -731,7 +731,7 @@ button:enabled,
       "gc-visual gc-title gc-title gc-title gc-header"
       "gc-visual gc-selector gc-selector gc-selector gc-selector"
       "gc-visual gc-variable gc-variable gc-variable gc-variable"
-      "gc-visual . gc-footer gc-footer gc-footer";
+      "gc-visual gc-footer gc-footer gc-footer gc-footer";
   }
 
   .game-name {
@@ -781,10 +781,6 @@ button:enabled,
     padding: 1px 2px;
   }
 
-  .gamecard-weight > * {
-    margin-right: 1rem;
-  }
-
   .gamecard-footer {
     flex-direction: row;
     justify-content: flex-end;
@@ -795,14 +791,32 @@ button:enabled,
 @media screen 
   and (max-width: 649px) {
 
-  .game,
-  .game.inspecting {
-    grid-template-columns: 75px 1fr 1fr auto 75px;
+  .game {
+    text-align: left;
+    overflow-x: visible;
+    max-height: 225px;
+    min-height: 175px;
+    min-width: 100%;
+    grid-template-rows: 1.5rem 1.5rem auto 2rem;
+    grid-template-columns: 75px auto;
     grid-template-areas:
-      "gc-visual gc-title gc-title gc-title gc-title"
-      "gc-visual gc-weight gc-weight gc-weight gc-weight"
-      "gc-header gc-upvotedattrs gc-upvotedattrs gc-upvotedattrs gc-upvotedattrs"
-      "gc-header . gc-footer gc-footer gc-footer";
+      "gc-visual gc-title"
+      "gc-visual gc-weight"
+      "gc-header gc-upvotedattrs"
+      "gc-header gc-footer";
+  }
+
+  .game.inspecting {
+    max-height: 450px;
+    min-height: 450px;
+    min-width: 100%;
+    grid-template-rows: 1.5rem 3rem auto 2rem;
+    grid-template-columns: 75px auto;
+    grid-template-areas:
+      "gc-visual gc-title"
+      "gc-visual gc-selector"
+      "gc-header gc-variable"
+      "gc-header gc-footer";
   }
 
   .gamecard-visual {
@@ -812,13 +826,13 @@ button:enabled,
   .gamecard-header {
     display: flex;
     flex-direction: column-reverse;
-    justify-content: flex-start;
+    justify-content: flex-end;
     align-items: center;
   }
 
   .gamecard-header button.fa.fa-button {
     margin: 0.25rem;
-    flex: 1 1 auto;
+    flex: 0 0 auto;
     width: 100%;
   }
 

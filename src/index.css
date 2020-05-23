@@ -523,18 +523,13 @@ button.default-danger-styles,
 button.fa-button {
   margin: 0.25rem;
   padding: 0.25rem 0.5rem;
-  border: 0;
+  border: 1px solid transparent;
   border-radius: 0.25rem;
   font-family: system-ui, sans-serif;
   font-size: 1rem;
   line-height: 1.2;
   white-space: nowrap;
   cursor: pointer;
-}
-
-button.fa-button {
-  background: transparent;
-  color: white;
 }
 
 button.default-primary-styles {
@@ -556,13 +551,21 @@ button.default-danger-styles {
   color: white;
 }
 
-.game .gamecard-header button.fa-button {
-  margin: 1px;
+button.fa.fa-button {
+  min-height: 40px;
+  min-width: 40px;
+  border: 1px dotted white;
+  background: transparent;
+  color: white;
+}
+
+.gamecard-header button.fa.fa-button {
+  margin: 0.25rem 0 0.25rem 0.5rem;
   padding: 4px;
   border-radius: 4px;
 }
 
-.game .gamecard-header button.fa-button:hover {
+.gamecard-header .fa-button:hover {
   color: purple;
   background-color: white;
 }

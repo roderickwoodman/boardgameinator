@@ -785,6 +785,15 @@ button:enabled,
     flex-direction: row;
     justify-content: flex-end;
   }
+
+  #content-wrapper,
+  .game,
+  .game.inspecting,
+  .gamecard-variable,
+  .gamecard-variable * {
+    height: auto;
+    max-height: none;
+  }
 }
 
 /* "really narrow screen" */
@@ -794,7 +803,6 @@ button:enabled,
   .game {
     text-align: left;
     overflow-x: visible;
-    max-height: 225px;
     min-height: 175px;
     min-width: 100%;
     grid-template-rows: 1.5rem 1.5rem auto 2rem;
@@ -807,7 +815,6 @@ button:enabled,
   }
 
   .game.inspecting {
-    max-height: 450px;
     min-height: 450px;
     min-width: 100%;
     grid-template-rows: 1.5rem 1.5rem 1.5rem auto 2rem;

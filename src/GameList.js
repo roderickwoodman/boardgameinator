@@ -195,12 +195,19 @@ export class GameList extends React.Component {
         return (
             <React.Fragment>
             <ViewControls 
+                thumbs={this.props.thumbs}
                 sortby={this.state.sortOrder}
                 onsortchange={this.handleSortChange}
                 filterplayercount={this.state.filterPlayercount}
                 filterweight={this.state.filterWeight}
                 onfilterchange={this.handleFilterChange}
-                filtermessage={filterStr} />
+                filtermessage={filterStr}
+                onnewvotes={this.props.onclearselectionvotes}
+                onclearselectionvotes={this.props.onclearselectionvotes}
+                playercounts={this.props.playercounts}
+                weightcounts={this.props.weightcounts}
+                categorycounts={this.props.categorycounts}
+                mechaniccounts={this.props.mechaniccounts} />
             <div id="resulting-games">
                 {filteredGames.length !== 0 && (
                     filteredGames
@@ -259,4 +266,10 @@ GameList.propTypes = {
     allgames: PropTypes.array.isRequired,
     ondelete: PropTypes.func.isRequired,
     thumbs: PropTypes.object.isRequired,
+    onnewvote: PropTypes.func.isRequired,
+    onclearselectionvotes: PropTypes.func.isRequired,
+    playercounts: PropTypes.number.isRequired,
+    weightcounts: PropTypes.number.isRequired,
+    categorycounts: PropTypes.number.isRequired,
+    mechaniccounts: PropTypes.number.isRequired,
 }

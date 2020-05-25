@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import { GameList } from './GameList'
 import { AddGamesBox } from './AddGamesBox'
 import { AddedList } from './AddedList';
-import { VotingBox } from './VotingBox'
 
 
 export class Boardgameinator extends React.Component {
@@ -306,23 +305,19 @@ export class Boardgameinator extends React.Component {
                                 ondelete={this.onDeleteTitle}
                                 ondeleteall={this.onDeleteAllTitles} />
                         </div>
-                        <div id="gamevoting-controls">
-                            <VotingBox 
-                                thumbs={this.state.thumbs} 
-                                playercounts={playercounts} 
-                                weightcounts={weightcounts}
-                                categorycounts={categorycounts} 
-                                mechaniccounts={mechaniccounts}
-                                onnewvote={this.onNewVote}
-                                onclearsectionvotes={this.onClearSectionVotes} />
-                        </div>
                     </div>
                 </div>
                 <div id="content-wrapper">
                     <GameList
                         allgames={this.state.allGames} 
                         thumbs={this.state.thumbs} 
-                        ondelete={this.onDeleteTitle} />
+                        ondelete={this.onDeleteTitle}
+                        onnewvote={this.onNewVote}
+                        onclearsectionvotes={this.onClearSectionVotes}
+                        playercounts={playercounts} 
+                        weightcounts={weightcounts}
+                        categorycounts={categorycounts} 
+                        mechaniccounts={mechaniccounts} />
                 </div>
             </div>
             </React.Fragment>

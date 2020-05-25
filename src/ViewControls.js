@@ -9,23 +9,34 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 
 export const ViewControls = (props) => {
 
-    const [isOpen, setIsOpen] = React.useState(false)
+    const [sortIsOpen, setSortIsOpen] = React.useState(false)
+    const [filterIsOpen, setFilterIsOpen] = React.useState(false)
 
-    const showModal = () => {
-        setIsOpen(true)
+    const showSortModal = () => {
+        setFilterIsOpen(false)
+        setSortIsOpen(true)
     }
 
-    const hideModal = () => {
-        setIsOpen(false)
+    const hideSortModal = () => {
+        setSortIsOpen(false)
+    }
+
+    const showFilterModal = () => {
+        setSortIsOpen(false)
+        setFilterIsOpen(true)
+    }
+
+    const hideFilterModal = () => {
+        setFilterIsOpen(false)
     }
 
     return (
         <React.Fragment>
         <div id="view-controls">
-            <button className="default-primary-styles" onClick={showModal}>Settings</button>{props.filtermessage}
-            <Modal size="md" show={isOpen} onHide={hideModal}>
+            <button className="default-primary-styles" onClick={showSortModal}>Sort</button>
+            <Modal size="md" show={sortIsOpen} onHide={hideSortModal}>
                 <ModalHeader>
-                    <ModalTitle>Settings</ModalTitle>
+                    <ModalTitle>Sort Options</ModalTitle>
                 </ModalHeader>
                 <ModalBody>
                     <div id="gamesorting-controls">
@@ -34,6 +45,17 @@ export const ViewControls = (props) => {
                         <button className={`default-secondary-styles ${(props.sortby === 'maxplaytime') ? 'active-button' : ''}`} onClick={ (e) => props.onsortchange(e, "maxplaytime") }>playtime</button>
                         <button className={`default-secondary-styles ${(props.sortby === 'maxplayers') ? 'active-button' : ''}`} onClick={ (e) => props.onsortchange(e, "maxplayers") }>players</button>
                     </div>
+                </ModalBody>
+                <ModalFooter> 
+                    <button className="default-primary-styles" onClick={hideSortModal}>Close</button>
+                </ModalFooter>
+            </Modal>
+            <button className="default-primary-styles" onClick={showFilterModal}>Filter</button>
+            <Modal size="md" show={filterIsOpen} onHide={hideFilterModal}>
+                <ModalHeader>
+                    <ModalTitle>Filter Options</ModalTitle>
+                </ModalHeader>
+                <ModalBody>
                     <div id="gamefiltering-controls">
                         <h4>Show only games that support...</h4>
                         <button className={`default-secondary-styles ${(props.filterplayercount) ? 'active-button' : ''}`} onClick={ (e) => props.onfilterchange(e, "playercount") }>upvoted player counts</button>
@@ -41,7 +63,7 @@ export const ViewControls = (props) => {
                     </div>
                 </ModalBody>
                 <ModalFooter> 
-                    <button className="default-primary-styles" onClick={hideModal}>Close</button>
+                    <button className="default-primary-styles" onClick={hideFilterModal}>Close</button>
                 </ModalFooter>
             </Modal>
         </div>

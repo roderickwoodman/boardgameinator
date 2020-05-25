@@ -292,7 +292,7 @@ export class Boardgameinator extends React.Component {
                 <div id="leftsidebar-wrapper">
                     <div id="page-logo">
                         <h1>Boardgameinator</h1>
-                        <p className="subtitle">now comparing <span className="callout">{this.state.allGames.length}</span> boardgame titles</p>
+                        <p className="subtitle">now ranking <span className="callout">{this.state.allGames.length}</span> board game titles</p>
                     </div>
                     <div id="main-controls">
                         <div id="gameinput-controls">

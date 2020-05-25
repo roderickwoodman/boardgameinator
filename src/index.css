@@ -94,16 +94,16 @@ html, #root {
 }
 
 #main-controls {
-  display: flex;
-  flex: auto;
-  flex-direction: column;
-  overflow-y: auto;
+  /* display: flex; */
+  /* flex: auto; */
+  /* flex-direction: column; */
+  /* overflow-y: auto; */
 }
 
 #main-controls {
-  height: 125px;
-  font-size: 0.9em;
-  line-height: 1.5em;
+  /* height: 125px; */
+  /* font-size: 0.9em; */
+  /* line-height: 1.5em; */
 }
 
 #gameinput-controls,

@@ -196,6 +196,8 @@ export class GameList extends React.Component {
             <React.Fragment>
             <ViewControls 
                 thumbs={this.props.thumbs}
+                allgames={this.props.allgames}
+                onnewtitle={this.props.onnewtitle}
                 sortby={this.state.sortOrder}
                 onsortchange={this.handleSortChange}
                 filterplayercount={this.state.filterPlayercount}
@@ -264,6 +266,7 @@ export class GameList extends React.Component {
 
 GameList.propTypes = {
     allgames: PropTypes.array.isRequired,
+    onnewtitle: PropTypes.func.isRequired,
     ondelete: PropTypes.func.isRequired,
     thumbs: PropTypes.object.isRequired,
     onnewvote: PropTypes.func.isRequired,

@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { AddGamesBox } from './AddGamesBox'
 import { VotingBox } from './VotingBox'
 import Modal from 'react-bootstrap/Modal'
 import ModalBody from 'react-bootstrap/ModalBody'
@@ -10,11 +11,36 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 
 export const ViewControls = (props) => {
 
+    const [addIsOpen, setAddIsOpen] = React.useState(false)
+    const [votingIsOpen, setVotingIsOpen] = React.useState(false)
     const [sortIsOpen, setSortIsOpen] = React.useState(false)
     const [filterIsOpen, setFilterIsOpen] = React.useState(false)
-    const [votingIsOpen, setVotingIsOpen] = React.useState(false)
+
+    const showAddModal = () => {
+        setSortIsOpen(false)
+        setVotingIsOpen(false)
+        setFilterIsOpen(false)
+        setAddIsOpen(true)
+    }
+
+    const hideAddModal = () => {
+        setAddIsOpen(false)
+    }
+
+    const showVotingModal = () => {
+        setAddIsOpen(false)
+        setSortIsOpen(false)
+        setFilterIsOpen(false)
+        setVotingIsOpen(true)
+    }
+
+    const hideVotingModal = () => {
+        setVotingIsOpen(false)
+    }
 
     const showSortModal = () => {
+        setAddIsOpen(false)
+        setVotingIsOpen(false)
         setFilterIsOpen(false)
         setSortIsOpen(true)
     }
@@ -24,22 +50,14 @@ export const ViewControls = (props) => {
     }
 
     const showFilterModal = () => {
+        setAddIsOpen(false)
+        setVotingIsOpen(false)
         setSortIsOpen(false)
         setFilterIsOpen(true)
     }
 
     const hideFilterModal = () => {
         setFilterIsOpen(false)
-    }
-
-    const showVotingModal = () => {
-        setSortIsOpen(false)
-        setFilterIsOpen(false)
-        setVotingIsOpen(true)
-    }
-
-    const hideVotingModal = () => {
-        setVotingIsOpen(false)
     }
 
     return (
@@ -81,6 +99,24 @@ export const ViewControls = (props) => {
                 </ModalFooter>
             </Modal>
 
+
+            <button className="default-primary-styles" onClick={showAddModal}>Add</button>
+            <Modal size="md" show={addIsOpen} onHide={hideAddModal}>
+                <ModalHeader>
+                    <ModalTitle>Add Options</ModalTitle>
+                </ModalHeader>
+                <ModalBody>
+                    <div id="gameinput-controls">
+                        <AddGamesBox
+                            allgames={props.allgames}
+                            onnewtitle={props.onnewtitle} />
+                    </div>
+                </ModalBody>
+                <ModalFooter> 
+                    <button className="default-primary-styles" onClick={hideAddModal}>Close</button>
+                </ModalFooter>
+            </Modal>
+
             <button className="default-primary-styles" onClick={showVotingModal}>Vote</button>
             <Modal size="md" show={votingIsOpen} onHide={hideVotingModal}>
                 <ModalHeader>
@@ -109,7 +145,9 @@ export const ViewControls = (props) => {
 }
 
 ViewControls.propTypes = {
+    allgames: PropTypes.array.isRequired,
     thumbs: PropTypes.object.isRequired,
+    onnewtitle: PropTypes.func.isRequired,
     filtermessage: PropTypes.string.isRequired,
     filterplayercount: PropTypes.bool.isRequired,
     filterweight: PropTypes.bool.isRequired,

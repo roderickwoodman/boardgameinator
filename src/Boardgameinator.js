@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { GameList } from './GameList'
-import { AddGamesBox } from './AddGamesBox'
 import { AddedList } from './AddedList';
 
 
@@ -248,7 +247,6 @@ export class Boardgameinator extends React.Component {
     }
 
     onNewVote(event) {
-        console.log('new vote!')
         const { attrtype, attrname, newvote } = Object.assign({}, event.target.dataset)
         this.setState(prevState => {
             let thumbs = Object.assign({}, prevState.thumbs)
@@ -294,23 +292,17 @@ export class Boardgameinator extends React.Component {
                         <h1>Boardgameinator</h1>
                         <p className="subtitle">now ranking <span className="callout">{this.state.allGames.length}</span> board game titles</p>
                     </div>
-                    <div id="main-controls">
-                        <div id="gameinput-controls">
-                            <AddGamesBox
-                                allgames={this.state.allGames}
-                                onnewtitle={this.onNewTitle}  />
-                        </div>
-                        <div id="gamelisting-controls">
-                            <AddedList
-                                allgames={this.state.allGames} 
-                                ondelete={this.onDeleteTitle}
-                                ondeleteall={this.onDeleteAllTitles} />
-                        </div>
+                    <div id="gamelisting-controls">
+                        <AddedList
+                            allgames={this.state.allGames} 
+                            ondelete={this.onDeleteTitle}
+                            ondeleteall={this.onDeleteAllTitles} />
                     </div>
                 </div>
                 <div id="content-wrapper">
                     <GameList
                         allgames={this.state.allGames} 
+                        onnewtitle={this.onNewTitle}
                         thumbs={this.state.thumbs} 
                         ondelete={this.onDeleteTitle}
                         onnewvote={this.onNewVote}

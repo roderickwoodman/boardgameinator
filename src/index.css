@@ -47,23 +47,10 @@ html, #root {
 }
 
 #page-wrapper {
-  display: grid;
-  grid-template-columns: 1fr 4fr;
-  grid-template-rows: 1fr;
-  grid-template-areas:
-  "controls cardlist";
-}
-
-#leftsidebar-wrapper {
-  grid-area: controls;
   display: flex;
   flex-direction: column;
-  padding: 10px 25px;
-}
-
-#page-logo {
-  display: block;
-  order: -1;
+  justify-content: flex-start;
+  align-items: stretch;
 }
 
 #page-logo h1 {
@@ -81,10 +68,10 @@ html, #root {
 }
 
 #content-wrapper {
-  grid-area: cardlist;
   padding: 1rem;
   display: flex;
   justify-content: flex-start;
+  align-items: flex-start;
   flex-direction: column;
   height: 100vh;
 }
@@ -668,15 +655,6 @@ button:enabled,
 /* "narrow screen" */
 @media screen 
   and (max-width: 849px) {
-
-  #page-wrapper {
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: 1fr 3fr;
-    grid-template-areas:
-    "controls"
-    "cardlist";
-  }
 
   #resulting-games {
     flex-direction: column;

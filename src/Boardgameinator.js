@@ -286,13 +286,11 @@ export class Boardgameinator extends React.Component {
         return (
             <React.Fragment>
             <div id="page-wrapper">
-                <div id="leftsidebar-wrapper">
+                <div id="content-wrapper">
                     <div id="page-logo">
                         <h1>Boardgameinator</h1>
-                        <p className="subtitle">now ranking <span className="callout">{this.state.allGames.length}</span> board game titles</p>
+                        {/* <p className="subtitle">now ranking <span className="callout">{this.state.allGames.length}</span> board game titles</p> */}
                     </div>
-                </div>
-                <div id="content-wrapper">
                     <GameList
                         allgames={this.state.allGames} 
                         onnewtitle={this.onNewTitle}

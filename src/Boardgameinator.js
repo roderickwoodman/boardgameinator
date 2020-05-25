@@ -248,6 +248,7 @@ export class Boardgameinator extends React.Component {
     }
 
     onNewVote(event) {
+        console.log('new vote!')
         const { attrtype, attrname, newvote } = Object.assign({}, event.target.dataset)
         this.setState(prevState => {
             let thumbs = Object.assign({}, prevState.thumbs)

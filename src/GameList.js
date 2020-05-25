@@ -202,8 +202,8 @@ export class GameList extends React.Component {
                 filterweight={this.state.filterWeight}
                 onfilterchange={this.handleFilterChange}
                 filtermessage={filterStr}
-                onnewvotes={this.props.onclearselectionvotes}
-                onclearselectionvotes={this.props.onclearselectionvotes}
+                onnewvote={this.props.onnewvote}
+                onclearsectionvotes={this.props.onclearsectionvotes}
                 playercounts={this.props.playercounts}
                 weightcounts={this.props.weightcounts}
                 categorycounts={this.props.categorycounts}
@@ -267,9 +267,9 @@ GameList.propTypes = {
     ondelete: PropTypes.func.isRequired,
     thumbs: PropTypes.object.isRequired,
     onnewvote: PropTypes.func.isRequired,
-    onclearselectionvotes: PropTypes.func.isRequired,
-    playercounts: PropTypes.number.isRequired,
-    weightcounts: PropTypes.number.isRequired,
-    categorycounts: PropTypes.number.isRequired,
-    mechaniccounts: PropTypes.number.isRequired,
+    onclearsectionvotes: PropTypes.func.isRequired,
+    playercounts: PropTypes.array.isRequired,
+    weightcounts: PropTypes.array.isRequired,
+    categorycounts: PropTypes.array.isRequired,
+    mechaniccounts: PropTypes.array.isRequired,
 }

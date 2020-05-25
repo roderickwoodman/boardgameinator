@@ -93,26 +93,6 @@ html, #root {
   flex: 0 0 1.5rem;
 }
 
-#main-controls {
-  /* display: flex; */
-  /* flex: auto; */
-  /* flex-direction: column; */
-  /* overflow-y: auto; */
-}
-
-#main-controls {
-  /* height: 125px; */
-  /* font-size: 0.9em; */
-  /* line-height: 1.5em; */
-}
-
-#gameinput-controls,
-#gamelisting-controls,
-#gamevoting-controls {
-  margin: 15px 0;
-  padding: 0 20px;
-}
-
 #gamesorting-controls,
 #gamefiltering-controls {
   margin: 10px 10px 20px 10px;

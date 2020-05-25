@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { GameList } from './GameList'
-import { AddedList } from './AddedList';
 
 
 export class Boardgameinator extends React.Component {
@@ -292,12 +291,6 @@ export class Boardgameinator extends React.Component {
                         <h1>Boardgameinator</h1>
                         <p className="subtitle">now ranking <span className="callout">{this.state.allGames.length}</span> board game titles</p>
                     </div>
-                    <div id="gamelisting-controls">
-                        <AddedList
-                            allgames={this.state.allGames} 
-                            ondelete={this.onDeleteTitle}
-                            ondeleteall={this.onDeleteAllTitles} />
-                    </div>
                 </div>
                 <div id="content-wrapper">
                     <GameList
@@ -305,6 +298,7 @@ export class Boardgameinator extends React.Component {
                         onnewtitle={this.onNewTitle}
                         thumbs={this.state.thumbs} 
                         ondelete={this.onDeleteTitle}
+                        ondeleteall={this.onDeleteAllTitles}
                         onnewvote={this.onNewVote}
                         onclearsectionvotes={this.onClearSectionVotes}
                         playercounts={playercounts} 

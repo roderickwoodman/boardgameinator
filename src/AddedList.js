@@ -88,4 +88,5 @@ export class AddedList extends React.Component {
 AddedList.propTypes = {
     allgames: PropTypes.array.isRequired,
     ondelete: PropTypes.func.isRequired,
+    ondeleteall: PropTypes.func.isRequired,
 }

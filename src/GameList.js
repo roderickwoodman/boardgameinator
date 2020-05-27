@@ -198,6 +198,8 @@ export class GameList extends React.Component {
                 thumbs={this.props.thumbs}
                 allgames={this.props.allgames}
                 onnewtitle={this.props.onnewtitle}
+                ondelete={this.props.ondelete}
+                ondeleteall={this.props.ondeleteall}
                 sortby={this.state.sortOrder}
                 onsortchange={this.handleSortChange}
                 filterplayercount={this.state.filterPlayercount}
@@ -268,6 +270,7 @@ GameList.propTypes = {
     allgames: PropTypes.array.isRequired,
     onnewtitle: PropTypes.func.isRequired,
     ondelete: PropTypes.func.isRequired,
+    ondeleteall: PropTypes.func.isRequired,
     thumbs: PropTypes.object.isRequired,
     onnewvote: PropTypes.func.isRequired,
     onclearsectionvotes: PropTypes.func.isRequired,

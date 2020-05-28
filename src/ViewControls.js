@@ -167,6 +167,8 @@ ViewControls.propTypes = {
     allgames: PropTypes.array.isRequired,
     thumbs: PropTypes.object.isRequired,
     onnewtitle: PropTypes.func.isRequired,
+    ondelete: PropTypes.func.isRequired,
+    ondeleteall: PropTypes.func.isRequired,
     filtermessage: PropTypes.string.isRequired,
     filterplayercount: PropTypes.bool.isRequired,
     filterweight: PropTypes.bool.isRequired,

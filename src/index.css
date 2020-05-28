@@ -632,7 +632,7 @@ button:enabled,
   and (max-height: 675px) {
 
   .game {
-    grid-template-rows: 1.5rem 3.25rem 3rem 4.5rem 4fr 5fr 2rem;
+    grid-template-rows: 1.5rem 3.25rem 3rem 4.5rem auto 2rem;
   }
 
   .game-name {

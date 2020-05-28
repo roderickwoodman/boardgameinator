@@ -577,17 +577,28 @@ button:enabled,
   and (max-height: 750px) {
 
   .game {
-    grid-template-rows: 1.5rem 3.25rem 175px 4.5rem 4fr 5fr 2rem;
+    grid-template-rows: 1.5rem 3.25rem 175px 4.5rem auto 2rem;
+    grid-template-areas:
+      "gc-header"
+      "gc-title"
+      "gc-visual"
+      "gc-weight"
+      "gc-upvotedattrs"
+      "gc-footer";
   }
 
   .game.inspecting {
     grid-template-rows: 1.5rem 3.25rem 3rem auto 2rem;
   }
 
+  .gamecard-upvoted-attributes {
+    display: inline-block;
+  }
+
   .game-yearpublished,
   .gamecard-visual .overlay,
-  .gamecard-categories li.novote,
-  .gamecard-mechanics li.novote {
+  .gamecard-categories,
+  .gamecard-mechanics {
     display: none;
   }
 

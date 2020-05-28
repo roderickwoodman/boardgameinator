@@ -5,8 +5,6 @@ import { VotingBox } from './VotingBox'
 import { AddedList } from './AddedList'
 import Modal from 'react-bootstrap/Modal'
 import ModalBody from 'react-bootstrap/ModalBody'
-import ModalHeader from 'react-bootstrap/ModalHeader'
-import ModalTitle from 'react-bootstrap/ModalTitle'
 import ModalFooter from 'react-bootstrap/ModalFooter'
 import 'bootstrap/dist/css/bootstrap.min.css'
 
@@ -84,9 +82,6 @@ export const ViewControls = (props) => {
 
             <button className="default-primary-styles" onClick={showAddModal}>Add</button>
             <Modal size="md" show={addIsOpen} onHide={hideAddModal}>
-                <ModalHeader>
-                    <ModalTitle>Add Options</ModalTitle>
-                </ModalHeader>
                 <ModalBody>
                     <div id="gameinput-controls">
                         <AddGamesBox
@@ -101,9 +96,6 @@ export const ViewControls = (props) => {
 
             <button className="default-primary-styles" onClick={showVotingModal}>Vote</button>
             <Modal size="md" show={votingIsOpen} onHide={hideVotingModal}>
-                <ModalHeader>
-                    <ModalTitle>Vote Options</ModalTitle>
-                </ModalHeader>
                 <ModalBody>
                     <div id="gamevoting-controls">
                         <VotingBox 
@@ -123,9 +115,6 @@ export const ViewControls = (props) => {
 
             <button className="default-primary-styles" onClick={showListModal}>List</button>
             <Modal size="md" show={listIsOpen} onHide={hideListModal}>
-                <ModalHeader>
-                    <ModalTitle>Added Games List</ModalTitle>
-                </ModalHeader>
                 <ModalBody>
                     <div id="gamelisting-controls">
                         <AddedList
@@ -141,9 +130,6 @@ export const ViewControls = (props) => {
 
             <button className="default-primary-styles" onClick={showSortModal}>Sort</button>
             <Modal size="md" show={sortIsOpen} onHide={hideSortModal}>
-                <ModalHeader>
-                    <ModalTitle>Sort Options</ModalTitle>
-                </ModalHeader>
                 <ModalBody>
                     <div id="gamesorting-controls">
                         <h4>Sort the games by...</h4>
@@ -159,9 +145,6 @@ export const ViewControls = (props) => {
 
             <button className="default-primary-styles" onClick={showFilterModal}>Filter</button>
             <Modal size="md" show={filterIsOpen} onHide={hideFilterModal}>
-                <ModalHeader>
-                    <ModalTitle>Filter Options</ModalTitle>
-                </ModalHeader>
                 <ModalBody>
                     <div id="gamefiltering-controls">
                         <h4>Show only games that support...</h4>

@@ -42,7 +42,6 @@ export class AddedList extends React.Component {
             <React.Fragment>
             <span className="instructions">
                 <span className="leftGroup">List games.</span>
-                <button className="rightGroup default-danger-styles" onClick={this.props.ondeleteall} disabled={this.props.allgames.length===0}>Remove All</button>
             </span>
             <ul id="games-added">
             <li><b>ALL ADDED GAMES: </b><button className="fa fa-button default-secondary-styles"><FontAwesomeIcon icon={faClipboard} onClick={this.handleCopyToClipboard} disabled={!this.props.allgames.length} /></button></li>
@@ -88,5 +87,4 @@ export class AddedList extends React.Component {
 AddedList.propTypes = {
     allgames: PropTypes.array.isRequired,
     ondelete: PropTypes.func.isRequired,
-    ondeleteall: PropTypes.func.isRequired,
 }

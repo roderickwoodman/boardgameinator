@@ -124,6 +124,7 @@ export const ViewControls = (props) => {
                     </div>
                 </ModalBody>
                 <ModalFooter> 
+                    <button className="rightGroup default-danger-styles" onClick={props.ondeleteall} disabled={props.allgames.length===0}>Remove All Games</button>
                     <button className="default-primary-styles" onClick={hideListModal}>Close</button>
                 </ModalFooter>
             </Modal>

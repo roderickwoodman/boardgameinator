@@ -76,6 +76,11 @@ export const ViewControls = (props) => {
         setFilterIsOpen(false)
     }
 
+    let numvotes = Object.keys(props.thumbs.players).length
+    + Object.keys(props.thumbs.weight).length
+    + Object.keys(props.thumbs.category).length
+    + Object.keys(props.thumbs.mechanic).length
+
     return (
         <React.Fragment>
         <div id="view-controls">
@@ -109,6 +114,7 @@ export const ViewControls = (props) => {
                     </div>
                 </ModalBody>
                 <ModalFooter> 
+                    <button className="rightGroup default-danger-styles" data-attrtype="all" onClick={props.onclearsectionvotes} disabled={numvotes===0}>Remove All Votes</button>
                     <button className="default-primary-styles" onClick={hideVotingModal}>Close</button>
                 </ModalFooter>
             </Modal>

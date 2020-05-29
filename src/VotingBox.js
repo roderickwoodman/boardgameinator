@@ -38,16 +38,12 @@ export class VotingBox extends React.Component {
     }
 
     render() {
-        let numvotes = Object.keys(this.props.thumbs.players).length
-            + Object.keys(this.props.thumbs.weight).length
-            + Object.keys(this.props.thumbs.category).length
-            + Object.keys(this.props.thumbs.mechanic).length
+
         return (
             <React.Fragment>
 
             <span className="instructions">
                 <span className="leftGroup">Vote.</span>
-                <button className="rightGroup default-danger-styles" data-attrtype="all" onClick={this.props.onclearsectionvotes} disabled={numvotes===0}>Remove All</button>
             </span>
 
             <ul id="votingsection-selector">

@@ -43,7 +43,7 @@ export class VotingBox extends React.Component {
             <React.Fragment>
 
             <span className="instructions">
-                <span className="leftGroup">Vote.</span>
+                <span className="leftGroup">Vote on board game attributes.</span>
             </span>
 
             <ul id="votingsection-selector">

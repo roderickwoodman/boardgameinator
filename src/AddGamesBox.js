@@ -25,7 +25,7 @@ export class AddGamesBox extends React.Component {
             <React.Fragment>
 
             <span className="instructions">
-                <span className="leftGroup">Add games.</span>
+                <span className="leftGroup">Add board games by title.</span>
             </span>
 
             <div id="input-section">

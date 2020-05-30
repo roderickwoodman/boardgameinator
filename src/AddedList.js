@@ -41,10 +41,10 @@ export class AddedList extends React.Component {
         return (
             <React.Fragment>
             <span className="instructions">
-                <span className="leftGroup">List games.</span>
+                <span className="leftGroup">These board games have been added:</span>
             </span>
             <ul id="games-added">
-            <li><b>ALL ADDED GAMES: </b><button className="fa fa-button default-secondary-styles"><FontAwesomeIcon icon={faClipboard} onClick={this.handleCopyToClipboard} disabled={!this.props.allgames.length} /></button></li>
+            <li><button className="fa fa-button default-secondary-styles"><FontAwesomeIcon icon={faClipboard} onClick={this.handleCopyToClipboard} disabled={!this.props.allgames.length} /></button></li>
                 { this.props.allgames.length >= 0 && (
                     this.props.allgames
                         .sort( (a, b) => (a.name + a.disambiguation > b.name + b.disambiguation) ? 1 : -1 )

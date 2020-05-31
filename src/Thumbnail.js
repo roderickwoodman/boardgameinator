@@ -9,7 +9,10 @@ export class Thumbnail extends React.Component {
         return (
             <div className="thumbnail">
                 <img src={this.props.url} alt="game box cover" />
-                <div className="vote-count"><FontAwesomeIcon icon={faThumbsUp} />:{this.props.thumbcount}</div>
+                <div className="vote-count">
+                    <FontAwesomeIcon icon={faThumbsUp} />:{this.props.thumbcount} 
+                    <span className="vote-count-label">attributes</span>
+                </div>
             </div>
         )
     }

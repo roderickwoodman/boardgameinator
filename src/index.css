@@ -475,10 +475,6 @@ html, #root {
   text-decoration-style: double;
 }
 
-.addedgame.hovering {
-  color: red;
-}
-
 .voteable.hovering.novote {
   color: green;
   font-weight: 800;

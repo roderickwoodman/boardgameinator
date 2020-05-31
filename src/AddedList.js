@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { AddedElement } from './AddedElement';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLongArrowAltRight } from '@fortawesome/free-solid-svg-icons'
 import { faClipboard } from '@fortawesome/free-solid-svg-icons'
@@ -50,13 +49,10 @@ export class AddedList extends React.Component {
                         .sort( (a, b) => (a.name + a.disambiguation > b.name + b.disambiguation) ? 1 : -1 )
                         .map(
                             (game, i) =>
-                                <AddedElement
-                                    key={i}
-                                    id={game.id}
-                                    name={game.name.concat((game.hasOwnProperty("nameisunique") && game["nameisunique"] === false) ? game["disambiguation"] : "")}
-                                    yearpublished={game.yearpublished}
-                                    ondelete={this.props.ondelete} />)
-                )}
+                                <li key={i}>
+                                    {game.name.concat((game.hasOwnProperty("nameisunique") && game["nameisunique"] === false) ? game["disambiguation"] : "")}
+                                </li>
+                ))}
                 { this.props.allgames.length === 0 && (
                     <span className="message warning">
                     <li>Please add game titles using the forms in this section.</li>

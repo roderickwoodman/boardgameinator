@@ -216,11 +216,13 @@ html, #root {
 }
 
 .gamecard-weight .name {
+  height: 1.5rem;
   flex: 0 0 100%;
 }
 
 .gamecard-weight .supported-playercount,
 .gamecard-weight .estimated-playtime {
+  height: 1.5rem;
   flex: 0 0 44%;
 }
 

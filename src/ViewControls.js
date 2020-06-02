@@ -119,7 +119,7 @@ export const ViewControls = (props) => {
                 </ModalFooter>
             </Modal>
 
-            <button className="default-primary-styles" onClick={showListModal}>List</button>
+            <button className="default-primary-styles" onClick={showListModal}>All Games</button>
             <Modal size="md" show={listIsOpen} onHide={hideListModal}>
                 <ModalBody>
                     <div id="gamelisting-controls">
@@ -135,11 +135,11 @@ export const ViewControls = (props) => {
                 </ModalFooter>
             </Modal>
 
-            <button className="default-primary-styles" onClick={showSortModal}>Sort</button>
+            <button className="default-primary-styles" onClick={showSortModal}>Order</button>
             <Modal size="md" show={sortIsOpen} onHide={hideSortModal}>
                 <ModalBody>
                     <div id="gamesorting-controls">
-                        <h4>Sort the games by the...</h4>
+                        <h4>Order the games by the...</h4>
                         <button className={`default-secondary-styles ${(props.sortby === 'maxvotes') ? 'active-button' : ''}`} onClick={ (e) => props.onsortchange(e, "maxvotes") }>most votes</button>
                         <button className={`default-secondary-styles ${(props.sortby === 'maxplaytime') ? 'active-button' : ''}`} onClick={ (e) => props.onsortchange(e, "maxplaytime") }>shortest playtime</button>
                         <button className={`default-secondary-styles ${(props.sortby === 'maxplayers') ? 'active-button' : ''}`} onClick={ (e) => props.onsortchange(e, "maxplayers") }>most players</button>

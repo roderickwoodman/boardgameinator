@@ -16,6 +16,7 @@ export class Boardgameinator extends React.Component {
         this.tallyWeightCounts = this.tallyWeightCounts.bind(this)
         this.tallyCategoryCounts = this.tallyCategoryCounts.bind(this)
         this.tallyMechanicCounts = this.tallyMechanicCounts.bind(this)
+        this.totalAttributeVotes = this.totalAttributeVotes.bind(this)
         this.gameSupportsPlayercount = this.gameSupportsPlayercount.bind(this)
         this.onNewTitle = this.onNewTitle.bind(this)
         this.onNewVote = this.onNewVote.bind(this)
@@ -245,6 +246,15 @@ export class Boardgameinator extends React.Component {
         return countsArray
     }
 
+    totalAttributeVotes() {
+        let count = 0
+        Object.entries(this.state.thumbs)
+            .forEach( function(category) {
+                count += Object.values(category[1]).filter( attr => attr === 'thumbsup').length
+            })
+        return  count
+    }
+
     onNewVote(event) {
         const { attrtype, attrname, newvote } = Object.assign({}, event.target.dataset)
         this.setState(prevState => {
@@ -283,6 +293,7 @@ export class Boardgameinator extends React.Component {
         let weightcounts = this.tallyWeightCounts()
         let categorycounts = this.tallyCategoryCounts()
         let mechaniccounts = this.tallyMechanicCounts()
+        let totalattributevotes = this.totalAttributeVotes()
         return (
             <React.Fragment>
             <div id="page-wrapper">
@@ -302,7 +313,8 @@ export class Boardgameinator extends React.Component {
                         playercounts={playercounts} 
                         weightcounts={weightcounts}
                         categorycounts={categorycounts} 
-                        mechaniccounts={mechaniccounts} />
+                        mechaniccounts={mechaniccounts}
+                        totalattributevotes={totalattributevotes} />
                 </div>
             </div>
             </React.Fragment>

@@ -215,6 +215,11 @@ html, #root {
   line-height: 1.5;
 }
 
+div.gamecard-weight .name {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
 .gamecard-weight .name {
   height: 1.5rem;
   flex: 0 0 100%;

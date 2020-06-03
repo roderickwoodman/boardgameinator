@@ -42,9 +42,7 @@ export class VotingBox extends React.Component {
         return (
             <React.Fragment>
 
-            <span className="instructions">
-                <span className="leftGroup">Vote on board game attributes.</span>
-            </span>
+            <h4>Upvote board game attributes:</h4>
 
             <ul id="votingsection-selector">
                 <li id="select-players" className={"selector" + (this.state.votingOn === "players" ? " selected" : "")} onClick={this.handleSectionChange}>Players</li>

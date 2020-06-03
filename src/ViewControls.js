@@ -114,7 +114,7 @@ export const ViewControls = (props) => {
                     </div>
                 </ModalBody>
                 <ModalFooter> 
-                    <button className="rightGroup default-danger-styles" data-attrtype="all" onClick={props.onclearsectionvotes} disabled={numvotes===0}>Remove All Votes</button>
+                    <button className="default-danger-styles" data-attrtype="all" onClick={props.onclearsectionvotes} disabled={numvotes===0}>Remove All Votes</button>
                     <button className="default-primary-styles" onClick={hideVotingModal}>Close</button>
                 </ModalFooter>
             </Modal>
@@ -130,7 +130,7 @@ export const ViewControls = (props) => {
                     </div>
                 </ModalBody>
                 <ModalFooter> 
-                    <button className="rightGroup default-danger-styles" onClick={props.ondeleteall} disabled={props.allgames.length===0}>Remove All Games</button>
+                    <button className="default-danger-styles" onClick={props.ondeleteall} disabled={props.allgames.length===0}>Remove All Games</button>
                     <button className="default-primary-styles" onClick={hideListModal}>Close</button>
                 </ModalFooter>
             </Modal>
@@ -139,7 +139,7 @@ export const ViewControls = (props) => {
             <Modal size="md" show={sortIsOpen} onHide={hideSortModal}>
                 <ModalBody>
                     <div id="gamesorting-controls">
-                        <h4>Order the games by the...</h4>
+                        <h4>Order the board games by the...</h4>
                         <button className={`default-secondary-styles ${(props.sortby === 'maxvotes') ? 'active-button' : ''}`} onClick={ (e) => props.onsortchange(e, "maxvotes") }>most votes</button>
                         <button className={`default-secondary-styles ${(props.sortby === 'maxplaytime') ? 'active-button' : ''}`} onClick={ (e) => props.onsortchange(e, "maxplaytime") }>shortest playtime</button>
                         <button className={`default-secondary-styles ${(props.sortby === 'maxplayers') ? 'active-button' : ''}`} onClick={ (e) => props.onsortchange(e, "maxplayers") }>most players</button>
@@ -154,7 +154,7 @@ export const ViewControls = (props) => {
             <Modal size="md" show={filterIsOpen} onHide={hideFilterModal}>
                 <ModalBody>
                     <div id="gamefiltering-controls">
-                        <h4>Show only games that support...</h4>
+                        <h4>Show only the board games that support...</h4>
                         <button className={`default-secondary-styles ${(props.filterplayercount) ? 'active-button' : ''}`} onClick={ (e) => props.onfilterchange(e, "playercount") }>upvoted player counts</button>
                         <button className={`default-secondary-styles ${(props.filterweight) ? 'active-button' : ''}`} onClick={ (e) => props.onfilterchange(e, "weight") }>upvoted weights</button>
                     </div>

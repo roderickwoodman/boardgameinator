@@ -290,21 +290,6 @@ div.gamecard-weight .name {
   line-height: 1.5rem;
 }
 
-.instructions {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  line-height: 2.0em;
-  font-size: 1.5em;
-  font-weight: 800;
-}
-
-.leftGroup, 
-.rightGroup {
-  display: flex;
-  align-items: center;
-}
-
 #resulting-games .message {
   margin: 30px;
 }

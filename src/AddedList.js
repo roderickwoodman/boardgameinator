@@ -39,9 +39,7 @@ export class AddedList extends React.Component {
         }
         return (
             <React.Fragment>
-            <span className="instructions">
-                <span className="leftGroup">These board games have been added:</span>
-            </span>
+            <h4>These board games have been added:</h4>
             <ul id="games-added">
             <li><button className="fa fa-button default-secondary-styles"><FontAwesomeIcon icon={faClipboard} onClick={this.handleCopyToClipboard} disabled={!this.props.allgames.length} /></button></li>
                 { this.props.allgames.length >= 0 && (

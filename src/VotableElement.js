@@ -1,5 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faThumbsUp } from '@fortawesome/free-solid-svg-icons'
+
 
 export class VotableElement extends React.Component {
 
@@ -17,9 +20,9 @@ export class VotableElement extends React.Component {
     
     render() {
         let elementStyle = (this.state.hover) ? "voteable hovering" : "voteable nothovering"
-        elementStyle += this.props.preferences.hasOwnProperty(this.props.attrname) 
-            ? ' thumbsup' //FIXME, derive from props: this.props.preferences['attrVote']
-            : ' novote'
+        //FIXME, extract vote value from props: this.props.preferences['attrVote']
+        let vote = (this.props.preferences.hasOwnProperty(this.props.attrname)) ? 'thumbsup' : 'novote'
+        elementStyle += ' ' + vote
         return (
             <li 
                 key={this.props.attrname} 
@@ -30,8 +33,15 @@ export class VotableElement extends React.Component {
                 data-attrname={this.props.attrname}
                 data-newvote='thumbsup'
                 onClick={this.props.onnewvote}
-            >
-                {this.props.attrname} ({this.props.attrcount})
+            > 
+                <div className="vote">
+                    { vote === 'thumbsup' &&
+                    <FontAwesomeIcon icon={faThumbsUp} />
+                    }
+                </div>
+                <div>
+                    {this.props.attrname} ({this.props.attrcount})
+                </div>
             </li>
         )
     }

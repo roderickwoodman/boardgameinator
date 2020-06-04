@@ -471,6 +471,16 @@ div.gamecard-weight .name {
   text-decoration-style: double;
 }
 
+.voteable {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+
+.voteable .vote {
+  flex: 0 0 2em;
+}
+
 .voteable.hovering.novote {
   color: green;
   font-weight: 800;

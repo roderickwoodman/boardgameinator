@@ -53,7 +53,7 @@ export class AddedList extends React.Component {
                 ))}
                 { this.props.allgames.length === 0 && (
                     <span className="message warning">
-                    <li>Please add game titles using the forms in this section.</li>
+                    <li>No games have been added yet. Please close this window and then click the "Add" button.</li>
                     </span>
                 )}
             </ul>

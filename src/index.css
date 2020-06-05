@@ -299,9 +299,9 @@ div.gamecard-weight .name {
 ** MISCELLANEOUS STYLES (FOR THE VISUAL COMPONENTS)
 */
 
-#voting-section li.thumbsup, 
-#voting-section li.thumbsdown, 
-#voting-section li.novote {
+#voting-section li.thumbsup .clickable, 
+#voting-section li.thumbsdown .clickable, 
+#voting-section li.novote .clickable {
   cursor: pointer;
 }
 

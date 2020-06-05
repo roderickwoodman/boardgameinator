@@ -36,6 +36,7 @@ export class VotableElement extends React.Component {
                     }
                 </div>
                 <div
+                    className="clickable"
                     data-attrtype={this.props.attrtype}
                     data-attrname={this.props.attrname}
                     data-newvote='thumbsup'

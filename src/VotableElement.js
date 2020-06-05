@@ -29,17 +29,18 @@ export class VotableElement extends React.Component {
                 className={elementStyle} 
                 onMouseEnter={this.toggleHover} 
                 onMouseLeave={this.toggleHover}
-                data-attrtype={this.props.attrtype}
-                data-attrname={this.props.attrname}
-                data-newvote='thumbsup'
-                onClick={this.props.onnewvote}
             > 
                 <div className="vote">
                     { vote === 'thumbsup' &&
                     <FontAwesomeIcon icon={faThumbsUp} />
                     }
                 </div>
-                <div>
+                <div
+                    data-attrtype={this.props.attrtype}
+                    data-attrname={this.props.attrname}
+                    data-newvote='thumbsup'
+                    onClick={this.props.onnewvote}
+                >
                     {this.props.attrname} ({this.props.attrcount})
                 </div>
             </li>

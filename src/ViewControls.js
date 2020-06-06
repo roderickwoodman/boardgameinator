@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { AddGamesBox } from './AddGamesBox'
 import { VotingBox } from './VotingBox'
@@ -10,11 +10,11 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 
 export const ViewControls = (props) => {
 
-    const [addIsOpen, setAddIsOpen] = React.useState(false)
-    const [votingIsOpen, setVotingIsOpen] = React.useState(false)
-    const [listIsOpen, setListIsOpen] = React.useState(false)
-    const [sortIsOpen, setSortIsOpen] = React.useState(false)
-    const [filterIsOpen, setFilterIsOpen] = React.useState(false)
+    const [addIsOpen, setAddIsOpen] = useState(false)
+    const [votingIsOpen, setVotingIsOpen] = useState(false)
+    const [listIsOpen, setListIsOpen] = useState(false)
+    const [sortIsOpen, setSortIsOpen] = useState(false)
+    const [filterIsOpen, setFilterIsOpen] = useState(false)
 
     const showAddModal = () => {
         setVotingIsOpen(false)
@@ -75,6 +75,14 @@ export const ViewControls = (props) => {
     const hideFilterModal = () => {
         setFilterIsOpen(false)
     }
+
+    useEffect( () => {
+        if (props.allgames.length === 0) {
+            showAddModal()
+        } else {
+            hideAddModal()
+        }
+    }, [props])
 
     let numvotes = Object.keys(props.thumbs.players).length
     + Object.keys(props.thumbs.weight).length

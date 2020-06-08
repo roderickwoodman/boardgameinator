@@ -34,7 +34,7 @@ export class Boardgameinator extends React.Component {
 
         let allGames = []
 
-        let query_strings, new_list = []
+        let query_strings, new_list = [], addto_list = []
         let path = this.props.location.pathname.slice(1).split('?')
         if (path.length === 1) {
             query_strings = path[0]
@@ -45,25 +45,33 @@ export class Boardgameinator extends React.Component {
             let qs = query_string.split('=')
             if (qs[0] === 'newlist') {
                 qs[1].split('+').forEach( game_id => new_list.push(parseInt(game_id)) )
+            } else if (qs[0] === 'addtolist') {
+                qs[1].split('+').forEach( game_id => addto_list.push(parseInt(game_id)) )
             }
         })
 
+        let self = this
         if (new_list.length === 0) {
             const stored_gamedataVersion = JSON.parse(localStorage.getItem("gamedataVersion"))
             if (stored_gamedataVersion === this.gamedataVersion) {
                 allGames = JSON.parse(localStorage.getItem("allGames"))
-                this.setState({ allGames })
             } else {
                 localStorage.setItem('gamedataVersion', JSON.stringify(this.gamedataVersion))
                 localStorage.setItem('allGames', JSON.stringify(allGames))
             }
+            addto_list.forEach( function(game_id) {
+                if (!self.gameHasBeenAdded(game_id, allGames)) {
+                    self.addGameById(game_id)
+                }
+            })
+            this.setState({ allGames })
         } else {
-            let self = this
             new_list.forEach( function(game_id) {
                 if (!self.gameHasBeenAdded(game_id, allGames)) {
                     self.addGameById(game_id)
                 }
             })
+            localStorage.setItem('gamedataVersion', JSON.stringify(this.gamedataVersion))
         }
 
         const stored_thumbs = JSON.parse(localStorage.getItem("thumbs"))
@@ -121,7 +129,6 @@ export class Boardgameinator extends React.Component {
             // remove the game from the game list
             let allGames = prevState.allGames.slice()
             allGames = allGames.filter(game => game.id !== parseInt(id))
-
 
             // remove any votable attributes no longer occurring (in any games) from the preferences list
             let thumbs = Object.assign({}, prevState.thumbs)

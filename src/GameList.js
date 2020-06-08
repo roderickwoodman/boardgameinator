@@ -71,14 +71,14 @@ export class GameList extends React.Component {
                 let defaultCount = 0
                 counts[game.name] = defaultCount
                 // playercount section of a game gets ONE TOTAL thumbsup if any of its supported playercounts gets a thumbsup
-                for (let playercount=game.minplayers; playercount<=game.maxplayers; playercount++) {
+                for (let playercount=game.min_players; playercount<=game.max_players; playercount++) {
                     if (this.props.thumbs.players.hasOwnProperty(playercount + 'P')) {
                         counts[game.name]++
                         break
                     }
                 }
                 // weight section of a game gets ONE TOTAL thumbsup if its weight has a thumbsup
-                if (this.props.thumbs.weight.hasOwnProperty(game.averageweightname)) {
+                if (this.props.thumbs.weight.hasOwnProperty(game.average_weight_name)) {
                     counts[game.name]++
                 }
                 // categories section of a game gets one thumbsup for each thumbed-up category
@@ -167,7 +167,7 @@ export class GameList extends React.Component {
                 if (!this.state.filterPlayercount || favoredPlayercounts.length === 0) {
                     return true
                 } else {
-                    for (let playercount=game.minplayers; playercount<=game.maxplayers; playercount++) {
+                    for (let playercount=game.min_players; playercount<=game.max_players; playercount++) {
                         if (favoredPlayercounts.includes(playercount)) {
                             return true
                         }
@@ -180,7 +180,7 @@ export class GameList extends React.Component {
                 if (!this.state.filterWeight || favoredWeights.length === 0) {
                     return true
                 } else {
-                    if (favoredWeights.includes(game.averageweightname)) {
+                    if (favoredWeights.includes(game.average_weight_name)) {
                         return true
                     } else {
                         return false
@@ -219,10 +219,10 @@ export class GameList extends React.Component {
                         // sort by maxplaytime...  FIRST: shortest playtime, SECOND: most votes
                         // sort by maxplayers...   FIRST: most players,      SECOND: most votes
                         .sort((this.state.sortOrder === 'maxvotes') 
-                            ? ( (a, b) => (thumbcounts[a.name] < thumbcounts[b.name]) ? 1 : (thumbcounts[a.name] === thumbcounts[b.name]) && (a.maxplaytime > b.maxplaytime) ? 1 : -1 )
-                            : ( (this.state.sortOrder === 'maxplaytime') 
-                                ? ( (a, b) => (a.maxplaytime > b.maxplaytime) ? 1 : (a.maxplaytime === b.maxplaytime) && (thumbcounts[a.name] < thumbcounts[b.name]) ? 1 : -1 )
-                                : ( (a, b) => (a.maxplayers < b.maxplayers) ? 1 : (a.maxplayers === b.maxplayers) && (thumbcounts[a.name] < thumbcounts[b.name]) ? 1 : -1 ) ) )
+                            ? ( (a, b) => (thumbcounts[a.name] < thumbcounts[b.name]) ? 1 : (thumbcounts[a.name] === thumbcounts[b.name]) && (a.max_playtime > b.max_playtime) ? 1 : -1 )
+                            : ( (this.state.sortOrder === 'max_playtime') 
+                                ? ( (a, b) => (a.max_playtime > b.max_playtime) ? 1 : (a.max_playtime === b.max_playtime) && (thumbcounts[a.name] < thumbcounts[b.name]) ? 1 : -1 )
+                                : ( (a, b) => (a.max_players < b.max_players) ? 1 : (a.max_players === b.max_players) && (thumbcounts[a.name] < thumbcounts[b.name]) ? 1 : -1 ) ) )
                         .map(
                             (game, i) => 
                                 <Game
@@ -234,11 +234,11 @@ export class GameList extends React.Component {
                                     thumbnail={game.thumbnail} 
                                     description={game.description} 
                                     yearpublished={game.yearpublished} 
-                                    minplayers={game.minplayers} 
-                                    maxplayers={game.maxplayers} 
-                                    minplaytime={game.minplaytime} 
-                                    maxplaytime={game.maxplaytime}
-                                    averageweightname={game.averageweightname}
+                                    minplayers={game.min_players} 
+                                    maxplayers={game.max_players} 
+                                    minplaytime={game.min_playtime} 
+                                    maxplaytime={game.max_playtime}
+                                    average_weight_name={game.average_weight_name}
                                     categories={game.categories}
                                     mechanics={game.mechanics} 
                                     comments={game.comments}

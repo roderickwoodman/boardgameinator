@@ -77,16 +77,16 @@ function parseGamedataApiXml(str) {
                         game["yearpublished"] = parseInt(node.getAttribute("value"))
                     }
                     if (node.tagName === "minplayers") {
-                        game["minplayers"] = parseInt(node.getAttribute("value"))
+                        game["min_players"] = parseInt(node.getAttribute("value"))
                     }
                     if (node.tagName === "maxplayers") {
-                        game["maxplayers"] = parseInt(node.getAttribute("value"))
+                        game["max_players"] = parseInt(node.getAttribute("value"))
                     }
                     if (node.tagName === "minplaytime") {
-                        game["minplaytime"] = parseInt(node.getAttribute("value"))
+                        game["min_playtime"] = parseInt(node.getAttribute("value"))
                     }
                     if (node.tagName === "maxplaytime") {
-                        game["maxplaytime"] = parseInt(node.getAttribute("value"))
+                        game["max_playtime"] = parseInt(node.getAttribute("value"))
                     }
                     if ( (node.tagName === "link")
                         && (node.getAttribute("type") === "boardgamecategory") ) {
@@ -114,8 +114,8 @@ function parseGamedataApiXml(str) {
                                                 game["numweights"] = grandchildNode.getAttribute("value")
                                             }
                                             if (grandchildNode.tagName === "averageweight") {
-                                                game["averageweight"] = grandchildNode.getAttribute("value")
-                                                let weight = parseFloat(game.averageweight)
+                                                game["average_weight"] = grandchildNode.getAttribute("value")
+                                                let weight = parseFloat(game.average_weight)
                                                 let weightname = null
                                                 if (weight < 1.5) {
                                                     weightname = "light"
@@ -128,7 +128,7 @@ function parseGamedataApiXml(str) {
                                                 } else {
                                                     weightname = "heavy"
                                                 }
-                                                game["averageweightname"] = weightname
+                                                game["average_weight_name"] = weightname
                                             }
                                         }
                                     )

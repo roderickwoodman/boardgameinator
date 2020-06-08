@@ -122,7 +122,7 @@ export class Boardgameinator extends React.Component {
 
     gameSupportsPlayercount(game, playercount) {
         let number = playercount.slice(0, -1)
-        if (number <= game.maxplayers && number >= game.minplayers) {
+        if (number <= game.max_players && number >= game.min_players) {
             return true
         } else {
             return false
@@ -220,7 +220,7 @@ export class Boardgameinator extends React.Component {
         // tally each allowable player count occurrence across all games
         let countsObj = {}
         for (const game of this.state.allGames) {
-            for (let playercount=game.minplayers; playercount<=game.maxplayers; playercount++) {
+            for (let playercount=game.min_players; playercount<=game.max_players; playercount++) {
                 let playerCountAttr = playercount + 'P'
                 if (countsObj.hasOwnProperty(playerCountAttr)) {
                     countsObj[playerCountAttr] = countsObj[playerCountAttr] + 1
@@ -243,10 +243,10 @@ export class Boardgameinator extends React.Component {
         // tally each weight occurrence across all games
         let countsObj = {}
         for (const game of this.state.allGames) {
-            if (countsObj.hasOwnProperty(game.averageweightname)) {
-                countsObj[game.averageweightname] = countsObj[game.averageweightname] + 1
+            if (countsObj.hasOwnProperty(game.average_weight_name)) {
+                countsObj[game.average_weight_name] = countsObj[game.average_weight_name] + 1
             } else {
-                countsObj[game.averageweightname] = 1
+                countsObj[game.average_weight_name] = 1
             }
         }
         // sort weights into a predefined order

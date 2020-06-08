@@ -100,18 +100,24 @@ export class Boardgameinator extends React.Component {
     }
 
     onNewTitle(newGame) {
+
         if (newGame.hasOwnProperty("nameisunique") && newGame["nameisunique"] !== true) {
             let disambiguation = (newGame.yearpublished !== null)
                 ? " ("+ newGame.yearpublished + ")"
                 : " (#" + newGame.id + ")"
             newGame["disambiguation"] = disambiguation
         }
+
+        let now = new Date()
+        newGame["updated_at"] = now.getTime()
+
         this.setState(prevState => {
             let allGames = prevState.allGames.slice()
             allGames.push(newGame)
             localStorage.setItem('allGames', JSON.stringify(allGames))
             return { allGames }
         })
+
     }
 
     gameSupportsPlayercount(game, playercount) {

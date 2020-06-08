@@ -39,6 +39,7 @@ export class Game extends React.Component {
                 inspectingsection={inspectingsection}
                 comments={comments}
                 videos={videos}
+                totalattributevotes={totalattributevotes}
                 ontoggleinspection={ontoggleinspection} 
                 oninspectionsectionchange={oninspectionsectionchange} 
                 ondelete={ondelete} />

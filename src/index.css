@@ -575,6 +575,7 @@ button:enabled,
     "really narrow screen"
       => vertical game card list
       => no game image
+      => no footer with BGG link (unless inspecting more info)
       => vertically and horizontally economical text
 */
 
@@ -780,13 +781,12 @@ button:enabled,
     overflow-x: visible;
     min-height: 175px;
     min-width: 100%;
-    grid-template-rows: 1.5rem 1.5rem auto 2rem;
+    grid-template-rows: 1.5rem 1.5rem auto;
     grid-template-columns: 75px auto;
     grid-template-areas:
       "gc-visual gc-title"
       "gc-visual gc-weight"
-      "gc-header gc-upvotedattrs"
-      "gc-header gc-footer";
+      "gc-header gc-upvotedattrs";
   }
 
   .game.inspecting {
@@ -823,7 +823,8 @@ button:enabled,
     width: 100%;
   }
 
-  .thumbnail img {
+  .thumbnail img,
+  .game:not(.inspecting) .gamecard-footer {
     display: none;
   }
 

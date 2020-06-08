@@ -64,6 +64,9 @@ export class GameCardBack extends React.Component {
                 <button className="fa fa-button" onClick={ (e) => ondelete(e, id) }><FontAwesomeIcon icon={faTrash}/></button>
                 <button className="fa fa-button inspect" onClick={ (e) => ontoggleinspection(e, id) }><FontAwesomeIcon icon={faInfoCircle}/></button>
             </section>
+            <section className="gamecard-collapse-control">
+                <button className="fa fa-button inspect" onClick={ (e) => ontoggleinspection(e, id) }><FontAwesomeIcon icon={faInfoCircle}/></button>
+            </section>
             <section className="gamecard-title">
                 <h5 className="game-name">{name}</h5>
                 {(yearpublished !== null) 

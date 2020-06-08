@@ -537,18 +537,19 @@ button.fa.fa-button {
   color: purple;
 }
 
-.gamecard-header button.fa.fa-button {
+.gamecard-header button.fa.fa-button,
+.gamecard-collapse-control button.fa.fa-button {
   margin: 0.25rem 0 0.25rem 0.5rem;
   padding: 4px;
   border-radius: 4px;
 }
 
-.gamecard-header .fa-button:hover {
-  background: white;
-  color: purple;
+.gamecard-collapse-control {
+  visibility: hidden;
 }
 
-.game.inspecting .gamecard-header .fa-button.inspect:hover {
+.game.inspecting .gamecard-header .fa-button.inspect:hover,
+.game.inspecting .gamecard-collapse-control .fa-button.inspect:hover {
   background: purple;
   color: white;
 }
@@ -802,14 +803,15 @@ button:enabled,
   .game.inspecting {
     min-height: 450px;
     min-width: 100%;
-    grid-template-rows: 1.5rem 1.5rem 1.5rem auto 2rem;
+    grid-template-rows: 1.5rem 1.5rem 1.5rem auto calc(40px - 2rem) 2rem;
     grid-template-columns: 75px auto;
     grid-template-areas:
       "gc-visual gc-title"
       "gc-visual gc-selector"
       "gc-header gc-selector"
       "gc-header gc-variable"
-      "gc-header gc-footer";
+      "gc-collapse gc-variable"
+      "gc-collapse gc-footer";
   }
 
   .gamecard-visual {
@@ -823,10 +825,16 @@ button:enabled,
     align-items: center;
   }
 
-  .gamecard-header button.fa.fa-button {
+  .gamecard-header button.fa.fa-button,
+  .gamecard-collapse-control button.fa.fa-button {
     margin: 0.25rem;
     flex: 0 0 auto;
     width: 100%;
+  }
+
+  .gamecard-collapse-control {
+    grid-area: gc-collapse;
+    visibility: visible;
   }
 
   .thumbnail {

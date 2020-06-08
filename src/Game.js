@@ -7,7 +7,7 @@ import { GameCardBack } from './GameCardBack'
 export class Game extends React.Component {
 
     render() {
-        const { id, idunderinspection, inspectingsection, name, thumbnail, description, yearpublished, minplayers, maxplayers, minplaytime, maxplaytime, averageweightname, categories, mechanics, comments, videos, totalattributevotes, thumbs, thumbcount, ondelete, ontoggleinspection, oninspectionsectionchange } = this.props
+        const { id, idunderinspection, inspectingsection, name, thumbnail, description, yearpublished, minplayers, maxplayers, minplaytime, maxplaytime, averageweightname, categories, mechanics, comments, videos, totalattributevotes, thumbs, thumbcount, ondelete, ontoggleinspection, oninspectionsectionchange, reallynarrow } = this.props
         let gamecard
         let gamecardClasses = (id === idunderinspection) ? "game inspecting" : "game"
         if (id !== idunderinspection) {
@@ -42,7 +42,8 @@ export class Game extends React.Component {
                 totalattributevotes={totalattributevotes}
                 ontoggleinspection={ontoggleinspection} 
                 oninspectionsectionchange={oninspectionsectionchange} 
-                ondelete={ondelete} />
+                ondelete={ondelete}
+                reallynarrow={reallynarrow} />
         }
         return(
             <section className={gamecardClasses}>
@@ -75,4 +76,5 @@ Game.propTypes = {
     thumbs: PropTypes.object.isRequired,
     videos: PropTypes.array,
     yearpublished: PropTypes.number,
+    reallynarrow: PropTypes.bool.isRequired,
 }

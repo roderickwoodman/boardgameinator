@@ -11,7 +11,9 @@ export class Boardgameinator extends React.Component {
         this.state = { 
             allGames: [],
             thumbs: {'players': {}, 'weight': {}, 'category': {}, 'mechanic': {}},
-            sortOrder: 'maxvotes'
+            sortOrder: 'maxvotes',
+            windowWidth: 0,
+            windowHeight: 0
         }
         this.tallyPlayerCounts = this.tallyPlayerCounts.bind(this)
         this.tallyWeightCounts = this.tallyWeightCounts.bind(this)
@@ -26,6 +28,7 @@ export class Boardgameinator extends React.Component {
         this.onDeleteTitle = this.onDeleteTitle.bind(this)
         this.onDeleteAllTitles = this.onDeleteAllTitles.bind(this)
         this.onClearSectionVotes = this.onClearSectionVotes.bind(this)
+        this.updateDimensions = this.updateDimensions.bind(this)
     }
 
     gamedataVersion = 1
@@ -79,6 +82,18 @@ export class Boardgameinator extends React.Component {
             this.setState({ thumbs: stored_thumbs })
         }
 
+        this.updateDimensions()
+        window.addEventListener('resize', this.updateDimensions)
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('resize', this.updateDimensions)
+    }
+
+    updateDimensions() {
+        let windowWidth = typeof window !== 'undefined' ? window.innerWidth : 0
+        let windowHeight = typeof window !== 'undefined' ? window.innerHeight : 0
+        this.setState({ windowWidth, windowHeight })
     }
 
     gameHasBeenAdded(gameId, gameSet) {
@@ -352,6 +367,12 @@ export class Boardgameinator extends React.Component {
         let categorycounts = this.tallyCategoryCounts()
         let mechaniccounts = this.tallyMechanicCounts()
         let totalattributevotes = this.totalAttributeVotes()
+
+        const { windowWidth } = this.state
+        const styles = {
+            reallyNarrow: windowWidth < 650
+        }
+
         return (
             <React.Fragment>
             <div id="page-wrapper">
@@ -372,7 +393,8 @@ export class Boardgameinator extends React.Component {
                         weightcounts={weightcounts}
                         categorycounts={categorycounts} 
                         mechaniccounts={mechaniccounts}
-                        totalattributevotes={totalattributevotes} />
+                        totalattributevotes={totalattributevotes}
+                        reallynarrow={styles.reallyNarrow} />
                 </div>
             </div>
             </React.Fragment>

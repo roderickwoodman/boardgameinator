@@ -78,7 +78,7 @@ export class GameCardBack extends React.Component {
                 <Thumbnail url={thumbnail} thumbcount={thumbcount} totalattributevotes={totalattributevotes} />
             </section>
             <ul id="inspectionsection-selector">
-                <li id="select-description" className={"selector darkbg" + (inspectingsection === "description" ? " selected" : "")} onClick={oninspectionsectionchange}>Description</li>
+                <li id="select-description" className={"selector darkbg" + (inspectingsection === "description" ? " selected" : "")} onClick={oninspectionsectionchange}>{this.props.reallynarrow ? 'Desc.' : 'Description'}</li>
                 <li id="select-comments" className={"selector darkbg" + (inspectingsection === "comments" ? " selected" : "")} onClick={oninspectionsectionchange}>Comments</li>
                 <li id="select-videos" className={"selector darkbg" + (inspectingsection === "videos" ? " selected" : "")} onClick={oninspectionsectionchange}>Videos</li>
             </ul>
@@ -139,6 +139,7 @@ GameCardBack.propTypes = {
     totalattributevotes: PropTypes.number.isRequired,
     oninspectionsectionchange: PropTypes.func.isRequired,
     ondelete: PropTypes.func.isRequired,
+    reallynarrow: PropTypes.bool.isRequired,
 }
 
 GameCardBack.defaultProps = {

@@ -248,7 +248,8 @@ export class GameList extends React.Component {
                                     thumbcount={thumbcounts[game.name]}
                                     ondelete={this.props.ondelete}
                                     ontoggleinspection={this.handleInspectionChange}
-                                    oninspectionsectionchange={this.handleInspectionSectionChange} />)
+                                    oninspectionsectionchange={this.handleInspectionSectionChange}
+                                    reallynarrow={this.props.reallynarrow} />)
                 )}
                 {this.props.allgames.length === 0 && (
                     <span className="message warning">
@@ -280,4 +281,5 @@ GameList.propTypes = {
     categorycounts: PropTypes.array.isRequired,
     mechaniccounts: PropTypes.array.isRequired,
     totalattributevotes: PropTypes.number.isRequired,
+    reallynarrow: PropTypes.bool.isRequired,
 }

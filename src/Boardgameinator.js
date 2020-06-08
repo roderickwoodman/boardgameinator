@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { GameList } from './GameList'
+import { gamedataApi } from './Api.js'
 
 
 export class Boardgameinator extends React.Component {
@@ -17,7 +18,9 @@ export class Boardgameinator extends React.Component {
         this.tallyCategoryCounts = this.tallyCategoryCounts.bind(this)
         this.tallyMechanicCounts = this.tallyMechanicCounts.bind(this)
         this.totalAttributeVotes = this.totalAttributeVotes.bind(this)
+        this.gameHasBeenAdded = this.gameHasBeenAdded.bind(this)
         this.gameSupportsPlayercount = this.gameSupportsPlayercount.bind(this)
+        this.addGameById = this.addGameById.bind(this)
         this.onNewTitle = this.onNewTitle.bind(this)
         this.onNewVote = this.onNewVote.bind(this)
         this.onDeleteTitle = this.onDeleteTitle.bind(this)
@@ -44,6 +47,24 @@ export class Boardgameinator extends React.Component {
             this.setState({ thumbs: stored_thumbs })
         }
 
+    }
+
+    gameHasBeenAdded(gameId, gameSet) {
+        for (let game of gameSet) {
+            if (game.id === parseInt(gameId)) {
+                return true
+            }
+        }
+        return false
+    }
+
+    async addGameById(game_id) {
+        gamedataApi(game_id)
+            .then(json => {
+                if (json.hasOwnProperty('id')) {
+                    json["nameisunique"] = true
+                    this.onNewTitle(json)
+                }})
     }
 
     onNewTitle(newGame) {

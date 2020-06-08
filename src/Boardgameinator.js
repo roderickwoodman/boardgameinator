@@ -32,14 +32,38 @@ export class Boardgameinator extends React.Component {
 
     componentDidMount() {
 
-        const stored_gamedataVersion = JSON.parse(localStorage.getItem("gamedataVersion"))
         let allGames = []
-        if (stored_gamedataVersion === this.gamedataVersion) {
-            allGames = JSON.parse(localStorage.getItem("allGames"))
-            this.setState({ allGames })
+
+        let query_strings, new_list = []
+        let path = this.props.location.pathname.slice(1).split('?')
+        if (path.length === 1) {
+            query_strings = path[0]
         } else {
-            localStorage.setItem('gamedataVersion', JSON.stringify(this.gamedataVersion))
-            localStorage.setItem('allGames', JSON.stringify(allGames))
+            query_strings = path[1]
+        }
+        query_strings.split('&').forEach( function(query_string) {
+            let qs = query_string.split('=')
+            if (qs[0] === 'newlist') {
+                qs[1].split('+').forEach( game_id => new_list.push(parseInt(game_id)) )
+            }
+        })
+
+        if (new_list.length === 0) {
+            const stored_gamedataVersion = JSON.parse(localStorage.getItem("gamedataVersion"))
+            if (stored_gamedataVersion === this.gamedataVersion) {
+                allGames = JSON.parse(localStorage.getItem("allGames"))
+                this.setState({ allGames })
+            } else {
+                localStorage.setItem('gamedataVersion', JSON.stringify(this.gamedataVersion))
+                localStorage.setItem('allGames', JSON.stringify(allGames))
+            }
+        } else {
+            let self = this
+            new_list.forEach( function(game_id) {
+                if (!self.gameHasBeenAdded(game_id, allGames)) {
+                    self.addGameById(game_id)
+                }
+            })
         }
 
         const stored_thumbs = JSON.parse(localStorage.getItem("thumbs"))

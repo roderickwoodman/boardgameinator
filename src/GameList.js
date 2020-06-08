@@ -233,7 +233,7 @@ export class GameList extends React.Component {
                                     name={game.name} 
                                     thumbnail={game.thumbnail} 
                                     description={game.description} 
-                                    yearpublished={game.yearpublished} 
+                                    yearpublished={game.year_published} 
                                     minplayers={game.min_players} 
                                     maxplayers={game.max_players} 
                                     minplaytime={game.min_playtime} 

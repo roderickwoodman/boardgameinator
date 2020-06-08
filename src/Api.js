@@ -39,7 +39,7 @@ function parseSearchApiXml(resp_str) {
                         game["name"] = node.getAttribute("value")
                     }
                     if (node.tagName === "yearpublished") {
-                        game["yearpublished"] = parseInt(node.getAttribute("value"))
+                        game["year_published"] = parseInt(node.getAttribute("value"))
                     }
                 }
             }
@@ -47,8 +47,8 @@ function parseSearchApiXml(resp_str) {
         if ("name" in game) {
             games.push(game)
         }
-        if (!("yearpublished" in game)) {
-            game["yearpublished"] = null
+        if (!("year_published" in game)) {
+            game["year_published"] = null
         }
     }
     return games
@@ -74,7 +74,7 @@ function parseGamedataApiXml(str) {
                         game["description"] = makeReadable(node.innerHTML)
                     }
                     if (node.tagName === "yearpublished") {
-                        game["yearpublished"] = parseInt(node.getAttribute("value"))
+                        game["year_published"] = parseInt(node.getAttribute("value"))
                     }
                     if (node.tagName === "minplayers") {
                         game["min_players"] = parseInt(node.getAttribute("value"))
@@ -111,7 +111,7 @@ function parseGamedataApiXml(str) {
                                     childNode.childNodes.forEach(
                                         function (grandchildNode) {
                                             if (grandchildNode.tagName === "numweights") {
-                                                game["numweights"] = grandchildNode.getAttribute("value")
+                                                game["num_weights"] = grandchildNode.getAttribute("value")
                                             }
                                             if (grandchildNode.tagName === "averageweight") {
                                                 game["average_weight"] = grandchildNode.getAttribute("value")
@@ -173,8 +173,8 @@ function parseGamedataApiXml(str) {
             }
         )
     }
-    if ( Object.keys(game) && (!game.hasOwnProperty("yearpublished") || game["yearpublished"] === 0) ) {
-        game["yearpublished"] = null
+    if ( Object.keys(game) && (!game.hasOwnProperty("year_published") || game["year_published"] === 0) ) {
+        game["year_published"] = null
     }
     return game
 }

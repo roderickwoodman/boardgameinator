@@ -94,16 +94,16 @@ export class Boardgameinator extends React.Component {
         gamedataApi(game_id)
             .then(json => {
                 if (json.hasOwnProperty('id')) {
-                    json["nameisunique"] = true
+                    json["name_is_unique"] = true
                     this.onNewTitle(json)
                 }})
     }
 
     onNewTitle(newGame) {
 
-        if (newGame.hasOwnProperty("nameisunique") && newGame["nameisunique"] !== true) {
-            let disambiguation = (newGame.yearpublished !== null)
-                ? " ("+ newGame.yearpublished + ")"
+        if (newGame.hasOwnProperty("name_is_unique") && newGame["name_is_unique"] !== true) {
+            let disambiguation = (newGame.year_published !== null)
+                ? " ("+ newGame.year_published + ")"
                 : " (#" + newGame.id + ")"
             newGame["disambiguation"] = disambiguation
         }

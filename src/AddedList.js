@@ -18,7 +18,7 @@ export class AddedList extends React.Component {
     handleCopyToClipboard(event) {
         let games = ""
         this.props.allgames.forEach((game) => {
-            games += game.name.concat((game.hasOwnProperty("nameisunique") && game["nameisunique"] === false) ? game["disambiguation"] : "").concat("\n")
+            games += game.name.concat((game.hasOwnProperty("name_is_unique") && game["name_is_unique"] === false) ? game["disambiguation"] : "").concat("\n")
         })
         let messages = []
         let clipboardElement = document.getElementById("games-clipboard")
@@ -48,7 +48,7 @@ export class AddedList extends React.Component {
                         .map(
                             (game, i) =>
                                 <li key={i}>
-                                    {game.name.concat((game.hasOwnProperty("nameisunique") && game["nameisunique"] === false) ? game["disambiguation"] : "")}
+                                    {game.name.concat((game.hasOwnProperty("name_is_unique") && game["name_is_unique"] === false) ? game["disambiguation"] : "")}
                                 </li>
                 ))}
                 { this.props.allgames.length === 0 && (

@@ -87,21 +87,21 @@ export class AddByTitle extends React.Component {
                                 .filter(ambiguousTitle => 
                                     desiredYear != null
                                     && ( (desiredYear.startsWith('#') && ambiguousTitle.id === parseInt(desiredYear.substr(1)))
-                                        || ambiguousTitle.yearpublished === parseInt(desiredYear) ))
+                                        || ambiguousTitle.year_published === parseInt(desiredYear) ))
                             // the user's search submission did provide a publishing year that matches that of a BGG title
                             if (yearMatches.length) {
                                 if (self.ifGameHasBeenAdded(yearMatches[0].id)) {
-                                    messages.push('"' + self.withYear(userTitles[idx2], yearMatches[0].yearpublished, yearMatches[0].id) + '" was previously added')
+                                    messages.push('"' + self.withYear(userTitles[idx2], yearMatches[0].year_published, yearMatches[0].id) + '" was previously added')
                                 } else {
                                     gamedataApi(yearMatches[0].id)
                                         .then(json => {
                                             if (json.hasOwnProperty('id')) {
                                                 if (desiredYear !== null) {
-                                                    messages.push('"' + self.withYear(yearMatches[0].name, yearMatches[0].yearpublished, yearMatches[0].id) + '" has now been added')
+                                                    messages.push('"' + self.withYear(yearMatches[0].name, yearMatches[0].year_published, yearMatches[0].id) + '" has now been added')
                                                 } else {
                                                     messages.push('"' + self.withoutYear(yearMatches[0].name) + '" has now been added')
                                                 }
-                                                json["nameisunique"] = false
+                                                json["name_is_unique"] = false
                                                 self.props.onnewtitle(json)
                                             } else {
                                                 messages.push('ERROR: "' + self.withoutYear(yearMatches[0].name) + '" is not producing data from the BGG API, so deleting it from your input')
@@ -112,7 +112,7 @@ export class AddByTitle extends React.Component {
                             } else {
                                 messages.push('ERROR: "' + self.withoutYear(userTitles[idx2]) + '" has multiple matches in the BGG database')
                                 for (let ambiguousTitle of nonexactSearchData) {
-                                    let disambiguousTitle = self.withYear(ambiguousTitle.name, ambiguousTitle.yearpublished, ambiguousTitle.id)
+                                    let disambiguousTitle = self.withYear(ambiguousTitle.name, ambiguousTitle.year_published, ambiguousTitle.id)
                                     newTextareaValue += disambiguousTitle + '\n'
                                 }
                             }
@@ -125,7 +125,7 @@ export class AddByTitle extends React.Component {
                                     .then(json => {
                                         if (json.hasOwnProperty('id')) {
                                             // messages.push('"' + this.withoutYear(nonexactSearchData[0].name) + '" has now been added')
-                                            json["nameisunique"] = true
+                                            json["name_is_unique"] = true
                                             self.props.onnewtitle(json)
                                             } else {
                                                 // messages.push('ERROR: "' + this.withoutYear(nonexactSearchData[0].name) + '" is not producing data from the BGG API, so deleting it from your input')
@@ -185,21 +185,21 @@ export class AddByTitle extends React.Component {
                     .filter(ambiguousTitle => 
                         desiredYear != null
                         && ( (desiredYear.startsWith('#') && ambiguousTitle.id === parseInt(desiredYear.substr(1)))
-                            || ambiguousTitle.yearpublished === parseInt(desiredYear) ))
+                            || ambiguousTitle.year_published === parseInt(desiredYear) ))
                 // the user's search submission did provide a publishing year that matches that of a BGG title
                 if (yearMatches.length) {
                     if (this.ifGameHasBeenAdded(yearMatches[0].id)) {
-                        messages.push('"' + this.withYear(userTitles[titleMatchesIdx], yearMatches[0].yearpublished, yearMatches[0].id) + '" was previously added')
+                        messages.push('"' + this.withYear(userTitles[titleMatchesIdx], yearMatches[0].year_published, yearMatches[0].id) + '" was previously added')
                     } else {
                         gamedataApi(yearMatches[0].id)
                             .then(json => {
                                 if (json.hasOwnProperty('id')) {
                                     if (desiredYear !== null) {
-                                        messages.push('"' + this.withYear(yearMatches[0].name, yearMatches[0].yearpublished, yearMatches[0].id) + '" has now been added')
+                                        messages.push('"' + this.withYear(yearMatches[0].name, yearMatches[0].year_published, yearMatches[0].id) + '" has now been added')
                                     } else {
                                         messages.push('"' + this.withoutYear(yearMatches[0].name) + '" has now been added')
                                     }
-                                    json["nameisunique"] = false
+                                    json["name_is_unique"] = false
                                     this.props.onnewtitle(json)
                                 } else {
                                     messages.push('ERROR: "' + this.withoutYear(yearMatches[0].name) + '" is not producing data from the BGG API, so deleting it from your input')
@@ -210,7 +210,7 @@ export class AddByTitle extends React.Component {
                 } else {
                     messages.push('ERROR: "' + this.withoutYear(userTitles[titleMatchesIdx]) + '" has multiple matches in the BGG database')
                     for (let ambiguousTitle of titleMatches) {
-                        let disambiguousTitle = this.withYear(ambiguousTitle.name, ambiguousTitle.yearpublished, ambiguousTitle.id)
+                        let disambiguousTitle = this.withYear(ambiguousTitle.name, ambiguousTitle.year_published, ambiguousTitle.id)
                         newTextareaValue += disambiguousTitle + '\n'
                     }
                 }
@@ -223,7 +223,7 @@ export class AddByTitle extends React.Component {
                         .then(json => {
                             if (json.hasOwnProperty('id')) {
                                 messages.push('"' + this.withoutYear(titleMatches[0].name) + '" has now been added')
-                                json["nameisunique"] = true
+                                json["name_is_unique"] = true
                                 this.props.onnewtitle(json)
                             } else {
                                 messages.push('ERROR: "' + this.withoutYear(titleMatches[0].name) + '" is not producing data from the BGG API, so deleting it from your input')

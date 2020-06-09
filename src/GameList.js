@@ -238,7 +238,7 @@ export class GameList extends React.Component {
                                     maxplayers={game.max_players} 
                                     minplaytime={game.min_playtime} 
                                     maxplaytime={game.max_playtime}
-                                    average_weight_name={game.average_weight_name}
+                                    averageweightname={game.average_weight_name}
                                     categories={game.categories}
                                     mechanics={game.mechanics} 
                                     comments={game.comments}

@@ -27,7 +27,8 @@ export class Game extends React.Component {
                 thumbs={thumbs} 
                 thumbcount={thumbcount} 
                 ontoggleinspection={ontoggleinspection} 
-                ondelete={ondelete} />
+                ondelete={ondelete}
+                reallynarrow={reallynarrow} />
         } else {
             gamecard = <GameCardBack 
                 id={id}

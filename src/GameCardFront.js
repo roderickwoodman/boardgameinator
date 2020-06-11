@@ -61,6 +61,21 @@ export class GameCardFront extends React.Component {
         return 'name ' + vote
     }
 
+    getWeightName(myweight) {
+        if (this.props.reallynarrow) {
+            switch (myweight) {
+                case 'medium light':
+                    return 'm. light'
+                case 'medium heavy':
+                    return 'm. heavy'
+                default:
+                    return myweight
+            }
+        } else {
+            return myweight
+        }
+    }
+
     render() {
         const { id, thumbnail, name, yearpublished, minplayers, maxplayers, minplaytime, maxplaytime, averageweightname, categories, mechanics, totalattributevotes, thumbcount, ontoggleinspection, ondelete } = this.props
         let upvoted_attributes = [ ...this.getUpvotedCategories(), ...this.getUpvotedMechanics() ].sort()
@@ -99,7 +114,7 @@ export class GameCardFront extends React.Component {
                     ? <div className="estimated-playtime"><FontAwesomeIcon icon={faClock}/> {minplaytime}-{maxplaytime}'</div>
                     : <div className="estimated-playtime"><FontAwesomeIcon icon={faClock}/> {minplaytime}'</div>
                 }
-                <div className={this.getWeightVote(averageweightname)}>{averageweightname}</div>
+                <div className={this.getWeightVote(averageweightname)}>{this.getWeightName(averageweightname)}</div>
             </div>
             <div className="gamecard-upvoted-attributes">
                 { upvoted_attributes.map( (value) =>
@@ -143,4 +158,5 @@ GameCardFront.propTypes = {
     thumbnail: PropTypes.string,
     thumbs: PropTypes.object.isRequired,
     yearpublished: PropTypes.number,
+    reallynarrow: PropTypes.bool.isRequired,
 }

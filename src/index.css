@@ -77,13 +77,6 @@ html, #root {
   text-shadow: -2px -2px 0 black, 2px -2px 0 black, -2px 2px 0 black, 2px 2px 0 black;
 }
 
-#page-logo .subtitle {
-  display: block;
-  margin-top: -0.5rem;
-  text-align: center;
-  font-style: italic;
-}
-
 #content-wrapper {
   padding: 1rem;
   display: flex;

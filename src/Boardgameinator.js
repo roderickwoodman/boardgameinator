@@ -381,7 +381,6 @@ export class Boardgameinator extends React.Component {
                     <div id="page-logo">
                         <img src={purpleMeeple} alt="Boardgameinator logo" />
                         <h1>Boardgameinator</h1>
-                        {/* <p className="subtitle">now ranking <span className="callout">{this.state.allGames.length}</span> board game titles</p> */}
                     </div>
                     <GameList
                         allgames={this.state.allGames} 

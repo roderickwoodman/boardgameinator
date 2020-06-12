@@ -47,31 +47,36 @@ html, #root {
 }
 
 #page-wrapper {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: stretch;
+  /* display: flex; */
+  /* flex-direction: column; */
+  /* justify-content: flex-start; */
+  /* align-items: stretch; */
 }
 
-#page-logo {
+#page-header {
+  height: 2rem;
+  width: 100%;
+  position: absolute;
+  top: 5px;
+  left: 10px;
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
 }
 
-#page-logo h1,
-#page-logo img {
+#page-header h1,
+#page-header img {
   display: inline-block;
   margin: 0;
   padding-right: 10px;
 }
 
-#page-logo img {
+#page-header img {
   height: 2rem;
 }
 
-#page-logo h1 {
+#page-header h1 {
   text-align: center;
   color: white;
   text-shadow: -2px -2px 0 black, 2px -2px 0 black, -2px 2px 0 black, 2px 2px 0 black;

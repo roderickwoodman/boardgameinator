@@ -377,11 +377,11 @@ export class Boardgameinator extends React.Component {
         return (
             <React.Fragment>
             <div id="page-wrapper">
+                <div id="page-header">
+                    <img src={purpleMeeple} alt="Boardgameinator logo" />
+                    <h1>Boardgameinator</h1>
+                </div>
                 <div id="content-wrapper">
-                    <div id="page-logo">
-                        <img src={purpleMeeple} alt="Boardgameinator logo" />
-                        <h1>Boardgameinator</h1>
-                    </div>
                     <GameList
                         allgames={this.state.allGames} 
                         onnewtitle={this.onNewTitle}

@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import purpleMeeple from './purple-meeple-64.png'
+import purpleMeeple from './img/purple-meeple-64.png'
 import { GameList } from './GameList'
 import { gamedataApi } from './Api.js'
 

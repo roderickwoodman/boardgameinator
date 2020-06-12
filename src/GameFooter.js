@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import bggLogo from './bgg-logo-50.png'
+import bggLogo from './img/bgg-logo-50.png'
 
 export const GameFooter = (props) => {
     return (

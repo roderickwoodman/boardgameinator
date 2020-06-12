@@ -53,8 +53,25 @@ html, #root {
   align-items: stretch;
 }
 
+#page-logo {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+#page-logo h1,
+#page-logo img {
+  display: inline-block;
+  margin: 0;
+  padding-right: 10px;
+}
+
+#page-logo img {
+  height: 50%;
+}
+
 #page-logo h1 {
-  display: block;
   text-align: center;
   color: white;
   text-shadow: -2px -2px 0 black, 2px -2px 0 black, -2px 2px 0 black, 2px 2px 0 black;
@@ -284,7 +301,7 @@ div.gamecard-weight .name {
   grid-area: gc-footer;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-end;
   align-items: center;
   font-size: 0.9rem;
   line-height: 1.5rem;
@@ -373,7 +390,6 @@ div.gamecard-weight .name {
   grid-area: gc-variable;
   text-align: left;
   overflow-y: auto;
-  height: 100%;
 }
 
 #inspectionsection-selector {

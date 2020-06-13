@@ -43,7 +43,7 @@ hr {
 ** STRUCTURAL STYLES (FOR LAYING OUT AND STYLING REGIONS)
 */
 html, #root {
-  background: lightyellow;
+  background: black;
 }
 
 #page-header {
@@ -79,6 +79,7 @@ html, #root {
 }
 
 #content-wrapper {
+  background: lightyellow;
   margin-top: 2rem;
   padding: 0 0.5rem;
   display: flex;

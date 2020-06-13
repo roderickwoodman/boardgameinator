@@ -47,7 +47,8 @@ html, #root {
 }
 
 #page-header {
-  height: 2rem;
+  height: 2.75rem;
+  padding: 0.5rem;
   width: 100%;
   position: fixed;
   top: 0;
@@ -65,22 +66,23 @@ html, #root {
 #page-header img {
   display: inline-block;
   margin: 0;
-  padding-right: 10px;
 }
 
 #page-header img {
-  height: 2rem;
+  height: 1.5rem;
+  margin-right: 10px;
 }
 
 #page-header h1 {
+  font-size: 1.75rem;
   text-align: center;
   color: white;
-  text-shadow: -2px -2px 0 black, 2px -2px 0 black, -2px 2px 0 black, 2px 2px 0 black;
+  /* text-shadow: -2px -2px 0 black, 2px -2px 0 black, -2px 2px 0 black, 2px 2px 0 black; */
 }
 
 #content-wrapper {
   background: lightyellow;
-  margin-top: 2rem;
+  margin-top: 2.75rem;
   padding: 0 0.5rem;
   display: flex;
   justify-content: flex-start;

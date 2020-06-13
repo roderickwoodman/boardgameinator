@@ -832,6 +832,22 @@ button:enabled,
     justify-content: center;
   }
 
+  #page-header {
+    height: 2.25rem;
+  }
+
+  #page-header img {
+    height: 1rem;
+  }
+  
+  #page-header h1 {
+    font-size: 1.25rem;
+  }
+  
+  #content-wrapper {
+    margin-top: 2.25rem;
+  }
+
   .gamecard-header {
     display: flex;
     flex-direction: column-reverse;

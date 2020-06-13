@@ -546,6 +546,10 @@ button.fa.fa-button {
   color: white;
 }
 
+#page-header button.fa.fa-button {
+  border: transparent;
+}
+
 .game.inspecting button.fa.fa-button.inspect {
   background: white;
   color: purple;

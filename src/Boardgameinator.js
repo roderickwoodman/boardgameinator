@@ -3,6 +3,8 @@ import PropTypes from 'prop-types'
 import purpleMeeple from './img/purple-meeple-64.png'
 import { GameList } from './GameList'
 import { gamedataApi } from './Api.js'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faBars } from '@fortawesome/free-solid-svg-icons'
 
 
 export class Boardgameinator extends React.Component {
@@ -30,6 +32,7 @@ export class Boardgameinator extends React.Component {
         this.onDeleteAllTitles = this.onDeleteAllTitles.bind(this)
         this.onClearSectionVotes = this.onClearSectionVotes.bind(this)
         this.updateDimensions = this.updateDimensions.bind(this)
+        this.onHamburger = this.onHamburger.bind(this)
     }
 
     gamedataVersion = 1
@@ -362,6 +365,11 @@ export class Boardgameinator extends React.Component {
         })
     }
 
+    onHamburger(event) {
+        // FIXME: (WIP) add nav functionality
+        alert('(FIXME/WIP) Add nav functionality here.')
+    }
+
     render() {
         let playercounts = this.tallyPlayerCounts()
         let weightcounts = this.tallyWeightCounts()
@@ -377,6 +385,7 @@ export class Boardgameinator extends React.Component {
         return (
             <React.Fragment>
             <div id="page-header">
+                <button className="fa fa-button" onClick={ (e) => this.onHamburger(e) }><FontAwesomeIcon icon={faBars}/></button>
                 <img src={purpleMeeple} alt="Boardgameinator logo" />
                 <h1>Boardgameinator</h1>
             </div>

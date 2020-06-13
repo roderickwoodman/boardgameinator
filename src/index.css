@@ -46,23 +46,18 @@ html, #root {
   background: lightyellow;
 }
 
-#page-wrapper {
-  /* display: flex; */
-  /* flex-direction: column; */
-  /* justify-content: flex-start; */
-  /* align-items: stretch; */
-}
-
 #page-header {
   height: 2rem;
   width: 100%;
-  position: absolute;
-  top: 5px;
-  left: 10px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  overflow:hidden;
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
+  background-color: black;
 }
 
 #page-header h1,
@@ -83,7 +78,8 @@ html, #root {
 }
 
 #content-wrapper {
-  padding: 1rem;
+  margin-top: 2rem;
+  padding: 0 0.5rem;
   display: flex;
   justify-content: flex-start;
   align-items: flex-start;

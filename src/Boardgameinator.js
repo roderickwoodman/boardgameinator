@@ -376,27 +376,25 @@ export class Boardgameinator extends React.Component {
 
         return (
             <React.Fragment>
-            <div id="page-wrapper">
-                <div id="page-header">
-                    <img src={purpleMeeple} alt="Boardgameinator logo" />
-                    <h1>Boardgameinator</h1>
-                </div>
-                <div id="content-wrapper">
-                    <GameList
-                        allgames={this.state.allGames} 
-                        onnewtitle={this.onNewTitle}
-                        thumbs={this.state.thumbs} 
-                        ondelete={this.onDeleteTitle}
-                        ondeleteall={this.onDeleteAllTitles}
-                        onnewvote={this.onNewVote}
-                        onclearsectionvotes={this.onClearSectionVotes}
-                        playercounts={playercounts} 
-                        weightcounts={weightcounts}
-                        categorycounts={categorycounts} 
-                        mechaniccounts={mechaniccounts}
-                        totalattributevotes={totalattributevotes}
-                        reallynarrow={styles.reallyNarrow} />
-                </div>
+            <div id="page-header">
+                <img src={purpleMeeple} alt="Boardgameinator logo" />
+                <h1>Boardgameinator</h1>
+            </div>
+            <div id="content-wrapper">
+                <GameList
+                    allgames={this.state.allGames} 
+                    onnewtitle={this.onNewTitle}
+                    thumbs={this.state.thumbs} 
+                    ondelete={this.onDeleteTitle}
+                    ondeleteall={this.onDeleteAllTitles}
+                    onnewvote={this.onNewVote}
+                    onclearsectionvotes={this.onClearSectionVotes}
+                    playercounts={playercounts} 
+                    weightcounts={weightcounts}
+                    categorycounts={categorycounts} 
+                    mechaniccounts={mechaniccounts}
+                    totalattributevotes={totalattributevotes}
+                    reallynarrow={styles.reallyNarrow} />
             </div>
             </React.Fragment>
         )

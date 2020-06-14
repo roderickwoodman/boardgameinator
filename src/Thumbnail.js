@@ -11,7 +11,7 @@ export class Thumbnail extends React.Component {
                 <img src={this.props.url} alt="game box cover" />
                 <div className={"vote-count " + ((this.props.totalattributevotes > 0) ? "" : "no-attribute-votes")}>
                     <FontAwesomeIcon icon={faThumbsUp} />:{this.props.thumbcount} 
-                    <span className="vote-count-label">attributes</span>
+                    <span className="vote-count-label">{this.props.thumbcount === 1 ? 'attribute' : 'attributes'}</span>
                 </div>
             </div>
         )

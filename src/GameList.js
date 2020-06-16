@@ -157,41 +157,58 @@ export class GameList extends React.Component {
         })
     }
 
+    // apply a playercount filter, if configured to and if playercount votes exist
+    filterPlayercount(games) {
+        let self = this
+        let favoredPlayercounts = this.getThumbedPlayercounts()
+        let filtered = games.filter(function(game) {
+            if (!self.state.filterPlayercount || !favoredPlayercounts.length) {
+                return true
+            } else {
+                for (let playercount=game.min_players; playercount<=game.max_players; playercount++) {
+                    if (favoredPlayercounts.includes(playercount)) {
+                        return true
+                    }
+                }
+                return false
+            }
+        })
+        return filtered
+    }
+
+    // apply a weight filter, if configured to and if weight votes exist
+    filterWeight(games) {
+        let self = this
+        let favoredWeights = this.getThumbedWeights()
+        let filtered = games.filter(function(game) {
+            if (!self.state.filterWeight || !favoredWeights.length) {
+                return true
+            } else if (favoredWeights.includes(game.average_weight_name)) {
+                return true
+            } else {
+                return false
+            }
+        })
+        return filtered
+    }
+
     render() {
         let thumbcounts = this.getThumbCounts()
-        let favoredPlayercounts = this.getThumbedPlayercounts()
-        let favoredWeights = this.getThumbedWeights()
-        let filterStr, filteredGames = this.props.allgames
-            // if necessary, filter by playercount,
-            .filter( (game) => {
-                if (!this.state.filterPlayercount || favoredPlayercounts.length === 0) {
-                    return true
-                } else {
-                    for (let playercount=game.min_players; playercount<=game.max_players; playercount++) {
-                        if (favoredPlayercounts.includes(playercount)) {
-                            return true
-                        }
-                    }
-                    return false
-                }
-            })
-            // if necessary, filter by weight,
-            .filter( (game) => {
-                if (!this.state.filterWeight || favoredWeights.length === 0) {
-                    return true
-                } else {
-                    if (favoredWeights.includes(game.average_weight_name)) {
-                        return true
-                    } else {
-                        return false
-                    }
-                }
-            })
+        let filteredGames = this.filterWeight(this.filterPlayercount(this.props.allgames))
+        let filterStr
         if (filteredGames.length !== this.props.allgames.length) {
             filterStr = 'now showing ' + filteredGames.length + ' of ' + this.props.allgames.length + ' games'
         } else {
             filterStr = 'now showing ' + filteredGames.length + ' games'
         }
+        // sort by maxvotes...     FIRST: most votes,        SECOND: shortest playtime
+        // sort by maxplaytime...  FIRST: shortest playtime, SECOND: most votes
+        // sort by maxplayers...   FIRST: most players,      SECOND: most votes
+        filteredGames.sort((this.state.sortOrder === 'maxvotes') 
+            ? ( (a, b) => (thumbcounts[a.name] < thumbcounts[b.name]) ? 1 : (thumbcounts[a.name] === thumbcounts[b.name]) && (a.max_playtime > b.max_playtime) ? 1 : -1 )
+            : ( (this.state.sortOrder === 'max_playtime') 
+                ? ( (a, b) => (a.max_playtime > b.max_playtime) ? 1 : (a.max_playtime === b.max_playtime) && (thumbcounts[a.name] < thumbcounts[b.name]) ? 1 : -1 )
+                : ( (a, b) => (a.max_players < b.max_players) ? 1 : (a.max_players === b.max_players) && (thumbcounts[a.name] < thumbcounts[b.name]) ? 1 : -1 ) ) )
         return (
             <React.Fragment>
             <ViewControls 
@@ -215,14 +232,6 @@ export class GameList extends React.Component {
             <div id="resulting-games">
                 {filteredGames.length !== 0 && (
                     filteredGames
-                        // sort by maxvotes...     FIRST: most votes,        SECOND: shortest playtime
-                        // sort by maxplaytime...  FIRST: shortest playtime, SECOND: most votes
-                        // sort by maxplayers...   FIRST: most players,      SECOND: most votes
-                        .sort((this.state.sortOrder === 'maxvotes') 
-                            ? ( (a, b) => (thumbcounts[a.name] < thumbcounts[b.name]) ? 1 : (thumbcounts[a.name] === thumbcounts[b.name]) && (a.max_playtime > b.max_playtime) ? 1 : -1 )
-                            : ( (this.state.sortOrder === 'max_playtime') 
-                                ? ( (a, b) => (a.max_playtime > b.max_playtime) ? 1 : (a.max_playtime === b.max_playtime) && (thumbcounts[a.name] < thumbcounts[b.name]) ? 1 : -1 )
-                                : ( (a, b) => (a.max_players < b.max_players) ? 1 : (a.max_players === b.max_players) && (thumbcounts[a.name] < thumbcounts[b.name]) ? 1 : -1 ) ) )
                         .map(
                             (game, i) => 
                                 <Game

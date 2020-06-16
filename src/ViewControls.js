@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { AddGamesBox } from './AddGamesBox'
 import { VoteAttributes } from './VoteAttributes'
-import { AddedList } from './AddedList'
+import { VoteTitles } from './VoteTitles'
 import Modal from 'react-bootstrap/Modal'
 import ModalBody from 'react-bootstrap/ModalBody'
 import ModalFooter from 'react-bootstrap/ModalFooter'
@@ -127,11 +127,11 @@ export const ViewControls = (props) => {
                 </ModalFooter>
             </Modal>
 
-            <button className="default-primary-styles" onClick={showListModal}>All Games</button>
+            <button className="default-primary-styles" onClick={showListModal}>Vote Games</button>
             <Modal size="md" show={listIsOpen} onHide={hideListModal}>
                 <ModalBody>
                     <div id="gamelisting-controls">
-                        <AddedList
+                        <VoteTitles
                             allgames={props.allgames} 
                             ondelete={props.ondelete}
                             ondeleteall={props.ondeleteall} />

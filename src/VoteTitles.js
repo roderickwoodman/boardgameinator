@@ -5,7 +5,7 @@ import { faLongArrowAltRight } from '@fortawesome/free-solid-svg-icons'
 import { faClipboard } from '@fortawesome/free-solid-svg-icons'
 
 
-export class AddedList extends React.Component {
+export class VoteTitles extends React.Component {
 
     constructor(props) {
         super(props)
@@ -39,7 +39,7 @@ export class AddedList extends React.Component {
         }
         return (
             <React.Fragment>
-            <h4>These board games have been added:</h4>
+            <h4>Upvote board game titles:</h4>
             <ul id="games-added">
             <li><button className="fa fa-button default-secondary-styles"><FontAwesomeIcon icon={faClipboard} onClick={this.handleCopyToClipboard} disabled={!this.props.allgames.length} /></button></li>
                 { this.props.allgames.length >= 0 && (
@@ -78,7 +78,7 @@ export class AddedList extends React.Component {
     }
 }
 
-AddedList.propTypes = {
+VoteTitles.propTypes = {
     allgames: PropTypes.array.isRequired,
     ondelete: PropTypes.func.isRequired,
 }

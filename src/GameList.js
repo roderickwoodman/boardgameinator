@@ -99,10 +99,12 @@ export class GameList extends React.Component {
     } 
 
     handleSortChange(event, value) {
-        localStorage.setItem('idUnderInspection', JSON.stringify(null))
-        this.setState({
-            sortOrder: value,
-            idUnderInspection: null
+        this.setState(prevState => {
+            localStorage.setItem('idUnderInspection', JSON.stringify(null))
+            return {
+                sortOrder: value,
+                idUnderInspection: null
+            }
         })
     }
 
@@ -198,7 +200,7 @@ export class GameList extends React.Component {
         let thumbcounts = this.getThumbCounts()
         // SORTING OPTIONS:
         //   sort by maxvotes...     FIRST: most votes,        SECOND: shortest playtime
-        //   sort by maxplaytime...  FIRST: shortest playtime, SECOND: most votes
+        //   sort by minplaytime...  FIRST: shortest playtime, SECOND: most votes
         //   sort by maxplayers...   FIRST: most players,      SECOND: most votes
         let sorted = games.sort(function(a, b) {
             if (self.state.sortOrder === 'maxvotes') {
@@ -215,7 +217,7 @@ export class GameList extends React.Component {
                         return 0
                     }
                 }
-            } else if (self.state.sortOrder = 'maxplaytime') {
+            } else if (self.state.sortOrder === 'minplaytime') {
                 if (a.max_playtime > b.max_playtime) {
                     return 1
                 } else if (a.max_playtime < b.max_playtime) {
@@ -230,9 +232,9 @@ export class GameList extends React.Component {
                     }
                 }
             } else if (self.state.sortOrder === 'maxplayers') {
-                if (a.max_players > b.max_players) {
+                if (a.max_players < b.max_players) {
                     return 1
-                } else if (a.max_players < b.max_players) {
+                } else if (a.max_players > b.max_players) {
                     return -1
                 } else {
                     if (thumbcounts[a.name] < thumbcounts[b.name]) {

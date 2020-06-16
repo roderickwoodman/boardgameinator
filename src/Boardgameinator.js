@@ -14,7 +14,6 @@ export class Boardgameinator extends React.Component {
         this.state = { 
             allGames: [],
             thumbs: {'players': {}, 'weight': {}, 'category': {}, 'mechanic': {}},
-            sortOrder: 'maxvotes',
             windowWidth: 0,
             windowHeight: 0
         }

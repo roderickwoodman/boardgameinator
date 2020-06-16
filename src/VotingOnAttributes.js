@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLongArrowAltUp } from '@fortawesome/free-solid-svg-icons'
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
-export class VotingBox extends React.Component {
+export class VotingOnAttributes extends React.Component {
 
     constructor(props) {
         super(props)
@@ -140,7 +140,7 @@ export class VotingBox extends React.Component {
     }
 }
 
-VotingBox.propTypes = {
+VotingOnAttributes.propTypes = {
     categorycounts: PropTypes.array.isRequired,
     mechaniccounts: PropTypes.array.isRequired,
     onclearsectionvotes: PropTypes.func.isRequired,

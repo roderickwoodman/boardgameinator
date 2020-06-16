@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { AddGamesBox } from './AddGamesBox'
-import { VotingOnAttributes } from './VotingOnAttributes'
+import { VoteAttributes } from './VoteAttributes'
 import { AddedList } from './AddedList'
 import Modal from 'react-bootstrap/Modal'
 import ModalBody from 'react-bootstrap/ModalBody'
@@ -111,7 +111,7 @@ export const ViewControls = (props) => {
             <Modal size="md" show={votingIsOpen} onHide={hideVotingModal}>
                 <ModalBody>
                     <div id="gamevoting-controls">
-                        <VotingOnAttributes 
+                        <VoteAttributes 
                             thumbs={props.thumbs} 
                             playercounts={props.playercounts} 
                             weightcounts={props.weightcounts}

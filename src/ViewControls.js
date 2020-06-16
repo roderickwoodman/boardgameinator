@@ -11,13 +11,13 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 export const ViewControls = (props) => {
 
     const [addIsOpen, setAddIsOpen] = useState(false)
-    const [votingIsOpen, setVotingIsOpen] = useState(false)
+    const [voteAttributesIsOpen, setVoteAttributesIsOpen] = useState(false)
     const [listIsOpen, setListIsOpen] = useState(false)
     const [sortIsOpen, setSortIsOpen] = useState(false)
     const [filterIsOpen, setFilterIsOpen] = useState(false)
 
     const showAddModal = () => {
-        setVotingIsOpen(false)
+        setVoteAttributesIsOpen(false)
         setListIsOpen(false)
         setSortIsOpen(false)
         setFilterIsOpen(false)
@@ -28,21 +28,21 @@ export const ViewControls = (props) => {
         setAddIsOpen(false)
     }
 
-    const showVotingModal = () => {
+    const showVoteAttributesModal = () => {
         setAddIsOpen(false)
         setListIsOpen(false)
         setSortIsOpen(false)
         setFilterIsOpen(false)
-        setVotingIsOpen(true)
+        setVoteAttributesIsOpen(true)
     }
 
-    const hideVotingModal = () => {
-        setVotingIsOpen(false)
+    const hideVoteAttributesModal = () => {
+        setVoteAttributesIsOpen(false)
     }
 
     const showListModal = () => {
         setAddIsOpen(false)
-        setVotingIsOpen(false)
+        setVoteAttributesIsOpen(false)
         setSortIsOpen(false)
         setFilterIsOpen(false)
         setListIsOpen(true)
@@ -54,7 +54,7 @@ export const ViewControls = (props) => {
 
     const showSortModal = () => {
         setAddIsOpen(false)
-        setVotingIsOpen(false)
+        setVoteAttributesIsOpen(false)
         setListIsOpen(false)
         setFilterIsOpen(false)
         setSortIsOpen(true)
@@ -66,7 +66,7 @@ export const ViewControls = (props) => {
 
     const showFilterModal = () => {
         setAddIsOpen(false)
-        setVotingIsOpen(false)
+        setVoteAttributesIsOpen(false)
         setListIsOpen(false)
         setSortIsOpen(false)
         setFilterIsOpen(true)
@@ -107,8 +107,8 @@ export const ViewControls = (props) => {
                 </ModalFooter>
             </Modal>
 
-            <button className="default-primary-styles" onClick={showVotingModal}>Vote Attributes</button>
-            <Modal size="md" show={votingIsOpen} onHide={hideVotingModal}>
+            <button className="default-primary-styles" onClick={showVoteAttributesModal}>Vote Attributes</button>
+            <Modal size="md" show={voteAttributesIsOpen} onHide={hideVoteAttributesModal}>
                 <ModalBody>
                     <div id="gamevoting-controls">
                         <VoteAttributes 
@@ -123,7 +123,7 @@ export const ViewControls = (props) => {
                 </ModalBody>
                 <ModalFooter> 
                     <button className="default-danger-styles" data-attrtype="all" onClick={props.onclearsectionvotes} disabled={numvotes===0}>Remove All Votes</button>
-                    <button className="default-primary-styles" onClick={hideVotingModal}>Close</button>
+                    <button className="default-primary-styles" onClick={hideVoteAttributesModal}>Close</button>
                 </ModalFooter>
             </Modal>
 

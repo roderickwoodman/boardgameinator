@@ -192,23 +192,73 @@ export class GameList extends React.Component {
         return filtered
     }
 
+    // order the games
+    sortGames(games) {
+        let self = this
+        let thumbcounts = this.getThumbCounts()
+        // SORTING OPTIONS:
+        //   sort by maxvotes...     FIRST: most votes,        SECOND: shortest playtime
+        //   sort by maxplaytime...  FIRST: shortest playtime, SECOND: most votes
+        //   sort by maxplayers...   FIRST: most players,      SECOND: most votes
+        let sorted = games.sort(function(a, b) {
+            if (self.state.sortOrder === 'maxvotes') {
+                if (thumbcounts[a.name] < thumbcounts[b.name]) {
+                    return 1
+                } else if (thumbcounts[a.name] > thumbcounts[b.name]) {
+                    return -1
+                } else {
+                    if (a.max_playtime > b.max_playtime) {
+                        return 1
+                    } else if (a.max_playtime < b.max_playtime) {
+                        return -1
+                    } else {
+                        return 0
+                    }
+                }
+            } else if (self.state.sortOrder = 'maxplaytime') {
+                if (a.max_playtime > b.max_playtime) {
+                    return 1
+                } else if (a.max_playtime < b.max_playtime) {
+                    return -1
+                } else {
+                    if (thumbcounts[a.name] < thumbcounts[b.name]) {
+                        return 1
+                    } else if (thumbcounts[a.name] > thumbcounts[b.name]) {
+                        return -1
+                    } else {
+                        return 0
+                    }
+                }
+            } else if (self.state.sortOrder === 'maxplayers') {
+                if (a.max_players > b.max_players) {
+                    return 1
+                } else if (a.max_players < b.max_players) {
+                    return -1
+                } else {
+                    if (thumbcounts[a.name] < thumbcounts[b.name]) {
+                        return 1
+                    } else if (thumbcounts[a.name] > thumbcounts[b.name]) {
+                        return -1
+                    } else {
+                        return 0
+                    }
+                }
+            } else {
+                return 0
+            }
+        })
+        return sorted
+    }
+
     render() {
         let thumbcounts = this.getThumbCounts()
-        let filteredGames = this.filterWeight(this.filterPlayercount(this.props.allgames))
+        let sortedFilteredGames = this.sortGames(this.filterWeight(this.filterPlayercount(this.props.allgames)))
         let filterStr
-        if (filteredGames.length !== this.props.allgames.length) {
-            filterStr = 'now showing ' + filteredGames.length + ' of ' + this.props.allgames.length + ' games'
+        if (sortedFilteredGames.length !== this.props.allgames.length) {
+            filterStr = 'now showing ' + sortedFilteredGames.length + ' of ' + this.props.allgames.length + ' games'
         } else {
-            filterStr = 'now showing ' + filteredGames.length + ' games'
+            filterStr = 'now showing ' + sortedFilteredGames.length + ' games'
         }
-        // sort by maxvotes...     FIRST: most votes,        SECOND: shortest playtime
-        // sort by maxplaytime...  FIRST: shortest playtime, SECOND: most votes
-        // sort by maxplayers...   FIRST: most players,      SECOND: most votes
-        filteredGames.sort((this.state.sortOrder === 'maxvotes') 
-            ? ( (a, b) => (thumbcounts[a.name] < thumbcounts[b.name]) ? 1 : (thumbcounts[a.name] === thumbcounts[b.name]) && (a.max_playtime > b.max_playtime) ? 1 : -1 )
-            : ( (this.state.sortOrder === 'max_playtime') 
-                ? ( (a, b) => (a.max_playtime > b.max_playtime) ? 1 : (a.max_playtime === b.max_playtime) && (thumbcounts[a.name] < thumbcounts[b.name]) ? 1 : -1 )
-                : ( (a, b) => (a.max_players < b.max_players) ? 1 : (a.max_players === b.max_players) && (thumbcounts[a.name] < thumbcounts[b.name]) ? 1 : -1 ) ) )
         return (
             <React.Fragment>
             <ViewControls 
@@ -230,8 +280,8 @@ export class GameList extends React.Component {
                 categorycounts={this.props.categorycounts}
                 mechaniccounts={this.props.mechaniccounts} />
             <div id="resulting-games">
-                {filteredGames.length !== 0 && (
-                    filteredGames
+                {sortedFilteredGames.length !== 0 && (
+                    sortedFilteredGames
                         .map(
                             (game, i) => 
                                 <Game

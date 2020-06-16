@@ -19,28 +19,28 @@ export class GameCardFront extends React.Component {
     }
 
     getMyVote(section, attrName) {
-        let myVote = this.props.thumbs[section].hasOwnProperty(attrName) 
+        let myVote = this.props.attrthumbs[section].hasOwnProperty(attrName) 
             ? 'thumbsup' //FIXME, derive from props: this.props.preferences['attrVote']
             : 'novote'
         return myVote
     }
 
     getUpvotedCategories() {
-        return Object.entries(this.props.thumbs['category']).filter( entry => entry[1] === 'thumbsup' && this.props.categories.includes(entry[0]) ).map( entry => entry[0] )
+        return Object.entries(this.props.attrthumbs['category']).filter( entry => entry[1] === 'thumbsup' && this.props.categories.includes(entry[0]) ).map( entry => entry[0] )
     }
 
     getUpvotedMechanics() {
-        return Object.entries(this.props.thumbs['mechanic']).filter( entry => entry[1] === 'thumbsup' && this.props.mechanics.includes(entry[0]) ).map( entry => entry[0] )
+        return Object.entries(this.props.attrthumbs['mechanic']).filter( entry => entry[1] === 'thumbsup' && this.props.mechanics.includes(entry[0]) ).map( entry => entry[0] )
     }
 
     // player count section gets only one, aggregated vote; only one <li> (ex: "2-6 players") 
     getPlayersVote(myminplayers, mymaxplayers) {
         let vote = "novote"
-        Object.keys(this.props.thumbs.players).forEach( (votedPlayercount) => {
+        Object.keys(this.props.attrthumbs.players).forEach( (votedPlayercount) => {
             let voted = parseInt(votedPlayercount.slice(0, -1))
             if (voted >= myminplayers
                 && voted <= mymaxplayers
-                && this.props.thumbs.players[votedPlayercount] === 'thumbsup')
+                && this.props.attrthumbs.players[votedPlayercount] === 'thumbsup')
             {
                 vote = "thumbsup"
             }
@@ -51,9 +51,9 @@ export class GameCardFront extends React.Component {
     // vote section gets only one, aggregated vote; only one <li> (ex: "medium heavy") 
     getWeightVote(myweight) {
         let vote = "novote"
-        Object.keys(this.props.thumbs.weight).forEach( (votedWeight) => {
+        Object.keys(this.props.attrthumbs.weight).forEach( (votedWeight) => {
             if (myweight === votedWeight
-                && this.props.thumbs.weight[votedWeight] === 'thumbsup')
+                && this.props.attrthumbs.weight[votedWeight] === 'thumbsup')
             {
                 vote = "thumbsup"
             }
@@ -156,7 +156,7 @@ GameCardFront.propTypes = {
     totalattributevotes: PropTypes.number.isRequired,
     thumbcount: PropTypes.number.isRequired,
     thumbnail: PropTypes.string,
-    thumbs: PropTypes.object.isRequired,
+    attrthumbs: PropTypes.object.isRequired,
     yearpublished: PropTypes.number,
     reallynarrow: PropTypes.bool.isRequired,
 }

@@ -66,7 +66,7 @@ export class VoteAttributes extends React.Component {
                             elementid='supported-players'
                             title='PLAYERS:'
                             counts={this.props.playercounts}
-                            thumbs={this.props.thumbs['players']}
+                            attrthumbs={this.props.attrthumbs['players']}
                             onnewvote={this.props.onnewvote}
                         />
                     </CSSTransition>
@@ -84,7 +84,7 @@ export class VoteAttributes extends React.Component {
                             elementid='weight-counts'
                             title='WEIGHT:'
                             counts={this.props.weightcounts}
-                            thumbs={this.props.thumbs['weight']}
+                            attrthumbs={this.props.attrthumbs['weight']}
                             onnewvote={this.props.onnewvote}
                         />
                     </CSSTransition>
@@ -102,7 +102,7 @@ export class VoteAttributes extends React.Component {
                             elementid='category-counts'
                             title='CATEGORY:'
                             counts={this.props.categorycounts}
-                            thumbs={this.props.thumbs['category']}
+                            attrthumbs={this.props.attrthumbs['category']}
                             onnewvote={this.props.onnewvote}
                         />
                     </CSSTransition>
@@ -120,7 +120,7 @@ export class VoteAttributes extends React.Component {
                             elementid='mechanic-counts'
                             title='MECHANIC:'
                             counts={this.props.mechaniccounts}
-                            thumbs={this.props.thumbs['mechanic']}
+                            attrthumbs={this.props.attrthumbs['mechanic']}
                             onnewvote={this.props.onnewvote}
                         />
                     </CSSTransition>
@@ -146,6 +146,6 @@ VoteAttributes.propTypes = {
     onclearsectionvotes: PropTypes.func.isRequired,
     onnewvote: PropTypes.func.isRequired,
     playercounts: PropTypes.array.isRequired,
-    thumbs: PropTypes.object.isRequired,
+    attrthumbs: PropTypes.object.isRequired,
     weightcounts: PropTypes.array.isRequired,
 }

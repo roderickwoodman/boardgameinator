@@ -12,7 +12,7 @@ export class VotingSection extends React.Component {
                     return <VotableElement 
                         key={key.attrName}
                         counts={this.props.counts}
-                        preferences={this.props.thumbs}
+                        preferences={this.props.attrthumbs}
                         attrtype={this.props.type}
                         attrname={key.attrName} 
                         attrcount={key.attrCount} 
@@ -27,7 +27,7 @@ VotingSection.propTypes = {
     counts: PropTypes.array.isRequired,
     elementid: PropTypes.string.isRequired,
     onnewvote: PropTypes.func.isRequired,
-    thumbs: PropTypes.object.isRequired,
+    attrthumbs: PropTypes.object.isRequired,
     title: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
 }

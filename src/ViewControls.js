@@ -84,10 +84,10 @@ export const ViewControls = (props) => {
         }
     }, [props])
 
-    let numvotes = Object.keys(props.thumbs.players).length
-    + Object.keys(props.thumbs.weight).length
-    + Object.keys(props.thumbs.category).length
-    + Object.keys(props.thumbs.mechanic).length
+    let numvotes = Object.keys(props.attrthumbs.players).length
+    + Object.keys(props.attrthumbs.weight).length
+    + Object.keys(props.attrthumbs.category).length
+    + Object.keys(props.attrthumbs.mechanic).length
 
     return (
         <React.Fragment>
@@ -112,7 +112,7 @@ export const ViewControls = (props) => {
                 <ModalBody>
                     <div id="gamevoting-controls">
                         <VoteAttributes 
-                            thumbs={props.thumbs} 
+                            attrthumbs={props.attrthumbs} 
                             playercounts={props.playercounts} 
                             weightcounts={props.weightcounts}
                             categorycounts={props.categorycounts} 
@@ -179,7 +179,7 @@ export const ViewControls = (props) => {
 
 ViewControls.propTypes = {
     allgames: PropTypes.array.isRequired,
-    thumbs: PropTypes.object.isRequired,
+    attrthumbs: PropTypes.object.isRequired,
     onnewtitle: PropTypes.func.isRequired,
     ondelete: PropTypes.func.isRequired,
     ondeleteall: PropTypes.func.isRequired,

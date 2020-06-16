@@ -13,7 +13,7 @@ export class Boardgameinator extends React.Component {
         super(props)
         this.state = { 
             allGames: [],
-            thumbs: {'players': {}, 'weight': {}, 'category': {}, 'mechanic': {}},
+            attrThumbs: {'players': {}, 'weight': {}, 'category': {}, 'mechanic': {}},
             windowWidth: 0,
             windowHeight: 0
         }
@@ -80,9 +80,9 @@ export class Boardgameinator extends React.Component {
             localStorage.setItem('gamedataVersion', JSON.stringify(this.gamedataVersion))
         }
 
-        const stored_thumbs = JSON.parse(localStorage.getItem("thumbs"))
-        if (stored_thumbs !== null) {
-            this.setState({ thumbs: stored_thumbs })
+        const stored_attrThumbs = JSON.parse(localStorage.getItem("attrThumbs"))
+        if (stored_attrThumbs !== null) {
+            this.setState({ attrThumbs: stored_attrThumbs })
         }
 
         this.updateDimensions()
@@ -155,10 +155,10 @@ export class Boardgameinator extends React.Component {
             allGames = allGames.filter(game => game.id !== parseInt(id))
 
             // remove any votable attributes no longer occurring (in any games) from the preferences list
-            let thumbs = Object.assign({}, prevState.thumbs)
-            for (let attrName in thumbs) {
+            let attrThumbs = Object.assign({}, prevState.attrThumbs)
+            for (let attrName in attrThumbs) {
                 if (attrName === 'players') {
-                    for (let votedplayercount in thumbs[attrName]) {
+                    for (let votedplayercount in attrThumbs[attrName]) {
                         let attributeStillOccurs = false
                         for (let game of allGames) {
                             if (this.gameSupportsPlayercount(game, votedplayercount)) {
@@ -167,11 +167,11 @@ export class Boardgameinator extends React.Component {
                             }
                         }
                         if (!attributeStillOccurs) {
-                            delete thumbs[attrName][votedplayercount]
+                            delete attrThumbs[attrName][votedplayercount]
                         }
                     }
                 } else if (attrName === 'weight') {
-                    for (let votedweight in thumbs[attrName]) {
+                    for (let votedweight in attrThumbs[attrName]) {
                         let attributeStillOccurs = false
                         for (let game of allGames) {
                             if (game.weight === votedweight) {
@@ -180,11 +180,11 @@ export class Boardgameinator extends React.Component {
                             }
                         }
                         if (!attributeStillOccurs) {
-                            delete thumbs[attrName][votedweight]
+                            delete attrThumbs[attrName][votedweight]
                         }
                     }
                 } else if (attrName === 'category') {
-                    for (let votedcategory in thumbs[attrName]) {
+                    for (let votedcategory in attrThumbs[attrName]) {
                         let attributeStillOccurs = false
                         for (let game of allGames) {
                             for (let category of game.categories) {
@@ -195,11 +195,11 @@ export class Boardgameinator extends React.Component {
                             }
                         }
                         if (!attributeStillOccurs) {
-                            delete thumbs[attrName][votedcategory]
+                            delete attrThumbs[attrName][votedcategory]
                         }
                     }
                 } else if (attrName === 'mechanic') {
-                    for (let votedmechanic in thumbs[attrName]) {
+                    for (let votedmechanic in attrThumbs[attrName]) {
                         let attributeStillOccurs = false
                         for (let game of allGames) {
                             for (let mechanic of game.mechanics) {
@@ -210,27 +210,27 @@ export class Boardgameinator extends React.Component {
                             }
                         }
                         if (!attributeStillOccurs) {
-                            delete thumbs[attrName][votedmechanic]
+                            delete attrThumbs[attrName][votedmechanic]
                         }
                     }
                 }
             }
 
             localStorage.setItem('allGames', JSON.stringify(allGames))
-            localStorage.setItem('thumbs', JSON.stringify(thumbs))
+            localStorage.setItem('attrThumbs', JSON.stringify(attrThumbs))
 
             // push these changes into 2 state variables
-            return { allGames: allGames, thumbs:thumbs }
+            return { allGames: allGames, attrThumbs:attrThumbs }
         })
     }
 
     onDeleteAllTitles(event) {
         this.setState(prevState => {
             let allGames = []
-            let thumbs = {'players': {}, 'weight': {}, 'category': {}, 'mechanic': {}}
+            let attrThumbs = {'players': {}, 'weight': {}, 'category': {}, 'mechanic': {}}
             localStorage.setItem('allGames', JSON.stringify(allGames))
-            localStorage.setItem('thumbs', JSON.stringify(thumbs))
-            return { allGames: allGames, thumbs:thumbs }
+            localStorage.setItem('attrThumbs', JSON.stringify(attrThumbs))
+            return { allGames: allGames, attrThumbs:attrThumbs }
         })
     }
 
@@ -324,7 +324,7 @@ export class Boardgameinator extends React.Component {
 
     totalAttributeVotes() {
         let count = 0
-        Object.entries(this.state.thumbs)
+        Object.entries(this.state.attrThumbs)
             .forEach( function(category) {
                 count += Object.values(category[1]).filter( attr => attr === 'thumbsup').length
             })
@@ -334,15 +334,15 @@ export class Boardgameinator extends React.Component {
     onNewVote(event) {
         const { attrtype, attrname, newvote } = Object.assign({}, event.target.dataset)
         this.setState(prevState => {
-            let thumbs = Object.assign({}, prevState.thumbs)
-            let oldvote = prevState.thumbs[attrtype][attrname]
+            let attrThumbs = Object.assign({}, prevState.attrThumbs)
+            let oldvote = prevState.attrThumbs[attrtype][attrname]
             if (newvote !== oldvote) {
-                thumbs[attrtype][attrname] = newvote
+                attrThumbs[attrtype][attrname] = newvote
             } else {
-                delete(thumbs[attrtype][attrname])
+                delete(attrThumbs[attrtype][attrname])
             }
-            localStorage.setItem('thumbs', JSON.stringify(thumbs))
-            return { thumbs }
+            localStorage.setItem('attrThumbs', JSON.stringify(attrThumbs))
+            return { attrThumbs }
         })
     }
 
@@ -350,17 +350,17 @@ export class Boardgameinator extends React.Component {
         const { attrtype } = Object.assign({}, event.target.dataset)
         const clearVotes = {}
         this.setState(prevState => {
-            let thumbs = Object.assign({}, prevState.thumbs)
+            let attrThumbs = Object.assign({}, prevState.attrThumbs)
             if (attrtype === 'all') {
-                thumbs['players'] = clearVotes
-                thumbs['weight'] = clearVotes
-                thumbs['category'] = clearVotes
-                thumbs['mechanic'] = clearVotes
+                attrThumbs['players'] = clearVotes
+                attrThumbs['weight'] = clearVotes
+                attrThumbs['category'] = clearVotes
+                attrThumbs['mechanic'] = clearVotes
             } else {
-                thumbs[attrtype] = clearVotes
+                attrThumbs[attrtype] = clearVotes
             }
-            localStorage.setItem('thumbs', JSON.stringify(thumbs))
-            return { thumbs: thumbs }
+            localStorage.setItem('attrThumbs', JSON.stringify(attrThumbs))
+            return { attrThumbs: attrThumbs }
         })
     }
 
@@ -392,7 +392,7 @@ export class Boardgameinator extends React.Component {
                 <GameList
                     allgames={this.state.allGames} 
                     onnewtitle={this.onNewTitle}
-                    thumbs={this.state.thumbs} 
+                    attrthumbs={this.state.attrThumbs} 
                     ondelete={this.onDeleteTitle}
                     ondeleteall={this.onDeleteAllTitles}
                     onnewvote={this.onNewVote}

@@ -748,6 +748,10 @@ button:enabled,
     visibility: visible;
   }
 
+  .gamecard-collapse-control button {
+    width: 70%;
+  }
+
   .game-name {
     display: -webkit-box;
     -webkit-line-clamp: 1;

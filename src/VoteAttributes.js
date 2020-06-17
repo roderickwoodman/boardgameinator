@@ -68,6 +68,7 @@ export class VoteAttributes extends React.Component {
                             counts={this.props.playercounts}
                             thumbs={this.props.attrthumbs['players']}
                             onnewvote={this.props.onnewvote}
+                            alphabetize={false}
                             suppresslowcounts={false}
                         />
                     </CSSTransition>
@@ -87,6 +88,7 @@ export class VoteAttributes extends React.Component {
                             counts={this.props.weightcounts}
                             thumbs={this.props.attrthumbs['weight']}
                             onnewvote={this.props.onnewvote}
+                            alphabetize={false}
                             suppresslowcounts={false}
                         />
                     </CSSTransition>
@@ -106,6 +108,7 @@ export class VoteAttributes extends React.Component {
                             counts={this.props.categorycounts}
                             thumbs={this.props.attrthumbs['category']}
                             onnewvote={this.props.onnewvote}
+                            alphabetize={true}
                             suppresslowcounts={true}
                         />
                     </CSSTransition>
@@ -125,6 +128,7 @@ export class VoteAttributes extends React.Component {
                             counts={this.props.mechaniccounts}
                             thumbs={this.props.attrthumbs['mechanic']}
                             onnewvote={this.props.onnewvote}
+                            alphabetize={true}
                             suppresslowcounts={true}
                         />
                     </CSSTransition>

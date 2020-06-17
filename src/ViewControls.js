@@ -117,12 +117,11 @@ export const ViewControls = (props) => {
                             weightcounts={props.weightcounts}
                             categorycounts={props.categorycounts} 
                             mechaniccounts={props.mechaniccounts}
-                            onnewvote={props.onnewvote}
-                            onclearsectionvotes={props.onclearsectionvotes} />
+                            onnewvote={props.onnewvote} />
                     </div>
                 </ModalBody>
                 <ModalFooter> 
-                    <button className="default-danger-styles" data-attrtype="all" onClick={props.onclearsectionvotes} disabled={numvotes===0}>Remove All Votes</button>
+                    <button className="default-danger-styles" data-attrtype="all_attributes" onClick={props.onclearsectionvotes} disabled={numvotes===0}>Remove All Votes</button>
                     <button className="default-primary-styles" onClick={hideVoteAttributesModal}>Close</button>
                 </ModalFooter>
             </Modal>
@@ -133,12 +132,14 @@ export const ViewControls = (props) => {
                     <div id="gamelisting-controls">
                         <VoteTitles
                             allgames={props.allgames} 
-                            ondelete={props.ondelete}
+                            titlethumbs={props.titlethumbs} 
+                            onnewvote={props.onnewvote}
                             ondeleteall={props.ondeleteall} />
                     </div>
                 </ModalBody>
                 <ModalFooter> 
                     <button className="default-danger-styles" onClick={props.ondeleteall} disabled={props.allgames.length===0}>Remove All Games</button>
+                    <button className="default-danger-styles" data-attrtype="title" onClick={props.onclearsectionvotes} disabled={numvotes===0}>Remove All Votes</button>
                     <button className="default-primary-styles" onClick={hideListModal}>Close</button>
                 </ModalFooter>
             </Modal>
@@ -179,9 +180,9 @@ export const ViewControls = (props) => {
 
 ViewControls.propTypes = {
     allgames: PropTypes.array.isRequired,
+    titlethumbs: PropTypes.object.isRequired,
     attrthumbs: PropTypes.object.isRequired,
     onnewtitle: PropTypes.func.isRequired,
-    ondelete: PropTypes.func.isRequired,
     ondeleteall: PropTypes.func.isRequired,
     filtermessage: PropTypes.string.isRequired,
     filterplayercount: PropTypes.bool.isRequired,

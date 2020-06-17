@@ -41,6 +41,17 @@ export class GameList extends React.Component {
         }
     }
 
+    getThumbedTitles() {
+        // collect all of the voted titles (by ID)
+        let titles_by_id = []
+        if (Object.keys(this.props.titlethumbs).length) {
+            for (let id in this.props.titlethumbs) {
+                titles_by_id.push(parseInt(id))
+            }
+        }
+        return titles_by_id
+    } 
+
     getThumbedPlayercounts() {
         // collect all of the voted playercounts
         let playercounts = []
@@ -264,10 +275,10 @@ export class GameList extends React.Component {
         return (
             <React.Fragment>
             <ViewControls 
-                attrthumbs={this.props.attrthumbs}
                 allgames={this.props.allgames}
+                titlethumbs={this.props.titlethumbs}
+                attrthumbs={this.props.attrthumbs}
                 onnewtitle={this.props.onnewtitle}
-                ondelete={this.props.ondelete}
                 ondeleteall={this.props.ondeleteall}
                 sortby={this.state.sortOrder}
                 onsortchange={this.handleSortChange}
@@ -334,6 +345,7 @@ GameList.propTypes = {
     onnewtitle: PropTypes.func.isRequired,
     ondelete: PropTypes.func.isRequired,
     ondeleteall: PropTypes.func.isRequired,
+    titlethumbs: PropTypes.object.isRequired,
     attrthumbs: PropTypes.object.isRequired,
     onnewvote: PropTypes.func.isRequired,
     onclearsectionvotes: PropTypes.func.isRequired,

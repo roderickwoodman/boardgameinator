@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { VotingSection } from './VotingSection';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLongArrowAltRight } from '@fortawesome/free-solid-svg-icons'
 import { faClipboard } from '@fortawesome/free-solid-svg-icons'
@@ -37,6 +38,12 @@ export class VoteTitles extends React.Component {
             left: "-1000px",
             top: "-1000px"
         }
+        let countsArray = []
+        this.props.allgames.forEach(function(game) {
+            let game_name = game.name.concat((game.hasOwnProperty("name_is_unique") && game["name_is_unique"] === false) ? game["disambiguation"] : "")
+            countsArray.push({'attrName': game_name, 'attrCount': 1})
+        })
+
         return (
             <React.Fragment>
             <h4>Upvote board game titles:</h4>
@@ -73,6 +80,14 @@ export class VoteTitles extends React.Component {
                     )
                 }
             </div>
+            <VotingSection 
+                type='title'
+                elementid='game-titles'
+                title='TITLES:'
+                counts={countsArray}
+                thumbs={this.props.titlethumbs}
+                onnewvote={this.props.onnewvote}
+            />
             </React.Fragment>
         )
     }
@@ -80,5 +95,7 @@ export class VoteTitles extends React.Component {
 
 VoteTitles.propTypes = {
     allgames: PropTypes.array.isRequired,
-    ondelete: PropTypes.func.isRequired,
+    titlethumbs: PropTypes.object.isRequired,
+    onnewvote: PropTypes.func.isRequired,
+    ondeleteall: PropTypes.func.isRequired,
 }

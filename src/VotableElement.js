@@ -53,7 +53,6 @@ VotableElement.propTypes = {
     attrcount: PropTypes.number.isRequired,
     attrname: PropTypes.string.isRequired,
     attrtype: PropTypes.string.isRequired,
-    counts: PropTypes.array.isRequired,
     onnewvote: PropTypes.func.isRequired,
     preferences: PropTypes.object.isRequired,
 }

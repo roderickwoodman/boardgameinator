@@ -14,6 +14,7 @@ export class Boardgameinator extends React.Component {
         this.state = { 
             allGames: [],
             attrThumbs: {'players': {}, 'weight': {}, 'category': {}, 'mechanic': {}},
+            titleThumbs: {},
             windowWidth: 0,
             windowHeight: 0
         }
@@ -21,6 +22,7 @@ export class Boardgameinator extends React.Component {
         this.tallyWeightCounts = this.tallyWeightCounts.bind(this)
         this.tallyCategoryCounts = this.tallyCategoryCounts.bind(this)
         this.tallyMechanicCounts = this.tallyMechanicCounts.bind(this)
+        this.totalTitleVotes = this.totalTitleVotes.bind(this)
         this.totalAttributeVotes = this.totalAttributeVotes.bind(this)
         this.gameHasBeenAdded = this.gameHasBeenAdded.bind(this)
         this.gameSupportsPlayercount = this.gameSupportsPlayercount.bind(this)
@@ -78,6 +80,11 @@ export class Boardgameinator extends React.Component {
                 }
             })
             localStorage.setItem('gamedataVersion', JSON.stringify(this.gamedataVersion))
+        }
+
+        const stored_titleThumbs = JSON.parse(localStorage.getItem("titleThumbs"))
+        if (stored_titleThumbs !== null) {
+            this.setState({ titleThumbs: stored_titleThumbs })
         }
 
         const stored_attrThumbs = JSON.parse(localStorage.getItem("attrThumbs"))
@@ -154,8 +161,14 @@ export class Boardgameinator extends React.Component {
             let allGames = prevState.allGames.slice()
             allGames = allGames.filter(game => game.id !== parseInt(id))
 
-            // remove any votable attributes no longer occurring (in any games) from the preferences list
-            let attrThumbs = Object.assign({}, prevState.attrThumbs)
+            // remove any title upvotes
+            let titleThumbs = JSON.parse(JSON.stringify(prevState.titleThumbs))
+            if (titleThumbs.hasOwnProperty(id)) {
+                delete titleThumbs[id]
+            }
+
+            // remove any attribute upvotes for attributes no longer occurring in any other game
+            let attrThumbs = JSON.parse(JSON.stringify(prevState.attrThumbs))
             for (let attrName in attrThumbs) {
                 if (attrName === 'players') {
                     for (let votedplayercount in attrThumbs[attrName]) {
@@ -217,20 +230,30 @@ export class Boardgameinator extends React.Component {
             }
 
             localStorage.setItem('allGames', JSON.stringify(allGames))
+            localStorage.setItem('titleThumbs', JSON.stringify(titleThumbs))
             localStorage.setItem('attrThumbs', JSON.stringify(attrThumbs))
 
             // push these changes into 2 state variables
-            return { allGames: allGames, attrThumbs:attrThumbs }
+            return { 
+                allGames: allGames,
+                titleThumbs: titleThumbs,
+                attrThumbs:attrThumbs 
+            }
         })
     }
 
     onDeleteAllTitles(event) {
         this.setState(prevState => {
             let allGames = []
+            let titleThumbs = {}
             let attrThumbs = {'players': {}, 'weight': {}, 'category': {}, 'mechanic': {}}
             localStorage.setItem('allGames', JSON.stringify(allGames))
             localStorage.setItem('attrThumbs', JSON.stringify(attrThumbs))
-            return { allGames: allGames, attrThumbs:attrThumbs }
+            return { 
+                allGames: allGames, 
+                titleThumbs: titleThumbs, 
+                attrThumbs:attrThumbs 
+            }
         })
     }
 
@@ -322,11 +345,20 @@ export class Boardgameinator extends React.Component {
         return countsArray
     }
 
+    totalTitleVotes() {
+        let count = 0
+        Object.entries(this.state.titleThumbs)
+            .forEach( function(title) {
+                count += Object.values(title[1]).filter( vote => vote === 'thumbsup').length
+            })
+        return  count
+    }
+
     totalAttributeVotes() {
         let count = 0
         Object.entries(this.state.attrThumbs)
             .forEach( function(category) {
-                count += Object.values(category[1]).filter( attr => attr === 'thumbsup').length
+                count += Object.values(category[1]).filter( vote => vote === 'thumbsup').length
             })
         return  count
     }
@@ -334,15 +366,27 @@ export class Boardgameinator extends React.Component {
     onNewVote(event) {
         const { attrtype, attrname, newvote } = Object.assign({}, event.target.dataset)
         this.setState(prevState => {
-            let attrThumbs = Object.assign({}, prevState.attrThumbs)
-            let oldvote = prevState.attrThumbs[attrtype][attrname]
-            if (newvote !== oldvote) {
-                attrThumbs[attrtype][attrname] = newvote
+            if ( attrtype === 'title') {
+                let updated_titleThumbs = JSON.parse(JSON.stringify(prevState.titleThumbs))
+                let oldvote = updated_titleThumbs[attrname]
+                if (newvote !== oldvote) {
+                    updated_titleThumbs[attrname] = newvote
+                } else {
+                    delete(updated_titleThumbs[attrname])
+                }
+                localStorage.setItem('titleThumbs', JSON.stringify(updated_titleThumbs))
+                return { titleThumbs: updated_titleThumbs }
             } else {
-                delete(attrThumbs[attrtype][attrname])
+                let updated_attrThumbs = JSON.parse(JSON.stringify(prevState.attrThumbs))
+                let oldvote = updated_attrThumbs[attrtype][attrname]
+                if (newvote !== oldvote) {
+                    updated_attrThumbs[attrtype][attrname] = newvote
+                } else {
+                    delete(updated_attrThumbs[attrtype][attrname])
+                }
+                localStorage.setItem('attrThumbs', JSON.stringify(updated_attrThumbs))
+                return { attrThumbs: updated_attrThumbs }
             }
-            localStorage.setItem('attrThumbs', JSON.stringify(attrThumbs))
-            return { attrThumbs }
         })
     }
 
@@ -350,17 +394,23 @@ export class Boardgameinator extends React.Component {
         const { attrtype } = Object.assign({}, event.target.dataset)
         const clearVotes = {}
         this.setState(prevState => {
-            let attrThumbs = Object.assign({}, prevState.attrThumbs)
-            if (attrtype === 'all') {
-                attrThumbs['players'] = clearVotes
-                attrThumbs['weight'] = clearVotes
-                attrThumbs['category'] = clearVotes
-                attrThumbs['mechanic'] = clearVotes
+            if (attrtype === 'titles') {
+                let updated_titleThumbs = clearVotes
+                localStorage.setItem('titleThumbs', JSON.stringify(updated_titleThumbs))
+                return { titleThumbs: updated_titleThumbs }
             } else {
-                attrThumbs[attrtype] = clearVotes
+                let updated_attrThumbs = JSON.parse(JSON.stringify(prevState.attrThumbs))
+                if (attrtype === 'all_attributes') {
+                    updated_attrThumbs['players'] = clearVotes
+                    updated_attrThumbs['weight'] = clearVotes
+                    updated_attrThumbs['category'] = clearVotes
+                    updated_attrThumbs['mechanic'] = clearVotes
+                } else {
+                    updated_attrThumbs[attrtype] = clearVotes
+                }
+                localStorage.setItem('attrThumbs', JSON.stringify(updated_attrThumbs))
+                return { attrThumbs: updated_attrThumbs }
             }
-            localStorage.setItem('attrThumbs', JSON.stringify(attrThumbs))
-            return { attrThumbs: attrThumbs }
         })
     }
 
@@ -392,6 +442,7 @@ export class Boardgameinator extends React.Component {
                 <GameList
                     allgames={this.state.allGames} 
                     onnewtitle={this.onNewTitle}
+                    titlethumbs={this.state.titleThumbs} 
                     attrthumbs={this.state.attrThumbs} 
                     ondelete={this.onDeleteTitle}
                     ondeleteall={this.onDeleteAllTitles}

@@ -66,7 +66,7 @@ export class VoteAttributes extends React.Component {
                             elementid='supported-players'
                             title='PLAYERS:'
                             counts={this.props.playercounts}
-                            attrthumbs={this.props.attrthumbs['players']}
+                            thumbs={this.props.attrthumbs['players']}
                             onnewvote={this.props.onnewvote}
                         />
                     </CSSTransition>
@@ -84,7 +84,7 @@ export class VoteAttributes extends React.Component {
                             elementid='weight-counts'
                             title='WEIGHT:'
                             counts={this.props.weightcounts}
-                            attrthumbs={this.props.attrthumbs['weight']}
+                            thumbs={this.props.attrthumbs['weight']}
                             onnewvote={this.props.onnewvote}
                         />
                     </CSSTransition>
@@ -102,7 +102,7 @@ export class VoteAttributes extends React.Component {
                             elementid='category-counts'
                             title='CATEGORY:'
                             counts={this.props.categorycounts}
-                            attrthumbs={this.props.attrthumbs['category']}
+                            thumbs={this.props.attrthumbs['category']}
                             onnewvote={this.props.onnewvote}
                         />
                     </CSSTransition>
@@ -120,7 +120,7 @@ export class VoteAttributes extends React.Component {
                             elementid='mechanic-counts'
                             title='MECHANIC:'
                             counts={this.props.mechaniccounts}
-                            attrthumbs={this.props.attrthumbs['mechanic']}
+                            thumbs={this.props.attrthumbs['mechanic']}
                             onnewvote={this.props.onnewvote}
                         />
                     </CSSTransition>
@@ -143,7 +143,6 @@ export class VoteAttributes extends React.Component {
 VoteAttributes.propTypes = {
     categorycounts: PropTypes.array.isRequired,
     mechaniccounts: PropTypes.array.isRequired,
-    onclearsectionvotes: PropTypes.func.isRequired,
     onnewvote: PropTypes.func.isRequired,
     playercounts: PropTypes.array.isRequired,
     attrthumbs: PropTypes.object.isRequired,

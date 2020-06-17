@@ -24,7 +24,7 @@ export class VotableElement extends React.Component {
         let vote = (this.props.preferences.hasOwnProperty(this.props.attrname)) ? 'thumbsup' : 'novote'
         elementStyle += ' ' + vote
         let votable_text = this.props.attrname
-        if (this.props.attrcount > 2 || !this.props.suppresslowcounts) {
+        if (this.props.attrcount > 1 || !this.props.suppresslowcounts) {
             votable_text += ' ('+this.props.attrcount+')'
         }
         return (

@@ -366,6 +366,7 @@ export class Boardgameinator extends React.Component {
     onNewVote(event) {
         const { attrtype, attrname, newvote } = Object.assign({}, event.target.dataset)
         this.setState(prevState => {
+            // record a new title vote
             if ( attrtype === 'title') {
                 let updated_titleThumbs = JSON.parse(JSON.stringify(prevState.titleThumbs))
                 let oldvote = updated_titleThumbs[attrname]
@@ -376,6 +377,7 @@ export class Boardgameinator extends React.Component {
                 }
                 localStorage.setItem('titleThumbs', JSON.stringify(updated_titleThumbs))
                 return { titleThumbs: updated_titleThumbs }
+            // record a new attribute vote
             } else {
                 let updated_attrThumbs = JSON.parse(JSON.stringify(prevState.attrThumbs))
                 let oldvote = updated_attrThumbs[attrtype][attrname]

@@ -15,6 +15,7 @@ export class VotingSection extends React.Component {
                         attrtype={this.props.type}
                         attrname={key.attrName} 
                         attrcount={key.attrCount} 
+                        suppresslowcounts={this.props.suppresslowcounts}
                         onnewvote={this.props.onnewvote}/>
                 })}
             </ul>
@@ -29,4 +30,5 @@ VotingSection.propTypes = {
     thumbs: PropTypes.object.isRequired,
     title: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
+    suppresslowcounts: PropTypes.bool.isRequired,
 }

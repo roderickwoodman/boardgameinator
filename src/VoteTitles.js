@@ -87,6 +87,7 @@ export class VoteTitles extends React.Component {
                 counts={countsArray}
                 thumbs={this.props.titlethumbs}
                 onnewvote={this.props.onnewvote}
+                suppresslowcounts={true}
             />
             </React.Fragment>
         )

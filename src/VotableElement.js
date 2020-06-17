@@ -23,6 +23,10 @@ export class VotableElement extends React.Component {
         //FIXME, extract vote value from props: this.props.preferences['attrVote']
         let vote = (this.props.preferences.hasOwnProperty(this.props.attrname)) ? 'thumbsup' : 'novote'
         elementStyle += ' ' + vote
+        let votable_text = this.props.attrname
+        if (this.props.attrcount > 2 || !this.props.suppresslowcounts) {
+            votable_text += ' ('+this.props.attrcount+')'
+        }
         return (
             <li 
                 key={this.props.attrname} 
@@ -42,7 +46,7 @@ export class VotableElement extends React.Component {
                     data-newvote='thumbsup'
                     onClick={this.props.onnewvote}
                 >
-                    {this.props.attrname} ({this.props.attrcount})
+                    {votable_text}
                 </div>
             </li>
         )
@@ -55,4 +59,5 @@ VotableElement.propTypes = {
     attrtype: PropTypes.string.isRequired,
     onnewvote: PropTypes.func.isRequired,
     preferences: PropTypes.object.isRequired,
+    suppresslowcounts: PropTypes.bool.isRequired,
 }

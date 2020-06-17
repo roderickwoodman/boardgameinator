@@ -84,7 +84,9 @@ export const ViewControls = (props) => {
         }
     }, [props])
 
-    let numvotes = Object.keys(props.attrthumbs.players).length
+    let num_title_votes = Object.keys(props.titlethumbs).length
+
+    let num_attr_votes = Object.keys(props.attrthumbs.players).length
     + Object.keys(props.attrthumbs.weight).length
     + Object.keys(props.attrthumbs.category).length
     + Object.keys(props.attrthumbs.mechanic).length
@@ -121,7 +123,7 @@ export const ViewControls = (props) => {
                     </div>
                 </ModalBody>
                 <ModalFooter> 
-                    <button className="default-danger-styles" data-attrtype="all_attributes" onClick={props.onclearsectionvotes} disabled={numvotes===0}>Remove All Votes</button>
+                    <button className="default-danger-styles" data-attrtype="all_attributes" onClick={props.onclearsectionvotes} disabled={num_attr_votes===0}>Remove All Votes</button>
                     <button className="default-primary-styles" onClick={hideVoteAttributesModal}>Close</button>
                 </ModalFooter>
             </Modal>
@@ -139,7 +141,7 @@ export const ViewControls = (props) => {
                 </ModalBody>
                 <ModalFooter> 
                     <button className="default-danger-styles" onClick={props.ondeleteall} disabled={props.allgames.length===0}>Remove All Games</button>
-                    <button className="default-danger-styles" data-attrtype="title" onClick={props.onclearsectionvotes} disabled={numvotes===0}>Remove All Votes</button>
+                    <button className="default-danger-styles" data-attrtype="all_titles" onClick={props.onclearsectionvotes} disabled={num_title_votes===0}>Remove All Votes</button>
                     <button className="default-primary-styles" onClick={hideListModal}>Close</button>
                 </ModalFooter>
             </Modal>

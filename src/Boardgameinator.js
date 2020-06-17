@@ -396,7 +396,7 @@ export class Boardgameinator extends React.Component {
         const { attrtype } = Object.assign({}, event.target.dataset)
         const clearVotes = {}
         this.setState(prevState => {
-            if (attrtype === 'titles') {
+            if (attrtype === 'all_titles') {
                 let updated_titleThumbs = clearVotes
                 localStorage.setItem('titleThumbs', JSON.stringify(updated_titleThumbs))
                 return { titleThumbs: updated_titleThumbs }

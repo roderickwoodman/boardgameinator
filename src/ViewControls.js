@@ -7,6 +7,9 @@ import Modal from 'react-bootstrap/Modal'
 import ModalBody from 'react-bootstrap/ModalBody'
 import ModalFooter from 'react-bootstrap/ModalFooter'
 import 'bootstrap/dist/css/bootstrap.min.css'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faClipboard } from '@fortawesome/free-solid-svg-icons'
+
 
 export const ViewControls = (props) => {
 
@@ -91,6 +94,22 @@ export const ViewControls = (props) => {
     + Object.keys(props.attrthumbs.category).length
     + Object.keys(props.attrthumbs.mechanic).length
 
+    const handleCopyToClipboard = () => {
+        let games = ""
+        props.allgames.forEach((game) => {
+            games += game.name.concat((game.hasOwnProperty("name_is_unique") && game["name_is_unique"] === false) ? game["disambiguation"] : "").concat("\n")
+        })
+        let clipboardElement = document.getElementById("games-clipboard")
+        clipboardElement.value = games
+        clipboardElement.select()
+        document.execCommand("copy")
+    }
+    let clipboardValue = ""
+    let inlineStyle = {
+        position: "absolute",
+        left: "-1000px",
+        top: "-1000px"
+    }
     return (
         <React.Fragment>
         <div id="view-controls">
@@ -174,6 +193,12 @@ export const ViewControls = (props) => {
                     <button className="default-primary-styles" onClick={hideFilterModal}>Close</button>
                 </ModalFooter>
             </Modal>
+            <button className="default-primary-styles"><FontAwesomeIcon icon={faClipboard} onClick={handleCopyToClipboard} disabled={!props.allgames.length} /></button>
+            <section>
+                <form>
+                    <textarea id="games-clipboard" style={inlineStyle} defaultValue={clipboardValue}></textarea>
+                </form>
+            </section>
 
         </div>
         </React.Fragment>

@@ -5,7 +5,6 @@ import { VotableElement } from './VotableElement'
 export class VotingSection extends React.Component {
 
     render() {
-        // console.log(this.props.counts)
         let origVotables = JSON.parse(JSON.stringify(this.props.counts))
         let orderedVotables = JSON.parse(JSON.stringify(this.props.counts))
         // alphabetization is a 2nd-level sort, after the 1st sorting is by count 

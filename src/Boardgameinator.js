@@ -49,7 +49,6 @@ export class Boardgameinator extends React.Component {
         } else {
             query_strings = path[1]
         }
-        console.log(path)
         query_strings.split('&').forEach( function(query_string) {
             let qs = query_string.split('=')
             if (qs[0] === 'newlist') {

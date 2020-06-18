@@ -12,12 +12,13 @@ export class GameList extends React.Component {
         this.state = {
             idUnderInspection: null,
             inspectingSection: 'description',
-            sortOrder: 'maxvotes',
+            sortOrder: 'maxattrvotes',
             filterPlayercount: true,
             filterWeight: true
         }
         this.handleSortChange = this.handleSortChange.bind(this)
-        this.getThumbCounts = this.getThumbCounts.bind(this)
+        this.getTotalTitleVotes = this.getTotalTitleVotes.bind(this)
+        this.getTotalAttrVotes = this.getTotalAttrVotes.bind(this)
         this.handleFilterChange = this.handleFilterChange.bind(this)
         this.handleInspectionChange = this.handleInspectionChange.bind(this)
         this.handleInspectionSectionChange = this.handleInspectionSectionChange.bind(this)
@@ -74,8 +75,8 @@ export class GameList extends React.Component {
         return weights
     } 
 
-    getThumbCounts() {
-        // tally all votes for each game
+    getTotalAttrVotes() {
+        // tally all attribute votes for each game
         let counts = {}
         if (this.props.allgames.length) {
             for (const game of this.props.allgames) {
@@ -103,6 +104,21 @@ export class GameList extends React.Component {
                     if (this.props.attrthumbs.mechanic.hasOwnProperty(mechanic)) {
                         counts[game.name]++
                     }
+                }
+            }
+        }
+        return counts
+    } 
+
+    getTotalTitleVotes() {
+        // tally all title votes for each game
+        let counts = {}
+        if (this.props.allgames.length) {
+            for (const game of this.props.allgames) {
+                let defaultCount = 0
+                counts[game.name] = defaultCount
+                if (this.props.titlethumbs.hasOwnProperty(game.name)) {
+                    counts[game.name]++
                 }
             }
         }
@@ -208,21 +224,37 @@ export class GameList extends React.Component {
     // order the games
     sortGames(games) {
         let self = this
-        let thumbcounts = this.getThumbCounts()
+        let attrcounts = this.getTotalAttrVotes()
+        let titlecounts = this.getTotalTitleVotes()
         // SORTING OPTIONS:
-        //   sort by maxvotes...     FIRST: most votes,        SECOND: shortest playtime
-        //   sort by minplaytime...  FIRST: shortest playtime, SECOND: most votes
-        //   sort by maxplayers...   FIRST: most players,      SECOND: most votes
+        //   sort by maxtitlevotes... FIRST: most title votes,  SECOND: most attr votes
+        //   sort by maxattrvotes...  FIRST: most attr votes,   SECOND: most title votes
+        //   sort by minplaytime...   FIRST: shortest playtime, SECOND: most attr votes
+        //   sort by maxplayers...    FIRST: most players,      SECOND: most attr votes
         let sorted = games.sort(function(a, b) {
-            if (self.state.sortOrder === 'maxvotes') {
-                if (thumbcounts[a.name] < thumbcounts[b.name]) {
+            if (self.state.sortOrder === 'maxtitlevotes') {
+                if (titlecounts[a.name] < titlecounts[b.name]) {
                     return 1
-                } else if (thumbcounts[a.name] > thumbcounts[b.name]) {
+                } else if (titlecounts[a.name] > titlecounts[b.name]) {
                     return -1
                 } else {
-                    if (a.max_playtime > b.max_playtime) {
+                    if (attrcounts[a.name] < attrcounts[b.name]) {
                         return 1
-                    } else if (a.max_playtime < b.max_playtime) {
+                    } else if (attrcounts[a.name] > attrcounts[b.name]) {
+                        return -1
+                    } else {
+                        return 0
+                    }
+                }
+            } else if (self.state.sortOrder === 'maxattrvotes') {
+                if (attrcounts[a.name] < attrcounts[b.name]) {
+                    return 1
+                } else if (attrcounts[a.name] > attrcounts[b.name]) {
+                    return -1
+                } else {
+                    if (titlecounts[a.name] > titlecounts[b.name]) {
+                        return 1
+                    } else if (titlecounts[a.name] < titlecounts[b.name]) {
                         return -1
                     } else {
                         return 0
@@ -234,9 +266,9 @@ export class GameList extends React.Component {
                 } else if (a.max_playtime < b.max_playtime) {
                     return -1
                 } else {
-                    if (thumbcounts[a.name] < thumbcounts[b.name]) {
+                    if (attrcounts[a.name] < attrcounts[b.name]) {
                         return 1
-                    } else if (thumbcounts[a.name] > thumbcounts[b.name]) {
+                    } else if (attrcounts[a.name] > attrcounts[b.name]) {
                         return -1
                     } else {
                         return 0
@@ -248,9 +280,9 @@ export class GameList extends React.Component {
                 } else if (a.max_players > b.max_players) {
                     return -1
                 } else {
-                    if (thumbcounts[a.name] < thumbcounts[b.name]) {
+                    if (attrcounts[a.name] < attrcounts[b.name]) {
                         return 1
-                    } else if (thumbcounts[a.name] > thumbcounts[b.name]) {
+                    } else if (attrcounts[a.name] > attrcounts[b.name]) {
                         return -1
                     } else {
                         return 0
@@ -264,7 +296,7 @@ export class GameList extends React.Component {
     }
 
     render() {
-        let thumbcounts = this.getThumbCounts()
+        let thumbcounts = this.getTotalAttrVotes()
         let sortedFilteredGames = this.sortGames(this.filterWeight(this.filterPlayercount(this.props.allgames)))
         let filterStr
         if (sortedFilteredGames.length !== this.props.allgames.length) {

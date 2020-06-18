@@ -43,12 +43,13 @@ export class Boardgameinator extends React.Component {
         let allGames = []
 
         let query_strings, new_list = [], addto_list = []
-        let path = this.props.location.pathname.slice(1).split('?')
+        let path = this.props.location.search.slice(1).split('?')
         if (path.length === 1) {
             query_strings = path[0]
         } else {
             query_strings = path[1]
         }
+        console.log(path)
         query_strings.split('&').forEach( function(query_string) {
             let qs = query_string.split('=')
             if (qs[0] === 'newlist') {

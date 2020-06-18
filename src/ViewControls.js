@@ -97,8 +97,13 @@ export const ViewControls = (props) => {
     const handleCopyToClipboard = () => {
         let games = ""
         props.allgames.forEach((game) => {
-            games += game.name.concat((game.hasOwnProperty("name_is_unique") && game["name_is_unique"] === false) ? game["disambiguation"] : "").concat("\n")
+            if (games === "") {
+                games += game.id
+            } else {
+                games = games + "+" + game.id
+            }
         })
+        games = window.location.href + "?newlist=" + games
         let clipboardElement = document.getElementById("games-clipboard")
         clipboardElement.value = games
         clipboardElement.select()

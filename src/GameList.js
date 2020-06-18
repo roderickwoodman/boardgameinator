@@ -26,6 +26,11 @@ export class GameList extends React.Component {
 
     componentDidMount() {
 
+        const stored_sortorder = JSON.parse(localStorage.getItem("sortOrder"))
+        if (stored_sortorder !== null) {
+            this.setState({ sortOrder: stored_sortorder })
+        }
+
         const stored_filterplayercount = JSON.parse(localStorage.getItem("filterPlayercount"))
         if (stored_filterplayercount !== null) {
             this.setState({ filterPlayercount: stored_filterplayercount })
@@ -127,6 +132,7 @@ export class GameList extends React.Component {
 
     handleSortChange(event, value) {
         this.setState(prevState => {
+            localStorage.setItem('sortOrder', JSON.stringify(value))
             localStorage.setItem('idUnderInspection', JSON.stringify(null))
             return {
                 sortOrder: value,

@@ -57,7 +57,7 @@ export class GameCardBack extends React.Component {
 
     render() {
 
-        const { id, name, yearpublished, description, inspectingsection, comments, videos, totalattributevotes, ontoggleinspection, oninspectionsectionchange, ondelete, thumbnail, thumbcount } = this.props
+        const { id, name, yearpublished, description, inspectingsection, comments, videos, thumbs, ontoggleinspection, oninspectionsectionchange, ondelete, thumbnail, thumbcount } = this.props
         return (
             <React.Fragment>
             <section className="gamecard-header">
@@ -75,7 +75,7 @@ export class GameCardBack extends React.Component {
                 }
             </section>
             <section className="gamecard-visual">
-                <Thumbnail url={thumbnail} thumbcount={thumbcount} totalattributevotes={totalattributevotes} />
+                <Thumbnail url={thumbnail} thumbcount={thumbcount} totalattributevotes={thumbs.total_attribute_count} />
             </section>
             <ul id="inspectionsection-selector">
                 <li id="select-description" className={"selector darkbg" + (inspectingsection === "description" ? " selected" : "")} onClick={oninspectionsectionchange}>{this.props.reallynarrow ? 'Desc.' : 'Description'}</li>
@@ -133,10 +133,10 @@ GameCardBack.propTypes = {
     yearpublished: PropTypes.number,
     description: PropTypes.array.isRequired,
     inspectingsection: PropTypes.string.isRequired,
+    thumbs: PropTypes.object.isRequired,
     comments: PropTypes.array,
     videos: PropTypes.array,
     ontoggleinspection: PropTypes.func.isRequired,
-    totalattributevotes: PropTypes.number.isRequired,
     oninspectionsectionchange: PropTypes.func.isRequired,
     ondelete: PropTypes.func.isRequired,
     reallynarrow: PropTypes.bool.isRequired,

@@ -7,7 +7,7 @@ import { GameCardBack } from './GameCardBack'
 export class Game extends React.Component {
 
     render() {
-        const { id, idunderinspection, inspectingsection, name, thumbnail, description, yearpublished, attributes, comments, videos, totalattributevotes, thumbs, thumbcount, ondelete, ontoggleinspection, oninspectionsectionchange, reallynarrow } = this.props
+        const { id, idunderinspection, inspectingsection, name, thumbnail, description, yearpublished, attributes, comments, videos, thumbs, thumbcount, ondelete, ontoggleinspection, oninspectionsectionchange, reallynarrow } = this.props
         let gamecard
         let gamecardClasses = (id === idunderinspection) ? "game inspecting" : "game"
         if (id !== idunderinspection) {
@@ -17,7 +17,6 @@ export class Game extends React.Component {
                 name={name}
                 yearpublished={yearpublished}
                 attributes={attributes}
-                totalattributevotes={totalattributevotes}
                 thumbs={thumbs} 
                 thumbcount={thumbcount} 
                 ontoggleinspection={ontoggleinspection} 
@@ -34,7 +33,7 @@ export class Game extends React.Component {
                 inspectingsection={inspectingsection}
                 comments={comments}
                 videos={videos}
-                totalattributevotes={totalattributevotes}
+                thumbs={thumbs}
                 ontoggleinspection={ontoggleinspection} 
                 oninspectionsectionchange={oninspectionsectionchange} 
                 ondelete={ondelete}
@@ -59,7 +58,6 @@ Game.propTypes = {
     ondelete: PropTypes.func.isRequired,
     oninspectionsectionchange: PropTypes.func.isRequired,
     ontoggleinspection: PropTypes.func.isRequired,
-    totalattributevotes: PropTypes.number.isRequired,
     thumbcount: PropTypes.number.isRequired,
     thumbnail: PropTypes.string,
     thumbs: PropTypes.object.isRequired,

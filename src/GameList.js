@@ -343,7 +343,6 @@ export class GameList extends React.Component {
                                     comments={game.comments}
                                     videos={game.videos}
                                     thumbs={this.props.thumbs} 
-                                    totalattributevotes={this.props.totalattributevotes}
                                     thumbcount={thumbcounts[game.name]}
                                     ondelete={this.props.ondelete}
                                     ontoggleinspection={this.handleInspectionChange}
@@ -375,6 +374,5 @@ GameList.propTypes = {
     thumbs: PropTypes.object.isRequired,
     onnewvote: PropTypes.func.isRequired,
     onclearsectionvotes: PropTypes.func.isRequired,
-    totalattributevotes: PropTypes.number.isRequired,
     reallynarrow: PropTypes.bool.isRequired,
 }

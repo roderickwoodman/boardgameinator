@@ -14,13 +14,14 @@ export class Boardgameinator extends React.Component {
         this.state = { 
             allGames: [],
             thumbs: {
-                'attributes': {
-                    'players': {}, 
-                    'weight': {}, 
-                    'category': {}, 
-                    'mechanic': {}
+                attributes: {
+                    players: {}, 
+                    weight: {}, 
+                    category: {}, 
+                    mechanic: {}
                 },
-                'titles': {
+                total_attribute_count: 0,
+                titles: {
                 }
             },
             windowWidth: 0,
@@ -269,9 +270,9 @@ export class Boardgameinator extends React.Component {
         return  count
     }
 
-    totalAttributeVotes() {
+    totalAttributeVotes(attributes) {
         let count = 0
-        Object.entries(this.state.thumbs.attributes)
+        Object.entries(attributes)
             .forEach( function(category) {
                 count += Object.values(category[1]).filter( vote => vote === 'thumbsup').length
             })
@@ -299,6 +300,7 @@ export class Boardgameinator extends React.Component {
                     delete(updated_thumbs.attributes[attrtype][attrname])
                 }
             }
+            updated_thumbs.total_attribute_count = this.totalAttributeVotes(updated_thumbs.attributes)
             localStorage.setItem('thumbs', JSON.stringify(updated_thumbs))
             return { thumbs: updated_thumbs }
         })
@@ -322,6 +324,7 @@ export class Boardgameinator extends React.Component {
                 } else {
                     updated_thumbs.attributes[attrtype] = clearVotes
                 }
+                updated_thumbs.total_attribute_count = this.totalAttributeVotes(updated_thumbs.attributes)
                 localStorage.setItem('thumbs', JSON.stringify(updated_thumbs))
                 return { thumbs: updated_thumbs }
             }
@@ -334,8 +337,6 @@ export class Boardgameinator extends React.Component {
     }
 
     render() {
-        let totalattributevotes = this.totalAttributeVotes()
-
         const { windowWidth } = this.state
         const styles = {
             reallyNarrow: windowWidth < 650
@@ -357,7 +358,6 @@ export class Boardgameinator extends React.Component {
                     ondeleteall={this.onDeleteAllTitles}
                     onnewvote={this.onNewVote}
                     onclearsectionvotes={this.onClearSectionVotes}
-                    totalattributevotes={totalattributevotes}
                     reallynarrow={styles.reallyNarrow} />
             </div>
             </React.Fragment>

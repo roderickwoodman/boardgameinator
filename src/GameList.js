@@ -326,10 +326,7 @@ export class GameList extends React.Component {
                 filtermessage={filterStr}
                 onnewvote={this.props.onnewvote}
                 onclearsectionvotes={this.props.onclearsectionvotes}
-                playercounts={this.props.playercounts}
-                weightcounts={this.props.weightcounts}
-                categorycounts={this.props.categorycounts}
-                mechaniccounts={this.props.mechaniccounts} />
+                attributestally={this.props.attributestally} />
             <div id="resulting-games">
                 {sortedFilteredGames.length !== 0 && (
                     sortedFilteredGames
@@ -381,10 +378,7 @@ GameList.propTypes = {
     attrthumbs: PropTypes.object.isRequired,
     onnewvote: PropTypes.func.isRequired,
     onclearsectionvotes: PropTypes.func.isRequired,
-    playercounts: PropTypes.array.isRequired,
-    weightcounts: PropTypes.array.isRequired,
-    categorycounts: PropTypes.array.isRequired,
-    mechaniccounts: PropTypes.array.isRequired,
+    attributestally: PropTypes.object.isRequired,
     totalattributevotes: PropTypes.number.isRequired,
     reallynarrow: PropTypes.bool.isRequired,
 }

@@ -422,10 +422,12 @@ export class Boardgameinator extends React.Component {
     }
 
     render() {
-        let playercounts = this.tallyPlayerCounts()
-        let weightcounts = this.tallyWeightCounts()
-        let categorycounts = this.tallyCategoryCounts()
-        let mechaniccounts = this.tallyMechanicCounts()
+        let attributestally = {
+            playercounts: this.tallyPlayerCounts(),
+            weightcounts: this.tallyWeightCounts(),
+            categorycounts: this.tallyCategoryCounts(),
+            mechaniccounts: this.tallyMechanicCounts(),
+        }
         let totalattributevotes = this.totalAttributeVotes()
 
         const { windowWidth } = this.state
@@ -450,10 +452,7 @@ export class Boardgameinator extends React.Component {
                     ondeleteall={this.onDeleteAllTitles}
                     onnewvote={this.onNewVote}
                     onclearsectionvotes={this.onClearSectionVotes}
-                    playercounts={playercounts} 
-                    weightcounts={weightcounts}
-                    categorycounts={categorycounts} 
-                    mechaniccounts={mechaniccounts}
+                    attributestally={attributestally}
                     totalattributevotes={totalattributevotes}
                     reallynarrow={styles.reallyNarrow} />
             </div>

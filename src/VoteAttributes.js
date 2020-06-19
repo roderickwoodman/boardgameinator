@@ -65,7 +65,7 @@ export class VoteAttributes extends React.Component {
                             type='players'
                             elementid='supported-players'
                             title='PLAYERS:'
-                            counts={this.props.playercounts}
+                            counts={this.props.attributestally.playercounts}
                             thumbs={this.props.attrthumbs['players']}
                             onnewvote={this.props.onnewvote}
                             alphabetize={false}
@@ -85,7 +85,7 @@ export class VoteAttributes extends React.Component {
                             type='weight'
                             elementid='weight-counts'
                             title='WEIGHT:'
-                            counts={this.props.weightcounts}
+                            counts={this.props.attributestally.weightcounts}
                             thumbs={this.props.attrthumbs['weight']}
                             onnewvote={this.props.onnewvote}
                             alphabetize={false}
@@ -105,7 +105,7 @@ export class VoteAttributes extends React.Component {
                             type='category'
                             elementid='category-counts'
                             title='CATEGORY:'
-                            counts={this.props.categorycounts}
+                            counts={this.props.attributestally.categorycounts}
                             thumbs={this.props.attrthumbs['category']}
                             onnewvote={this.props.onnewvote}
                             alphabetize={true}
@@ -125,7 +125,7 @@ export class VoteAttributes extends React.Component {
                             type='mechanic'
                             elementid='mechanic-counts'
                             title='MECHANIC:'
-                            counts={this.props.mechaniccounts}
+                            counts={this.props.attributestally.mechaniccounts}
                             thumbs={this.props.attrthumbs['mechanic']}
                             onnewvote={this.props.onnewvote}
                             alphabetize={true}
@@ -134,10 +134,10 @@ export class VoteAttributes extends React.Component {
                     </CSSTransition>
                 }
                 </TransitionGroup>
-                {this.props.playercounts.length === 0 
-                && this.props.weightcounts.length === 0 
-                && this.props.categorycounts.length === 0
-                && this.props.mechaniccounts.length === 0
+                {this.props.attributestally.playercounts.length === 0 
+                && this.props.attributestally.weightcounts.length === 0 
+                && this.props.attributestally.categorycounts.length === 0
+                && this.props.attributestally.mechaniccounts.length === 0
                 &&
                     this.emptyMessage()
                 }
@@ -149,10 +149,7 @@ export class VoteAttributes extends React.Component {
 }
 
 VoteAttributes.propTypes = {
-    categorycounts: PropTypes.array.isRequired,
-    mechaniccounts: PropTypes.array.isRequired,
-    onnewvote: PropTypes.func.isRequired,
-    playercounts: PropTypes.array.isRequired,
+    attributestally: PropTypes.object.isRequired,
     attrthumbs: PropTypes.object.isRequired,
-    weightcounts: PropTypes.array.isRequired,
+    onnewvote: PropTypes.func.isRequired,
 }

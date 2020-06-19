@@ -139,10 +139,7 @@ export const ViewControls = (props) => {
                     <div id="gamevoting-controls">
                         <VoteAttributes 
                             attrthumbs={props.attrthumbs} 
-                            playercounts={props.playercounts} 
-                            weightcounts={props.weightcounts}
-                            categorycounts={props.categorycounts} 
-                            mechaniccounts={props.mechaniccounts}
+                            attributestally={props.attributestally}
                             onnewvote={props.onnewvote} />
                     </div>
                 </ModalBody>
@@ -225,8 +222,5 @@ ViewControls.propTypes = {
     sortby: PropTypes.string.isRequired,
     onnewvote: PropTypes.func.isRequired,
     onclearsectionvotes: PropTypes.func.isRequired,
-    playercounts: PropTypes.array.isRequired,
-    weightcounts: PropTypes.array.isRequired,
-    categorycounts: PropTypes.array.isRequired,
-    mechaniccounts: PropTypes.array.isRequired,
+    attributestally: PropTypes.object.isRequired,
 }

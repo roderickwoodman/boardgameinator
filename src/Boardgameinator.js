@@ -20,9 +20,10 @@ export class Boardgameinator extends React.Component {
                     category: {}, 
                     mechanic: {}
                 },
-                total_attribute_count: 0,
+                total_attribute_votes: 0,
                 titles: {
-                }
+                },
+                total_title_votes: 0,
             },
             windowWidth: 0,
             windowHeight: 0
@@ -261,18 +262,20 @@ export class Boardgameinator extends React.Component {
         })
     }
 
-    totalTitleVotes() {
+    totalTitleVotes(all_title_thumbs) {
         let count = 0
-        Object.entries(this.state.titleThumbs)
+        Object.entries(all_title_thumbs)
             .forEach( function(title) {
-                count += Object.values(title[1]).filter( vote => vote === 'thumbsup').length
+                if (title[1] === 'thumbsup') {
+                    count += 1
+                }
             })
         return  count
     }
 
-    totalAttributeVotes(attributes) {
+    totalAttributeVotes(all_attribute_thumbs) {
         let count = 0
-        Object.entries(attributes)
+        Object.entries(all_attribute_thumbs)
             .forEach( function(category) {
                 count += Object.values(category[1]).filter( vote => vote === 'thumbsup').length
             })
@@ -300,7 +303,8 @@ export class Boardgameinator extends React.Component {
                     delete(updated_thumbs.attributes[attrtype][attrname])
                 }
             }
-            updated_thumbs.total_attribute_count = this.totalAttributeVotes(updated_thumbs.attributes)
+            updated_thumbs.total_title_votes = this.totalTitleVotes(updated_thumbs.titles)
+            updated_thumbs.total_attribute_votes = this.totalAttributeVotes(updated_thumbs.attributes)
             localStorage.setItem('thumbs', JSON.stringify(updated_thumbs))
             return { thumbs: updated_thumbs }
         })
@@ -310,12 +314,11 @@ export class Boardgameinator extends React.Component {
         const { attrtype } = Object.assign({}, event.target.dataset)
         const clearVotes = {}
         this.setState(prevState => {
+            let updated_thumbs = JSON.parse(JSON.stringify(prevState.thumbs))
             if (attrtype === 'all_titles') {
-                let updated_titleThumbs = clearVotes
-                localStorage.setItem('titleThumbs', JSON.stringify(updated_titleThumbs))
-                return { titleThumbs: updated_titleThumbs }
+                updated_thumbs.titles = clearVotes
+                updated_thumbs.total_title_votes = this.totalTitleVotes(updated_thumbs.titles)
             } else {
-                let updated_thumbs = JSON.parse(JSON.stringify(prevState.thumbs))
                 if (attrtype === 'all_attributes') {
                     updated_thumbs.attributes['players'] = clearVotes
                     updated_thumbs.attributes['weight'] = clearVotes
@@ -324,10 +327,10 @@ export class Boardgameinator extends React.Component {
                 } else {
                     updated_thumbs.attributes[attrtype] = clearVotes
                 }
-                updated_thumbs.total_attribute_count = this.totalAttributeVotes(updated_thumbs.attributes)
-                localStorage.setItem('thumbs', JSON.stringify(updated_thumbs))
-                return { thumbs: updated_thumbs }
+                updated_thumbs.total_attribute_votes = this.totalAttributeVotes(updated_thumbs.attributes)
             }
+            localStorage.setItem('thumbs', JSON.stringify(updated_thumbs))
+            return { thumbs: updated_thumbs }
         })
     }
 

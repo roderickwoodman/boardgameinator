@@ -324,8 +324,7 @@ export class GameList extends React.Component {
                 onfilterchange={this.handleFilterChange}
                 filtermessage={filterStr}
                 onnewvote={this.props.onnewvote}
-                onclearsectionvotes={this.props.onclearsectionvotes}
-                attributestally={this.props.attributestally} />
+                onclearsectionvotes={this.props.onclearsectionvotes} />
             <div id="resulting-games">
                 {sortedFilteredGames.length !== 0 && (
                     sortedFilteredGames
@@ -376,7 +375,6 @@ GameList.propTypes = {
     thumbs: PropTypes.object.isRequired,
     onnewvote: PropTypes.func.isRequired,
     onclearsectionvotes: PropTypes.func.isRequired,
-    attributestally: PropTypes.object.isRequired,
     totalattributevotes: PropTypes.number.isRequired,
     reallynarrow: PropTypes.bool.isRequired,
 }

@@ -14,6 +14,10 @@ export class VoteAttributes extends React.Component {
         }
         this.handleSectionChange = this.handleSectionChange.bind(this)
         this.emptyMessage = this.emptyMessage.bind(this)
+        this.tallyPlayerCounts = this.tallyPlayerCounts.bind(this)
+        this.tallyWeightCounts = this.tallyWeightCounts.bind(this)
+        this.tallyCategoryCounts = this.tallyCategoryCounts.bind(this)
+        this.tallyMechanicCounts = this.tallyMechanicCounts.bind(this)
     }
 
     handleSectionChange(event) {
@@ -37,7 +41,102 @@ export class VoteAttributes extends React.Component {
         )
     }
 
+    tallyPlayerCounts() {
+        // tally each allowable player count occurrence across all games
+        let countsObj = {}
+        for (const game of this.props.allgames) {
+            for (let playercount=game.attributes.min_players; playercount<=game.attributes.max_players; playercount++) {
+                let playerCountAttr = playercount + 'P'
+                if (countsObj.hasOwnProperty(playerCountAttr)) {
+                    countsObj[playerCountAttr] = countsObj[playerCountAttr] + 1
+                } else {
+                    countsObj[playerCountAttr] = 1
+                }
+            }
+        }
+        // sort each attribute according to total occurrences
+        let countsArray = []
+        Object.keys(countsObj).forEach((elementTag) => {
+            let newCount = {'attrName': elementTag, 'attrCount': countsObj[elementTag]}
+            countsArray.push(newCount)
+        })
+        countsArray.sort((a, b) => (parseInt(a.attrName.slice(0, -1)) < parseInt(b.attrName.slice(0, -1))) ? 1 : -1)
+        return countsArray
+    }
+
+    tallyWeightCounts() {
+        // tally each weight occurrence across all games
+        let countsObj = {}
+        for (const game of this.props.allgames) {
+            if (countsObj.hasOwnProperty(game.attributes.average_weight_name)) {
+                countsObj[game.attributes.average_weight_name] = countsObj[game.attributes.average_weight_name] + 1
+            } else {
+                countsObj[game.attributes.average_weight_name] = 1
+            }
+        }
+        // sort weights into a predefined order
+        let weights = ["light", "medium light", "medium", "medium heavy", "heavy"]
+        let countsArray = []
+        for (let weight of weights) {
+            if (countsObj.hasOwnProperty(weight)) {
+                countsArray.push({'attrName': weight, 'attrCount': countsObj[weight]})
+            } else {
+                countsArray.push({'attrName': weight, 'attrCount': 0})
+            }
+        }
+        return countsArray
+    }
+
+    tallyCategoryCounts() {
+        // tally each attribute's occurrence across all games
+        let countsObj = {}
+        for (const game of this.props.allgames) {
+            for (const category of game.attributes.categories) {
+                if (countsObj.hasOwnProperty(category)) {
+                    countsObj[category] = countsObj[category] + 1
+                } else {
+                    countsObj[category] = 1
+                }
+            }
+        }
+        // sort each attribute according to total occurrences
+        let countsArray = []
+        Object.keys(countsObj).forEach((elementTag) => {
+            countsArray.push({'attrName': elementTag, 'attrCount': countsObj[elementTag]})
+        })
+        countsArray.sort((a, b) => (a.attrCount < b.attrCount) ? 1 : (a.attrCount === b.attrCount) && (a.attrName > b.attrName) ? 1 : -1)
+        return countsArray
+    }
+
+    tallyMechanicCounts() {
+        // tally each attribute's occurrence across all games
+        let countsObj = {}
+        for (const game of this.props.allgames) {
+            for (const mechanic of game.attributes.mechanics) {
+                if (countsObj.hasOwnProperty(mechanic)) {
+                    countsObj[mechanic] = countsObj[mechanic] + 1
+                } else {
+                    countsObj[mechanic] = 1
+                }
+            }
+        }
+        // sort each attribute according to total occurrences
+        let countsArray = []
+        Object.keys(countsObj).forEach((elementTag) => {
+            countsArray.push({'attrName': elementTag, 'attrCount': countsObj[elementTag]})
+        })
+        countsArray.sort((a, b) => (a.attrCount < b.attrCount) ? 1 : (a.attrCount === b.attrCount) && (a.attrName > b.attrName) ? 1 : -1)
+        return countsArray
+    }
+
     render() {
+
+        let attributestally = {
+            playercounts: this.tallyPlayerCounts(),
+            weightcounts: this.tallyWeightCounts(),
+            categorycounts: this.tallyCategoryCounts(),
+            mechaniccounts: this.tallyMechanicCounts(),
+        }
 
         return (
             <React.Fragment>
@@ -65,7 +164,7 @@ export class VoteAttributes extends React.Component {
                             type='players'
                             elementid='supported-players'
                             title='PLAYERS:'
-                            counts={this.props.attributestally.playercounts}
+                            counts={attributestally.playercounts}
                             thumbs={this.props.attrthumbs['players']}
                             onnewvote={this.props.onnewvote}
                             alphabetize={false}
@@ -85,7 +184,7 @@ export class VoteAttributes extends React.Component {
                             type='weight'
                             elementid='weight-counts'
                             title='WEIGHT:'
-                            counts={this.props.attributestally.weightcounts}
+                            counts={attributestally.weightcounts}
                             thumbs={this.props.attrthumbs['weight']}
                             onnewvote={this.props.onnewvote}
                             alphabetize={false}
@@ -105,7 +204,7 @@ export class VoteAttributes extends React.Component {
                             type='category'
                             elementid='category-counts'
                             title='CATEGORY:'
-                            counts={this.props.attributestally.categorycounts}
+                            counts={attributestally.categorycounts}
                             thumbs={this.props.attrthumbs['category']}
                             onnewvote={this.props.onnewvote}
                             alphabetize={true}
@@ -125,7 +224,7 @@ export class VoteAttributes extends React.Component {
                             type='mechanic'
                             elementid='mechanic-counts'
                             title='MECHANIC:'
-                            counts={this.props.attributestally.mechaniccounts}
+                            counts={attributestally.mechaniccounts}
                             thumbs={this.props.attrthumbs['mechanic']}
                             onnewvote={this.props.onnewvote}
                             alphabetize={true}
@@ -134,10 +233,10 @@ export class VoteAttributes extends React.Component {
                     </CSSTransition>
                 }
                 </TransitionGroup>
-                {this.props.attributestally.playercounts.length === 0 
-                && this.props.attributestally.weightcounts.length === 0 
-                && this.props.attributestally.categorycounts.length === 0
-                && this.props.attributestally.mechaniccounts.length === 0
+                {attributestally.playercounts.length === 0 
+                && attributestally.weightcounts.length === 0 
+                && attributestally.categorycounts.length === 0
+                && attributestally.mechaniccounts.length === 0
                 &&
                     this.emptyMessage()
                 }
@@ -149,7 +248,7 @@ export class VoteAttributes extends React.Component {
 }
 
 VoteAttributes.propTypes = {
-    attributestally: PropTypes.object.isRequired,
+    allgames: PropTypes.object.isRequired,
     attrthumbs: PropTypes.object.isRequired,
     onnewvote: PropTypes.func.isRequired,
 }

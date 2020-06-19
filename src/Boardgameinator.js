@@ -26,10 +26,6 @@ export class Boardgameinator extends React.Component {
             windowWidth: 0,
             windowHeight: 0
         }
-        this.tallyPlayerCounts = this.tallyPlayerCounts.bind(this)
-        this.tallyWeightCounts = this.tallyWeightCounts.bind(this)
-        this.tallyCategoryCounts = this.tallyCategoryCounts.bind(this)
-        this.tallyMechanicCounts = this.tallyMechanicCounts.bind(this)
         this.totalTitleVotes = this.totalTitleVotes.bind(this)
         this.totalAttributeVotes = this.totalAttributeVotes.bind(this)
         this.gameHasBeenAdded = this.gameHasBeenAdded.bind(this)
@@ -264,94 +260,6 @@ export class Boardgameinator extends React.Component {
         })
     }
 
-    tallyPlayerCounts() {
-        // tally each allowable player count occurrence across all games
-        let countsObj = {}
-        for (const game of this.state.allGames) {
-            for (let playercount=game.attributes.min_players; playercount<=game.attributes.max_players; playercount++) {
-                let playerCountAttr = playercount + 'P'
-                if (countsObj.hasOwnProperty(playerCountAttr)) {
-                    countsObj[playerCountAttr] = countsObj[playerCountAttr] + 1
-                } else {
-                    countsObj[playerCountAttr] = 1
-                }
-            }
-        }
-        // sort each attribute according to total occurrences
-        let countsArray = []
-        Object.keys(countsObj).forEach((elementTag) => {
-            let newCount = {'attrName': elementTag, 'attrCount': countsObj[elementTag]}
-            countsArray.push(newCount)
-        })
-        countsArray.sort((a, b) => (parseInt(a.attrName.slice(0, -1)) < parseInt(b.attrName.slice(0, -1))) ? 1 : -1)
-        return countsArray
-    }
-
-    tallyWeightCounts() {
-        // tally each weight occurrence across all games
-        let countsObj = {}
-        for (const game of this.state.allGames) {
-            if (countsObj.hasOwnProperty(game.attributes.average_weight_name)) {
-                countsObj[game.attributes.average_weight_name] = countsObj[game.attributes.average_weight_name] + 1
-            } else {
-                countsObj[game.attributes.average_weight_name] = 1
-            }
-        }
-        // sort weights into a predefined order
-        let weights = ["light", "medium light", "medium", "medium heavy", "heavy"]
-        let countsArray = []
-        for (let weight of weights) {
-            if (countsObj.hasOwnProperty(weight)) {
-                countsArray.push({'attrName': weight, 'attrCount': countsObj[weight]})
-            } else {
-                countsArray.push({'attrName': weight, 'attrCount': 0})
-            }
-        }
-        return countsArray
-    }
-
-    tallyCategoryCounts() {
-        // tally each attribute's occurrence across all games
-        let countsObj = {}
-        for (const game of this.state.allGames) {
-            for (const category of game.attributes.categories) {
-                if (countsObj.hasOwnProperty(category)) {
-                    countsObj[category] = countsObj[category] + 1
-                } else {
-                    countsObj[category] = 1
-                }
-            }
-        }
-        // sort each attribute according to total occurrences
-        let countsArray = []
-        Object.keys(countsObj).forEach((elementTag) => {
-            countsArray.push({'attrName': elementTag, 'attrCount': countsObj[elementTag]})
-        })
-        countsArray.sort((a, b) => (a.attrCount < b.attrCount) ? 1 : (a.attrCount === b.attrCount) && (a.attrName > b.attrName) ? 1 : -1)
-        return countsArray
-    }
-
-    tallyMechanicCounts() {
-        // tally each attribute's occurrence across all games
-        let countsObj = {}
-        for (const game of this.state.allGames) {
-            for (const mechanic of game.attributes.mechanics) {
-                if (countsObj.hasOwnProperty(mechanic)) {
-                    countsObj[mechanic] = countsObj[mechanic] + 1
-                } else {
-                    countsObj[mechanic] = 1
-                }
-            }
-        }
-        // sort each attribute according to total occurrences
-        let countsArray = []
-        Object.keys(countsObj).forEach((elementTag) => {
-            countsArray.push({'attrName': elementTag, 'attrCount': countsObj[elementTag]})
-        })
-        countsArray.sort((a, b) => (a.attrCount < b.attrCount) ? 1 : (a.attrCount === b.attrCount) && (a.attrName > b.attrName) ? 1 : -1)
-        return countsArray
-    }
-
     totalTitleVotes() {
         let count = 0
         Object.entries(this.state.titleThumbs)
@@ -426,12 +334,6 @@ export class Boardgameinator extends React.Component {
     }
 
     render() {
-        let attributestally = {
-            playercounts: this.tallyPlayerCounts(),
-            weightcounts: this.tallyWeightCounts(),
-            categorycounts: this.tallyCategoryCounts(),
-            mechaniccounts: this.tallyMechanicCounts(),
-        }
         let totalattributevotes = this.totalAttributeVotes()
 
         const { windowWidth } = this.state
@@ -455,7 +357,6 @@ export class Boardgameinator extends React.Component {
                     ondeleteall={this.onDeleteAllTitles}
                     onnewvote={this.onNewVote}
                     onclearsectionvotes={this.onClearSectionVotes}
-                    attributestally={attributestally}
                     totalattributevotes={totalattributevotes}
                     reallynarrow={styles.reallyNarrow} />
             </div>

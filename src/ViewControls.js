@@ -138,8 +138,8 @@ export const ViewControls = (props) => {
                 <ModalBody>
                     <div id="gamevoting-controls">
                         <VoteAttributes 
+                            allgames={props.allgames}
                             attrthumbs={props.thumbs.attributes} 
-                            attributestally={props.attributestally}
                             onnewvote={props.onnewvote} />
                     </div>
                 </ModalBody>
@@ -221,5 +221,4 @@ ViewControls.propTypes = {
     sortby: PropTypes.string.isRequired,
     onnewvote: PropTypes.func.isRequired,
     onclearsectionvotes: PropTypes.func.isRequired,
-    attributestally: PropTypes.object.isRequired,
 }

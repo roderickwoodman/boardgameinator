@@ -19,28 +19,28 @@ export class GameCardFront extends React.Component {
     }
 
     getMyVote(section, attrName) {
-        let myVote = this.props.attrthumbs[section].hasOwnProperty(attrName) 
+        let myVote = this.props.thumbs.attributes[section].hasOwnProperty(attrName) 
             ? 'thumbsup' //FIXME, derive from props: this.props.preferences['attrVote']
             : 'novote'
         return myVote
     }
 
     getUpvotedCategories() {
-        return Object.entries(this.props.attrthumbs['category']).filter( entry => entry[1] === 'thumbsup' && this.props.attributes.categories.includes(entry[0]) ).map( entry => entry[0] )
+        return Object.entries(this.props.thumbs.attributes['category']).filter( entry => entry[1] === 'thumbsup' && this.props.attributes.categories.includes(entry[0]) ).map( entry => entry[0] )
     }
 
     getUpvotedMechanics() {
-        return Object.entries(this.props.attrthumbs['mechanic']).filter( entry => entry[1] === 'thumbsup' && this.props.attributes.mechanics.includes(entry[0]) ).map( entry => entry[0] )
+        return Object.entries(this.props.thumbs.attributes['mechanic']).filter( entry => entry[1] === 'thumbsup' && this.props.attributes.mechanics.includes(entry[0]) ).map( entry => entry[0] )
     }
 
     // player count section gets only one, aggregated vote; only one <li> (ex: "2-6 players") 
     getPlayersVote(myminplayers, mymaxplayers) {
         let vote = "novote"
-        Object.keys(this.props.attrthumbs.players).forEach( (votedPlayercount) => {
+        Object.keys(this.props.thumbs.attributes.players).forEach( (votedPlayercount) => {
             let voted = parseInt(votedPlayercount.slice(0, -1))
             if (voted >= myminplayers
                 && voted <= mymaxplayers
-                && this.props.attrthumbs.players[votedPlayercount] === 'thumbsup')
+                && this.props.thumbs.attributes.players[votedPlayercount] === 'thumbsup')
             {
                 vote = "thumbsup"
             }
@@ -51,9 +51,9 @@ export class GameCardFront extends React.Component {
     // vote section gets only one, aggregated vote; only one <li> (ex: "medium heavy") 
     getWeightVote(myweight) {
         let vote = "novote"
-        Object.keys(this.props.attrthumbs.weight).forEach( (votedWeight) => {
+        Object.keys(this.props.thumbs.attributes.weight).forEach( (votedWeight) => {
             if (myweight === votedWeight
-                && this.props.attrthumbs.weight[votedWeight] === 'thumbsup')
+                && this.props.thumbs.attributes.weight[votedWeight] === 'thumbsup')
             {
                 vote = "thumbsup"
             }
@@ -150,7 +150,7 @@ GameCardFront.propTypes = {
     totalattributevotes: PropTypes.number.isRequired,
     thumbcount: PropTypes.number.isRequired,
     thumbnail: PropTypes.string,
-    attrthumbs: PropTypes.object.isRequired,
+    thumbs: PropTypes.object.isRequired,
     yearpublished: PropTypes.number,
     reallynarrow: PropTypes.bool.isRequired,
 }

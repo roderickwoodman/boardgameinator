@@ -13,7 +13,14 @@ export class Boardgameinator extends React.Component {
         super(props)
         this.state = { 
             allGames: [],
-            attrThumbs: {'players': {}, 'weight': {}, 'category': {}, 'mechanic': {}},
+            thumbs: {
+                'attributes': {
+                    'players': {}, 
+                    'weight': {}, 
+                    'category': {}, 
+                    'mechanic': {}
+                }
+            },
             titleThumbs: {},
             windowWidth: 0,
             windowHeight: 0
@@ -87,9 +94,9 @@ export class Boardgameinator extends React.Component {
             this.setState({ titleThumbs: stored_titleThumbs })
         }
 
-        const stored_attrThumbs = JSON.parse(localStorage.getItem("attrThumbs"))
-        if (stored_attrThumbs !== null) {
-            this.setState({ attrThumbs: stored_attrThumbs })
+        const stored_thumbs = JSON.parse(localStorage.getItem("thumbs"))
+        if (stored_thumbs !== null) {
+            this.setState({ thumbs: stored_thumbs })
         }
 
         this.updateDimensions()
@@ -168,10 +175,10 @@ export class Boardgameinator extends React.Component {
             }
 
             // remove any attribute upvotes for attributes no longer occurring in any other game
-            let attrThumbs = JSON.parse(JSON.stringify(prevState.attrThumbs))
-            for (let attrName in attrThumbs) {
+            let thumbs = JSON.parse(JSON.stringify(prevState.thumbs))
+            for (let attrName in thumbs.attributes) {
                 if (attrName === 'players') {
-                    for (let votedplayercount in attrThumbs[attrName]) {
+                    for (let votedplayercount in thumbs.attributes[attrName]) {
                         let attributeStillOccurs = false
                         for (let game of allGames) {
                             if (this.gameSupportsPlayercount(game, votedplayercount)) {
@@ -180,11 +187,11 @@ export class Boardgameinator extends React.Component {
                             }
                         }
                         if (!attributeStillOccurs) {
-                            delete attrThumbs[attrName][votedplayercount]
+                            delete thumbs.attributes[attrName][votedplayercount]
                         }
                     }
                 } else if (attrName === 'weight') {
-                    for (let votedweight in attrThumbs[attrName]) {
+                    for (let votedweight in thumbs.attributes[attrName]) {
                         let attributeStillOccurs = false
                         for (let game of allGames) {
                             if (game.weight === votedweight) {
@@ -193,11 +200,11 @@ export class Boardgameinator extends React.Component {
                             }
                         }
                         if (!attributeStillOccurs) {
-                            delete attrThumbs[attrName][votedweight]
+                            delete thumbs.attributes[attrName][votedweight]
                         }
                     }
                 } else if (attrName === 'category') {
-                    for (let votedcategory in attrThumbs[attrName]) {
+                    for (let votedcategory in thumbs.attributes[attrName]) {
                         let attributeStillOccurs = false
                         for (let game of allGames) {
                             for (let category of game.attributes.categories) {
@@ -208,11 +215,11 @@ export class Boardgameinator extends React.Component {
                             }
                         }
                         if (!attributeStillOccurs) {
-                            delete attrThumbs[attrName][votedcategory]
+                            delete thumbs.attributes[attrName][votedcategory]
                         }
                     }
                 } else if (attrName === 'mechanic') {
-                    for (let votedmechanic in attrThumbs[attrName]) {
+                    for (let votedmechanic in thumbs.attributes[attrName]) {
                         let attributeStillOccurs = false
                         for (let game of allGames) {
                             for (let mechanic of game.attributes.mechanics) {
@@ -223,7 +230,7 @@ export class Boardgameinator extends React.Component {
                             }
                         }
                         if (!attributeStillOccurs) {
-                            delete attrThumbs[attrName][votedmechanic]
+                            delete thumbs.attributes[attrName][votedmechanic]
                         }
                     }
                 }
@@ -231,13 +238,13 @@ export class Boardgameinator extends React.Component {
 
             localStorage.setItem('allGames', JSON.stringify(allGames))
             localStorage.setItem('titleThumbs', JSON.stringify(titleThumbs))
-            localStorage.setItem('attrThumbs', JSON.stringify(attrThumbs))
+            localStorage.setItem('thumbs', JSON.stringify(thumbs))
 
             // push these changes into 2 state variables
             return { 
                 allGames: allGames,
                 titleThumbs: titleThumbs,
-                attrThumbs:attrThumbs 
+                thumbs:thumbs 
             }
         })
     }
@@ -246,13 +253,20 @@ export class Boardgameinator extends React.Component {
         this.setState(prevState => {
             let allGames = []
             let titleThumbs = {}
-            let attrThumbs = {'players': {}, 'weight': {}, 'category': {}, 'mechanic': {}}
+            let thumbs = {
+                'attributes': {
+                    'players': {}, 
+                    'weight': {}, 
+                    'category': {}, 
+                    'mechanic': {}
+                }
+            }
             localStorage.setItem('allGames', JSON.stringify(allGames))
-            localStorage.setItem('attrThumbs', JSON.stringify(attrThumbs))
+            localStorage.setItem('thumbs', JSON.stringify(thumbs))
             return { 
                 allGames: allGames, 
                 titleThumbs: titleThumbs, 
-                attrThumbs:attrThumbs 
+                thumbs:thumbs 
             }
         })
     }
@@ -356,7 +370,7 @@ export class Boardgameinator extends React.Component {
 
     totalAttributeVotes() {
         let count = 0
-        Object.entries(this.state.attrThumbs)
+        Object.entries(this.state.thumbs.attributes)
             .forEach( function(category) {
                 count += Object.values(category[1]).filter( vote => vote === 'thumbsup').length
             })
@@ -379,15 +393,15 @@ export class Boardgameinator extends React.Component {
                 return { titleThumbs: updated_titleThumbs }
             // record a new attribute vote
             } else {
-                let updated_attrThumbs = JSON.parse(JSON.stringify(prevState.attrThumbs))
-                let oldvote = updated_attrThumbs[attrtype][attrname]
+                let updated_thumbs = JSON.parse(JSON.stringify(prevState.thumbs))
+                let oldvote = updated_thumbs.attributes[attrtype][attrname]
                 if (newvote !== oldvote) {
-                    updated_attrThumbs[attrtype][attrname] = newvote
+                    updated_thumbs.attributes[attrtype][attrname] = newvote
                 } else {
-                    delete(updated_attrThumbs[attrtype][attrname])
+                    delete(updated_thumbs.attributes[attrtype][attrname])
                 }
-                localStorage.setItem('attrThumbs', JSON.stringify(updated_attrThumbs))
-                return { attrThumbs: updated_attrThumbs }
+                localStorage.setItem('thumbs', JSON.stringify(updated_thumbs))
+                return { thumbs: updated_thumbs }
             }
         })
     }
@@ -401,17 +415,17 @@ export class Boardgameinator extends React.Component {
                 localStorage.setItem('titleThumbs', JSON.stringify(updated_titleThumbs))
                 return { titleThumbs: updated_titleThumbs }
             } else {
-                let updated_attrThumbs = JSON.parse(JSON.stringify(prevState.attrThumbs))
+                let updated_thumbs = JSON.parse(JSON.stringify(prevState.thumbs))
                 if (attrtype === 'all_attributes') {
-                    updated_attrThumbs['players'] = clearVotes
-                    updated_attrThumbs['weight'] = clearVotes
-                    updated_attrThumbs['category'] = clearVotes
-                    updated_attrThumbs['mechanic'] = clearVotes
+                    updated_thumbs.attributes['players'] = clearVotes
+                    updated_thumbs.attributes['weight'] = clearVotes
+                    updated_thumbs.attributes['category'] = clearVotes
+                    updated_thumbs.attributes['mechanic'] = clearVotes
                 } else {
-                    updated_attrThumbs[attrtype] = clearVotes
+                    updated_thumbs.attributes[attrtype] = clearVotes
                 }
-                localStorage.setItem('attrThumbs', JSON.stringify(updated_attrThumbs))
-                return { attrThumbs: updated_attrThumbs }
+                localStorage.setItem('thumbs', JSON.stringify(updated_thumbs))
+                return { thumbs: updated_thumbs }
             }
         })
     }
@@ -447,7 +461,7 @@ export class Boardgameinator extends React.Component {
                     allgames={this.state.allGames} 
                     onnewtitle={this.onNewTitle}
                     titlethumbs={this.state.titleThumbs} 
-                    attrthumbs={this.state.attrThumbs} 
+                    thumbs={this.state.thumbs} 
                     ondelete={this.onDeleteTitle}
                     ondeleteall={this.onDeleteAllTitles}
                     onnewvote={this.onNewVote}

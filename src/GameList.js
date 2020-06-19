@@ -61,8 +61,8 @@ export class GameList extends React.Component {
     getThumbedPlayercounts() {
         // collect all of the voted playercounts
         let playercounts = []
-        if (this.props.attrthumbs.hasOwnProperty('players')) {
-            for (let playercount in this.props.attrthumbs.players) {
+        if (this.props.thumbs.attributes.hasOwnProperty('players')) {
+            for (let playercount in this.props.thumbs.attributes.players) {
                 playercounts.push(parseInt(playercount.slice(0, -1)))
             }
         }
@@ -72,8 +72,8 @@ export class GameList extends React.Component {
     getThumbedWeights() {
         // collect all of the voted weights
         let weights = []
-        if (this.props.attrthumbs.hasOwnProperty('weight')) {
-            for (let weight in this.props.attrthumbs.weight) {
+        if (this.props.thumbs.attributes.hasOwnProperty('weight')) {
+            for (let weight in this.props.thumbs.attributes.weight) {
                 weights.push(weight)
             }
         }
@@ -89,24 +89,24 @@ export class GameList extends React.Component {
                 counts[game.name] = defaultCount
                 // playercount section of a game gets ONE TOTAL thumbsup if any of its supported playercounts gets a thumbsup
                 for (let playercount=game.attributes.min_players; playercount<=game.attributes.max_players; playercount++) {
-                    if (this.props.attrthumbs.players.hasOwnProperty(playercount + 'P')) {
+                    if (this.props.thumbs.attributes.players.hasOwnProperty(playercount + 'P')) {
                         counts[game.name]++
                         break
                     }
                 }
                 // weight section of a game gets ONE TOTAL thumbsup if its weight has a thumbsup
-                if (this.props.attrthumbs.weight.hasOwnProperty(game.attributes.average_weight_name)) {
+                if (this.props.thumbs.attributes.weight.hasOwnProperty(game.attributes.average_weight_name)) {
                     counts[game.name]++
                 }
                 // categories section of a game gets one thumbsup for each thumbed-up category
                 for (const category of game.attributes.categories) {
-                    if (this.props.attrthumbs.category.hasOwnProperty(category)) {
+                    if (this.props.thumbs.attributes.category.hasOwnProperty(category)) {
                         counts[game.name]++
                     }
                 }
                 // mechanics section of a game gets one thumbsup for each thumbed-up mechanic
                 for (const mechanic of game.attributes.mechanics) {
-                    if (this.props.attrthumbs.mechanic.hasOwnProperty(mechanic)) {
+                    if (this.props.thumbs.attributes.mechanic.hasOwnProperty(mechanic)) {
                         counts[game.name]++
                     }
                 }
@@ -315,7 +315,7 @@ export class GameList extends React.Component {
             <ViewControls 
                 allgames={this.props.allgames}
                 titlethumbs={this.props.titlethumbs}
-                attrthumbs={this.props.attrthumbs}
+                thumbs={this.props.thumbs}
                 onnewtitle={this.props.onnewtitle}
                 ondeleteall={this.props.ondeleteall}
                 sortby={this.state.sortOrder}
@@ -344,7 +344,7 @@ export class GameList extends React.Component {
                                     attributes={game.attributes}
                                     comments={game.comments}
                                     videos={game.videos}
-                                    attrthumbs={this.props.attrthumbs} 
+                                    thumbs={this.props.thumbs} 
                                     totalattributevotes={this.props.totalattributevotes}
                                     thumbcount={thumbcounts[game.name]}
                                     ondelete={this.props.ondelete}
@@ -375,7 +375,7 @@ GameList.propTypes = {
     ondelete: PropTypes.func.isRequired,
     ondeleteall: PropTypes.func.isRequired,
     titlethumbs: PropTypes.object.isRequired,
-    attrthumbs: PropTypes.object.isRequired,
+    thumbs: PropTypes.object.isRequired,
     onnewvote: PropTypes.func.isRequired,
     onclearsectionvotes: PropTypes.func.isRequired,
     attributestally: PropTypes.object.isRequired,

@@ -89,10 +89,10 @@ export const ViewControls = (props) => {
 
     let num_title_votes = Object.keys(props.titlethumbs).length
 
-    let num_attr_votes = Object.keys(props.attrthumbs.players).length
-    + Object.keys(props.attrthumbs.weight).length
-    + Object.keys(props.attrthumbs.category).length
-    + Object.keys(props.attrthumbs.mechanic).length
+    let num_attr_votes = Object.keys(props.thumbs.attributes.players).length
+    + Object.keys(props.thumbs.attributes.weight).length
+    + Object.keys(props.thumbs.attributes.category).length
+    + Object.keys(props.thumbs.attributes.mechanic).length
 
     const handleCopyToClipboard = () => {
         let games = ""
@@ -138,7 +138,7 @@ export const ViewControls = (props) => {
                 <ModalBody>
                     <div id="gamevoting-controls">
                         <VoteAttributes 
-                            attrthumbs={props.attrthumbs} 
+                            attrthumbs={props.thumbs.attributes} 
                             attributestally={props.attributestally}
                             onnewvote={props.onnewvote} />
                     </div>
@@ -211,7 +211,7 @@ export const ViewControls = (props) => {
 ViewControls.propTypes = {
     allgames: PropTypes.array.isRequired,
     titlethumbs: PropTypes.object.isRequired,
-    attrthumbs: PropTypes.object.isRequired,
+    thumbs: PropTypes.object.isRequired,
     onnewtitle: PropTypes.func.isRequired,
     ondeleteall: PropTypes.func.isRequired,
     filtermessage: PropTypes.string.isRequired,

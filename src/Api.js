@@ -55,7 +55,12 @@ function parseSearchApiXml(resp_str) {
 }
 
 function parseGamedataApiXml(str) {
-    let game = {"categories": [], "mechanics": []}
+    let game = {
+        "attributes": {
+            "categories": [], 
+            "mechanics": []
+        }
+    }
     let responseDoc = new DOMParser().parseFromString(str, "application/xml")
     let gamesHtmlCollection = responseDoc.getElementsByTagName("item")
     let makeReadable = parseIntoParagraphs
@@ -77,32 +82,24 @@ function parseGamedataApiXml(str) {
                         game["year_published"] = parseInt(node.getAttribute("value"))
                     }
                     if (node.tagName === "minplayers") {
-                        game["min_players"] = parseInt(node.getAttribute("value"))
+                        game.attributes["min_players"] = parseInt(node.getAttribute("value"))
                     }
                     if (node.tagName === "maxplayers") {
-                        game["max_players"] = parseInt(node.getAttribute("value"))
+                        game.attributes["max_players"] = parseInt(node.getAttribute("value"))
                     }
                     if (node.tagName === "minplaytime") {
-                        game["min_playtime"] = parseInt(node.getAttribute("value"))
+                        game.attributes["min_playtime"] = parseInt(node.getAttribute("value"))
                     }
                     if (node.tagName === "maxplaytime") {
-                        game["max_playtime"] = parseInt(node.getAttribute("value"))
+                        game.attributes["max_playtime"] = parseInt(node.getAttribute("value"))
                     }
                     if ( (node.tagName === "link")
                         && (node.getAttribute("type") === "boardgamecategory") ) {
-                        if (game.hasOwnProperty("categories")) {
-                            game["categories"].push(node.getAttribute("value"))
-                        } else {
-                            game["categories"] = [node.getAttribute("value")]
-                        }
+                        game.attributes.categories.push(node.getAttribute("value"))
                     }
                     if ( (node.tagName === "link")
                         && (node.getAttribute("type") === "boardgamemechanic") ) {
-                        if (game.hasOwnProperty("mechanics")) {
-                            game["mechanics"].push(node.getAttribute("value"))
-                        } else {
-                            game["mechanics"] = [node.getAttribute("value")]
-                        }
+                        game.attributes.mechanics.push(node.getAttribute("value"))
                     }
                     if ( node.tagName === "statistics") {
                         node.childNodes.forEach(
@@ -114,8 +111,8 @@ function parseGamedataApiXml(str) {
                                                 game["num_weights"] = grandchildNode.getAttribute("value")
                                             }
                                             if (grandchildNode.tagName === "averageweight") {
-                                                game["average_weight"] = grandchildNode.getAttribute("value")
-                                                let weight = parseFloat(game.average_weight)
+                                                game.attributes["average_weight"] = grandchildNode.getAttribute("value")
+                                                let weight = parseFloat(game.attributes.average_weight)
                                                 let weightname = null
                                                 if (weight < 1.5) {
                                                     weightname = "light"
@@ -128,7 +125,7 @@ function parseGamedataApiXml(str) {
                                                 } else {
                                                     weightname = "heavy"
                                                 }
-                                                game["average_weight_name"] = weightname
+                                                game.attributes["average_weight_name"] = weightname
                                             }
                                         }
                                     )

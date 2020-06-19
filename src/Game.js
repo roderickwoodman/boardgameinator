@@ -7,7 +7,7 @@ import { GameCardBack } from './GameCardBack'
 export class Game extends React.Component {
 
     render() {
-        const { id, idunderinspection, inspectingsection, name, thumbnail, description, yearpublished, minplayers, maxplayers, minplaytime, maxplaytime, averageweightname, categories, mechanics, comments, videos, totalattributevotes, attrthumbs, thumbcount, ondelete, ontoggleinspection, oninspectionsectionchange, reallynarrow } = this.props
+        const { id, idunderinspection, inspectingsection, name, thumbnail, description, yearpublished, attributes, comments, videos, totalattributevotes, attrthumbs, thumbcount, ondelete, ontoggleinspection, oninspectionsectionchange, reallynarrow } = this.props
         let gamecard
         let gamecardClasses = (id === idunderinspection) ? "game inspecting" : "game"
         if (id !== idunderinspection) {
@@ -16,13 +16,7 @@ export class Game extends React.Component {
                 thumbnail={thumbnail}
                 name={name}
                 yearpublished={yearpublished}
-                minplayers={minplayers}
-                maxplayers={maxplayers}
-                minplaytime={minplaytime}
-                maxplaytime={maxplaytime}
-                averageweightname={averageweightname}
-                categories={categories}
-                mechanics={mechanics}
+                attributes={attributes}
                 totalattributevotes={totalattributevotes}
                 attrthumbs={attrthumbs} 
                 thumbcount={thumbcount} 
@@ -55,18 +49,12 @@ export class Game extends React.Component {
 }
 
 Game.propTypes = {
-    averageweightname: PropTypes.string.isRequired,
-    categories: PropTypes.array.isRequired,
+    attributes: PropTypes.object.isRequired,
     comments: PropTypes.array,
     description: PropTypes.array.isRequired,
     id: PropTypes.number.isRequired,
     idunderinspection: PropTypes.number,
     inspectingsection: PropTypes.string.isRequired,
-    maxplayers: PropTypes.number.isRequired,
-    maxplaytime: PropTypes.number.isRequired,
-    mechanics: PropTypes.array.isRequired,
-    minplayers: PropTypes.number.isRequired,
-    minplaytime: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
     ondelete: PropTypes.func.isRequired,
     oninspectionsectionchange: PropTypes.func.isRequired,

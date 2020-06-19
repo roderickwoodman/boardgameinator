@@ -88,24 +88,24 @@ export class GameList extends React.Component {
                 let defaultCount = 0
                 counts[game.name] = defaultCount
                 // playercount section of a game gets ONE TOTAL thumbsup if any of its supported playercounts gets a thumbsup
-                for (let playercount=game.min_players; playercount<=game.max_players; playercount++) {
+                for (let playercount=game.attributes.min_players; playercount<=game.attributes.max_players; playercount++) {
                     if (this.props.attrthumbs.players.hasOwnProperty(playercount + 'P')) {
                         counts[game.name]++
                         break
                     }
                 }
                 // weight section of a game gets ONE TOTAL thumbsup if its weight has a thumbsup
-                if (this.props.attrthumbs.weight.hasOwnProperty(game.average_weight_name)) {
+                if (this.props.attrthumbs.weight.hasOwnProperty(game.attributes.average_weight_name)) {
                     counts[game.name]++
                 }
                 // categories section of a game gets one thumbsup for each thumbed-up category
-                for (const category of game.categories) {
+                for (const category of game.attributes.categories) {
                     if (this.props.attrthumbs.category.hasOwnProperty(category)) {
                         counts[game.name]++
                     }
                 }
                 // mechanics section of a game gets one thumbsup for each thumbed-up mechanic
-                for (const mechanic of game.mechanics) {
+                for (const mechanic of game.attributes.mechanics) {
                     if (this.props.attrthumbs.mechanic.hasOwnProperty(mechanic)) {
                         counts[game.name]++
                     }
@@ -200,7 +200,7 @@ export class GameList extends React.Component {
             if (!self.state.filterPlayercount || !favoredPlayercounts.length) {
                 return true
             } else {
-                for (let playercount=game.min_players; playercount<=game.max_players; playercount++) {
+                for (let playercount=game.attributes.min_players; playercount<=game.attributes.max_players; playercount++) {
                     if (favoredPlayercounts.includes(playercount)) {
                         return true
                     }
@@ -218,7 +218,7 @@ export class GameList extends React.Component {
         let filtered = games.filter(function(game) {
             if (!self.state.filterWeight || !favoredWeights.length) {
                 return true
-            } else if (favoredWeights.includes(game.average_weight_name)) {
+            } else if (favoredWeights.includes(game.attributes.average_weight_name)) {
                 return true
             } else {
                 return false
@@ -281,9 +281,9 @@ export class GameList extends React.Component {
                     }
                 }
             } else if (self.state.sortOrder === 'maxplayers') {
-                if (a.max_players < b.max_players) {
+                if (a.attributes.max_players < b.attributes.max_players) {
                     return 1
-                } else if (a.max_players > b.max_players) {
+                } else if (a.attributes.max_players > b.attributes.max_players) {
                     return -1
                 } else {
                     if (attrcounts[a.name] < attrcounts[b.name]) {
@@ -344,13 +344,7 @@ export class GameList extends React.Component {
                                     thumbnail={game.thumbnail} 
                                     description={game.description} 
                                     yearpublished={game.year_published} 
-                                    minplayers={game.min_players} 
-                                    maxplayers={game.max_players} 
-                                    minplaytime={game.min_playtime} 
-                                    maxplaytime={game.max_playtime}
-                                    averageweightname={game.average_weight_name}
-                                    categories={game.categories}
-                                    mechanics={game.mechanics} 
+                                    attributes={game.attributes}
                                     comments={game.comments}
                                     videos={game.videos}
                                     attrthumbs={this.props.attrthumbs} 

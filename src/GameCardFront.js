@@ -26,11 +26,11 @@ export class GameCardFront extends React.Component {
     }
 
     getUpvotedCategories() {
-        return Object.entries(this.props.attrthumbs['category']).filter( entry => entry[1] === 'thumbsup' && this.props.categories.includes(entry[0]) ).map( entry => entry[0] )
+        return Object.entries(this.props.attrthumbs['category']).filter( entry => entry[1] === 'thumbsup' && this.props.attributes.categories.includes(entry[0]) ).map( entry => entry[0] )
     }
 
     getUpvotedMechanics() {
-        return Object.entries(this.props.attrthumbs['mechanic']).filter( entry => entry[1] === 'thumbsup' && this.props.mechanics.includes(entry[0]) ).map( entry => entry[0] )
+        return Object.entries(this.props.attrthumbs['mechanic']).filter( entry => entry[1] === 'thumbsup' && this.props.attributes.mechanics.includes(entry[0]) ).map( entry => entry[0] )
     }
 
     // player count section gets only one, aggregated vote; only one <li> (ex: "2-6 players") 
@@ -77,7 +77,7 @@ export class GameCardFront extends React.Component {
     }
 
     render() {
-        const { id, thumbnail, name, yearpublished, minplayers, maxplayers, minplaytime, maxplaytime, averageweightname, categories, mechanics, totalattributevotes, thumbcount, ontoggleinspection, ondelete } = this.props
+        const { id, thumbnail, name, yearpublished, attributes, totalattributevotes, thumbcount, ontoggleinspection, ondelete } = this.props
         let upvoted_attributes = [ ...this.getUpvotedCategories(), ...this.getUpvotedMechanics() ].sort()
         return (
             <React.Fragment>
@@ -95,26 +95,26 @@ export class GameCardFront extends React.Component {
             <section className="gamecard-visual">
                 <Thumbnail url={thumbnail} thumbcount={thumbcount} totalattributevotes={totalattributevotes} />
                 <div className="overlay">
-                    {(minplayers !== maxplayers)
-                        ? <div className={this.getPlayersVote(minplayers, maxplayers)}><FontAwesomeIcon icon={faUserFriends}/> {minplayers}-{maxplayers}</div>
-                        : <div className={this.getPlayersVote(minplayers, maxplayers)}><FontAwesomeIcon icon={faUserFriends}/> {minplayers}</div>
+                    {(attributes.min_players !== attributes.max_players)
+                        ? <div className={this.getPlayersVote(attributes.min_players, attributes.max_players)}><FontAwesomeIcon icon={faUserFriends}/> {attributes.min_players}-{attributes.max_players}</div>
+                        : <div className={this.getPlayersVote(attributes.min_players, attributes.max_players)}><FontAwesomeIcon icon={faUserFriends}/> {attributes.min_players}</div>
                     }
-                    {(minplaytime !== maxplaytime)
-                        ? <div><FontAwesomeIcon icon={faClock}/> {minplaytime}-{maxplaytime}'</div>
-                        : <div><FontAwesomeIcon icon={faClock}/> {minplaytime}'</div>
+                    {(attributes.min_playtime !== attributes.max_playtime)
+                        ? <div><FontAwesomeIcon icon={faClock}/> {attributes.min_playtime}-{attributes.max_playtime}'</div>
+                        : <div><FontAwesomeIcon icon={faClock}/> {attributes.min_playtime}'</div>
                     }
                 </div>
             </section>
             <div className="gamecard-weight">
-                {(minplayers !== maxplayers)
-                    ? <div className={this.getPlayersVote(minplayers, maxplayers)}><FontAwesomeIcon icon={faUserFriends}/> {minplayers}-{maxplayers}</div>
-                    : <div className={this.getPlayersVote(minplayers, maxplayers)}><FontAwesomeIcon icon={faUserFriends}/> {minplayers}</div>
+                {(attributes.min_players !== attributes.max_players)
+                    ? <div className={this.getPlayersVote(attributes.min_players, attributes.max_players)}><FontAwesomeIcon icon={faUserFriends}/> {attributes.min_players}-{attributes.max_players}</div>
+                    : <div className={this.getPlayersVote(attributes.min_players, attributes.max_players)}><FontAwesomeIcon icon={faUserFriends}/> {attributes.min_players}</div>
                 }
-                {(minplaytime !== maxplaytime)
-                    ? <div className="estimated-playtime"><FontAwesomeIcon icon={faClock}/> {minplaytime}-{maxplaytime}'</div>
-                    : <div className="estimated-playtime"><FontAwesomeIcon icon={faClock}/> {minplaytime}'</div>
+                {(attributes.min_playtime !== attributes.max_playtime)
+                    ? <div className="estimated-playtime"><FontAwesomeIcon icon={faClock}/> {attributes.min_playtime}-{attributes.max_playtime}'</div>
+                    : <div className="estimated-playtime"><FontAwesomeIcon icon={faClock}/> {attributes.min_playtime}'</div>
                 }
-                <div className={this.getWeightVote(averageweightname)}>{this.getWeightName(averageweightname)}</div>
+                <div className={this.getWeightVote(attributes.average_weight_name)}>{this.getWeightName(attributes.average_weight_name)}</div>
             </div>
             <div className="gamecard-upvoted-attributes">
                 { upvoted_attributes.map( (value) =>
@@ -122,14 +122,14 @@ export class GameCardFront extends React.Component {
                 )}
             </div>
             <ul className="gamecard-categories">
-                {(categories.length)
-                    ? categories.map(value => <li key={value} className={this.getMyVote('category', value)}>{value}</li>)
+                {(attributes.categories.length)
+                    ? attributes.categories.map(value => <li key={value} className={this.getMyVote('category', value)}>{value}</li>)
                     : <li>(no categories)</li>
                 }
             </ul>
             <ul className="gamecard-mechanics">
-                {(mechanics.length)
-                    ? mechanics.map(value => <li key={value} className={this.getMyVote('mechanic', value)}>{value}</li>)
+                {(attributes.mechanics.length)
+                    ? attributes.mechanics.map(value => <li key={value} className={this.getMyVote('mechanic', value)}>{value}</li>)
                     : <li>(no mechanics)</li>
                 }
             </ul>
@@ -142,14 +142,8 @@ export class GameCardFront extends React.Component {
 }
 
 GameCardFront.propTypes = {
-    averageweightname: PropTypes.string.isRequired,
-    categories: PropTypes.array.isRequired,
     id: PropTypes.number.isRequired,
-    maxplayers: PropTypes.number.isRequired,
-    maxplaytime: PropTypes.number.isRequired,
-    mechanics: PropTypes.array.isRequired,
-    minplayers: PropTypes.number.isRequired,
-    minplaytime: PropTypes.number.isRequired,
+    attributes: PropTypes.object.isRequired,
     name: PropTypes.string.isRequired,
     ondelete: PropTypes.func.isRequired,
     ontoggleinspection: PropTypes.func.isRequired,

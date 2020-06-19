@@ -93,7 +93,7 @@ export class GameCardFront extends React.Component {
                 }
             </section>
             <section className="gamecard-visual">
-                <Thumbnail url={thumbnail} thumbcount={thumbcount} totalattributevotes={thumbs.total_attribute_votes} />
+                <Thumbnail url={thumbnail} thumbs={thumbs} thumbcount={thumbcount} />
                 <div className="overlay">
                     {(attributes.min_players !== attributes.max_players)
                         ? <div className={this.getPlayersVote(attributes.min_players, attributes.max_players)}><FontAwesomeIcon icon={faUserFriends}/> {attributes.min_players}-{attributes.max_players}</div>

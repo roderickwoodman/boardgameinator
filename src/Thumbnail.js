@@ -9,7 +9,7 @@ export class Thumbnail extends React.Component {
         return (
             <div className="thumbnail">
                 <img src={this.props.url} alt="game box cover" />
-                <div className={"vote-count " + ((this.props.totalattributevotes > 0) ? "" : "no-attribute-votes")}>
+                <div className={"vote-count " + ((this.props.thumbs.total_attribute_votes > 0) ? "" : "no-attribute-votes")}>
                     <FontAwesomeIcon icon={faThumbsUp} />:{this.props.thumbcount} 
                     <span className="vote-count-label">{this.props.thumbcount === 1 ? 'attribute' : 'attributes'}</span>
                 </div>
@@ -19,7 +19,7 @@ export class Thumbnail extends React.Component {
 }
 
 Thumbnail.propTypes = {
-    totalattributevotes: PropTypes.number.isRequired,
+    thumbs: PropTypes.object.isRequired,
     thumbcount: PropTypes.number.isRequired,
     url: PropTypes.string,
 }

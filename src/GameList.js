@@ -50,8 +50,8 @@ export class GameList extends React.Component {
     getThumbedTitles() {
         // collect all of the voted titles (by ID)
         let titles_by_id = []
-        if (Object.keys(this.props.titlethumbs).length) {
-            for (let id in this.props.titlethumbs) {
+        if (Object.keys(this.props.thumbs.titles).length) {
+            for (let id in this.props.thumbs.titles) {
                 titles_by_id.push(parseInt(id))
             }
         }
@@ -122,7 +122,7 @@ export class GameList extends React.Component {
             for (const game of this.props.allgames) {
                 let defaultCount = 0
                 counts[game.name] = defaultCount
-                if (this.props.titlethumbs.hasOwnProperty(game.name)) {
+                if (this.props.thumbs.titles.hasOwnProperty(game.name)) {
                     counts[game.name]++
                 }
             }
@@ -314,7 +314,6 @@ export class GameList extends React.Component {
             <React.Fragment>
             <ViewControls 
                 allgames={this.props.allgames}
-                titlethumbs={this.props.titlethumbs}
                 thumbs={this.props.thumbs}
                 onnewtitle={this.props.onnewtitle}
                 ondeleteall={this.props.ondeleteall}
@@ -374,7 +373,6 @@ GameList.propTypes = {
     onnewtitle: PropTypes.func.isRequired,
     ondelete: PropTypes.func.isRequired,
     ondeleteall: PropTypes.func.isRequired,
-    titlethumbs: PropTypes.object.isRequired,
     thumbs: PropTypes.object.isRequired,
     onnewvote: PropTypes.func.isRequired,
     onclearsectionvotes: PropTypes.func.isRequired,

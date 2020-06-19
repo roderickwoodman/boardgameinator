@@ -87,7 +87,7 @@ export const ViewControls = (props) => {
         }
     }, [props])
 
-    let num_title_votes = Object.keys(props.titlethumbs).length
+    let num_title_votes = Object.keys(props.thumbs.titles).length
 
     let num_attr_votes = Object.keys(props.thumbs.attributes.players).length
     + Object.keys(props.thumbs.attributes.weight).length
@@ -155,7 +155,7 @@ export const ViewControls = (props) => {
                     <div id="gamelisting-controls">
                         <VoteTitles
                             allgames={props.allgames} 
-                            titlethumbs={props.titlethumbs} 
+                            titlethumbs={props.thumbs.titles} 
                             onnewvote={props.onnewvote}
                             ondeleteall={props.ondeleteall} />
                     </div>
@@ -210,7 +210,6 @@ export const ViewControls = (props) => {
 
 ViewControls.propTypes = {
     allgames: PropTypes.array.isRequired,
-    titlethumbs: PropTypes.object.isRequired,
     thumbs: PropTypes.object.isRequired,
     onnewtitle: PropTypes.func.isRequired,
     ondeleteall: PropTypes.func.isRequired,

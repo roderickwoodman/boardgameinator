@@ -57,7 +57,7 @@ export class GameCardBack extends React.Component {
 
     render() {
 
-        const { id, name, yearpublished, description, inspectingsection, comments, videos, allthumbs, ontoggleinspection, oninspectionsectionchange, ondelete, thumbnail, thumbcount } = this.props
+        const { id, name, yearpublished, description, inspectingsection, comments, videos, allthumbs, ontoggleinspection, oninspectionsectionchange, ondelete, thumbnail, thumbcounts } = this.props
         return (
             <React.Fragment>
             <section className="gamecard-header">
@@ -75,7 +75,7 @@ export class GameCardBack extends React.Component {
                 }
             </section>
             <section className="gamecard-visual">
-                <Thumbnail url={thumbnail} allthumbs={allthumbs} thumbcount={thumbcount} />
+                <Thumbnail url={thumbnail} allthumbs={allthumbs} thumbcounts={thumbcounts} />
             </section>
             <ul id="inspectionsection-selector">
                 <li id="select-description" className={"selector darkbg" + (inspectingsection === "description" ? " selected" : "")} onClick={oninspectionsectionchange}>{this.props.reallynarrow ? 'Desc.' : 'Description'}</li>
@@ -134,6 +134,7 @@ GameCardBack.propTypes = {
     description: PropTypes.array.isRequired,
     inspectingsection: PropTypes.string.isRequired,
     allthumbs: PropTypes.object.isRequired,
+    thumbcounts: PropTypes.object.isRequired,
     comments: PropTypes.array,
     videos: PropTypes.array,
     ontoggleinspection: PropTypes.func.isRequired,

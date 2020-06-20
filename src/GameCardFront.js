@@ -77,7 +77,7 @@ export class GameCardFront extends React.Component {
     }
 
     render() {
-        const { id, thumbnail, name, yearpublished, attributes, allthumbs, thumbcount, ontoggleinspection, ondelete } = this.props
+        const { id, thumbnail, name, yearpublished, attributes, allthumbs, thumbcounts, ontoggleinspection, ondelete } = this.props
         let upvoted_attributes = [ ...this.getUpvotedCategories(), ...this.getUpvotedMechanics() ].sort()
         return (
             <React.Fragment>
@@ -93,7 +93,7 @@ export class GameCardFront extends React.Component {
                 }
             </section>
             <section className="gamecard-visual">
-                <Thumbnail url={thumbnail} allthumbs={allthumbs} thumbcount={thumbcount} />
+                <Thumbnail url={thumbnail} allthumbs={allthumbs} thumbcounts={thumbcounts} />
                 <div className="overlay">
                     {(attributes.min_players !== attributes.max_players)
                         ? <div className={this.getPlayersVote(attributes.min_players, attributes.max_players)}><FontAwesomeIcon icon={faUserFriends}/> {attributes.min_players}-{attributes.max_players}</div>
@@ -147,7 +147,7 @@ GameCardFront.propTypes = {
     name: PropTypes.string.isRequired,
     ondelete: PropTypes.func.isRequired,
     ontoggleinspection: PropTypes.func.isRequired,
-    thumbcount: PropTypes.number.isRequired,
+    thumbcounts: PropTypes.object.isRequired,
     thumbnail: PropTypes.string,
     allthumbs: PropTypes.object.isRequired,
     yearpublished: PropTypes.number,

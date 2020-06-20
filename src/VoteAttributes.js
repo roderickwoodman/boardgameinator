@@ -165,7 +165,7 @@ export class VoteAttributes extends React.Component {
                             elementid='supported-players'
                             title='PLAYERS:'
                             counts={attributestally.playercounts}
-                            thumbs={this.props.attrthumbs['players']}
+                            sectionthumbs={this.props.attrthumbs['players']}
                             onnewvote={this.props.onnewvote}
                             alphabetize={false}
                             suppresslowcounts={false}
@@ -185,7 +185,7 @@ export class VoteAttributes extends React.Component {
                             elementid='weight-counts'
                             title='WEIGHT:'
                             counts={attributestally.weightcounts}
-                            thumbs={this.props.attrthumbs['weight']}
+                            sectionthumbs={this.props.attrthumbs['weight']}
                             onnewvote={this.props.onnewvote}
                             alphabetize={false}
                             suppresslowcounts={false}
@@ -205,7 +205,7 @@ export class VoteAttributes extends React.Component {
                             elementid='category-counts'
                             title='CATEGORY:'
                             counts={attributestally.categorycounts}
-                            thumbs={this.props.attrthumbs['category']}
+                            sectionthumbs={this.props.attrthumbs['category']}
                             onnewvote={this.props.onnewvote}
                             alphabetize={true}
                             suppresslowcounts={true}
@@ -225,7 +225,7 @@ export class VoteAttributes extends React.Component {
                             elementid='mechanic-counts'
                             title='MECHANIC:'
                             counts={attributestally.mechaniccounts}
-                            thumbs={this.props.attrthumbs['mechanic']}
+                            sectionthumbs={this.props.attrthumbs['mechanic']}
                             onnewvote={this.props.onnewvote}
                             alphabetize={true}
                             suppresslowcounts={true}

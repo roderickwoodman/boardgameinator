@@ -50,8 +50,8 @@ export class GameList extends React.Component {
     getThumbedTitles() {
         // collect all of the voted titles (by ID)
         let titles_by_id = []
-        if (Object.keys(this.props.thumbs.titles).length) {
-            for (let id in this.props.thumbs.titles) {
+        if (Object.keys(this.props.allthumbs.titles).length) {
+            for (let id in this.props.allthumbs.titles) {
                 titles_by_id.push(parseInt(id))
             }
         }
@@ -61,8 +61,8 @@ export class GameList extends React.Component {
     getThumbedPlayercounts() {
         // collect all of the voted playercounts
         let playercounts = []
-        if (this.props.thumbs.attributes.hasOwnProperty('players')) {
-            for (let playercount in this.props.thumbs.attributes.players) {
+        if (this.props.allthumbs.attributes.hasOwnProperty('players')) {
+            for (let playercount in this.props.allthumbs.attributes.players) {
                 playercounts.push(parseInt(playercount.slice(0, -1)))
             }
         }
@@ -72,8 +72,8 @@ export class GameList extends React.Component {
     getThumbedWeights() {
         // collect all of the voted weights
         let weights = []
-        if (this.props.thumbs.attributes.hasOwnProperty('weight')) {
-            for (let weight in this.props.thumbs.attributes.weight) {
+        if (this.props.allthumbs.attributes.hasOwnProperty('weight')) {
+            for (let weight in this.props.allthumbs.attributes.weight) {
                 weights.push(weight)
             }
         }
@@ -89,24 +89,24 @@ export class GameList extends React.Component {
                 counts[game.name] = defaultCount
                 // playercount section of a game gets ONE TOTAL thumbsup if any of its supported playercounts gets a thumbsup
                 for (let playercount=game.attributes.min_players; playercount<=game.attributes.max_players; playercount++) {
-                    if (this.props.thumbs.attributes.players.hasOwnProperty(playercount + 'P')) {
+                    if (this.props.allthumbs.attributes.players.hasOwnProperty(playercount + 'P')) {
                         counts[game.name]++
                         break
                     }
                 }
                 // weight section of a game gets ONE TOTAL thumbsup if its weight has a thumbsup
-                if (this.props.thumbs.attributes.weight.hasOwnProperty(game.attributes.average_weight_name)) {
+                if (this.props.allthumbs.attributes.weight.hasOwnProperty(game.attributes.average_weight_name)) {
                     counts[game.name]++
                 }
                 // categories section of a game gets one thumbsup for each thumbed-up category
                 for (const category of game.attributes.categories) {
-                    if (this.props.thumbs.attributes.category.hasOwnProperty(category)) {
+                    if (this.props.allthumbs.attributes.category.hasOwnProperty(category)) {
                         counts[game.name]++
                     }
                 }
                 // mechanics section of a game gets one thumbsup for each thumbed-up mechanic
                 for (const mechanic of game.attributes.mechanics) {
-                    if (this.props.thumbs.attributes.mechanic.hasOwnProperty(mechanic)) {
+                    if (this.props.allthumbs.attributes.mechanic.hasOwnProperty(mechanic)) {
                         counts[game.name]++
                     }
                 }
@@ -122,7 +122,7 @@ export class GameList extends React.Component {
             for (const game of this.props.allgames) {
                 let defaultCount = 0
                 counts[game.name] = defaultCount
-                if (this.props.thumbs.titles.hasOwnProperty(game.name)) {
+                if (this.props.allthumbs.titles.hasOwnProperty(game.name)) {
                     counts[game.name]++
                 }
             }
@@ -314,7 +314,7 @@ export class GameList extends React.Component {
             <React.Fragment>
             <ViewControls 
                 allgames={this.props.allgames}
-                thumbs={this.props.thumbs}
+                allthumbs={this.props.allthumbs}
                 onnewtitle={this.props.onnewtitle}
                 ondeleteall={this.props.ondeleteall}
                 sortby={this.state.sortOrder}
@@ -342,7 +342,7 @@ export class GameList extends React.Component {
                                     attributes={game.attributes}
                                     comments={game.comments}
                                     videos={game.videos}
-                                    thumbs={this.props.thumbs} 
+                                    allthumbs={this.props.allthumbs} 
                                     thumbcount={thumbcounts[game.name]}
                                     ondelete={this.props.ondelete}
                                     ontoggleinspection={this.handleInspectionChange}
@@ -371,7 +371,7 @@ GameList.propTypes = {
     onnewtitle: PropTypes.func.isRequired,
     ondelete: PropTypes.func.isRequired,
     ondeleteall: PropTypes.func.isRequired,
-    thumbs: PropTypes.object.isRequired,
+    allthumbs: PropTypes.object.isRequired,
     onnewvote: PropTypes.func.isRequired,
     onclearsectionvotes: PropTypes.func.isRequired,
     reallynarrow: PropTypes.bool.isRequired,

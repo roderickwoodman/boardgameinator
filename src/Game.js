@@ -7,7 +7,7 @@ import { GameCardBack } from './GameCardBack'
 export class Game extends React.Component {
 
     render() {
-        const { id, idunderinspection, inspectingsection, name, thumbnail, description, yearpublished, attributes, comments, videos, thumbs, thumbcount, ondelete, ontoggleinspection, oninspectionsectionchange, reallynarrow } = this.props
+        const { id, idunderinspection, inspectingsection, name, thumbnail, description, yearpublished, attributes, comments, videos, allthumbs, thumbcount, ondelete, ontoggleinspection, oninspectionsectionchange, reallynarrow } = this.props
         let gamecard
         let gamecardClasses = (id === idunderinspection) ? "game inspecting" : "game"
         if (id !== idunderinspection) {
@@ -17,7 +17,7 @@ export class Game extends React.Component {
                 name={name}
                 yearpublished={yearpublished}
                 attributes={attributes}
-                thumbs={thumbs} 
+                allthumbs={allthumbs} 
                 thumbcount={thumbcount} 
                 ontoggleinspection={ontoggleinspection} 
                 ondelete={ondelete}
@@ -33,7 +33,7 @@ export class Game extends React.Component {
                 inspectingsection={inspectingsection}
                 comments={comments}
                 videos={videos}
-                thumbs={thumbs}
+                allthumbs={allthumbs}
                 ontoggleinspection={ontoggleinspection} 
                 oninspectionsectionchange={oninspectionsectionchange} 
                 ondelete={ondelete}
@@ -60,7 +60,7 @@ Game.propTypes = {
     ontoggleinspection: PropTypes.func.isRequired,
     thumbcount: PropTypes.number.isRequired,
     thumbnail: PropTypes.string,
-    thumbs: PropTypes.object.isRequired,
+    allthumbs: PropTypes.object.isRequired,
     videos: PropTypes.array,
     yearpublished: PropTypes.number,
     reallynarrow: PropTypes.bool.isRequired,

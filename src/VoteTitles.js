@@ -27,7 +27,7 @@ export class VoteTitles extends React.Component {
                 elementid='game-titles'
                 title='TITLES:'
                 counts={countsArray}
-                thumbs={this.props.titlethumbs}
+                sectionthumbs={this.props.titlethumbs}
                 onnewvote={this.props.onnewvote}
                 alphabetize={true}
                 suppresslowcounts={true}

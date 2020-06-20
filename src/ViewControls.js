@@ -87,12 +87,12 @@ export const ViewControls = (props) => {
         }
     }, [props])
 
-    let num_title_votes = Object.keys(props.thumbs.titles).length
+    let num_title_votes = Object.keys(props.allthumbs.titles).length
 
-    let num_attr_votes = Object.keys(props.thumbs.attributes.players).length
-    + Object.keys(props.thumbs.attributes.weight).length
-    + Object.keys(props.thumbs.attributes.category).length
-    + Object.keys(props.thumbs.attributes.mechanic).length
+    let num_attr_votes = Object.keys(props.allthumbs.attributes.players).length
+    + Object.keys(props.allthumbs.attributes.weight).length
+    + Object.keys(props.allthumbs.attributes.category).length
+    + Object.keys(props.allthumbs.attributes.mechanic).length
 
     const handleCopyToClipboard = () => {
         let games = ""
@@ -139,7 +139,7 @@ export const ViewControls = (props) => {
                     <div id="gamevoting-controls">
                         <VoteAttributes 
                             allgames={props.allgames}
-                            attrthumbs={props.thumbs.attributes} 
+                            attrthumbs={props.allthumbs.attributes} 
                             onnewvote={props.onnewvote} />
                     </div>
                 </ModalBody>
@@ -155,7 +155,7 @@ export const ViewControls = (props) => {
                     <div id="gamelisting-controls">
                         <VoteTitles
                             allgames={props.allgames} 
-                            titlethumbs={props.thumbs.titles} 
+                            titlethumbs={props.allthumbs.titles} 
                             onnewvote={props.onnewvote}
                             ondeleteall={props.ondeleteall} />
                     </div>
@@ -210,7 +210,7 @@ export const ViewControls = (props) => {
 
 ViewControls.propTypes = {
     allgames: PropTypes.array.isRequired,
-    thumbs: PropTypes.object.isRequired,
+    allthumbs: PropTypes.object.isRequired,
     onnewtitle: PropTypes.func.isRequired,
     ondeleteall: PropTypes.func.isRequired,
     filtermessage: PropTypes.string.isRequired,

@@ -19,28 +19,28 @@ export class GameCardFront extends React.Component {
     }
 
     getMyVote(section, attrName) {
-        let myVote = this.props.thumbs.attributes[section].hasOwnProperty(attrName) 
+        let myVote = this.props.allthumbs.attributes[section].hasOwnProperty(attrName) 
             ? 'thumbsup' //FIXME, derive from props: this.props.preferences['attrVote']
             : 'novote'
         return myVote
     }
 
     getUpvotedCategories() {
-        return Object.entries(this.props.thumbs.attributes['category']).filter( entry => entry[1] === 'thumbsup' && this.props.attributes.categories.includes(entry[0]) ).map( entry => entry[0] )
+        return Object.entries(this.props.allthumbs.attributes['category']).filter( entry => entry[1] === 'thumbsup' && this.props.attributes.categories.includes(entry[0]) ).map( entry => entry[0] )
     }
 
     getUpvotedMechanics() {
-        return Object.entries(this.props.thumbs.attributes['mechanic']).filter( entry => entry[1] === 'thumbsup' && this.props.attributes.mechanics.includes(entry[0]) ).map( entry => entry[0] )
+        return Object.entries(this.props.allthumbs.attributes['mechanic']).filter( entry => entry[1] === 'thumbsup' && this.props.attributes.mechanics.includes(entry[0]) ).map( entry => entry[0] )
     }
 
     // player count section gets only one, aggregated vote; only one <li> (ex: "2-6 players") 
     getPlayersVote(myminplayers, mymaxplayers) {
         let vote = "novote"
-        Object.keys(this.props.thumbs.attributes.players).forEach( (votedPlayercount) => {
+        Object.keys(this.props.allthumbs.attributes.players).forEach( (votedPlayercount) => {
             let voted = parseInt(votedPlayercount.slice(0, -1))
             if (voted >= myminplayers
                 && voted <= mymaxplayers
-                && this.props.thumbs.attributes.players[votedPlayercount] === 'thumbsup')
+                && this.props.allthumbs.attributes.players[votedPlayercount] === 'thumbsup')
             {
                 vote = "thumbsup"
             }
@@ -51,9 +51,9 @@ export class GameCardFront extends React.Component {
     // vote section gets only one, aggregated vote; only one <li> (ex: "medium heavy") 
     getWeightVote(myweight) {
         let vote = "novote"
-        Object.keys(this.props.thumbs.attributes.weight).forEach( (votedWeight) => {
+        Object.keys(this.props.allthumbs.attributes.weight).forEach( (votedWeight) => {
             if (myweight === votedWeight
-                && this.props.thumbs.attributes.weight[votedWeight] === 'thumbsup')
+                && this.props.allthumbs.attributes.weight[votedWeight] === 'thumbsup')
             {
                 vote = "thumbsup"
             }
@@ -77,7 +77,7 @@ export class GameCardFront extends React.Component {
     }
 
     render() {
-        const { id, thumbnail, name, yearpublished, attributes, thumbs, thumbcount, ontoggleinspection, ondelete } = this.props
+        const { id, thumbnail, name, yearpublished, attributes, allthumbs, thumbcount, ontoggleinspection, ondelete } = this.props
         let upvoted_attributes = [ ...this.getUpvotedCategories(), ...this.getUpvotedMechanics() ].sort()
         return (
             <React.Fragment>
@@ -93,7 +93,7 @@ export class GameCardFront extends React.Component {
                 }
             </section>
             <section className="gamecard-visual">
-                <Thumbnail url={thumbnail} thumbs={thumbs} thumbcount={thumbcount} />
+                <Thumbnail url={thumbnail} allthumbs={allthumbs} thumbcount={thumbcount} />
                 <div className="overlay">
                     {(attributes.min_players !== attributes.max_players)
                         ? <div className={this.getPlayersVote(attributes.min_players, attributes.max_players)}><FontAwesomeIcon icon={faUserFriends}/> {attributes.min_players}-{attributes.max_players}</div>
@@ -149,7 +149,7 @@ GameCardFront.propTypes = {
     ontoggleinspection: PropTypes.func.isRequired,
     thumbcount: PropTypes.number.isRequired,
     thumbnail: PropTypes.string,
-    thumbs: PropTypes.object.isRequired,
+    allthumbs: PropTypes.object.isRequired,
     yearpublished: PropTypes.number,
     reallynarrow: PropTypes.bool.isRequired,
 }

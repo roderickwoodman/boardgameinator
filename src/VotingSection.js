@@ -39,7 +39,7 @@ export class VotingSection extends React.Component {
                 {orderedVotables.map((key, index) => {
                     return <VotableElement 
                         key={key.attrName}
-                        preferences={this.props.thumbs}
+                        preferences={this.props.sectionthumbs}
                         attrtype={this.props.type}
                         attrname={key.attrName} 
                         attrcount={key.attrCount} 
@@ -55,7 +55,7 @@ VotingSection.propTypes = {
     counts: PropTypes.array.isRequired,
     elementid: PropTypes.string.isRequired,
     onnewvote: PropTypes.func.isRequired,
-    thumbs: PropTypes.object.isRequired,
+    sectionthumbs: PropTypes.object.isRequired,
     title: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
     alphabetize: PropTypes.bool.isRequired,

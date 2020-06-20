@@ -77,7 +77,7 @@ export class GameCardFront extends React.Component {
     }
 
     render() {
-        const { id, thumbnail, name, yearpublished, attributes, allthumbs, thumbcounts, ontoggleinspection, ondelete } = this.props
+        const { id, thumbnail, name, yearpublished, attributes, allthumbs, thumbcounts, ontoggleinspection, ondelete, reallynarrow } = this.props
         let upvoted_attributes = [ ...this.getUpvotedCategories(), ...this.getUpvotedMechanics() ].sort()
         return (
             <React.Fragment>
@@ -93,7 +93,7 @@ export class GameCardFront extends React.Component {
                 }
             </section>
             <section className="gamecard-visual">
-                <Thumbnail url={thumbnail} allthumbs={allthumbs} thumbcounts={thumbcounts} />
+                <Thumbnail url={thumbnail} allthumbs={allthumbs} thumbcounts={thumbcounts} reallynarrow={reallynarrow} />
                 <div className="overlay">
                     {(attributes.min_players !== attributes.max_players)
                         ? <div className={this.getPlayersVote(attributes.min_players, attributes.max_players)}><FontAwesomeIcon icon={faUserFriends}/> {attributes.min_players}-{attributes.max_players}</div>

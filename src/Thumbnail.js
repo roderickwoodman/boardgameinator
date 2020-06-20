@@ -10,8 +10,8 @@ export class Thumbnail extends React.Component {
             <div className="thumbnail">
                 <img src={this.props.url} alt="game box cover" />
                 <div className={"vote-count " + ((this.props.allthumbs.total_attribute_votes > 0) ? "" : "no-attribute-votes")}>
-                    <FontAwesomeIcon icon={faThumbsUp} />:{this.props.thumbcounts.attributes} 
-                    <span className="vote-count-label">{this.props.thumbcounts.attributes === 1 ? 'attribute' : 'attributes'}</span>
+                    <FontAwesomeIcon icon={faThumbsUp} /> {this.props.thumbcounts.titles} 
+                    <span className="vote-count-label">& {this.props.thumbcounts.attributes} {this.props.thumbcounts.attributes === 1 ? 'attribute' : 'attributes'}</span>
                 </div>
             </div>
         )

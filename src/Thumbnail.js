@@ -28,7 +28,7 @@ export class Thumbnail extends React.Component {
         return (
             <div className="thumbnail">
                 <img src={this.props.url} alt="game box cover" />
-                <div className={"vote-count " + ((this.props.allthumbs.total_title_votes > 0 || this.props.allthumbs.total_attribute_votes > 0) ? "" : "no-attribute-votes")}>
+                <div className={"vote-count " + ((this.props.allthumbs.total_title_votes > 0 || this.props.allthumbs.total_attribute_votes > 0) ? "" : "no-votes-to-show")}>
                     <FontAwesomeIcon icon={faThumbsUp} /> {this.props.thumbcounts.titles} 
                     <span className="vote-count-label">& {this.props.thumbcounts.attributes} {this.getAttributeCountLabel(this.props.thumbcounts.attributes)}</span>
                 </div>

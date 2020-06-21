@@ -201,7 +201,7 @@ html, #root {
   text-align: center;
 }
 
-.vote-count.no-attribute-votes {
+.vote-count.no-votes-to-show {
   display: none;
 }
 

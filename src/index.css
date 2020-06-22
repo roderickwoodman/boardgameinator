@@ -229,20 +229,22 @@ html, #root {
   flex-wrap: wrap;
   justify-content: space-evenly;
   line-height: 1.5;
+  font-weight: 800;
 }
 
-div.gamecard-weight .name {
+.attribute.weight {
   margin-left: 10px;
   margin-right: 10px;
 }
 
-.gamecard-weight .name {
+.attribute.weight {
   height: 1.5rem;
   flex: 0 0 100%;
 }
 
 .gamecard-weight .supported-playercount,
 .gamecard-weight .estimated-playtime {
+  display: none;
   height: 1.5rem;
   flex: 0 0 44%;
 }
@@ -280,16 +282,6 @@ div.gamecard-weight .name {
   border-bottom: 1px solid orange;
   border-left: 1px solid orange;
   border-radius: 5px 0 0 5px;
-}
-
-.gamecard-weight .supported-playercount,
-.gamecard-weight .estimated-playtime {
-  display: none;
-}
-
-.gamecard-title,
-.gamecard-weight {
-  font-weight: 800;
 }
 
 .gamecard-footer {
@@ -767,7 +759,7 @@ button:enabled,
     display: inline-block;
   }
 
-  .gamecard-weight .name,
+  .gamecard-weight .weight,
   .gamecard-weight .supported-playercount,
   .gamecard-weight .estimated-playtime {
     display: inline-block;

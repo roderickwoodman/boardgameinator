@@ -20,10 +20,18 @@ export class GameCardFront extends React.Component {
 
     getClasses(section, attrName) {
         let classes = 'attribute'
-        classes += (this.props.allthumbs.attributes[section].hasOwnProperty(attrName) 
-                    && this.props.allthumbs.attributes[section][attrName] === 'thumbsup')
-            ? ' thumbsup' //FIXME, derive from props: this.props.preferences['attrVote']
-            : ' novote'
+        if (section === 'weight') {
+            let weight_vote = this.getWeightVote(attrName)
+            classes += ' weight ' + weight_vote
+        } else if (section === 'supported-playercount') {
+            let supported_players_vote = this.getPlayersVote(this.props.attributes.min_players, this.props.attributes.max_players)
+            classes += ' supported-playercount ' + supported_players_vote
+        } else {
+            classes += (this.props.allthumbs.attributes[section].hasOwnProperty(attrName) 
+                        && this.props.allthumbs.attributes[section][attrName] === 'thumbsup')
+                ? ' thumbsup' //FIXME, derive from props: this.props.preferences['attrVote']
+                : ' novote'
+        }
         return classes
     }
 
@@ -47,7 +55,7 @@ export class GameCardFront extends React.Component {
                 vote = "thumbsup"
             }
         })
-        return 'supported-playercount ' + vote
+        return vote
     }
 
     // vote section gets only one, aggregated vote; only one <li> (ex: "medium heavy") 
@@ -60,7 +68,7 @@ export class GameCardFront extends React.Component {
                 vote = "thumbsup"
             }
         })
-        return 'name ' + vote
+        return vote
     }
 
     getWeightName(myweight) {
@@ -104,8 +112,8 @@ export class GameCardFront extends React.Component {
                 <Thumbnail name={name} url={thumbnail} allthumbs={allthumbs} thumbcounts={thumbcounts} reallynarrow={reallynarrow} onnewvote={onnewvote} />
                 <div className="overlay">
                     {(attributes.min_players !== attributes.max_players)
-                        ? <div className={this.getPlayersVote(attributes.min_players, attributes.max_players)}><FontAwesomeIcon icon={faUserFriends}/> {attributes.min_players}-{attributes.max_players}</div>
-                        : <div className={this.getPlayersVote(attributes.min_players, attributes.max_players)}><FontAwesomeIcon icon={faUserFriends}/> {attributes.min_players}</div>
+                        ? <div className={this.getClasses('supported-playercount', null)}><FontAwesomeIcon icon={faUserFriends}/> {attributes.min_players}-{attributes.max_players}</div>
+                        : <div className={this.getClasses('supported-playercount', null)}><FontAwesomeIcon icon={faUserFriends}/> {attributes.min_players}</div>
                     }
                     {(attributes.min_playtime !== attributes.max_playtime)
                         ? <div><FontAwesomeIcon icon={faClock}/> {attributes.min_playtime}-{attributes.max_playtime}'</div>
@@ -115,18 +123,18 @@ export class GameCardFront extends React.Component {
             </section>
             <div className="gamecard-weight">
                 {(attributes.min_players !== attributes.max_players)
-                    ? <div className={this.getPlayersVote(attributes.min_players, attributes.max_players)}><FontAwesomeIcon icon={faUserFriends}/> {attributes.min_players}-{attributes.max_players}</div>
-                    : <div className={this.getPlayersVote(attributes.min_players, attributes.max_players)}><FontAwesomeIcon icon={faUserFriends}/> {attributes.min_players}</div>
+                    ? <div className={this.getClasses('supported-playercount', null)}><FontAwesomeIcon icon={faUserFriends}/> {attributes.min_players}-{attributes.max_players}</div>
+                    : <div className={this.getClasses('supported-playercount', null)}><FontAwesomeIcon icon={faUserFriends}/> {attributes.min_players}</div>
                 }
                 {(attributes.min_playtime !== attributes.max_playtime)
                     ? <div className="estimated-playtime"><FontAwesomeIcon icon={faClock}/> {attributes.min_playtime}-{attributes.max_playtime}'</div>
                     : <div className="estimated-playtime"><FontAwesomeIcon icon={faClock}/> {attributes.min_playtime}'</div>
                 }
-                <div className={this.getWeightVote(attributes.average_weight_name)}>{this.getWeightName(attributes.average_weight_name)}</div>
+                <div className={this.getClasses('weight', attributes.average_weight_name)}>{this.getWeightName(attributes.average_weight_name)}</div>
             </div>
             <div className="gamecard-upvoted-attributes">
                 { upvoted_attributes.map( (value) =>
-                    <div key={value} className="thumbsup">{value}</div>
+                    <div key={value} className="attribute thumbsup">{value}</div>
                 )}
             </div>
             <ul className="gamecard-categories">

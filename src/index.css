@@ -317,14 +317,9 @@ div.gamecard-weight .name {
   cursor: pointer;
 }
 
-.gamecard-upvoted-attributes .thumbsup {
+.attribute.thumbsup {
   color: green;
   font-weight: 800;
-}
-
-.game li.thumbsup,
-.game div:not(.overlay) > div.thumbsup {
-  color: green;
   background-color: white;
   border-radius: 5px;
   font-weight: 900;

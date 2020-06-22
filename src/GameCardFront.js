@@ -13,16 +13,18 @@ export class GameCardFront extends React.Component {
 
     constructor(props) {
         super(props)
-        this.getMyVote = this.getMyVote.bind(this)
+        this.getClasses = this.getClasses.bind(this)
         this.getUpvotedCategories = this.getUpvotedCategories.bind(this)
         this.getUpvotedMechanics = this.getUpvotedMechanics.bind(this)
     }
 
-    getMyVote(section, attrName) {
-        let myVote = this.props.allthumbs.attributes[section].hasOwnProperty(attrName) 
-            ? 'thumbsup' //FIXME, derive from props: this.props.preferences['attrVote']
-            : 'novote'
-        return myVote
+    getClasses(section, attrName) {
+        let classes = 'attribute'
+        classes += (this.props.allthumbs.attributes[section].hasOwnProperty(attrName) 
+                    && this.props.allthumbs.attributes[section][attrName] === 'thumbsup')
+            ? ' thumbsup' //FIXME, derive from props: this.props.preferences['attrVote']
+            : ' novote'
+        return classes
     }
 
     getUpvotedCategories() {
@@ -129,13 +131,13 @@ export class GameCardFront extends React.Component {
             </div>
             <ul className="gamecard-categories">
                 {(attributes.categories.length)
-                    ? attributes.categories.map(value => <li key={value} className={this.getMyVote('category', value)}>{value}</li>)
+                    ? attributes.categories.map(value => <li key={value} className={this.getClasses('category', value)}>{value}</li>)
                     : <li>(no categories)</li>
                 }
             </ul>
             <ul className="gamecard-mechanics">
                 {(attributes.mechanics.length)
-                    ? attributes.mechanics.map(value => <li key={value} className={this.getMyVote('mechanic', value)}>{value}</li>)
+                    ? attributes.mechanics.map(value => <li key={value} className={this.getClasses('mechanic', value)}>{value}</li>)
                     : <li>(no mechanics)</li>
                 }
             </ul>

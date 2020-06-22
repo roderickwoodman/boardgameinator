@@ -9,7 +9,15 @@ export class Game extends React.Component {
     render() {
         const { id, idunderinspection, inspectingsection, name, thumbnail, description, yearpublished, attributes, comments, videos, allthumbs, thumbcounts, onnewvote, ondelete, ontoggleinspection, oninspectionsectionchange, reallynarrow } = this.props
         let gamecard
-        let gamecardClasses = (id === idunderinspection) ? "game inspecting" : "game"
+        let gamecardClasses = 'game'
+        if (id === idunderinspection) {
+            gamecardClasses += ' inspecting'
+        } 
+        if (thumbcounts.titles === 1) {
+            gamecardClasses += ' thumbsup'
+        } else {
+            gamecardClasses += ' novote'
+        }
         if (id !== idunderinspection) {
             gamecard = <GameCardFront 
                 id={id}

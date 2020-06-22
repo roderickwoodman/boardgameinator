@@ -27,11 +27,8 @@ export class Thumbnail extends React.Component {
 
     getClasses() {
         let classes = 'vote-count'
-        if (this.props.thumbcounts.titles === 0) {
-            classes += ' no-title-votes'
-            if (this.props.allthumbs.total_attribute_votes === 0) {
-                classes += ' no-votes-to-show'
-            }
+        if (this.props.allthumbs.total_attribute_votes === 0) {
+            classes += ' no-votes-to-show'
         }
         return classes
     }

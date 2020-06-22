@@ -201,7 +201,7 @@ html, #root {
   text-align: center;
 }
 
-.vote-count.no-title-votes {
+.game.novote {
   color: gray;
 }
 
@@ -324,7 +324,7 @@ div.gamecard-weight .name {
   cursor: pointer;
 }
 
-.thumbsup {
+.gamecard-upvoted-attributes .thumbsup {
   color: green;
   font-weight: 800;
 }

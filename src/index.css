@@ -118,32 +118,29 @@ html, #root {
   border-bottom-right-radius: 5px;
 }
 
-.selector {
+.game.novote {
+  color: gray;
+}
+
+.segmentedcontrol {
   display: inline-block;
   padding: 2px 3px;
+  font-weight: 800;
+  height: 100%;
+}
+
+.segmentedcontrol.lightbg,
+.segmentedcontrol.darkbg.selected {
   background-color: white;
   color: purple;
   border: 1px solid purple;
 }
 
-.selector.darkbg {
-  display: inline-block;
-  padding: 2px 3px;
+.segmentedcontrol.darkbg,
+.segmentedcontrol.lightbg.selected {
   background-color: purple;
   color: white;
   border: 1px solid white;
-}
-
-.selector.selected {
-  background-color: purple;
-  color: white;
-  font-weight: 800;
-}
-
-.selector.darkbg.selected {
-  background-color: white;
-  color: purple;
-  font-weight: 800;
 }
 
 .status-messages {
@@ -199,10 +196,6 @@ html, #root {
   border-top: 1px solid silver;
   border-bottom: 1px solid silver;
   text-align: center;
-}
-
-.game.novote {
-  color: gray;
 }
 
 .vote-count.no-votes-to-show {
@@ -577,7 +570,7 @@ button.fa.fa-button {
 }
 
 .gamecard-visual,
-.selector,
+.segmentedcontrol,
 button:enabled,
 .fa-button:enabled {
   cursor: pointer;

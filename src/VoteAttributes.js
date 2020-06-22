@@ -144,10 +144,10 @@ export class VoteAttributes extends React.Component {
             <h4>Upvote board game attributes:</h4>
 
             <ul id="votingsection-selector">
-                <li id="select-players" className={"selector" + (this.state.votingOn === "players" ? " selected" : "")} onClick={this.handleSectionChange}>Players</li>
-                <li id="select-weights" className={"selector" + (this.state.votingOn === "weights" ? " selected" : "")} onClick={this.handleSectionChange}>Weights</li>
-                <li id="select-categories" className={"selector" + (this.state.votingOn === "categories" ? " selected" : "")} onClick={this.handleSectionChange}>Categories</li>
-                <li id="select-mechanics" className={"selector" + (this.state.votingOn === "mechanics" ? " selected" : "")} onClick={this.handleSectionChange}>Mechanics</li>
+                <li id="select-players" className={"segmentedcontrol lightbg" + (this.state.votingOn === "players" ? " selected" : "")} onClick={this.handleSectionChange}>Players</li>
+                <li id="select-weights" className={"segmentedcontrol lightbg" + (this.state.votingOn === "weights" ? " selected" : "")} onClick={this.handleSectionChange}>Weights</li>
+                <li id="select-categories" className={"segmentedcontrol lightbg" + (this.state.votingOn === "categories" ? " selected" : "")} onClick={this.handleSectionChange}>Categories</li>
+                <li id="select-mechanics" className={"segmentedcontrol lightbg" + (this.state.votingOn === "mechanics" ? " selected" : "")} onClick={this.handleSectionChange}>Mechanics</li>
             </ul>
 
             <div id="voting-section">

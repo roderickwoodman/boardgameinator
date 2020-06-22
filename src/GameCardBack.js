@@ -85,9 +85,9 @@ export class GameCardBack extends React.Component {
 
             </section>
             <ul id="inspectionsection-selector">
-                <li id="select-description" className={"selector darkbg" + (inspectingsection === "description" ? " selected" : "")} onClick={oninspectionsectionchange}>{this.props.reallynarrow ? 'Desc.' : 'Description'}</li>
-                <li id="select-comments" className={"selector darkbg" + (inspectingsection === "comments" ? " selected" : "")} onClick={oninspectionsectionchange}>Comments</li>
-                <li id="select-videos" className={"selector darkbg" + (inspectingsection === "videos" ? " selected" : "")} onClick={oninspectionsectionchange}>Videos</li>
+                <li id="select-description" className={"segmentedcontrol darkbg" + (inspectingsection === "description" ? " selected" : "")} onClick={oninspectionsectionchange}>{this.props.reallynarrow ? 'Desc.' : 'Description'}</li>
+                <li id="select-comments" className={"segmentedcontrol darkbg" + (inspectingsection === "comments" ? " selected" : "")} onClick={oninspectionsectionchange}>Comments</li>
+                <li id="select-videos" className={"segmentedcontrol darkbg" + (inspectingsection === "videos" ? " selected" : "")} onClick={oninspectionsectionchange}>Videos</li>
             </ul>
             <section className="gamecard-variable">
                 <TransitionGroup>

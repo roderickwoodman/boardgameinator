@@ -224,10 +224,11 @@ html, #root {
 
 .gamecard-weight {
   grid-area: gc-weight;
-  display: flex;
+  display: inline-block;
+  /* display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: space-evenly;
+  justify-content: space-evenly; */
   line-height: 1.5;
   font-weight: 800;
 }
@@ -313,14 +314,11 @@ html, #root {
   color: green;
   font-weight: 800;
   background-color: white;
-  border-radius: 5px;
-  font-weight: 900;
-  margin:2px 10px;
 }
 
-.overlay div.thumbsup {
-  color: green;
-  background-color: white;
+*:not(.overlay) > .attribute.thumbsup {
+  border-radius: 5px;
+  margin:2px 10px;
 }
 
 .game {
@@ -638,6 +636,8 @@ button:enabled,
 
   .gamecard-weight .supported-playercount,
   .gamecard-weight .estimated-playtime {
+    height: 1.5rem;
+    width: 44%;
     display: inline-block;
   }
 
@@ -652,6 +652,18 @@ button:enabled,
 @media only screen 
   and (min-width: 850px)
   and (max-height: 675px) {
+
+  .gamecard-weight {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+  }
+
+  .gamecard-weight .supported-playercount,
+  .gamecard-weight .estimated-playtime {
+    flex: 0 0 44%;
+  }
 
   .game {
     grid-template-rows: 1.5rem 3.25rem 3rem 4.5rem auto 2rem;

@@ -318,6 +318,9 @@ html, #root {
 
 *:not(.overlay) > .attribute.thumbsup {
   border-radius: 5px;
+}
+
+*:not(.overlay):not(.halfsized) > .attribute.thumbsup {
   margin:2px 10px;
 }
 
@@ -634,10 +637,19 @@ button:enabled,
     border: 1px solid transparent;
   }
 
-  .gamecard-weight .supported-playercount,
-  .gamecard-weight .estimated-playtime {
+  .gamecard-weight {
+    display: inline-block;
+  }
+
+  .gamecard-weight > .halfsized {
+    display: flex;
+    justify-content: space-between;
+    margin: 10px;
+  }
+
+  .gamecard-weight > .halfsized > * {
     height: 1.5rem;
-    width: 44%;
+    flex: 0 0 50%;
     display: inline-block;
   }
 
@@ -780,6 +792,10 @@ button:enabled,
 
   .gamecard-weight {
     justify-content: flex-start;
+  }
+
+  .gamecard-weight > .halfsized {
+    display: inline-block;
   }
 
   .gamecard-visual .overlay,

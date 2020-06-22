@@ -122,14 +122,16 @@ export class GameCardFront extends React.Component {
                 </div>
             </section>
             <div className="gamecard-weight">
-                {(attributes.min_players !== attributes.max_players)
-                    ? <div className={this.getClasses('supported-playercount', null)}><FontAwesomeIcon icon={faUserFriends}/> {attributes.min_players}-{attributes.max_players}</div>
-                    : <div className={this.getClasses('supported-playercount', null)}><FontAwesomeIcon icon={faUserFriends}/> {attributes.min_players}</div>
-                }
-                {(attributes.min_playtime !== attributes.max_playtime)
-                    ? <div className="estimated-playtime"><FontAwesomeIcon icon={faClock}/> {attributes.min_playtime}-{attributes.max_playtime}'</div>
-                    : <div className="estimated-playtime"><FontAwesomeIcon icon={faClock}/> {attributes.min_playtime}'</div>
-                }
+                <div className="halfsized">
+                    {(attributes.min_players !== attributes.max_players)
+                        ? <div className={this.getClasses('supported-playercount', null)}><FontAwesomeIcon icon={faUserFriends}/> {attributes.min_players}-{attributes.max_players}</div>
+                        : <div className={this.getClasses('supported-playercount', null)}><FontAwesomeIcon icon={faUserFriends}/> {attributes.min_players}</div>
+                    }
+                    {(attributes.min_playtime !== attributes.max_playtime)
+                        ? <div className="estimated-playtime"><FontAwesomeIcon icon={faClock}/> {attributes.min_playtime}-{attributes.max_playtime}'</div>
+                        : <div className="estimated-playtime"><FontAwesomeIcon icon={faClock}/> {attributes.min_playtime}'</div>
+                    }
+                </div>
                 <div className={this.getClasses('weight', attributes.average_weight_name)}>{this.getWeightName(attributes.average_weight_name)}</div>
             </div>
             <div className="gamecard-upvoted-attributes">

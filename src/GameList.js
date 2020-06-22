@@ -117,11 +117,9 @@ export class GameList extends React.Component {
                     new_vote_counts.titles++
                 }
 
-                // console.log('nvc:',new_vote_counts)
                 all_vote_counts[game.name] = new_vote_counts
             }
         }
-        console.log('ALL:',all_vote_counts)
         return all_vote_counts
     } 
 
@@ -225,7 +223,6 @@ export class GameList extends React.Component {
     // order the games
     sortGames(games, votecounts) {
         let self = this
-        console.log(votecounts)
         // SORTING OPTIONS:
         //   sort by maxtitlevotes... FIRST: most title votes,  SECOND: most attr votes
         //   sort by maxattrvotes...  FIRST: most attr votes,   SECOND: most title votes
@@ -338,6 +335,7 @@ export class GameList extends React.Component {
                                     videos={game.videos}
                                     allthumbs={this.props.allthumbs} 
                                     thumbcounts={thumbcounts[game.name]}
+                                    onnewvote={this.props.onnewvote}
                                     ondelete={this.props.ondelete}
                                     ontoggleinspection={this.handleInspectionChange}
                                     oninspectionsectionchange={this.handleInspectionSectionChange}

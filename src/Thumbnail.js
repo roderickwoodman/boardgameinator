@@ -26,7 +26,13 @@ export class Thumbnail extends React.Component {
 
     render() {
         return (
-            <div className="thumbnail">
+            <div 
+                className="thumbnail" 
+                data-attrtype="title"
+                data-attrname={this.props.name}
+                data-newvote="thumbsup"
+                onClick={this.props.onnewvote}
+                >
                 <img src={this.props.url} alt="game box cover" />
                 <div className={"vote-count " + ((this.props.allthumbs.total_title_votes > 0 || this.props.allthumbs.total_attribute_votes > 0) ? "" : "no-votes-to-show")}>
                     <FontAwesomeIcon icon={faThumbsUp} /> {this.props.thumbcounts.titles} 
@@ -40,6 +46,8 @@ export class Thumbnail extends React.Component {
 Thumbnail.propTypes = {
     allthumbs: PropTypes.object.isRequired,
     thumbcounts: PropTypes.object.isRequired,
+    name: PropTypes.string.isRequired,
     reallynarrow: PropTypes.bool.isRequired,
+    onnewvote: PropTypes.func.isRequired,
     url: PropTypes.string,
 }

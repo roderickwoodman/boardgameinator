@@ -10,6 +10,7 @@ export class Thumbnail extends React.Component {
         this.state = {
         }
         this.getAttributeCountLabel = this.getAttributeCountLabel.bind(this)
+        this.getClasses = this.getClasses.bind(this)
     }
 
     getAttributeCountLabel(attributecount) {
@@ -24,6 +25,17 @@ export class Thumbnail extends React.Component {
         return label
     }
 
+    getClasses() {
+        let classes = 'vote-count'
+        if (this.props.thumbcounts.titles === 0) {
+            classes += ' no-title-votes'
+            if (this.props.allthumbs.total_attribute_votes === 0) {
+                classes += ' no-votes-to-show'
+            }
+        }
+        return classes
+    }
+
     render() {
         return (
             <div 
@@ -34,7 +46,7 @@ export class Thumbnail extends React.Component {
                 onClick={this.props.onnewvote}
                 >
                 <img src={this.props.url} alt="game box cover" />
-                <div className={"vote-count " + ((this.props.allthumbs.total_title_votes > 0 || this.props.allthumbs.total_attribute_votes > 0) ? "" : "no-votes-to-show")}>
+                <div className={this.getClasses()}>
                     <FontAwesomeIcon icon={faThumbsUp} /> {this.props.thumbcounts.titles} 
                     <span className="vote-count-label">& {this.props.thumbcounts.attributes} {this.getAttributeCountLabel(this.props.thumbcounts.attributes)}</span>
                 </div>

@@ -201,6 +201,10 @@ html, #root {
   text-align: center;
 }
 
+.vote-count.no-title-votes {
+  color: gray;
+}
+
 .vote-count.no-votes-to-show {
   display: none;
 }

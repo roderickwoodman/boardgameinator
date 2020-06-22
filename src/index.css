@@ -576,6 +576,7 @@ button.fa.fa-button {
   color: white;
 }
 
+.gamecard-visual,
 .selector,
 button:enabled,
 .fa-button:enabled {

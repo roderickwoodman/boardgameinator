@@ -74,8 +74,15 @@ export class GameCardBack extends React.Component {
                     : <h6 className="game-yearpublished">(#{id})</h6>
                 }
             </section>
-            <section className="gamecard-visual">
+            <section 
+                className="gamecard-visual"
+                data-attrtype="title"
+                data-attrname={name}
+                data-newvote="thumbsup"
+                onClick={this.props.onnewvote}
+                >
                 <Thumbnail name={name} url={thumbnail} allthumbs={allthumbs} thumbcounts={thumbcounts} onnewvote={onnewvote} />
+
             </section>
             <ul id="inspectionsection-selector">
                 <li id="select-description" className={"selector darkbg" + (inspectingsection === "description" ? " selected" : "")} onClick={oninspectionsectionchange}>{this.props.reallynarrow ? 'Desc.' : 'Description'}</li>

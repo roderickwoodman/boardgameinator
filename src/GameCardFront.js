@@ -92,7 +92,13 @@ export class GameCardFront extends React.Component {
                     : <h6 className="game-yearpublished">(#{id})</h6>
                 }
             </section>
-            <section className="gamecard-visual">
+            <section
+                className="gamecard-visual"
+                data-attrtype="title"
+                data-attrname={name}
+                data-newvote="thumbsup"
+                onClick={this.props.onnewvote}
+                >
                 <Thumbnail name={name} url={thumbnail} allthumbs={allthumbs} thumbcounts={thumbcounts} reallynarrow={reallynarrow} onnewvote={onnewvote} />
                 <div className="overlay">
                     {(attributes.min_players !== attributes.max_players)

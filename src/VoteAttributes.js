@@ -248,7 +248,7 @@ export class VoteAttributes extends React.Component {
 }
 
 VoteAttributes.propTypes = {
-    allgames: PropTypes.object.isRequired,
+    allgames: PropTypes.array.isRequired,
     attrthumbs: PropTypes.object.isRequired,
     onnewvote: PropTypes.func.isRequired,
 }

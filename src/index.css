@@ -310,7 +310,12 @@ html, #root {
   cursor: pointer;
 }
 
-.attribute.thumbsup {
+.game.novote .attribute.thumbsup {
+  color: white;
+  background-color: gray;
+}
+
+.game:not(.novote) .attribute.thumbsup {
   color: green;
   font-weight: 800;
   background-color: white;

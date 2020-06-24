@@ -528,6 +528,11 @@ button.default-danger-styles {
   color: white;
 }
 
+.game.novote button.fa.fa-button {
+  border: 1px dotted gray;
+  color: gray;
+}
+
 button.fa.fa-button {
   min-height: 40px;
   min-width: 40px;
@@ -538,6 +543,10 @@ button.fa.fa-button {
 
 #page-header button.fa.fa-button {
   border: transparent;
+}
+
+.game.novote.inspecting button.fa.fa-button.inspect {
+  background: gray;
 }
 
 .game.inspecting button.fa.fa-button.inspect {
@@ -560,6 +569,12 @@ button.fa.fa-button {
 .game.inspecting .gamecard-collapse-control .fa-button.inspect:hover {
   background: purple;
   color: white;
+}
+
+.game.novote.inspecting .gamecard-header .fa-button.inspect:hover,
+.game.novote.inspecting .gamecard-collapse-control .fa-button.inspect:hover {
+  background: purple;
+  color: gray;
 }
 
 .gamecard-visual,

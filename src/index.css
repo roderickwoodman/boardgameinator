@@ -405,6 +405,11 @@ html, #root {
   color: yellow;
 }
 
+.game.novote.inspecting .footer a,
+.game.novote.inspecting .footer a:visited {
+  color: lightyellow;
+}
+
 .gamecard-visual img {
   max-width: 150px;
   object-fit: contain;
@@ -430,6 +435,11 @@ html, #root {
 
 .footer a {
   color: yellow;
+  text-decoration: underline;
+}
+
+.game.novote .footer a {
+  color: lightyellow;
   text-decoration: underline;
 }
 

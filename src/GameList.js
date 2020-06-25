@@ -21,6 +21,7 @@ export class GameList extends React.Component {
         this.handleFilterChange = this.handleFilterChange.bind(this)
         this.handleInspectionChange = this.handleInspectionChange.bind(this)
         this.handleInspectionSectionChange = this.handleInspectionSectionChange.bind(this)
+        this.getClasses = this.getClasses.bind(this)
     }
 
     componentDidMount() {
@@ -292,6 +293,14 @@ export class GameList extends React.Component {
         return sorted
     }
 
+    getClasses() {
+        let classes = ''
+        if (this.props.allthumbs.total_title_votes === 0) {
+            classes = 'no-votes-to-show'
+        }
+        return classes
+    }
+
     render() {
         let thumbcounts = this.getTotalVotes()
         let sortedFilteredGames = this.sortGames(this.filterWeight(this.filterPlayercount(this.props.allgames)), thumbcounts)
@@ -316,7 +325,7 @@ export class GameList extends React.Component {
                 filtermessage={filterStr}
                 onnewvote={this.props.onnewvote}
                 onclearsectionvotes={this.props.onclearsectionvotes} />
-            <div id="resulting-games">
+            <div id="resulting-games" className={this.getClasses()}>
                 {sortedFilteredGames.length !== 0 && (
                     sortedFilteredGames
                         .map(

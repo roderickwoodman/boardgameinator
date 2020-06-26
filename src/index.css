@@ -315,7 +315,7 @@ html, #root {
   background-color: gray;
 }
 
-.game:not(.novote) .attribute.thumbsup {
+.attribute.thumbsup {
   color: green;
   font-weight: 800;
   background-color: white;

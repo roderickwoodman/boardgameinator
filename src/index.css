@@ -571,6 +571,7 @@ button.fa.fa-button {
 
 #resulting-games:not(.no-votes-to-show) .game.novote.inspecting button.fa.fa-button.inspect {
   background: gray;
+  color: purple;
 }
 
 .game.inspecting button.fa.fa-button.inspect {

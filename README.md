@@ -15,9 +15,17 @@ First of all, **Boardgameinator** IS NOT FOR geeks to manage their huge collecti
 
 Instead, this app IS FOR anyone who feels overwhelmed or who has stalled out in selecting a boardgame. And with so many new titles and all of the hype these days, I do feel your pain.
 
+### What do I do with it?
+
+It is easy to build and upvote a list of board games. Added games will show up as a row of game cards, and their tallied upvotes will show up as an overlay on top of their thumbnail image.
+1. Click the "Add" button to add a board game or two by their titles. 
+2. Click the info button on a game card to get a brief description about a game.
+3. Optionally, click the "Vote Attributes" button to upvote an attribute across all games.
+4. Once you think that you might like a game, click its thumbnail or the "Vote Titles" button to upvote the game itself.
+
 ### Why is it so awesome?
 
-The likability of any board game is so subjective and multifactorial, in the same way that a novel is. And unfortunately, the primary online  resource for the board game industry is a firehose of information called [BoardGameGeek](https://boardgamegeek.com) (BGG). Yes, the geeks are the most vocal group of boardgamers on the Internet, so be very careful with even your most shallow research attempts. The BGG interface is very dense, and because it is organized like an encyclopedia, it forces you to focus on one game at a time.
+The likability of any board game is so subjective and multifactorial, in the same way that a novel is. And unfortunately, the primary online  resource for the board game industry is a firehose of information called [BoardGameGeek](https://boardgamegeek.com) (BGG). But be very careful with even your most shallow research attempts. The BGG interface is very dense, and because it is organized like an encyclopedia, it forces you to focus on one game at a time.
 
 **Boardgameinator**, however, is a user-driven comparison tool that filters through those mountains of BGG data in a visually side-by-side fashion. There is no information overload, and simple mouse clicks either promote or eliminate games. It feels like driving a light e-commerce shopping experience as you converge on what you kinda-sorta knew what you wanted all along.
 

@@ -129,6 +129,20 @@ html, #root {
   height: 100%;
 }
 
+#resulting-games:not(.no-votes-to-show) .game.novote .segmentedcontrol.lightbg,
+#resulting-games:not(.no-votes-to-show) .game.novote .segmentedcontrol.darkbg.selected {
+  background-color: gray;
+  color: purple;
+  border: 1px solid purple;
+}
+
+#resulting-games:not(.no-votes-to-show) .game.novote .segmentedcontrol.darkbg,
+#resulting-games:not(.no-votes-to-show) .game.novote .segmentedcontrol.lightbg.selected {
+  background-color: purple;
+  color: gray;
+  border: 1px solid gray;
+}
+
 .segmentedcontrol.lightbg,
 .segmentedcontrol.darkbg.selected {
   background-color: white;

@@ -272,27 +272,36 @@ export class AddByTitle extends React.Component {
 
     render() {
         return (
-            <section id="input-by-title">
-                <form onSubmit={this.handleSubmit} onReset={this.handleReset}>
-                    <label htmlFor="titles-input">Game Title(s):</label>
-                    <textarea rows="8" cols="40" value={this.state.value} onChange={this.handleChange} placeholder="(exact match only)" required/>
-                    <section className="buttonrow">
-                        <button type="reset" className="default-primary-styles">Reset</button>
-                        <button type="submit" className="default-primary-styles">Submit</button>
-                    </section>
-                </form>
-                <div className="status-messages">
-                    { this.state.statusMessages
-                        .map(
-                            (message, i) => {
-                                return (message.toLowerCase().startsWith("error"))
-                                ? <p key={i} className="message error">{message}</p>
-                                : <p key={i} className="message"><FontAwesomeIcon icon={faLongArrowAltRight} /> {message}</p>
-                            }
-                        )
-                    }
-                </div>
-            </section>
+            <React.Fragment>
+
+            <h4>Add board game(s) by title:</h4>
+
+            <div id="input-section">
+
+                <section id="input-by-title">
+                    <form onSubmit={this.handleSubmit} onReset={this.handleReset}>
+                        <label htmlFor="titles-input">Game Title(s):</label>
+                        <textarea rows="8" cols="40" value={this.state.value} onChange={this.handleChange} placeholder="(exact match only)" required/>
+                        <section className="buttonrow">
+                            <button type="reset" className="default-primary-styles">Reset</button>
+                            <button type="submit" className="default-primary-styles">Submit</button>
+                        </section>
+                    </form>
+                    <div className="status-messages">
+                        { this.state.statusMessages
+                            .map(
+                                (message, i) => {
+                                    return (message.toLowerCase().startsWith("error"))
+                                    ? <p key={i} className="message error">{message}</p>
+                                    : <p key={i} className="message"><FontAwesomeIcon icon={faLongArrowAltRight} /> {message}</p>
+                                }
+                            )
+                        }
+                    </div>
+                </section>
+
+            </div>
+            </React.Fragment>
         )
     }
 }

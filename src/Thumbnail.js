@@ -3,19 +3,11 @@ import PropTypes from 'prop-types'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faThumbsUp } from '@fortawesome/free-solid-svg-icons'
 
-export class Thumbnail extends React.Component {
+export const Thumbnail = (props) => {
 
-    constructor(props) {
-        super(props)
-        this.state = {
-        }
-        this.getAttributeCountLabel = this.getAttributeCountLabel.bind(this)
-        this.getClasses = this.getClasses.bind(this)
-    }
-
-    getAttributeCountLabel(attributecount) {
+    const getAttributeCountLabel = (attributecount) => {
         let label
-        if (this.props.reallynarrow) {
+        if (props.reallynarrow) {
             label = 'attr.'
         } else if (attributecount !== 1) {
             label = 'attributes'
@@ -25,25 +17,23 @@ export class Thumbnail extends React.Component {
         return label
     }
 
-    getClasses() {
+    const getClasses = () => {
         let classes = 'vote-count'
-        if (this.props.allthumbs.total_title_votes === 0) {
+        if (props.allthumbs.total_title_votes === 0) {
             classes += ' no-votes-to-show'
         }
         return classes
     }
 
-    render() {
-        return (
-            <div className="thumbnail">
-                <img src={this.props.url} alt="game box cover" />
-                <div className={this.getClasses()}>
-                    <FontAwesomeIcon icon={faThumbsUp} /> {this.props.thumbcounts.titles} 
-                    <span className="vote-count-label">& {this.props.thumbcounts.attributes} {this.getAttributeCountLabel(this.props.thumbcounts.attributes)}</span>
-                </div>
+    return (
+        <div className="thumbnail">
+            <img src={props.url} alt="game box cover" />
+            <div className={getClasses()}>
+                <FontAwesomeIcon icon={faThumbsUp} /> {props.thumbcounts.titles} 
+                <span className="vote-count-label">& {props.thumbcounts.attributes} {getAttributeCountLabel(props.thumbcounts.attributes)}</span>
             </div>
-        )
-    }
+        </div>
+    )
 }
 
 Thumbnail.propTypes = {

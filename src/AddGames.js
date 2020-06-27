@@ -5,7 +5,7 @@ import { faLongArrowAltRight } from '@fortawesome/free-solid-svg-icons'
 import { searchApi, exactSearchApi, gamedataApi } from './Api.js'
 
 
-export class AddByTitle extends React.Component {
+export class AddGames extends React.Component {
 
     constructor(props) {
         super(props)
@@ -306,7 +306,7 @@ export class AddByTitle extends React.Component {
     }
 }
 
-AddByTitle.propTypes = {
+AddGames.propTypes = {
     allgames: PropTypes.array.isRequired,
     onnewtitle: PropTypes.func.isRequired,
 }

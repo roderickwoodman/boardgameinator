@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
-import { AddByTitle } from './AddByTitle'
+import { AddGames } from './AddGames'
 import { VoteAttributes } from './VoteAttributes'
 import { VoteTitles } from './VoteTitles'
 import Modal from 'react-bootstrap/Modal'
@@ -123,7 +123,7 @@ export const ViewControls = (props) => {
             <Modal size="md" show={addIsOpen} onHide={hideAddModal}>
                 <ModalBody>
                     <div id="gameinput-controls">
-                        <AddByTitle
+                        <AddGames
                             allgames={props.allgames}
                             onnewtitle={props.onnewtitle} />
                     </div>

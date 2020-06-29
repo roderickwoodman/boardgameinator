@@ -6,7 +6,6 @@ import { faTrash } from '@fortawesome/free-solid-svg-icons'
 import { faClock } from '@fortawesome/free-solid-svg-icons'
 import { faUserFriends } from '@fortawesome/free-solid-svg-icons'
 import { Thumbnail } from './Thumbnail'
-import { GameFooter } from './GameFooter'
 
 export const GameCardFront = (props) => {
 
@@ -142,9 +141,6 @@ export const GameCardFront = (props) => {
                 : <li>(no mechanics)</li>
             }
         </ul>
-        <section className="gamecard-footer">
-            <GameFooter gameid={id}/>
-        </section>
         </React.Fragment>
     )
 }

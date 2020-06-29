@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Thumbnail } from './Thumbnail'
-import { GameFooter } from './GameFooter'
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons'
@@ -122,9 +121,6 @@ export const GameCardBack = (props) => {
                     </CSSTransition>
                 }
             </TransitionGroup>
-        </section>
-        <section className="gamecard-footer">
-            <GameFooter gameid={id}/>
         </section>
         </React.Fragment>
     )

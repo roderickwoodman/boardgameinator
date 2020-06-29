@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { GameCardFront } from './GameCardFront'
 import { GameCardBack } from './GameCardBack'
+import { GameFooter } from './GameFooter'
 
 
 export class Game extends React.Component {
@@ -52,6 +53,9 @@ export class Game extends React.Component {
         return(
             <section className={gamecardClasses}>
                 {gamecard}
+                <section className="gamecard-footer">
+                    <GameFooter gameid={id}/>
+                </section>
             </section>
         )
     }

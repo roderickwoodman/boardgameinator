@@ -54,7 +54,7 @@ Videos.propTypes = {
 
 export const GameCardBack = (props) => {
 
-    const { id, name, yearpublished, description, inspectingsection, comments, videos, allthumbs, ontoggleinspection, oninspectionsectionchange, onnewvote, ondelete, thumbnail, thumbcounts } = this.props
+    const { id, name, yearpublished, description, inspectingsection, comments, videos, allthumbs, ontoggleinspection, oninspectionsectionchange, onnewvote, ondelete, thumbnail, thumbcounts } = props
     return (
         <React.Fragment>
         <section className="gamecard-header">
@@ -76,13 +76,13 @@ export const GameCardBack = (props) => {
             data-attrtype="title"
             data-attrname={name}
             data-newvote="thumbsup"
-            onClick={this.props.onnewvote}
+            onClick={props.onnewvote}
             >
             <Thumbnail name={name} url={thumbnail} allthumbs={allthumbs} thumbcounts={thumbcounts} onnewvote={onnewvote} />
 
         </section>
         <ul id="inspectionsection-selector">
-            <li id="select-description" className={"segmentedcontrol darkbg" + (inspectingsection === "description" ? " selected" : "")} onClick={oninspectionsectionchange}>{this.props.reallynarrow ? 'Desc.' : 'Description'}</li>
+            <li id="select-description" className={"segmentedcontrol darkbg" + (inspectingsection === "description" ? " selected" : "")} onClick={oninspectionsectionchange}>{props.reallynarrow ? 'Desc.' : 'Description'}</li>
             <li id="select-comments" className={"segmentedcontrol darkbg" + (inspectingsection === "comments" ? " selected" : "")} onClick={oninspectionsectionchange}>Comments</li>
             <li id="select-videos" className={"segmentedcontrol darkbg" + (inspectingsection === "videos" ? " selected" : "")} onClick={oninspectionsectionchange}>Videos</li>
         </ul>

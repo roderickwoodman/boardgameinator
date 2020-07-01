@@ -1,9 +1,63 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { ViewControls } from './ViewControls'
-import { Game } from './Game'
+import { GameCardFront } from './GameCardFront'
+import { GameCardBack } from './GameCardBack'
+import { GameFooter } from './GameFooter'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLongArrowAltLeft } from '@fortawesome/free-solid-svg-icons'
+
+const Game = (props) => {
+        let gamecard
+        let gamecardClasses = 'game'
+        if (props.id === props.idunderinspection) {
+            gamecardClasses += ' inspecting'
+        } 
+        if (props.thumbcounts.titles === 1) {
+            gamecardClasses += ' thumbsup'
+        } else {
+            gamecardClasses += ' novote'
+        }
+        if (props.id !== props.idunderinspection) {
+            gamecard = <GameCardFront 
+                id={props.id}
+                thumbnail={props.thumbnail}
+                name={props.name}
+                yearpublished={props.yearpublished}
+                attributes={props.attributes}
+                allthumbs={props.allthumbs} 
+                thumbcounts={props.thumbcounts} 
+                ontoggleinspection={props.ontoggleinspection} 
+                onnewvote={props.onnewvote}
+                ondelete={props.ondelete}
+                reallynarrow={props.reallynarrow} />
+        } else {
+            gamecard = <GameCardBack 
+                id={props.id}
+                thumbnail={props.thumbnail}
+                thumbcounts={props.thumbcounts} 
+                name={props.name}
+                yearpublished={props.yearpublished}
+                description={props.description}
+                inspectingsection={props.inspectingsection}
+                comments={props.comments}
+                videos={props.videos}
+                allthumbs={props.allthumbs}
+                ontoggleinspection={props.ontoggleinspection} 
+                oninspectionsectionchange={props.oninspectionsectionchange} 
+                onnewvote={props.onnewvote}
+                ondelete={props.ondelete}
+                reallynarrow={props.reallynarrow} />
+        }
+        return(
+            <section className={gamecardClasses}>
+                {gamecard}
+                <section className="gamecard-footer">
+                    <GameFooter gameid={props.id}/>
+                </section>
+            </section>
+        )
+    }
 
 export class GameList extends React.Component {
 

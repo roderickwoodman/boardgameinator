@@ -358,10 +358,8 @@ export class Boardgameinator extends React.Component {
     handleSortChange(event, value) {
         this.setState(prevState => {
             localStorage.setItem('sortOrder', JSON.stringify(value))
-            localStorage.setItem('idUnderInspection', JSON.stringify(null))
             return {
                 sortOrder: value,
-                idUnderInspection: null
             }
         })
     }
@@ -372,10 +370,8 @@ export class Boardgameinator extends React.Component {
                 this.setState(prevState => {
                     let filterPlayercount = !prevState.filterPlayercount
                     localStorage.setItem('filterPlayercount', JSON.stringify(filterPlayercount))
-                    localStorage.setItem('idUnderInspection', JSON.stringify(null))
                     return { 
                         filterPlayercount: !this.state.filterPlayercount,
-                        idUnderInspection: null
                     }
                 })
                 break
@@ -383,10 +379,8 @@ export class Boardgameinator extends React.Component {
                 this.setState(prevState => {
                     let filterWeight = !prevState.filterWeight
                     localStorage.setItem('filterWeight', JSON.stringify(filterWeight))
-                    localStorage.setItem('idUnderInspection', JSON.stringify(null))
                     return { 
                         filterWeight: !this.state.filterWeight,
-                        idUnderInspection: null
                     }
                 })
                 break

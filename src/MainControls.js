@@ -15,11 +15,11 @@ export const MainControls = (props) => {
 
     const [addIsOpen, setAddIsOpen] = useState(false)
     const [voteAttributesIsOpen, setVoteAttributesIsOpen] = useState(false)
-    const [listIsOpen, setListIsOpen] = useState(false)
+    const [voteTitlesIsOpen, setVoteTitlesIsOpen] = useState(false)
 
     const showAddModal = () => {
         setVoteAttributesIsOpen(false)
-        setListIsOpen(false)
+        setVoteTitlesIsOpen(false)
         setAddIsOpen(true)
     }
 
@@ -29,7 +29,7 @@ export const MainControls = (props) => {
 
     const showVoteAttributesModal = () => {
         setAddIsOpen(false)
-        setListIsOpen(false)
+        setVoteTitlesIsOpen(false)
         setVoteAttributesIsOpen(true)
     }
 
@@ -37,14 +37,14 @@ export const MainControls = (props) => {
         setVoteAttributesIsOpen(false)
     }
 
-    const showListModal = () => {
+    const showVoteTitlesModal = () => {
         setAddIsOpen(false)
         setVoteAttributesIsOpen(false)
-        setListIsOpen(true)
+        setVoteTitlesIsOpen(true)
     }
 
-    const hideListModal = () => {
-        setListIsOpen(false)
+    const hideVoteTitlesModal = () => {
+        setVoteTitlesIsOpen(false)
     }
 
     useEffect( () => {
@@ -104,7 +104,7 @@ export const MainControls = (props) => {
             <button className="default-primary-styles" onClick={showVoteAttributesModal}>Vote Attributes</button>
             <Modal size="md" show={voteAttributesIsOpen} onHide={hideVoteAttributesModal}>
                 <ModalBody>
-                    <div id="gamevoting-controls">
+                    <div id="attribute-voting-controls">
                         <VoteAttributes 
                             allgames={props.allgames}
                             attrthumbs={props.allthumbs.attributes} 
@@ -117,10 +117,10 @@ export const MainControls = (props) => {
                 </ModalFooter>
             </Modal>
 
-            <button className="default-primary-styles" onClick={showListModal}>Vote Games</button>
-            <Modal size="md" show={listIsOpen} onHide={hideListModal}>
+            <button className="default-primary-styles" onClick={showVoteTitlesModal}>Vote Games</button>
+            <Modal size="md" show={voteTitlesIsOpen} onHide={hideVoteTitlesModal}>
                 <ModalBody>
-                    <div id="gamelisting-controls">
+                    <div id="title-voting-controls">
                         <VoteTitles
                             allgames={props.allgames} 
                             titlethumbs={props.allthumbs.titles} 
@@ -131,7 +131,7 @@ export const MainControls = (props) => {
                 <ModalFooter> 
                     <button className="default-danger-styles" onClick={props.ondeleteall} disabled={props.allgames.length===0}>Remove All Games</button>
                     <button className="default-danger-styles" data-attrtype="all_titles" onClick={props.onclearsectionvotes} disabled={num_title_votes===0}>Remove All Votes</button>
-                    <button className="default-primary-styles" onClick={hideListModal}>Close</button>
+                    <button className="default-primary-styles" onClick={hideVoteTitlesModal}>Close</button>
                 </ModalFooter>
             </Modal>
 

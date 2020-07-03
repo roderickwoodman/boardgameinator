@@ -4,6 +4,9 @@ import Modal from 'react-bootstrap/Modal'
 import ModalBody from 'react-bootstrap/ModalBody'
 import ModalFooter from 'react-bootstrap/ModalFooter'
 import 'bootstrap/dist/css/bootstrap.min.css'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faSortAmountDown } from '@fortawesome/free-solid-svg-icons'
+import { faFilter } from '@fortawesome/free-solid-svg-icons'
 
 export const ViewControls = (props) => {
 
@@ -32,7 +35,7 @@ export const ViewControls = (props) => {
         <React.Fragment>
         <div id="view-controls">
 
-            <button className="default-primary-styles" onClick={showSortModal}>Order</button>
+            <button className="fa fa-button" onClick={showSortModal}><FontAwesomeIcon icon={faSortAmountDown}/></button>
             <Modal size="md" show={sortIsOpen} onHide={hideSortModal}>
                 <ModalBody>
                     <div id="gamesorting-controls">
@@ -48,7 +51,7 @@ export const ViewControls = (props) => {
                 </ModalFooter>
             </Modal>
 
-            <button className="default-primary-styles" onClick={showFilterModal}>Filter</button>
+            <button className="fa fa-button" onClick={showFilterModal}><FontAwesomeIcon icon={faFilter}/></button>
             <Modal size="md" show={filterIsOpen} onHide={hideFilterModal}>
                 <ModalBody>
                     <div id="gamefiltering-controls">

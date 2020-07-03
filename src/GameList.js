@@ -263,9 +263,9 @@ export class GameList extends React.Component {
                     }
                 }
             } else if (self.props.sortby === 'minplaytime') {
-                if (a.max_playtime > b.max_playtime) {
+                if (a.attributes.max_playtime > b.attributes.max_playtime) {
                     return 1
-                } else if (a.max_playtime < b.max_playtime) {
+                } else if (a.attributes.max_playtime < b.attributes.max_playtime) {
                     return -1
                 } else {
                     if (votecounts[a.name].attributes < votecounts[b.name].attributes) {
@@ -277,9 +277,9 @@ export class GameList extends React.Component {
                     }
                 }
             } else if (self.props.sortby === 'maxplayers') {
-                if (a.max_players < b.max_players) {
+                if (a.attributes.max_players < b.attributes.max_players) {
                     return 1
-                } else if (a.max_players > b.max_players) {
+                } else if (a.attributes.max_players > b.attributes.max_players) {
                     return -1
                 } else {
                     if (votecounts[a.name].attributes < votecounts[b.name].attributes) {

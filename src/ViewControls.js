@@ -70,7 +70,6 @@ export const ViewControls = (props) => {
 ViewControls.propTypes = {
     sortby: PropTypes.string.isRequired,
     onsortchange: PropTypes.func.isRequired,
-    filtermessage: PropTypes.string.isRequired,
     filterplayercount: PropTypes.bool.isRequired,
     filterweight: PropTypes.bool.isRequired,
     onfilterchange: PropTypes.func.isRequired,

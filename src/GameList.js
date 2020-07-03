@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { MainControls } from './MainControls'
-import { ViewControls } from './ViewControls'
 import { GameCardFront } from './GameCardFront'
 import { GameCardBack } from './GameCardBack'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -370,12 +369,6 @@ export class GameList extends React.Component {
     render() {
         let thumbcounts = this.getTotalVotes()
         let sortedFilteredGames = this.sortGames(this.filterWeight(this.filterPlayercount(this.props.allgames)), thumbcounts)
-        let filterStr
-        if (sortedFilteredGames.length !== this.props.allgames.length) {
-            filterStr = 'now showing ' + sortedFilteredGames.length + ' of ' + this.props.allgames.length + ' games'
-        } else {
-            filterStr = 'now showing ' + sortedFilteredGames.length + ' games'
-        }
         return (
             <React.Fragment>
             <MainControls 
@@ -385,13 +378,6 @@ export class GameList extends React.Component {
                 ondeleteall={this.props.ondeleteall}
                 onnewvote={this.props.onnewvote}
                 onclearsectionvotes={this.props.onclearsectionvotes} />
-            <ViewControls 
-                sortby={this.state.sortOrder}
-                onsortchange={this.handleSortChange}
-                filtermessage={filterStr}
-                filterplayercount={this.state.filterPlayercount}
-                filterweight={this.state.filterWeight}
-                onfilterchange={this.handleFilterChange} />
             <div id="resulting-games" className={this.getClasses()}>
                 {sortedFilteredGames.length !== 0 && (
                     sortedFilteredGames

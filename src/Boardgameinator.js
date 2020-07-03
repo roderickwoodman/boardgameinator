@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import purpleMeeple from './img/purple-meeple-64.png'
+import { ViewControls } from './ViewControls'
 import { GameList } from './GameList'
 import { gamedataApi } from './Api.js'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -344,13 +345,18 @@ export class Boardgameinator extends React.Component {
         const styles = {
             reallyNarrow: windowWidth < 650
         }
-
         return (
             <React.Fragment>
             <div id="page-header">
                 <button className="fa fa-button" onClick={ (e) => this.onHamburger(e) }><FontAwesomeIcon icon={faBars}/></button>
                 <img src={purpleMeeple} alt="Boardgameinator logo" />
                 <h1>Boardgameinator</h1>
+                <ViewControls 
+                sortby={this.state.sortOrder}
+                onsortchange={this.handleSortChange}
+                filterplayercount={this.state.filterPlayercount}
+                filterweight={this.state.filterWeight}
+                onfilterchange={this.handleFilterChange} />
             </div>
             <div id="content-wrapper">
                 <GameList

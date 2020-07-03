@@ -3,9 +3,20 @@ import PropTypes from 'prop-types'
 import { ViewControls } from './ViewControls'
 import { GameCardFront } from './GameCardFront'
 import { GameCardBack } from './GameCardBack'
-import { GameFooter } from './GameFooter'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLongArrowAltLeft } from '@fortawesome/free-solid-svg-icons'
+import bggLogo from './img/bgg-logo-50.png'
+
+const GameFooter = (props) => {
+    return (
+        <div className="footer">
+            <a href={"https://boardgamegeek.com/boardgame/" + props.gameid } rel="noopener noreferrer">
+                this game on BGG
+            </a>&nbsp;
+            <img src={bggLogo} alt="BoardGameGeek logo" />
+        </div>
+    )
+}
 
 const Game = (props) => {
         let gamecard

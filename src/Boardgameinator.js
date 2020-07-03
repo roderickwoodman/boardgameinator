@@ -402,9 +402,10 @@ export class Boardgameinator extends React.Component {
         return (
             <React.Fragment>
             <div id="page-header">
-                <button className="fa fa-button" onClick={ (e) => this.onHamburger(e) }><FontAwesomeIcon icon={faBars}/></button>
-                <img src={purpleMeeple} alt="Boardgameinator logo" />
-                <h1>Boardgameinator</h1>
+                <button className="fa fa-button" onClick={ (e) => this.onHamburger(e) }><FontAwesomeIcon icon={faBars}/>
+                    <img src={purpleMeeple} alt="Boardgameinator logo" />
+                    <h1>Boardgameinator</h1>
+                </button>
                 <ViewControls 
                 sortby={this.state.sortOrder}
                 onsortchange={this.handleSortChange}

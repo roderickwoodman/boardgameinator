@@ -62,10 +62,14 @@ html, #root {
   background-color: black;
 }
 
-#page-header h1,
-#page-header img {
-  display: inline-block;
-  margin: 0;
+#page-header button {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+#page-header button img {
+  margin: 0 1rem;
 }
 
 #page-header img {
@@ -73,7 +77,7 @@ html, #root {
   margin-right: 10px;
 }
 
-#page-header h1 {
+#page-header * {
   font-size: 1.75rem;
   text-align: center;
   color: white;

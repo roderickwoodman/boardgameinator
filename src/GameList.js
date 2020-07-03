@@ -106,9 +106,9 @@ export class GameList extends React.Component {
             this.setState({ filterWeight: stored_filterweight })
         }
 
-        const stored_idUnderInspection = JSON.parse(localStorage.getItem("idUnderInspection"))
-        if (stored_filterplayercount !== null) {
-            this.setState({ idUnderInspection: stored_idUnderInspection })
+        const stored_idunderinspection = JSON.parse(localStorage.getItem("idUnderInspection"))
+        if (stored_idunderinspection !== null) {
+            this.setState({ idUnderInspection: stored_idunderinspection })
         }
     }
 

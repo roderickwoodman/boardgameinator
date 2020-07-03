@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { MainControls } from './MainControls'
 import { ViewControls } from './ViewControls'
 import { GameCardFront } from './GameCardFront'
 import { GameCardBack } from './GameCardBack'
@@ -377,19 +378,20 @@ export class GameList extends React.Component {
         }
         return (
             <React.Fragment>
-            <ViewControls 
+            <MainControls 
                 allgames={this.props.allgames}
                 allthumbs={this.props.allthumbs}
                 onnewtitle={this.props.onnewtitle}
                 ondeleteall={this.props.ondeleteall}
-                sortby={this.state.sortOrder}
-                onsortchange={this.handleSortChange}
-                filterplayercount={this.state.filterPlayercount}
-                filterweight={this.state.filterWeight}
-                onfilterchange={this.handleFilterChange}
-                filtermessage={filterStr}
                 onnewvote={this.props.onnewvote}
                 onclearsectionvotes={this.props.onclearsectionvotes} />
+            <ViewControls 
+                sortby={this.state.sortOrder}
+                onsortchange={this.handleSortChange}
+                filtermessage={filterStr}
+                filterplayercount={this.state.filterPlayercount}
+                filterweight={this.state.filterWeight}
+                onfilterchange={this.handleFilterChange} />
             <div id="resulting-games" className={this.getClasses()}>
                 {sortedFilteredGames.length !== 0 && (
                     sortedFilteredGames

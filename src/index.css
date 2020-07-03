@@ -91,6 +91,7 @@ html, #root {
   height: 100vh;
 }
 
+#main-controls,
 #view-controls {
   flex: 0 0 1.5rem;
 }

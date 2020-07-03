@@ -26,6 +26,9 @@ export class Boardgameinator extends React.Component {
                 },
                 total_title_votes: 0,
             },
+            filterPlayercount: true,
+            filterWeight: true,
+            sortOrder: 'maxattrvotes',
             windowWidth: 0,
             windowHeight: 0
         }
@@ -39,6 +42,8 @@ export class Boardgameinator extends React.Component {
         this.onDeleteTitle = this.onDeleteTitle.bind(this)
         this.onDeleteAllTitles = this.onDeleteAllTitles.bind(this)
         this.onClearSectionVotes = this.onClearSectionVotes.bind(this)
+        this.handleSortChange = this.handleSortChange.bind(this)
+        this.handleFilterChange = this.handleFilterChange.bind(this)
         this.updateDimensions = this.updateDimensions.bind(this)
         this.onHamburger = this.onHamburger.bind(this)
     }
@@ -92,6 +97,21 @@ export class Boardgameinator extends React.Component {
         const stored_allThumbs = JSON.parse(localStorage.getItem("allThumbs"))
         if (stored_allThumbs !== null) {
             this.setState({ allThumbs: stored_allThumbs })
+        }
+
+        const stored_sortorder = JSON.parse(localStorage.getItem("sortOrder"))
+        if (stored_sortorder !== null) {
+            this.setState({ sortOrder: stored_sortorder })
+        }
+
+        const stored_filterplayercount = JSON.parse(localStorage.getItem("filterPlayercount"))
+        if (stored_filterplayercount !== null) {
+            this.setState({ filterPlayercount: stored_filterplayercount })
+        }
+
+        const stored_filterweight = JSON.parse(localStorage.getItem("filterWeight"))
+        if (stored_filterweight !== null) {
+            this.setState({ filterWeight: stored_filterweight })
         }
 
         this.updateDimensions()
@@ -335,6 +355,46 @@ export class Boardgameinator extends React.Component {
         })
     }
 
+    handleSortChange(event, value) {
+        this.setState(prevState => {
+            localStorage.setItem('sortOrder', JSON.stringify(value))
+            localStorage.setItem('idUnderInspection', JSON.stringify(null))
+            return {
+                sortOrder: value,
+                idUnderInspection: null
+            }
+        })
+    }
+
+    handleFilterChange(event, value) {
+        switch (value) {
+            case 'playercount':
+                this.setState(prevState => {
+                    let filterPlayercount = !prevState.filterPlayercount
+                    localStorage.setItem('filterPlayercount', JSON.stringify(filterPlayercount))
+                    localStorage.setItem('idUnderInspection', JSON.stringify(null))
+                    return { 
+                        filterPlayercount: !this.state.filterPlayercount,
+                        idUnderInspection: null
+                    }
+                })
+                break
+            case 'weight':
+                this.setState(prevState => {
+                    let filterWeight = !prevState.filterWeight
+                    localStorage.setItem('filterWeight', JSON.stringify(filterWeight))
+                    localStorage.setItem('idUnderInspection', JSON.stringify(null))
+                    return { 
+                        filterWeight: !this.state.filterWeight,
+                        idUnderInspection: null
+                    }
+                })
+                break
+            default:
+                break
+        }
+    }
+
     onHamburger(event) {
         // FIXME: (WIP) add nav functionality
         alert('(FIXME/WIP) Add nav functionality here.')
@@ -363,6 +423,9 @@ export class Boardgameinator extends React.Component {
                     allgames={this.state.allGames} 
                     onnewtitle={this.onNewTitle}
                     allthumbs={this.state.allThumbs} 
+                    sortby={this.state.sortOrder}
+                    filterplayercount={this.state.filterPlayercount}
+                    filterweight={this.state.filterWeight}
                     ondelete={this.onDeleteTitle}
                     ondeleteall={this.onDeleteAllTitles}
                     onnewvote={this.onNewVote}

@@ -75,37 +75,16 @@ export class GameList extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            idUnderInspection: null,
+            idUnderInspection: null,    // FIXME: use an effect Hook to null this when the sort or filter props change
             inspectingSection: 'description',
-            sortOrder: 'maxattrvotes',
-            filterPlayercount: true,
-            filterWeight: true
         }
-        this.handleSortChange = this.handleSortChange.bind(this)
         this.getTotalVotes = this.getTotalVotes.bind(this)
-        this.handleFilterChange = this.handleFilterChange.bind(this)
         this.handleInspectionChange = this.handleInspectionChange.bind(this)
         this.handleInspectionSectionChange = this.handleInspectionSectionChange.bind(this)
         this.getClasses = this.getClasses.bind(this)
     }
 
     componentDidMount() {
-
-        const stored_sortorder = JSON.parse(localStorage.getItem("sortOrder"))
-        if (stored_sortorder !== null) {
-            this.setState({ sortOrder: stored_sortorder })
-        }
-
-        const stored_filterplayercount = JSON.parse(localStorage.getItem("filterPlayercount"))
-        if (stored_filterplayercount !== null) {
-            this.setState({ filterPlayercount: stored_filterplayercount })
-        }
-
-        const stored_filterweight = JSON.parse(localStorage.getItem("filterWeight"))
-        if (stored_filterweight !== null) {
-            this.setState({ filterWeight: stored_filterweight })
-        }
-
         const stored_idunderinspection = JSON.parse(localStorage.getItem("idUnderInspection"))
         if (stored_idunderinspection !== null) {
             this.setState({ idUnderInspection: stored_idunderinspection })
@@ -189,46 +168,6 @@ export class GameList extends React.Component {
         return all_vote_counts
     } 
 
-    handleSortChange(event, value) {
-        this.setState(prevState => {
-            localStorage.setItem('sortOrder', JSON.stringify(value))
-            localStorage.setItem('idUnderInspection', JSON.stringify(null))
-            return {
-                sortOrder: value,
-                idUnderInspection: null
-            }
-        })
-    }
-
-    handleFilterChange(event, value) {
-        switch (value) {
-            case 'playercount':
-                this.setState(prevState => {
-                    let filterPlayercount = !prevState.filterPlayercount
-                    localStorage.setItem('filterPlayercount', JSON.stringify(filterPlayercount))
-                    localStorage.setItem('idUnderInspection', JSON.stringify(null))
-                    return { 
-                        filterPlayercount: !this.state.filterPlayercount,
-                        idUnderInspection: null
-                    }
-                })
-                break
-            case 'weight':
-                this.setState(prevState => {
-                    let filterWeight = !prevState.filterWeight
-                    localStorage.setItem('filterWeight', JSON.stringify(filterWeight))
-                    localStorage.setItem('idUnderInspection', JSON.stringify(null))
-                    return { 
-                        filterWeight: !this.state.filterWeight,
-                        idUnderInspection: null
-                    }
-                })
-                break
-            default:
-                break
-        }
-    }
-
     handleInspectionChange(event, id) {
         let gameId = parseInt(id)
         if (this.state.idUnderInspection === gameId) {
@@ -256,7 +195,7 @@ export class GameList extends React.Component {
         let self = this
         let favoredPlayercounts = this.getThumbedPlayercounts()
         let filtered = games.filter(function(game) {
-            if (!self.state.filterPlayercount || !favoredPlayercounts.length) {
+            if (!self.props.filterplayercount || !favoredPlayercounts.length) {
                 return true
             } else {
                 for (let playercount=game.attributes.min_players; playercount<=game.attributes.max_players; playercount++) {
@@ -275,7 +214,7 @@ export class GameList extends React.Component {
         let self = this
         let favoredWeights = this.getThumbedWeights()
         let filtered = games.filter(function(game) {
-            if (!self.state.filterWeight || !favoredWeights.length) {
+            if (!self.props.filterweight || !favoredWeights.length) {
                 return true
             } else if (favoredWeights.includes(game.attributes.average_weight_name)) {
                 return true
@@ -295,7 +234,7 @@ export class GameList extends React.Component {
         //   sort by minplaytime...   FIRST: shortest playtime, SECOND: most attr votes
         //   sort by maxplayers...    FIRST: most players,      SECOND: most attr votes
         let sorted = games.sort(function(a, b) {
-            if (self.state.sortOrder === 'maxtitlevotes') {
+            if (self.props.sortby === 'maxtitlevotes') {
                 if (votecounts[a.name].titles < votecounts[b.name].titles) {
                     return 1
                 } else if (votecounts[a.name].titles > votecounts[b.name].titles) {
@@ -309,7 +248,7 @@ export class GameList extends React.Component {
                         return 0
                     }
                 }
-            } else if (self.state.sortOrder === 'maxattrvotes') {
+            } else if (self.props.sortby === 'maxattrvotes') {
                 if (votecounts[a.name].attributes < votecounts[b.name].attributes) {
                     return 1
                 } else if (votecounts[a.name].attributes > votecounts[b.name].attributes) {
@@ -323,7 +262,7 @@ export class GameList extends React.Component {
                         return 0
                     }
                 }
-            } else if (self.state.sortOrder === 'minplaytime') {
+            } else if (self.props.sortby === 'minplaytime') {
                 if (a.max_playtime > b.max_playtime) {
                     return 1
                 } else if (a.max_playtime < b.max_playtime) {
@@ -337,7 +276,7 @@ export class GameList extends React.Component {
                         return 0
                     }
                 }
-            } else if (self.state.sortOrder === 'maxplayers') {
+            } else if (self.props.sortby === 'maxplayers') {
                 if (a.max_players < b.max_players) {
                     return 1
                 } else if (a.max_players > b.max_players) {
@@ -422,6 +361,9 @@ export class GameList extends React.Component {
 
 GameList.propTypes = {
     allgames: PropTypes.array.isRequired,
+    sortby: PropTypes.string.isRequired,
+    filterplayercount: PropTypes.bool.isRequired,
+    filterweight: PropTypes.bool.isRequired,
     onnewtitle: PropTypes.func.isRequired,
     ondelete: PropTypes.func.isRequired,
     ondeleteall: PropTypes.func.isRequired,

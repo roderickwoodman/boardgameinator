@@ -62,10 +62,15 @@ html, #root {
   background-color: black;
 }
 
-#page-header button {
+#page-header > button {
   display: flex;
-  flex-direction: row;
+  flex-direction: row;                                                                          
   align-items: center;
+}
+
+#page-header > #view-controls > button {
+  flex: 0 0 40px;
+  border: 1px solid black;
 }
 
 #page-header button img {

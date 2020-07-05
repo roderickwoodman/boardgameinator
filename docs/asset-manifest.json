@@ -1,17 +1,17 @@
 {
   "files": {
-    "main.css": "/boardgameinator/static/css/main.a763e065.chunk.css",
-    "main.js": "/boardgameinator/static/js/main.63969414.chunk.js",
-    "main.js.map": "/boardgameinator/static/js/main.63969414.chunk.js.map",
+    "main.css": "/boardgameinator/static/css/main.60ed059f.chunk.css",
+    "main.js": "/boardgameinator/static/js/main.1ed52bb4.chunk.js",
+    "main.js.map": "/boardgameinator/static/js/main.1ed52bb4.chunk.js.map",
     "runtime~main.js": "/boardgameinator/static/js/runtime~main.ef3cdeed.js",
     "runtime~main.js.map": "/boardgameinator/static/js/runtime~main.ef3cdeed.js.map",
     "static/css/2.86aa6515.chunk.css": "/boardgameinator/static/css/2.86aa6515.chunk.css",
-    "static/js/2.aab12059.chunk.js": "/boardgameinator/static/js/2.aab12059.chunk.js",
-    "static/js/2.aab12059.chunk.js.map": "/boardgameinator/static/js/2.aab12059.chunk.js.map",
+    "static/js/2.88604588.chunk.js": "/boardgameinator/static/js/2.88604588.chunk.js",
+    "static/js/2.88604588.chunk.js.map": "/boardgameinator/static/js/2.88604588.chunk.js.map",
     "index.html": "/boardgameinator/index.html",
-    "precache-manifest.5d08ee22e0bc4c492b717c2dcc666e08.js": "/boardgameinator/precache-manifest.5d08ee22e0bc4c492b717c2dcc666e08.js",
+    "precache-manifest.7aff1bc39e404717e31eaba66ef31e3c.js": "/boardgameinator/precache-manifest.7aff1bc39e404717e31eaba66ef31e3c.js",
     "service-worker.js": "/boardgameinator/service-worker.js",
     "static/css/2.86aa6515.chunk.css.map": "/boardgameinator/static/css/2.86aa6515.chunk.css.map",
-    "static/css/main.a763e065.chunk.css.map": "/boardgameinator/static/css/main.a763e065.chunk.css.map"
+    "static/css/main.60ed059f.chunk.css.map": "/boardgameinator/static/css/main.60ed059f.chunk.css.map"
   }
 }

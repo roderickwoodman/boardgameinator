@@ -18,6 +18,7 @@
 body {
   background-color: lightyellow;
   margin: 0;
+  overflow-x: hidden;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
     "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
@@ -43,7 +44,7 @@ hr {
 ** STRUCTURAL STYLES (FOR LAYING OUT AND STYLING REGIONS)
 */
 html, #root {
-  background: black;
+  background: lightyellow;
 }
 
 #page-header {
@@ -97,6 +98,7 @@ html, #root {
   justify-content: flex-start;
   align-items: flex-start;
   flex-direction: column;
+  width: 100vw;
   height: 100vh;
 }
 
@@ -183,6 +185,7 @@ html, #root {
   flex: 1 1 auto;
   flex-direction: row;
   flex-wrap: nowrap;
+  width: 100%;
   overflow-x: auto;
 }
 
@@ -780,6 +783,7 @@ button:enabled,
     flex-wrap: nowrap;
     align-items: stretch;
     width: 100%;
+    overflow-x: hidden;
   }
 
   .game {

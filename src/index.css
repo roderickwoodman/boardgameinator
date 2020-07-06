@@ -92,8 +92,7 @@ html, #root {
 
 #content-wrapper {
   background: lightyellow;
-  margin-top: 2.75rem;
-  padding: 0 0.5rem;
+  padding: 2.75rem 0 0.5rem;
   display: flex;
   justify-content: flex-start;
   align-items: flex-start;
@@ -662,7 +661,11 @@ button:enabled,
 /* "kinda short but still wide enough screen" */
 @media only screen 
   and (min-width: 850px)
-  and (max-height: 850px) {
+  and (max-height: 915px) {
+
+  #root {
+    /* height: 100vh; */
+  }
 
   .game {
     grid-template-rows: 1.5rem 3.25rem 175px 4.5rem auto 2rem;

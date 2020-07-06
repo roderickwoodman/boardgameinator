@@ -731,20 +731,9 @@ button:enabled,
   and (min-width: 850px)
   and (max-height: 675px) {
 
-  .gamecard-weight {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: space-evenly;
-  }
-
-  .gamecard-weight .supported-playercount,
-  .gamecard-weight .estimated-playtime {
-    flex: 0 0 44%;
-  }
-
   .game {
     grid-template-rows: 1.5rem 3.25rem 3rem 4.5rem auto 2rem;
+    min-height: 450px;
   }
 
   .game-name {

@@ -101,6 +101,14 @@ html, #root {
   height: 100vh;
 }
 
+#page-header,
+#content-wrapper,
+#main-controls,
+#resulting-games {
+  overscroll-behavior-x: none;
+  overscroll-behavior-y: none;
+}
+
 #main-controls,
 #view-controls {
   flex: 0 0 1.5rem;

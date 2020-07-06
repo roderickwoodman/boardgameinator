@@ -377,9 +377,7 @@ html, #root {
     "gc-footer";
   margin: 2px;
   padding: 0.75rem;
-  width: 200px;
-  max-width: 275px;
-  min-width: 175px;
+  flex: 0 0 200px;
   line-height: 1.5;
   white-space: wrap;
   max-height: 850px;

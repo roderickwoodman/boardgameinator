@@ -534,13 +534,10 @@ html, #root {
   flex: 0 0 2em;
 }
 
-.voteable.hovering.novote {
+.voteable.novote:hover,
+.voteable.thumbsup:hover {
   color: green;
   font-weight: 800;
-}
-
-.voteable.hovering.thumbsup {
-  color: black;
 }
 
 button.default-primary-styles,

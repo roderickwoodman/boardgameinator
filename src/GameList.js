@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { MainControls } from './MainControls'
 import { GameCardFront } from './GameCardFront'
@@ -70,95 +70,75 @@ const Game = (props) => {
         )
     }
 
-export class GameList extends React.Component {
+export const GameList = (props) => {
 
-    constructor(props) {
-        super(props)
-        this.state = {
-            idUnderInspection: null,    // FIXME: use an effect Hook to null this when the sort or filter props change
-            inspectingSection: 'description',
-        }
-        this.getTotalVotes = this.getTotalVotes.bind(this)
-        this.handleInspectionChange = this.handleInspectionChange.bind(this)
-        this.handleInspectionSectionChange = this.handleInspectionSectionChange.bind(this)
-        this.getClasses = this.getClasses.bind(this)
-    }
+    const [idUnderInspection, setIdUnderInspection] = useState(null)
+    const [inspectingSection, setInspectingSection] = useState('description')
 
-    componentDidMount() {
-        const stored_idunderinspection = JSON.parse(localStorage.getItem("idUnderInspection"))
-        if (stored_idunderinspection !== null) {
-            this.setState({ idUnderInspection: stored_idunderinspection })
-        }
-    }
+    // componentDidMount() {
+    //     const stored_idunderinspection = JSON.parse(localStorage.getItem("idUnderInspection"))
+    //     if (stored_idunderinspection !== null) {
+    //         this.setState({ idUnderInspection: stored_idunderinspection })
+    //     }
+    // }
 
-    getThumbedTitles() {
-        // collect all of the voted titles (by ID)
-        let titles_by_id = []
-        if (Object.keys(this.props.allthumbs.titles).length) {
-            for (let id in this.props.allthumbs.titles) {
-                titles_by_id.push(parseInt(id))
-            }
-        }
-        return titles_by_id
-    } 
-
-    getThumbedPlayercounts() {
+    const getThumbedPlayercounts = (props) => {
         // collect all of the voted playercounts
         let playercounts = []
-        if (this.props.allthumbs.attributes.hasOwnProperty('players')) {
-            for (let playercount in this.props.allthumbs.attributes.players) {
+        if (props.allthumbs.attributes.hasOwnProperty('players')) {
+            for (let playercount in props.allthumbs.attributes.players) {
                 playercounts.push(parseInt(playercount.slice(0, -1)))
             }
         }
         return playercounts
     } 
 
-    getThumbedWeights() {
+    const getThumbedWeights = (props) => {
         // collect all of the voted weights
         let weights = []
-        if (this.props.allthumbs.attributes.hasOwnProperty('weight')) {
-            for (let weight in this.props.allthumbs.attributes.weight) {
+        if (props.allthumbs.attributes.hasOwnProperty('weight')) {
+            for (let weight in props.allthumbs.attributes.weight) {
                 weights.push(weight)
             }
         }
         return weights
     } 
 
-    getTotalVotes() {
+    const getTotalVotes = (props) => {
         // tally all votes for each game
         let all_vote_counts = {}
-        if (this.props.allgames.length) {
-            for (const game of this.props.allgames) {
+        if (props.allgames.length) {
+            for (const game of props.allgames) {
                 let new_vote_counts = {
                     attributes: 0,
                     titles: 0
                 }
                 // playercount section of a game gets ONE TOTAL thumbsup if any of its supported playercounts gets a thumbsup
                 for (let playercount=game.attributes.min_players; playercount<=game.attributes.max_players; playercount++) {
-                    if (this.props.allthumbs.attributes.players.hasOwnProperty(playercount + 'P')) {
+                    if (props.allthumbs.attributes.players.hasOwnProperty(playercount + 'P')) {
                         new_vote_counts.attributes++
                         break
                     }
                 }
                 // weight section of a game gets ONE TOTAL thumbsup if its weight has a thumbsup
-                if (this.props.allthumbs.attributes.weight.hasOwnProperty(game.attributes.average_weight_name)) {
+                if (props.allthumbs.attributes.weight.hasOwnProperty(game.attributes.average_weight_name)) {
                     new_vote_counts.attributes++
                 }
                 // categories section of a game gets one thumbsup for each thumbed-up category
                 for (const category of game.attributes.categories) {
-                    if (this.props.allthumbs.attributes.category.hasOwnProperty(category)) {
+                    if (props.allthumbs.attributes.category.hasOwnProperty(category)) {
                         new_vote_counts.attributes++
                     }
                 }
                 // mechanics section of a game gets one thumbsup for each thumbed-up mechanic
                 for (const mechanic of game.attributes.mechanics) {
-                    if (this.props.allthumbs.attributes.mechanic.hasOwnProperty(mechanic)) {
+                    if (props.allthumbs.attributes.mechanic.hasOwnProperty(mechanic)) {
                         new_vote_counts.attributes++
                     }
                 }
 
                 // title votes
-                if (this.props.allthumbs.titles.hasOwnProperty(game.name)) {
+                if (props.allthumbs.titles.hasOwnProperty(game.name)) {
                     new_vote_counts.titles++
                 }
 
@@ -168,34 +148,27 @@ export class GameList extends React.Component {
         return all_vote_counts
     } 
 
-    handleInspectionChange(event, id) {
+    const handleInspectionChange = (event, id) => {
         let gameId = parseInt(id)
-        if (this.state.idUnderInspection === gameId) {
+        if (idUnderInspection === gameId) {
             localStorage.setItem('idUnderInspection', JSON.stringify(null))
-            this.setState({
-                idUnderInspection: null
-            })
+            setIdUnderInspection(null)
         } else {
             localStorage.setItem('idUnderInspection', JSON.stringify(gameId))
-            this.setState({
-                idUnderInspection: gameId
-            })
+            setIdUnderInspection(gameId)
         }
     }
 
-    handleInspectionSectionChange(event) {
+    const handleInspectionSectionChange = (event) => {
         let newSelection = event.target.id.replace(/select-/g, '')
-        this.setState({
-            inspectingSection: newSelection
-        })
+        setInspectingSection(newSelection)
     }
 
     // apply a playercount filter, if configured to and if playercount votes exist
-    filterPlayercount(games) {
-        let self = this
-        let favoredPlayercounts = this.getThumbedPlayercounts()
+    const filterPlayercount = (games) => {
+        let favoredPlayercounts = getThumbedPlayercounts(props)
         let filtered = games.filter(function(game) {
-            if (!self.props.filterplayercount || !favoredPlayercounts.length) {
+            if (!props.filterplayercount || !favoredPlayercounts.length) {
                 return true
             } else {
                 for (let playercount=game.attributes.min_players; playercount<=game.attributes.max_players; playercount++) {
@@ -210,11 +183,10 @@ export class GameList extends React.Component {
     }
 
     // apply a weight filter, if configured to and if weight votes exist
-    filterWeight(games) {
-        let self = this
-        let favoredWeights = this.getThumbedWeights()
+    const filterWeight = (games) => {
+        let favoredWeights = getThumbedWeights(props)
         let filtered = games.filter(function(game) {
-            if (!self.props.filterweight || !favoredWeights.length) {
+            if (!props.filterweight || !favoredWeights.length) {
                 return true
             } else if (favoredWeights.includes(game.attributes.average_weight_name)) {
                 return true
@@ -226,15 +198,14 @@ export class GameList extends React.Component {
     }
 
     // order the games
-    sortGames(games, votecounts) {
-        let self = this
+    const sortGames = (games, votecounts) => {
         // SORTING OPTIONS:
         //   sort by maxtitlevotes... FIRST: most title votes,  SECOND: most attr votes
         //   sort by maxattrvotes...  FIRST: most attr votes,   SECOND: most title votes
         //   sort by minplaytime...   FIRST: shortest playtime, SECOND: most attr votes
         //   sort by maxplayers...    FIRST: most players,      SECOND: most attr votes
         let sorted = games.sort(function(a, b) {
-            if (self.props.sortby === 'maxtitlevotes') {
+            if (props.sortby === 'maxtitlevotes') {
                 if (votecounts[a.name].titles < votecounts[b.name].titles) {
                     return 1
                 } else if (votecounts[a.name].titles > votecounts[b.name].titles) {
@@ -248,7 +219,7 @@ export class GameList extends React.Component {
                         return 0
                     }
                 }
-            } else if (self.props.sortby === 'maxattrvotes') {
+            } else if (props.sortby === 'maxattrvotes') {
                 if (votecounts[a.name].attributes < votecounts[b.name].attributes) {
                     return 1
                 } else if (votecounts[a.name].attributes > votecounts[b.name].attributes) {
@@ -262,7 +233,7 @@ export class GameList extends React.Component {
                         return 0
                     }
                 }
-            } else if (self.props.sortby === 'minplaytime') {
+            } else if (props.sortby === 'minplaytime') {
                 if (a.attributes.max_playtime > b.attributes.max_playtime) {
                     return 1
                 } else if (a.attributes.max_playtime < b.attributes.max_playtime) {
@@ -276,7 +247,7 @@ export class GameList extends React.Component {
                         return 0
                     }
                 }
-            } else if (self.props.sortby === 'maxplayers') {
+            } else if (props.sortby === 'maxplayers') {
                 if (a.attributes.max_players < b.attributes.max_players) {
                     return 1
                 } else if (a.attributes.max_players > b.attributes.max_players) {
@@ -297,66 +268,64 @@ export class GameList extends React.Component {
         return sorted
     }
 
-    getClasses() {
+    const getClasses = () => {
         let classes = ''
-        if (this.props.allthumbs.total_title_votes === 0) {
+        if (props.allthumbs.total_title_votes === 0) {
             classes = 'no-votes-to-show'
         }
         return classes
     }
 
-    render() {
-        let thumbcounts = this.getTotalVotes()
-        let sortedFilteredGames = this.sortGames(this.filterWeight(this.filterPlayercount(this.props.allgames)), thumbcounts)
-        return (
-            <React.Fragment>
-            <MainControls 
-                allgames={this.props.allgames}
-                allthumbs={this.props.allthumbs}
-                onnewtitle={this.props.onnewtitle}
-                ondeleteall={this.props.ondeleteall}
-                onnewvote={this.props.onnewvote}
-                onclearsectionvotes={this.props.onclearsectionvotes} />
-            <div id="resulting-games" className={this.getClasses()}>
-                {sortedFilteredGames.length !== 0 && (
-                    sortedFilteredGames
-                        .map(
-                            (game, i) => 
-                                <Game
-                                    key={i}
-                                    id={game.id} 
-                                    idunderinspection={this.state.idUnderInspection}
-                                    inspectingsection={this.state.inspectingSection}
-                                    name={game.name} 
-                                    thumbnail={game.thumbnail} 
-                                    description={game.description} 
-                                    yearpublished={game.year_published} 
-                                    attributes={game.attributes}
-                                    comments={game.comments}
-                                    videos={game.videos}
-                                    allthumbs={this.props.allthumbs} 
-                                    thumbcounts={thumbcounts[game.name]}
-                                    onnewvote={this.props.onnewvote}
-                                    ondelete={this.props.ondelete}
-                                    ontoggleinspection={this.handleInspectionChange}
-                                    oninspectionsectionchange={this.handleInspectionSectionChange}
-                                    reallynarrow={this.props.reallynarrow} />)
-                )}
-                {this.props.allgames.length === 0 && (
-                    <span className="message warning">
-                        <p>START COMPARING BOARDGAMES!</p>
-                        <p>Please add game titles using the form in the left sidebar.</p>
-                        <p>
-                            <FontAwesomeIcon icon={faLongArrowAltLeft} />&nbsp;
-                            <FontAwesomeIcon icon={faLongArrowAltLeft} />&nbsp;
-                            <FontAwesomeIcon icon={faLongArrowAltLeft} />&nbsp;
-                        </p>
-                    </span>
-                )}
-            </div>
-            </React.Fragment>
-        )
-    }
+    let thumbcounts = getTotalVotes(props)
+    let sortedFilteredGames = sortGames(filterWeight(filterPlayercount(props.allgames)), thumbcounts)
+    return (
+        <React.Fragment>
+        <MainControls 
+            allgames={props.allgames}
+            allthumbs={props.allthumbs}
+            onnewtitle={props.onnewtitle}
+            ondeleteall={props.ondeleteall}
+            onnewvote={props.onnewvote}
+            onclearsectionvotes={props.onclearsectionvotes} />
+        <div id="resulting-games" className={getClasses()}>
+            {sortedFilteredGames.length !== 0 && (
+                sortedFilteredGames
+                    .map(
+                        (game, i) => 
+                            <Game
+                                key={i}
+                                id={game.id} 
+                                idunderinspection={idUnderInspection}
+                                inspectingsection={inspectingSection}
+                                name={game.name} 
+                                thumbnail={game.thumbnail} 
+                                description={game.description} 
+                                yearpublished={game.year_published} 
+                                attributes={game.attributes}
+                                comments={game.comments}
+                                videos={game.videos}
+                                allthumbs={props.allthumbs} 
+                                thumbcounts={thumbcounts[game.name]}
+                                onnewvote={props.onnewvote}
+                                ondelete={props.ondelete}
+                                ontoggleinspection={handleInspectionChange}
+                                oninspectionsectionchange={handleInspectionSectionChange}
+                                reallynarrow={props.reallynarrow} />)
+            )}
+            {props.allgames.length === 0 && (
+                <span className="message warning">
+                    <p>START COMPARING BOARDGAMES!</p>
+                    <p>Please add game titles using the form in the left sidebar.</p>
+                    <p>
+                        <FontAwesomeIcon icon={faLongArrowAltLeft} />&nbsp;
+                        <FontAwesomeIcon icon={faLongArrowAltLeft} />&nbsp;
+                        <FontAwesomeIcon icon={faLongArrowAltLeft} />&nbsp;
+                    </p>
+                </span>
+            )}
+        </div>
+        </React.Fragment>
+    )
 }
 
 GameList.propTypes = {

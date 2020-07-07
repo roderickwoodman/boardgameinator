@@ -1,33 +1,20 @@
-import React from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { VotingSection } from './VotingSection';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLongArrowAltUp } from '@fortawesome/free-solid-svg-icons'
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
-export class VoteAttributes extends React.Component {
+export const VoteAttributes = (props) => {
 
-    constructor(props) {
-        super(props)
-        this.state = {
-            votingOn: 'players',
-        }
-        this.handleSectionChange = this.handleSectionChange.bind(this)
-        this.emptyMessage = this.emptyMessage.bind(this)
-        this.tallyPlayerCounts = this.tallyPlayerCounts.bind(this)
-        this.tallyWeightCounts = this.tallyWeightCounts.bind(this)
-        this.tallyCategoryCounts = this.tallyCategoryCounts.bind(this)
-        this.tallyMechanicCounts = this.tallyMechanicCounts.bind(this)
-    }
+    const [ votingOn, setVotingOn ] = useState('players')
 
-    handleSectionChange(event) {
+    const handleSectionChange = (event) => {
         let newSelection = event.target.id.replace(/select-/g, '')
-        this.setState({
-            votingOn: newSelection
-        })
+        setVotingOn(newSelection)
     }
 
-    emptyMessage() {
+    const emptyMessage = () => {
         return (
             <span className="message warning">
                 <p>START COMPARING BOARDGAMES!</p>
@@ -41,10 +28,10 @@ export class VoteAttributes extends React.Component {
         )
     }
 
-    tallyPlayerCounts() {
+    const tallyPlayerCounts = (props) => {
         // tally each allowable player count occurrence across all games
         let countsObj = {}
-        for (const game of this.props.allgames) {
+        for (const game of props.allgames) {
             for (let playercount=game.attributes.min_players; playercount<=game.attributes.max_players; playercount++) {
                 let playerCountAttr = playercount + 'P'
                 if (countsObj.hasOwnProperty(playerCountAttr)) {
@@ -64,10 +51,10 @@ export class VoteAttributes extends React.Component {
         return countsArray
     }
 
-    tallyWeightCounts() {
+    const tallyWeightCounts = (props) => {
         // tally each weight occurrence across all games
         let countsObj = {}
-        for (const game of this.props.allgames) {
+        for (const game of props.allgames) {
             if (countsObj.hasOwnProperty(game.attributes.average_weight_name)) {
                 countsObj[game.attributes.average_weight_name] = countsObj[game.attributes.average_weight_name] + 1
             } else {
@@ -87,10 +74,10 @@ export class VoteAttributes extends React.Component {
         return countsArray
     }
 
-    tallyCategoryCounts() {
+    const tallyCategoryCounts = (props) => {
         // tally each attribute's occurrence across all games
         let countsObj = {}
-        for (const game of this.props.allgames) {
+        for (const game of props.allgames) {
             for (const category of game.attributes.categories) {
                 if (countsObj.hasOwnProperty(category)) {
                     countsObj[category] = countsObj[category] + 1
@@ -108,10 +95,10 @@ export class VoteAttributes extends React.Component {
         return countsArray
     }
 
-    tallyMechanicCounts() {
+    const tallyMechanicCounts = (props) => {
         // tally each attribute's occurrence across all games
         let countsObj = {}
-        for (const game of this.props.allgames) {
+        for (const game of props.allgames) {
             for (const mechanic of game.attributes.mechanics) {
                 if (countsObj.hasOwnProperty(mechanic)) {
                     countsObj[mechanic] = countsObj[mechanic] + 1
@@ -129,122 +116,119 @@ export class VoteAttributes extends React.Component {
         return countsArray
     }
 
-    render() {
-
-        let attributestally = {
-            playercounts: this.tallyPlayerCounts(),
-            weightcounts: this.tallyWeightCounts(),
-            categorycounts: this.tallyCategoryCounts(),
-            mechaniccounts: this.tallyMechanicCounts(),
-        }
-
-        return (
-            <React.Fragment>
-
-            <h4>Upvote board game attributes:</h4>
-
-            <ul id="votingsection-selector">
-                <li id="select-players" className={"segmentedcontrol lightbg" + (this.state.votingOn === "players" ? " selected" : "")} onClick={this.handleSectionChange}>Players</li>
-                <li id="select-weights" className={"segmentedcontrol lightbg" + (this.state.votingOn === "weights" ? " selected" : "")} onClick={this.handleSectionChange}>Weights</li>
-                <li id="select-categories" className={"segmentedcontrol lightbg" + (this.state.votingOn === "categories" ? " selected" : "")} onClick={this.handleSectionChange}>Categories</li>
-                <li id="select-mechanics" className={"segmentedcontrol lightbg" + (this.state.votingOn === "mechanics" ? " selected" : "")} onClick={this.handleSectionChange}>Mechanics</li>
-            </ul>
-
-            <div id="voting-section">
-                <TransitionGroup>
-                {this.state.votingOn === 'players' &&
-                    <CSSTransition
-                        key={0}
-                        in={true}
-                        appear={false}
-                        timeout={2000}
-                        classNames={"showsegment"}
-                    >
-                        <VotingSection 
-                            type='players'
-                            elementid='supported-players'
-                            title='PLAYERS:'
-                            counts={attributestally.playercounts}
-                            sectionthumbs={this.props.attrthumbs['players']}
-                            onnewvote={this.props.onnewvote}
-                            alphabetize={false}
-                            suppresslowcounts={false}
-                        />
-                    </CSSTransition>
-                }
-                {this.state.votingOn === 'weights' &&
-                    <CSSTransition
-                        key={1}
-                        in={true}
-                        appear={false}
-                        timeout={2000}
-                        classNames={"showsegment"}
-                    >
-                        <VotingSection 
-                            type='weight'
-                            elementid='weight-counts'
-                            title='WEIGHT:'
-                            counts={attributestally.weightcounts}
-                            sectionthumbs={this.props.attrthumbs['weight']}
-                            onnewvote={this.props.onnewvote}
-                            alphabetize={false}
-                            suppresslowcounts={false}
-                        />
-                    </CSSTransition>
-                }
-                {this.state.votingOn === 'categories' &&
-                    <CSSTransition
-                        key={2}
-                        in={true}
-                        appear={false}
-                        timeout={2000}
-                        classNames={"showsegment"}
-                    >
-                        <VotingSection 
-                            type='category'
-                            elementid='category-counts'
-                            title='CATEGORY:'
-                            counts={attributestally.categorycounts}
-                            sectionthumbs={this.props.attrthumbs['category']}
-                            onnewvote={this.props.onnewvote}
-                            alphabetize={true}
-                            suppresslowcounts={true}
-                        />
-                    </CSSTransition>
-                }
-                {this.state.votingOn === 'mechanics' &&
-                    <CSSTransition
-                        key={3}
-                        in={true}
-                        appear={false}
-                        timeout={2000}
-                        classNames={"showsegment"}
-                    >
-                        <VotingSection 
-                            type='mechanic'
-                            elementid='mechanic-counts'
-                            title='MECHANIC:'
-                            counts={attributestally.mechaniccounts}
-                            sectionthumbs={this.props.attrthumbs['mechanic']}
-                            onnewvote={this.props.onnewvote}
-                            alphabetize={true}
-                            suppresslowcounts={true}
-                        />
-                    </CSSTransition>
-                }
-                </TransitionGroup>
-                {attributestally.playercounts.length === 0 
-                && attributestally.weightcounts.length === 0 
-                && attributestally.categorycounts.length === 0
-                && attributestally.mechaniccounts.length === 0
-                &&
-                    this.emptyMessage()
-                }
-            </div>
-
-            </React.Fragment>
-        )
+    let attributestally = {
+        playercounts: tallyPlayerCounts(props),
+        weightcounts: tallyWeightCounts(props),
+        categorycounts: tallyCategoryCounts(props),
+        mechaniccounts: tallyMechanicCounts(props),
     }
+
+    return (
+        <React.Fragment>
+
+        <h4>Upvote board game attributes:</h4>
+
+        <ul id="votingsection-selector">
+            <li id="select-players" className={"segmentedcontrol lightbg" + ({ votingOn } === "players" ? " selected" : "")} onClick={handleSectionChange}>Players</li>
+            <li id="select-weights" className={"segmentedcontrol lightbg" + ({ votingOn } === "weights" ? " selected" : "")} onClick={handleSectionChange}>Weights</li>
+            <li id="select-categories" className={"segmentedcontrol lightbg" + ({ votingOn } === "categories" ? " selected" : "")} onClick={handleSectionChange}>Categories</li>
+            <li id="select-mechanics" className={"segmentedcontrol lightbg" + ({ votingOn } === "mechanics" ? " selected" : "")} onClick={handleSectionChange}>Mechanics</li>
+        </ul>
+
+        <div id="voting-section">
+            <TransitionGroup>
+            {votingOn === 'players' &&
+                <CSSTransition
+                    key={0}
+                    in={true}
+                    appear={false}
+                    timeout={2000}
+                    classNames={"showsegment"}
+                >
+                    <VotingSection 
+                        type='players'
+                        elementid='supported-players'
+                        title='PLAYERS:'
+                        counts={attributestally.playercounts}
+                        sectionthumbs={props.attrthumbs['players']}
+                        onnewvote={props.onnewvote}
+                        alphabetize={false}
+                        suppresslowcounts={false}
+                    />
+                </CSSTransition>
+            }
+            {votingOn === 'weights' &&
+                <CSSTransition
+                    key={1}
+                    in={true}
+                    appear={false}
+                    timeout={2000}
+                    classNames={"showsegment"}
+                >
+                    <VotingSection 
+                        type='weight'
+                        elementid='weight-counts'
+                        title='WEIGHT:'
+                        counts={attributestally.weightcounts}
+                        sectionthumbs={props.attrthumbs['weight']}
+                        onnewvote={props.onnewvote}
+                        alphabetize={false}
+                        suppresslowcounts={false}
+                    />
+                </CSSTransition>
+            }
+            {votingOn === 'categories' &&
+                <CSSTransition
+                    key={2}
+                    in={true}
+                    appear={false}
+                    timeout={2000}
+                    classNames={"showsegment"}
+                >
+                    <VotingSection 
+                        type='category'
+                        elementid='category-counts'
+                        title='CATEGORY:'
+                        counts={attributestally.categorycounts}
+                        sectionthumbs={props.attrthumbs['category']}
+                        onnewvote={props.onnewvote}
+                        alphabetize={true}
+                        suppresslowcounts={true}
+                    />
+                </CSSTransition>
+            }
+            {votingOn === 'mechanics' &&
+                <CSSTransition
+                    key={3}
+                    in={true}
+                    appear={false}
+                    timeout={2000}
+                    classNames={"showsegment"}
+                >
+                    <VotingSection 
+                        type='mechanic'
+                        elementid='mechanic-counts'
+                        title='MECHANIC:'
+                        counts={attributestally.mechaniccounts}
+                        sectionthumbs={props.attrthumbs['mechanic']}
+                        onnewvote={props.onnewvote}
+                        alphabetize={true}
+                        suppresslowcounts={true}
+                    />
+                </CSSTransition>
+            }
+            </TransitionGroup>
+            {attributestally.playercounts.length === 0 
+            && attributestally.weightcounts.length === 0 
+            && attributestally.categorycounts.length === 0
+            && attributestally.mechaniccounts.length === 0
+            &&
+                emptyMessage()
+            }
+        </div>
+
+        </React.Fragment>
+    )
 }
 
 VoteAttributes.propTypes = {

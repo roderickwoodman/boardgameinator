@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { MainControls } from './MainControls'
 import { GameCardFront } from './GameCardFront'
@@ -75,12 +75,12 @@ export const GameList = (props) => {
     const [idUnderInspection, setIdUnderInspection] = useState(null)
     const [inspectingSection, setInspectingSection] = useState('description')
 
-    // componentDidMount() {
-    //     const stored_idunderinspection = JSON.parse(localStorage.getItem("idUnderInspection"))
-    //     if (stored_idunderinspection !== null) {
-    //         this.setState({ idUnderInspection: stored_idunderinspection })
-    //     }
-    // }
+    useEffect( () => {
+        const stored_idunderinspection = JSON.parse(localStorage.getItem("idUnderInspection"))
+        if (stored_idunderinspection !== null) {
+            setIdUnderInspection(stored_idunderinspection)
+        }
+    }, [])
 
     const getThumbedPlayercounts = (props) => {
         // collect all of the voted playercounts

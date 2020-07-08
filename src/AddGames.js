@@ -237,10 +237,6 @@ export const AddGames = (props) => {
         setTextareaValue(event.target.value)
     }
 
-    const handleReset = (event) => {
-        setTextareaValue("")
-    }
-
     const handleSubmit = (event) => {
         event.preventDefault()
         let delimiter, num_nonblank_lines = textareaValue.split(/\r\n|\r|\n/).filter(line => line !== '').length
@@ -265,11 +261,10 @@ export const AddGames = (props) => {
         <div id="input-section">
 
             <section id="input-by-title">
-                <form onSubmit={handleSubmit} onReset={handleReset}>
+                <form onSubmit={handleSubmit}>
                     <label htmlFor="titles-input">Game Title(s):</label>
                     <textarea rows="8" cols="40" value={textareaValue} onChange={handleChange} placeholder="(exact match only)" required/>
                     <section className="buttonrow">
-                        <button type="reset" className="default-primary-styles">Reset</button>
                         <button type="submit" className="default-primary-styles">Submit</button>
                     </section>
                 </form>

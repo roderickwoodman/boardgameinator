@@ -7,7 +7,7 @@ import { searchApi, exactSearchApi, gamedataApi } from './Api.js'
 export const AddGames = (props) => {
 
     const [ inputValue, setTextareaValue ] = useState('')
-    const [ statusMessages, setStatusMessages ] = useState(['foo'])
+    const [ statusMessages, setStatusMessages ] = useState([])
 
     const withYear = (title, year, id) => {
         let printedYear = (year === null) ? '#'+id : year
@@ -92,7 +92,9 @@ export const AddGames = (props) => {
                                                     addMessage('"' + withoutYear(yearMatches[0].name) + '" has now been added')
                                                 }
                                                 json["name_is_unique"] = false
-                                                props.onnewtitle(json)
+                                                setTimeout(function() {
+                                                    props.onnewtitle(json)
+                                                }, 1000)
                                             } else {
                                                 addMessage('ERROR: "' + withoutYear(yearMatches[0].name) + '" was not found in the BGG database')
                                             }
@@ -115,7 +117,9 @@ export const AddGames = (props) => {
                                         if (json.hasOwnProperty('id')) {
                                             addMessage('"' + withoutYear(nonexactSearchData[0].name) + '" has now been added')
                                             json["name_is_unique"] = true
-                                            // props.onnewtitle(json)
+                                            setTimeout(function() {
+                                                props.onnewtitle(json)
+                                            }, 1000)
                                             } else {
                                                 addMessage('ERROR: "' + withoutYear(nonexactSearchData[0].name) + '" was not found in the BGG database')
                                             }
@@ -185,7 +189,9 @@ export const AddGames = (props) => {
                                         messages.push('"' + withoutYear(yearMatches[0].name) + '" has now been added')
                                     }
                                     json["name_is_unique"] = false
-                                    props.onnewtitle(json)
+                                    setTimeout(function() {
+                                        props.onnewtitle(json)
+                                    }, 1000)
                                 } else {
                                     messages.push('ERROR: "' + withoutYear(yearMatches[0].name) + '" is not producing data from the BGG API, so deleting it from your input')
                                 }
@@ -209,7 +215,9 @@ export const AddGames = (props) => {
                             if (json.hasOwnProperty('id')) {
                                 messages.push('"' + withoutYear(titleMatches[0].name) + '" has now been added')
                                 json["name_is_unique"] = true
-                                props.onnewtitle(json)
+                                setTimeout(function() {
+                                    props.onnewtitle(json)
+                                }, 1000)
                             } else {
                                 messages.push('ERROR: "' + withoutYear(titleMatches[0].name) + '" is not producing data from the BGG API, so deleting it from your input')
                                 newTextareaValue += ''
@@ -247,7 +255,6 @@ export const AddGames = (props) => {
             .map(str => str.trim())
             .map(str => str.replace(/[^0-9a-zA-Z:()&!–#' ]/g, ""))
             .filter( function(e){return e} )
-        console.log('submitted for add: ',Array.from(new Set(userTitles)))
         validateUserTitlesV2(Array.from(new Set(userTitles)))
     }
 

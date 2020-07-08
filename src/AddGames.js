@@ -6,7 +6,7 @@ import { searchApi, exactSearchApi, gamedataApi } from './Api.js'
 
 export const AddGames = (props) => {
 
-    const [ textareaValue, setTextareaValue ] = useState('')
+    const [ inputValue, setTextareaValue ] = useState('')
     const [ statusMessages, setStatusMessages ] = useState([])
 
     const withYear = (title, year, id) => {
@@ -95,7 +95,7 @@ export const AddGames = (props) => {
                                             }
                                         })
                                 }
-                            // re-populate the user's input textarea with titles that have disambiguation applied (so they can re-submit immediately)
+                            // re-populate the user's input input with titles that have disambiguation applied (so they can re-submit immediately)
                             } else {
                                 messages.push('ERROR: "' + withoutYear(userTitles[idx2]) + '" has multiple matches in the BGG database')
                                 for (let ambiguousTitle of nonexactSearchData) {
@@ -121,7 +121,7 @@ export const AddGames = (props) => {
                                         })
                                 }
                             }
-                        // FIXME: re-enable status messages and textarea updates
+                        // FIXME: re-enable status messages and input updates
                         // this.setState({ value: newTextareaValue })
                         // this.setState({ statusMessages: messages })
                         })
@@ -193,7 +193,7 @@ export const AddGames = (props) => {
                                 }
                             })
                     }
-                // re-populate the user's input textarea with titles that have disambiguation applied (so they can re-submit immediately)
+                // re-populate the user's input input with titles that have disambiguation applied (so they can re-submit immediately)
                 } else {
                     messages.push('ERROR: "' + withoutYear(userTitles[titleMatchesIdx]) + '" has multiple matches in the BGG database')
                     for (let ambiguousTitle of titleMatches) {
@@ -239,13 +239,13 @@ export const AddGames = (props) => {
 
     const handleSubmit = (event) => {
         event.preventDefault()
-        let delimiter, num_nonblank_lines = textareaValue.split(/\r\n|\r|\n/).filter(line => line !== '').length
+        let delimiter, num_nonblank_lines = inputValue.split(/\r\n|\r|\n/).filter(line => line !== '').length
         if (num_nonblank_lines > 1) {
             delimiter = '\n'
         } else {
             delimiter = ','
         }
-        let userTitles = textareaValue
+        let userTitles = inputValue
             .split(delimiter)
             .map(str => str.trim())
             .map(str => str.replace(/[^0-9a-zA-Z:()&!–#' ]/g, ""))
@@ -263,7 +263,7 @@ export const AddGames = (props) => {
             <section id="input-by-title">
                 <form onSubmit={handleSubmit}>
                     <label htmlFor="titles-input">Game Title(s):</label>
-                    <textarea rows="8" cols="40" value={textareaValue} onChange={handleChange} placeholder="(exact match only)" required/>
+                    <input length="40" value={inputValue} onChange={handleChange} placeholder="(exact match only)" required/>
                     <section className="buttonrow">
                         <button type="submit" className="default-primary-styles">Submit</button>
                     </section>

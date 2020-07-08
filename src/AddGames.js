@@ -39,9 +39,8 @@ export const AddGames = (props) => {
         }
     }
 
-    const addMessage = (new_message) => {
-        let newStatusMessages = [...statusMessages]
-        newStatusMessages.push(new_message)
+    const addMessages = (new_messages) => {
+        const newStatusMessages = [...statusMessages, ...new_messages]
         setStatusMessages(newStatusMessages)
     }
 
@@ -68,7 +67,7 @@ export const AddGames = (props) => {
 
                         // no BGG titles were found
                         if (nonexactSearchData.length === 0) {
-                            addMessage('ERROR: "' + withoutYear(userTitles[idx2]) + '" was not found in the BGG database')
+                            addMessages(['ERROR: "' + withoutYear(userTitles[idx2]) + '" was not found in the BGG database'])
 
                         // multiple BGG titles were found (without an exact ID match), so do disambiguation by year published
                         } else if (nonexactSearchData.length > 1 && idMatches.length !== 1) {
@@ -81,47 +80,48 @@ export const AddGames = (props) => {
                             // the user's search submission did provide a publishing year that matches that of a BGG title
                             if (yearMatches.length) {
                                 if (ifGameHasBeenAdded(yearMatches[0].id)) {
-                                    addMessage('"' + withYear(userTitles[idx2], yearMatches[0].year_published, yearMatches[0].id) + '" was previously added')
+                                    addMessages(['"' + withYear(userTitles[idx2], yearMatches[0].year_published, yearMatches[0].id) + '" was previously added'])
                                 } else {
                                     gamedataApi(yearMatches[0].id)
                                         .then(json => {
                                             if (json.hasOwnProperty('id')) {
                                                 if (desiredYear !== null) {
-                                                    addMessage('"' + withYear(yearMatches[0].name, yearMatches[0].year_published, yearMatches[0].id) + '" has now been added')
+                                                    addMessages(['"' + withYear(yearMatches[0].name, yearMatches[0].year_published, yearMatches[0].id) + '" has now been added'])
                                                 } else {
-                                                    addMessage('"' + withoutYear(yearMatches[0].name) + '" has now been added')
+                                                    addMessages(['"' + withoutYear(yearMatches[0].name) + '" has now been added'])
                                                 }
                                                 json["name_is_unique"] = false
                                                 setTimeout(function() {
                                                     props.onnewtitle(json)
                                                 }, 1000)
                                             } else {
-                                                addMessage('ERROR: "' + withoutYear(yearMatches[0].name) + '" was not found in the BGG database')
+                                                addMessages(['ERROR: "' + withoutYear(yearMatches[0].name) + '" was not found in the BGG database'])
                                             }
                                         })
                                 }
                             // re-populate the user's input input with titles that have disambiguation applied (so they can re-submit immediately)
                             } else {
-                                addMessage('ERROR: "' + withoutYear(userTitles[idx2]) + '" has multiple matches in the BGG database')
+                                let newMessages = []
                                 for (let ambiguousTitle of nonexactSearchData) {
-                                    // let disambiguousTitle = withYear(ambiguousTitle.name, ambiguousTitle.year_published, ambiguousTitle.id)
+                                    newMessages.push(ambiguousTitle.name + ' (' + ambiguousTitle.year_published + ')')
                                 }
+                                addMessages(newMessages)
                             }
                         // exactly 1 BGG title was found
                         } else {
                             if (ifGameHasBeenAdded(nonexactSearchData[0].id)) {
-                                addMessage('"' + withYear(nonexactSearchData[0].name) + '" was previously added')
+                                addMessages(['"' + withYear(nonexactSearchData[0].name) + '" was previously added'])
                             } else {
                                 gamedataApi(nonexactSearchData[0].id)
                                     .then(json => {
                                         if (json.hasOwnProperty('id')) {
-                                            addMessage('"' + withoutYear(nonexactSearchData[0].name) + '" has now been added')
+                                            addMessages(['"' + withoutYear(nonexactSearchData[0].name) + '" has now been added'])
                                             json["name_is_unique"] = true
                                             setTimeout(function() {
                                                 props.onnewtitle(json)
                                             }, 1000)
                                             } else {
-                                                addMessage('ERROR: "' + withoutYear(nonexactSearchData[0].name) + '" was not found in the BGG database')
+                                                addMessages(['ERROR: "' + withoutYear(nonexactSearchData[0].name) + '" was not found in the BGG database'])
                                             }
                                         })
                                 }

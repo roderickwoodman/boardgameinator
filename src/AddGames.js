@@ -7,7 +7,7 @@ import { searchApi, exactSearchApi, gamedataApi } from './Api.js'
 export const AddGames = (props) => {
 
     const [ inputValue, setTextareaValue ] = useState('')
-    const [ statusMessages, setStatusMessages ] = useState([])
+    const [ statusMessages, setStatusMessages ] = useState(['foo'])
 
     const withYear = (title, year, id) => {
         let printedYear = (year === null) ? '#'+id : year
@@ -39,9 +39,13 @@ export const AddGames = (props) => {
         }
     }
 
+    const addMessage = (new_message) => {
+        let newStatusMessages = [...statusMessages]
+        newStatusMessages.push(new_message)
+        setStatusMessages(newStatusMessages)
+    }
+
     const validateUserTitlesV2 = async (userTitles) => {
-        let messages = []
-        let newTextareaValue = ""
         const titleData = await Promise.all(
             userTitles.map( function(gameTitle) {
                 return (
@@ -64,8 +68,7 @@ export const AddGames = (props) => {
 
                         // no BGG titles were found
                         if (nonexactSearchData.length === 0) {
-                            messages.push('ERROR: "' + withoutYear(userTitles[idx2]) + '" was not found in the BGG database')
-                            newTextareaValue += userTitles[idx2] + '\n'
+                            addMessage('ERROR: "' + withoutYear(userTitles[idx2]) + '" was not found in the BGG database')
 
                         // multiple BGG titles were found (without an exact ID match), so do disambiguation by year published
                         } else if (nonexactSearchData.length > 1 && idMatches.length !== 1) {
@@ -78,52 +81,47 @@ export const AddGames = (props) => {
                             // the user's search submission did provide a publishing year that matches that of a BGG title
                             if (yearMatches.length) {
                                 if (ifGameHasBeenAdded(yearMatches[0].id)) {
-                                    messages.push('"' + withYear(userTitles[idx2], yearMatches[0].year_published, yearMatches[0].id) + '" was previously added')
+                                    addMessage('"' + withYear(userTitles[idx2], yearMatches[0].year_published, yearMatches[0].id) + '" was previously added')
                                 } else {
                                     gamedataApi(yearMatches[0].id)
                                         .then(json => {
                                             if (json.hasOwnProperty('id')) {
                                                 if (desiredYear !== null) {
-                                                    messages.push('"' + withYear(yearMatches[0].name, yearMatches[0].year_published, yearMatches[0].id) + '" has now been added')
+                                                    addMessage('"' + withYear(yearMatches[0].name, yearMatches[0].year_published, yearMatches[0].id) + '" has now been added')
                                                 } else {
-                                                    messages.push('"' + withoutYear(yearMatches[0].name) + '" has now been added')
+                                                    addMessage('"' + withoutYear(yearMatches[0].name) + '" has now been added')
                                                 }
                                                 json["name_is_unique"] = false
                                                 props.onnewtitle(json)
                                             } else {
-                                                messages.push('ERROR: "' + withoutYear(yearMatches[0].name) + '" is not producing data from the BGG API, so deleting it from your input')
+                                                addMessage('ERROR: "' + withoutYear(yearMatches[0].name) + '" was not found in the BGG database')
                                             }
                                         })
                                 }
                             // re-populate the user's input input with titles that have disambiguation applied (so they can re-submit immediately)
                             } else {
-                                messages.push('ERROR: "' + withoutYear(userTitles[idx2]) + '" has multiple matches in the BGG database')
+                                addMessage('ERROR: "' + withoutYear(userTitles[idx2]) + '" has multiple matches in the BGG database')
                                 for (let ambiguousTitle of nonexactSearchData) {
-                                    let disambiguousTitle = withYear(ambiguousTitle.name, ambiguousTitle.year_published, ambiguousTitle.id)
-                                    newTextareaValue += disambiguousTitle + '\n'
+                                    // let disambiguousTitle = withYear(ambiguousTitle.name, ambiguousTitle.year_published, ambiguousTitle.id)
                                 }
                             }
                         // exactly 1 BGG title was found
                         } else {
                             if (ifGameHasBeenAdded(nonexactSearchData[0].id)) {
-                                messages.push('"' + withYear(nonexactSearchData[0].name) + '" was previously added')
+                                addMessage('"' + withYear(nonexactSearchData[0].name) + '" was previously added')
                             } else {
                                 gamedataApi(nonexactSearchData[0].id)
                                     .then(json => {
                                         if (json.hasOwnProperty('id')) {
-                                            // messages.push('"' + withoutYear(nonexactSearchData[0].name) + '" has now been added')
+                                            addMessage('"' + withoutYear(nonexactSearchData[0].name) + '" has now been added')
                                             json["name_is_unique"] = true
-                                            props.onnewtitle(json)
+                                            // props.onnewtitle(json)
                                             } else {
-                                                // messages.push('ERROR: "' + withoutYear(nonexactSearchData[0].name) + '" is not producing data from the BGG API, so deleting it from your input')
-                                                newTextareaValue += ''
+                                                addMessage('ERROR: "' + withoutYear(nonexactSearchData[0].name) + '" was not found in the BGG database')
                                             }
                                         })
                                 }
                             }
-                        // FIXME: re-enable status messages and input updates
-                        // this.setState({ value: newTextareaValue })
-                        // this.setState({ statusMessages: messages })
                         })
                     )
             })
@@ -220,7 +218,6 @@ export const AddGames = (props) => {
                 }
             }
         })
-        setTextareaValue(newTextareaValue)
         setStatusMessages(messages)
     }
 
@@ -250,6 +247,7 @@ export const AddGames = (props) => {
             .map(str => str.trim())
             .map(str => str.replace(/[^0-9a-zA-Z:()&!–#' ]/g, ""))
             .filter( function(e){return e} )
+        console.log('submitted for add: ',Array.from(new Set(userTitles)))
         validateUserTitlesV2(Array.from(new Set(userTitles)))
     }
 
@@ -261,12 +259,10 @@ export const AddGames = (props) => {
         <div id="input-section">
 
             <section id="input-by-title">
-                <form onSubmit={handleSubmit}>
                     <section className="buttonrow">
                         <input size="30" value={inputValue} onChange={handleChange} placeholder="(exact game title)" required/>
-                        <button type="submit" className="default-primary-styles">Add</button>
+                        <button onClick={handleSubmit} className="default-primary-styles">Add</button>
                     </section>
-                </form>
                 <div className="status-messages">
                     { statusMessages
                         .map(

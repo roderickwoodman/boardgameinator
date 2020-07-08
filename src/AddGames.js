@@ -67,7 +67,7 @@ export const AddGames = (props) => {
 
                         // no BGG titles were found
                         if (nonexactSearchData.length === 0) {
-                            addMessages(['ERROR: "' + withoutYear(userTitles[idx2]) + '" was not found in the BGG database'])
+                            addMessages([ { message_str: 'ERROR: "' + withoutYear(userTitles[idx2]) + '" was not found in the BGG database'} ])
 
                         // multiple BGG titles were found (without an exact ID match), so do disambiguation by year published
                         } else if (nonexactSearchData.length > 1 && idMatches.length !== 1) {
@@ -80,22 +80,22 @@ export const AddGames = (props) => {
                             // the user's search submission did provide a publishing year that matches that of a BGG title
                             if (yearMatches.length) {
                                 if (ifGameHasBeenAdded(yearMatches[0].id)) {
-                                    addMessages(['"' + withYear(userTitles[idx2], yearMatches[0].year_published, yearMatches[0].id) + '" was previously added'])
+                                    addMessages([ { message_str: '"' + withYear(userTitles[idx2], yearMatches[0].year_published, yearMatches[0].id) + '" was previously added'} ])
                                 } else {
                                     gamedataApi(yearMatches[0].id)
                                         .then(json => {
                                             if (json.hasOwnProperty('id')) {
                                                 if (desiredYear !== null) {
-                                                    addMessages(['"' + withYear(yearMatches[0].name, yearMatches[0].year_published, yearMatches[0].id) + '" has now been added'])
+                                                    addMessages([ { message_str: '"' + withYear(yearMatches[0].name, yearMatches[0].year_published, yearMatches[0].id) + '" has now been added'} ])
                                                 } else {
-                                                    addMessages(['"' + withoutYear(yearMatches[0].name) + '" has now been added'])
+                                                    addMessages([ { message_str: '"' + withoutYear(yearMatches[0].name) + '" has now been added'} ])
                                                 }
                                                 json["name_is_unique"] = false
                                                 setTimeout(function() {
                                                     props.onnewtitle(json)
                                                 }, 1000)
                                             } else {
-                                                addMessages(['ERROR: "' + withoutYear(yearMatches[0].name) + '" was not found in the BGG database'])
+                                                addMessages([ { message_str: 'ERROR: "' + withoutYear(yearMatches[0].name) + '" was not found in the BGG database'} ])
                                             }
                                         })
                                 }
@@ -103,25 +103,29 @@ export const AddGames = (props) => {
                             } else {
                                 let newMessages = []
                                 for (let ambiguousTitle of nonexactSearchData) {
-                                    newMessages.push(ambiguousTitle.name + ' (' + ambiguousTitle.year_published + ')')
+                                    let unambiguousTitle = ambiguousTitle.name + ' (' + ambiguousTitle.year_published + ')'
+                                    newMessages.push({ 
+                                        add_button: true,
+                                        message_str: unambiguousTitle
+                                    })
                                 }
                                 addMessages(newMessages)
                             }
                         // exactly 1 BGG title was found
                         } else {
                             if (ifGameHasBeenAdded(nonexactSearchData[0].id)) {
-                                addMessages(['"' + withYear(nonexactSearchData[0].name) + '" was previously added'])
+                                addMessages([ { message_str: '"' + withYear(nonexactSearchData[0].name) + '" was previously added'} ])
                             } else {
                                 gamedataApi(nonexactSearchData[0].id)
                                     .then(json => {
                                         if (json.hasOwnProperty('id')) {
-                                            addMessages(['"' + withoutYear(nonexactSearchData[0].name) + '" has now been added'])
+                                            addMessages([ { message_str: '"' + withoutYear(nonexactSearchData[0].name) + '" has now been added'} ])
                                             json["name_is_unique"] = true
                                             setTimeout(function() {
                                                 props.onnewtitle(json)
                                             }, 1000)
                                             } else {
-                                                addMessages(['ERROR: "' + withoutYear(nonexactSearchData[0].name) + '" was not found in the BGG database'])
+                                                addMessages([ { message_str: 'ERROR: "' + withoutYear(nonexactSearchData[0].name) + '" was not found in the BGG database'} ])
                                             }
                                         })
                                 }
@@ -258,6 +262,16 @@ export const AddGames = (props) => {
         validateUserTitlesV2(Array.from(new Set(userTitles)))
     }
 
+    const addButton = (message) => {
+        if (message.hasOwnProperty('add_button') && message.add_button) {
+            return (
+                <button className="default-primary-styles" onClick={ (e) => validateUserTitlesV2([message.message_str]) }>Add</button>
+            )
+        } else {
+            return null
+        }
+    }
+
     return (
         <React.Fragment>
 
@@ -274,9 +288,9 @@ export const AddGames = (props) => {
                     { statusMessages
                         .map(
                             (message, i) => {
-                                return (message.toLowerCase().startsWith("error"))
-                                ? <p key={i} className="message error">{message}</p>
-                                : <p key={i} className="message"><FontAwesomeIcon icon={faLongArrowAltRight} /> {message}</p>
+                                return (message.message_str.toLowerCase().startsWith("error"))
+                                ? <p key={i} className="message error">{message.message_str} {addButton(message)}</p>
+                                : <p key={i} className="message"><FontAwesomeIcon icon={faLongArrowAltRight} /> {message.message_str} {addButton(message)}</p>
                             }
                         )
                     }

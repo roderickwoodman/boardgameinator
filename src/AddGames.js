@@ -256,16 +256,15 @@ export const AddGames = (props) => {
     return (
         <React.Fragment>
 
-        <h4>Add board game(s) by title:</h4>
+        <h4>Add board game by title:</h4>
 
         <div id="input-section">
 
             <section id="input-by-title">
                 <form onSubmit={handleSubmit}>
-                    <label htmlFor="titles-input">Game Title(s):</label>
-                    <input length="40" value={inputValue} onChange={handleChange} placeholder="(exact match only)" required/>
                     <section className="buttonrow">
-                        <button type="submit" className="default-primary-styles">Submit</button>
+                        <input size="30" value={inputValue} onChange={handleChange} placeholder="(exact game title)" required/>
+                        <button type="submit" className="default-primary-styles">Add</button>
                     </section>
                 </form>
                 <div className="status-messages">

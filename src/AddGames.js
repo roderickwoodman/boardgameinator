@@ -49,9 +49,9 @@ export const AddGames = (props) => {
         original_title_set.forEach(function(title) {
             let disambiguation_year = extractYearFromTitle(title.toString())
             new_results.forEach(function(result_array) {
-                let results_for_title = result_array.filter(result => result.name === withoutYear(title))
+                let results_for_title = result_array.filter(result => result.name === withoutYear(title) || result.id === parseInt(title))
                 results_for_title.forEach(function(result) {
-                    if ( (disambiguation_year === null && results_for_title.length === 1 && result.name === withoutYear(title))
+                    if ( (disambiguation_year === null && results_for_title.length === 1 && (result.name === withoutYear(title) || parseInt(result.id) === parseInt(title)))
                         || (disambiguation_year !== null && results_for_title.length > 1 && result.name === withoutYear(title) && result.year_published === parseInt(disambiguation_year))) {
                         let newResult = {
                             id: result.id,
@@ -70,7 +70,7 @@ export const AddGames = (props) => {
 
     const getRemainingTitles = function (user_titles, final_results) {
         let remaining_titles = user_titles.filter(function(title) {
-            return (final_results.filter( result => result.name === withoutYear(title) ).length) ? false : true
+            return (final_results.filter( result => result.name === withoutYear(title) || result.id === parseInt(title)).length) ? false : true
         })
         return remaining_titles
     }
@@ -84,28 +84,39 @@ export const AddGames = (props) => {
         return titleData
     }
 
-    // step1 (exact search API result)
-    // step2 (non-exact search API result)
-    // step3 (game data API result)
-
-    const validateUserTitlesV3 = async function (userTitles) { 
+    const getNonexactSearchResults = async function (titles) {
+        const titleData = await Promise.all(
+            titles.map( function(gameTitle) {
+                return (
+                    searchApi(withoutYear(gameTitle)) // query the API without the disambiguation
+        )}))
+        return titleData
+    }
+    
+    const validateUserTitlesV3 = async function (user_titles) { 
 
         let final_results = []
-        let remaining_titles = [...userTitles]
+        let remaining_titles = [...user_titles]
 
         //   { id: , name: , year_published: }
 
         // STEP 1: do BGG exact search API, using user-supplied name string
-        const exactSearchResults = await getExactSearchResults(userTitles)
-        final_results = updateFinalResults(final_results, exactSearchResults, userTitles)
-        remaining_titles = getRemainingTitles(userTitles, final_results)
+        const exactSearchResults = await getExactSearchResults(user_titles)
+        final_results = updateFinalResults(final_results, exactSearchResults, user_titles)
+        remaining_titles = getRemainingTitles(user_titles, final_results)
 
-        // console.log('new results: ',exactSearchResults)
+        // console.log('new exact results: ',exactSearchResults)
         // console.log('updated final: ',final_results)
         // console.log('updated remaining: ',remaining_titles)
 
         // OPTIONAL STEP 2 (if unresolved titles remain): do BGG non-exact search API, using user-supplied name string
-        // TBI
+        const nonexactSearchResults = await getNonexactSearchResults(remaining_titles)
+        final_results = updateFinalResults(final_results, nonexactSearchResults, user_titles)
+        remaining_titles = getRemainingTitles(user_titles, final_results)
+
+        // console.log('new unexact results: ',nonexactSearchResults)
+        // console.log('updated final: ',final_results)
+        // console.log('updated remaining: ',remaining_titles)
 
         // STEP 3: do BGG game data API, using BGG-API-supplied game ID
         // TBI

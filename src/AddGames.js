@@ -44,6 +44,74 @@ export const AddGames = (props) => {
         setStatusMessages(newStatusMessages)
     }
 
+    const updateFinalResults = function (old_final_results, new_results, original_title_set) {
+        let updated_results = JSON.parse(JSON.stringify(old_final_results))
+        original_title_set.forEach(function(title) {
+            let disambiguation_year = extractYearFromTitle(title.toString())
+            new_results.forEach(function(result_array) {
+                let results_for_title = result_array.filter(result => result.name === withoutYear(title))
+                results_for_title.forEach(function(result) {
+                    if ( (disambiguation_year === null && results_for_title.length === 1 && result.name === withoutYear(title))
+                        || (disambiguation_year !== null && results_for_title.length > 1 && result.name === withoutYear(title) && result.year_published === parseInt(disambiguation_year))) {
+                        let newResult = {
+                            id: result.id,
+                            name: result.name,
+                            year_published: result.year_published
+                        }
+                        updated_results.push(newResult)
+                    }
+
+                })
+                
+            })
+        })
+        return updated_results
+    }
+
+    const getRemainingTitles = function (user_titles, final_results) {
+        let remaining_titles = user_titles.filter(function(title) {
+            return (final_results.filter( result => result.name === withoutYear(title) ).length) ? false : true
+        })
+        return remaining_titles
+    }
+
+    const getExactSearchResults = async function (titles) {
+        const titleData = await Promise.all(
+            titles.map( function(gameTitle) {
+                return (
+                    exactSearchApi(withoutYear(gameTitle)) // query the API without the disambiguation
+        )}))
+        return titleData
+    }
+
+    // step1 (exact search API result)
+    // step2 (non-exact search API result)
+    // step3 (game data API result)
+
+    const validateUserTitlesV3 = async function (userTitles) { 
+
+        let final_results = []
+        let remaining_titles = [...userTitles]
+
+        //   { id: , name: , year_published: }
+
+        // STEP 1: do BGG exact search API, using user-supplied name string
+        const exactSearchResults = await getExactSearchResults(userTitles)
+        final_results = updateFinalResults(final_results, exactSearchResults, userTitles)
+        remaining_titles = getRemainingTitles(userTitles, final_results)
+
+        // console.log('new results: ',exactSearchResults)
+        // console.log('updated final: ',final_results)
+        // console.log('updated remaining: ',remaining_titles)
+
+        // OPTIONAL STEP 2 (if unresolved titles remain): do BGG non-exact search API, using user-supplied name string
+        // TBI
+
+        // STEP 3: do BGG game data API, using BGG-API-supplied game ID
+        // TBI
+    }
+
+
     const validateUserTitlesV2 = async (userTitles) => {
         const titleData = await Promise.all(
             userTitles.map( function(gameTitle) {
@@ -259,13 +327,13 @@ export const AddGames = (props) => {
             .map(str => str.trim())
             .map(str => str.replace(/[^0-9a-zA-Z:()&!–#' ]/g, ""))
             .filter( function(e){return e} )
-        validateUserTitlesV2(Array.from(new Set(userTitles)))
+        validateUserTitlesV3(Array.from(new Set(userTitles)))
     }
 
     const addButton = (message) => {
         if (message.hasOwnProperty('add_button') && message.add_button) {
             return (
-                <button className="default-primary-styles" onClick={ (e) => validateUserTitlesV2([message.message_str]) }>Add</button>
+                <button className="default-primary-styles" onClick={ (e) => validateUserTitlesV3([message.message_str]) }>Add</button>
             )
         } else {
             return null

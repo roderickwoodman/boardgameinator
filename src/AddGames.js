@@ -98,25 +98,23 @@ export const AddGames = (props) => {
         let final_results = []
         let remaining_titles = [...user_titles]
 
-        //   { id: , name: , year_published: }
-
-        // STEP 1: do BGG exact search API, using user-supplied name string
+        // STEP 1: Do BGG exact search API, using user-supplied name string.
         const exactSearchResults = await getExactSearchResults(user_titles)
         final_results = updateFinalResults(final_results, exactSearchResults, user_titles)
         remaining_titles = getRemainingTitles(user_titles, final_results)
 
-        // console.log('new exact results: ',exactSearchResults)
-        // console.log('updated final: ',final_results)
-        // console.log('updated remaining: ',remaining_titles)
-
-        // OPTIONAL STEP 2 (if unresolved titles remain): do BGG non-exact search API, using user-supplied name string
+        // OPTIONAL STEP 2 (If unresolved titles remain): Do BGG non-exact search API, using user-supplied name string.
         const nonexactSearchResults = await getNonexactSearchResults(remaining_titles)
         final_results = updateFinalResults(final_results, nonexactSearchResults, user_titles)
         remaining_titles = getRemainingTitles(user_titles, final_results)
 
-        // console.log('new unexact results: ',nonexactSearchResults)
-        // console.log('updated final: ',final_results)
-        // console.log('updated remaining: ',remaining_titles)
+        // At this point the user-supplied titles should all have a BGG ID associated with each of them. If not, exit.
+        if (remaining_titles.length) {
+            remaining_titles.forEach(function(title) {
+                addMessages([ { message_str: 'ERROR: "' + withoutYear(title) + '" was not found in the BGG database'} ])
+            })
+            return
+        }
 
         // STEP 3: do BGG game data API, using BGG-API-supplied game ID
         // TBI

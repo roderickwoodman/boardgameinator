@@ -44,7 +44,7 @@ export const AddGames = (props) => {
         setStatusMessages(newStatusMessages)
     }
 
-    const updateFinalResults = function (old_final_results, new_results, original_title_set) {
+    const updateValidatedGameList = function (old_final_results, new_results, original_title_set) {
         let updated_results = JSON.parse(JSON.stringify(old_final_results))
         original_title_set.forEach(function(title) {
             let disambiguation_year = extractYearFromTitle(title.toString())
@@ -92,23 +92,32 @@ export const AddGames = (props) => {
         )}))
         return titleData
     }
-    
+
+    const getGamedataResults = async function (games) {
+        const gameData = await Promise.all(
+            games.map( function(game) {
+                return (
+                    gamedataApi(game.id) // query the API with the BGG game ID
+        )}))
+        return gameData
+    }
+
     const validateUserTitlesV3 = async function (user_titles) { 
 
-        let final_results = []
+        let all_validated_games = []
         let remaining_titles = [...user_titles]
 
         // STEP 1: Do BGG exact search API, using user-supplied name string.
         const exactSearchResults = await getExactSearchResults(user_titles)
-        final_results = updateFinalResults(final_results, exactSearchResults, user_titles)
-        remaining_titles = getRemainingTitles(user_titles, final_results)
+        all_validated_games = updateValidatedGameList(all_validated_games, exactSearchResults, user_titles)
+        remaining_titles = getRemainingTitles(user_titles, all_validated_games)
 
         // OPTIONAL STEP 2 (If unresolved titles remain): Do BGG non-exact search API, using user-supplied name string.
         const nonexactSearchResults = await getNonexactSearchResults(remaining_titles)
-        final_results = updateFinalResults(final_results, nonexactSearchResults, user_titles)
-        remaining_titles = getRemainingTitles(user_titles, final_results)
+        all_validated_games = updateValidatedGameList(all_validated_games, nonexactSearchResults, user_titles)
+        remaining_titles = getRemainingTitles(user_titles, all_validated_games)
 
-        // At this point the user-supplied titles should all have a BGG ID associated with each of them. If not, exit.
+        // Throw an error message if any title does not have a BGG ID associated with it.
         if (remaining_titles.length) {
             remaining_titles.forEach(function(title) {
                 addMessages([ { message_str: 'ERROR: "' + withoutYear(title) + '" was not found in the BGG database'} ])
@@ -116,8 +125,47 @@ export const AddGames = (props) => {
             return
         }
 
+        // Throw a message if any title has already been added to this app.
+        let do_return = false
+        all_validated_games.forEach(function(game) {
+            if (ifGameHasBeenAdded(game.id)) {
+                addMessages([ { message_str: '"' + withYear(game.name, game.year_published, game.id) + '" was previously added'} ])
+                do_return = true
+            }
+        })
+        if (do_return)
+            return
+
         // STEP 3: do BGG game data API, using BGG-API-supplied game ID
-        // TBI
+        const gamedataResults = await getGamedataResults(all_validated_games)
+        // all_validated_games = updateValidatedGameList(all_validated_games, nonexactSearchResults, user_titles)
+        // remaining_titles = getRemainingTitles(user_titles, all_validated_games)
+
+
+        // STEP 4: integrate the game data wit this app
+        // if (ifGameHasBeenAdded(yearMatches[0].id)) {
+        //     addMessages([ { message_str: '"' + withYear(userTitles[idx2], yearMatches[0].year_published, yearMatches[0].id) + '" was previously added'} ])
+        // } else {
+        //     gamedataApi(yearMatches[0].id)
+        //         .then(json => {
+        //             if (json.hasOwnProperty('id')) {
+        //                 if (desiredYear !== null) {
+        //                     addMessages([ { message_str: '"' + withYear(yearMatches[0].name, yearMatches[0].year_published, yearMatches[0].id) + '" has now been added'} ])
+        //                 } else {
+        //                     addMessages([ { message_str: '"' + withoutYear(yearMatches[0].name) + '" has now been added'} ])
+        //                 }
+        //                 json["name_is_unique"] = false
+        //                 setTimeout(function() {
+        //                     props.onnewtitle(json)
+        //                 }, 1000)
+        //             } else {
+        //                 addMessages([ { message_str: 'ERROR: "' + withoutYear(yearMatches[0].name) + '" was not found in the BGG database'} ])
+        //             }
+        //         })
+        // }
+
+
+
     }
 
 

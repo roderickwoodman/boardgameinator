@@ -386,6 +386,7 @@ html, #root {
   border-radius: 10px;
   color: white;
   text-align: center;
+  overflow: hidden;
 }
 
 .game.inspecting {
@@ -679,6 +680,7 @@ button:enabled,
 
   .gamecard-upvoted-attributes {
     display: inline-block;
+    overflow: hidden;
   }
 
   .game-yearpublished,
@@ -719,6 +721,12 @@ button:enabled,
   .gamecard-header button.fa.fa-button {
     margin: 0.25rem;
     flex: 1 1 auto;
+  }
+
+  .gamecard-categories,
+  .gamecard-mechanics,
+  .gamecard-variable {
+    overflow: hidden;
   }
 
 }
@@ -909,6 +917,7 @@ button:enabled,
       "gc-header gc-variable"
       "gc-collapse gc-variable"
       "gc-collapse gc-footer";
+    overflow-y: auto;
   }
 
   .gamecard-visual {

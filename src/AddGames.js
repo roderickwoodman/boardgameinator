@@ -102,7 +102,7 @@ export const AddGames = (props) => {
         return gameData
     }
 
-    const validateUserTitlesV3 = async function (user_titles) { 
+    const validateUserTitles = async function (user_titles) { 
 
         let all_validated_games = []
         let remaining_titles = [...user_titles]
@@ -168,196 +168,6 @@ export const AddGames = (props) => {
 
     }
 
-
-    const validateUserTitlesV2 = async (userTitles) => {
-        const titleData = await Promise.all(
-            userTitles.map( function(gameTitle) {
-                return (
-                    // STEP 1: do BGG exact search API, using user-supplied name string
-                    exactSearchApi(gameTitle)
-
-                    // OPTIONAL STEP 2 (if no matches were found): do BGG non-exact search API, using user-supplied name string
-                    .then( function(exactSearchData, idx) {
-                        if (Object.entries(exactSearchData.length !==0)) {
-                            return (exactSearchData)
-                        } else {
-                            return searchApi(userTitles[idx])
-                        }})
-
-                    // (EVENTUAL) STEP 3: do BGG game data API, using BGG-API-supplied game ID
-                    .then( function(nonexactSearchData, idx2) {
-
-                        // if an ID was searched for and not a title name, no disambiguation will be needed
-                        let idMatches = nonexactSearchData.filter( titleMatch => titleMatch.id === parseInt(userTitles[idx2]))
-
-                        // no BGG titles were found
-                        if (nonexactSearchData.length === 0) {
-                            addMessages([ { message_str: 'ERROR: "' + withoutYear(userTitles[idx2]) + '" was not found in the BGG database'} ])
-
-                        // multiple BGG titles were found (without an exact ID match), so do disambiguation by year published
-                        } else if (nonexactSearchData.length > 1 && idMatches.length !== 1) {
-                            let desiredYear = extractYearFromTitle(userTitles[idx2])
-                            let yearMatches = nonexactSearchData
-                                .filter(ambiguousTitle => 
-                                    desiredYear != null
-                                    && ( (desiredYear.startsWith('#') && ambiguousTitle.id === parseInt(desiredYear.substr(1)))
-                                        || ambiguousTitle.year_published === parseInt(desiredYear) ))
-                            // the user's search submission did provide a publishing year that matches that of a BGG title
-                            if (yearMatches.length) {
-                                if (ifGameHasBeenAdded(yearMatches[0].id)) {
-                                    addMessages([ { message_str: '"' + withYear(userTitles[idx2], yearMatches[0].year_published, yearMatches[0].id) + '" was previously added'} ])
-                                } else {
-                                    gamedataApi(yearMatches[0].id)
-                                        .then(json => {
-                                            if (json.hasOwnProperty('id')) {
-                                                if (desiredYear !== null) {
-                                                    addMessages([ { message_str: '"' + withYear(yearMatches[0].name, yearMatches[0].year_published, yearMatches[0].id) + '" has now been added'} ])
-                                                } else {
-                                                    addMessages([ { message_str: '"' + withoutYear(yearMatches[0].name) + '" has now been added'} ])
-                                                }
-                                                json["name_is_unique"] = false
-                                                setTimeout(function() {
-                                                    props.onnewtitle(json)
-                                                }, 1000)
-                                            } else {
-                                                addMessages([ { message_str: 'ERROR: "' + withoutYear(yearMatches[0].name) + '" was not found in the BGG database'} ])
-                                            }
-                                        })
-                                }
-                            // re-populate the user's input input with titles that have disambiguation applied (so they can re-submit immediately)
-                            } else {
-                                let newMessages = []
-                                for (let ambiguousTitle of nonexactSearchData) {
-                                    let unambiguousTitle = ambiguousTitle.name + ' (' + ambiguousTitle.year_published + ')'
-                                    newMessages.push({ 
-                                        add_button: true,
-                                        message_str: unambiguousTitle
-                                    })
-                                }
-                                addMessages(newMessages)
-                            }
-                        // exactly 1 BGG title was found
-                        } else {
-                            if (ifGameHasBeenAdded(nonexactSearchData[0].id)) {
-                                addMessages([ { message_str: '"' + withYear(nonexactSearchData[0].name) + '" was previously added'} ])
-                            } else {
-                                gamedataApi(nonexactSearchData[0].id)
-                                    .then(json => {
-                                        if (json.hasOwnProperty('id')) {
-                                            addMessages([ { message_str: '"' + withoutYear(nonexactSearchData[0].name) + '" has now been added'} ])
-                                            json["name_is_unique"] = true
-                                            setTimeout(function() {
-                                                props.onnewtitle(json)
-                                            }, 1000)
-                                            } else {
-                                                addMessages([ { message_str: 'ERROR: "' + withoutYear(nonexactSearchData[0].name) + '" was not found in the BGG database'} ])
-                                            }
-                                        })
-                                }
-                            }
-                        })
-                    )
-            })
-        )
-    }
-
-    const validateUserTitles = async (userTitles) => {
-
-        let messages = []
-        let newTextareaValue = ""
-
-        // search for an exact title match (BGG API)
-        const exactSearchApiResults = await Promise.all(
-            userTitles.map( gameTitle => exactSearchApi(withoutYear(gameTitle)) )
-        )
-
-        // if there was no response to the exact title search, do a non-exact one (BGG API)
-        const searchApiResults = await Promise.all(
-            exactSearchApiResults.map(
-                (exactSearchApiResult, idx) => {
-                    if (Object.entries(exactSearchApiResult).length !== 0) {
-                        return exactSearchApiResult
-                    } else {
-                        return (
-                            searchApi(userTitles[idx])
-                        )
-                    }
-                }
-            ))
-
-        // the search result for each user-supplied title may have returned multiple possible BGG titles
-        searchApiResults.forEach( (titleMatches, titleMatchesIdx) => {
-
-            // if an ID was searched for and not a title name, no disambiguation will be needed
-            let idMatches = titleMatches.filter( titleMatch => titleMatch.id === parseInt(userTitles[titleMatchesIdx]))
-
-            // no BGG titles were found
-            if (titleMatches.length === 0) {
-                messages.push('ERROR: "' + withoutYear(userTitles[titleMatchesIdx]) + '" was not found in the BGG database')
-                newTextareaValue += userTitles[titleMatchesIdx] + '\n'
-
-            // multiple BGG titles were found (without an exact ID match), so do disambiguation by year published
-            } else if (titleMatches.length > 1 && idMatches.length !== 1) {
-                let desiredYear = extractYearFromTitle(userTitles[titleMatchesIdx])
-                let yearMatches = titleMatches
-                    .filter(ambiguousTitle => 
-                        desiredYear != null
-                        && ( (desiredYear.startsWith('#') && ambiguousTitle.id === parseInt(desiredYear.substr(1)))
-                            || ambiguousTitle.year_published === parseInt(desiredYear) ))
-                // the user's search submission did provide a publishing year that matches that of a BGG title
-                if (yearMatches.length) {
-                    if (ifGameHasBeenAdded(yearMatches[0].id)) {
-                        messages.push('"' + withYear(userTitles[titleMatchesIdx], yearMatches[0].year_published, yearMatches[0].id) + '" was previously added')
-                    } else {
-                        gamedataApi(yearMatches[0].id)
-                            .then(json => {
-                                if (json.hasOwnProperty('id')) {
-                                    if (desiredYear !== null) {
-                                        messages.push('"' + withYear(yearMatches[0].name, yearMatches[0].year_published, yearMatches[0].id) + '" has now been added')
-                                    } else {
-                                        messages.push('"' + withoutYear(yearMatches[0].name) + '" has now been added')
-                                    }
-                                    json["name_is_unique"] = false
-                                    setTimeout(function() {
-                                        props.onnewtitle(json)
-                                    }, 1000)
-                                } else {
-                                    messages.push('ERROR: "' + withoutYear(yearMatches[0].name) + '" is not producing data from the BGG API, so deleting it from your input')
-                                }
-                            })
-                    }
-                // re-populate the user's input input with titles that have disambiguation applied (so they can re-submit immediately)
-                } else {
-                    messages.push('ERROR: "' + withoutYear(userTitles[titleMatchesIdx]) + '" has multiple matches in the BGG database')
-                    for (let ambiguousTitle of titleMatches) {
-                        let disambiguousTitle = withYear(ambiguousTitle.name, ambiguousTitle.year_published, ambiguousTitle.id)
-                        newTextareaValue += disambiguousTitle + '\n'
-                    }
-                }
-            // exactly 1 BGG title was found
-            } else {
-                if (ifGameHasBeenAdded(titleMatches[0].id)) {
-                    messages.push('"' + withYear(titleMatches[0].name) + '" was previously added')
-                } else {
-                    gamedataApi(titleMatches[0].id)
-                        .then(json => {
-                            if (json.hasOwnProperty('id')) {
-                                messages.push('"' + withoutYear(titleMatches[0].name) + '" has now been added')
-                                json["name_is_unique"] = true
-                                setTimeout(function() {
-                                    props.onnewtitle(json)
-                                }, 1000)
-                            } else {
-                                messages.push('ERROR: "' + withoutYear(titleMatches[0].name) + '" is not producing data from the BGG API, so deleting it from your input')
-                                newTextareaValue += ''
-                            }
-                        })
-                }
-            }
-        })
-        setStatusMessages(messages)
-    }
-
     const ifGameHasBeenAdded = (gameId) => {
         for (let game of props.allgames) {
             if (game.id === parseInt(gameId)) {
@@ -384,13 +194,13 @@ export const AddGames = (props) => {
             .map(str => str.trim())
             .map(str => str.replace(/[^0-9a-zA-Z:()&!–#' ]/g, ""))
             .filter( function(e){return e} )
-        validateUserTitlesV3(Array.from(new Set(userTitles)))
+        validateUserTitles(Array.from(new Set(userTitles)))
     }
 
     const addButton = (message) => {
         if (message.hasOwnProperty('add_button') && message.add_button) {
             return (
-                <button className="default-primary-styles" onClick={ (e) => validateUserTitlesV3([message.message_str]) }>Add</button>
+                <button className="default-primary-styles" onClick={ (e) => validateUserTitles([message.message_str]) }>Add</button>
             )
         } else {
             return null

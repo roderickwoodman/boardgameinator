@@ -106,13 +106,14 @@ export const AddGames = (props) => {
 
         let all_validated_games = []
         let remaining_titles = [...user_titles]
+        let new_messages = []
 
-        // STEP 1: Do BGG exact search API, using user-supplied name string.
+        // STEP 1 API: Do BGG exact search API, using user-supplied name string.
         const exactSearchResults = await getExactSearchResults(user_titles)
         all_validated_games = updateValidatedGameList(all_validated_games, exactSearchResults, user_titles)
         remaining_titles = getRemainingTitles(user_titles, all_validated_games)
 
-        // OPTIONAL STEP 2 (If unresolved titles remain): Do BGG non-exact search API, using user-supplied name string.
+        // FOLLOW-UP STEP 2 API (If unresolved titles remain): Do BGG non-exact search API, using user-supplied name string.
         const nonexactSearchResults = await getNonexactSearchResults(remaining_titles)
         all_validated_games = updateValidatedGameList(all_validated_games, nonexactSearchResults, user_titles)
         remaining_titles = getRemainingTitles(user_titles, all_validated_games)
@@ -120,51 +121,50 @@ export const AddGames = (props) => {
         // Throw an error message if any title does not have a BGG ID associated with it.
         if (remaining_titles.length) {
             remaining_titles.forEach(function(title) {
-                addMessages([ { message_str: 'ERROR: "' + withoutYear(title) + '" was not found in the BGG database'} ])
+                new_messages.push({ message_str: 'ERROR: "' + withoutYear(title) + '" was not found in the BGG database'})
             })
+            addMessages(new_messages)
             return
         }
 
-        // Throw a message if any title has already been added to this app.
-        let do_return = false
+        // Print a message if any title has already been added to this app.
+        new_messages = []
+        let duplicates = []
         all_validated_games.forEach(function(game) {
             if (ifGameHasBeenAdded(game.id)) {
-                addMessages([ { message_str: '"' + withYear(game.name, game.year_published, game.id) + '" was previously added'} ])
-                do_return = true
+                new_messages.push({ message_str: '"' + withYear(game.name, game.year_published, game.id) + '" was previously added'})
+                duplicates.push(game.id)
             }
         })
-        if (do_return)
-            return
+        all_validated_games = all_validated_games.filter( game => !duplicates.includes(game.id) )
 
-        // STEP 3: do BGG game data API, using BGG-API-supplied game ID
+        // STEP 3 API: Do BGG game data API, using BGG-API-supplied game ID
         const gamedataResults = await getGamedataResults(all_validated_games)
-        // all_validated_games = updateValidatedGameList(all_validated_games, nonexactSearchResults, user_titles)
-        // remaining_titles = getRemainingTitles(user_titles, all_validated_games)
+        remaining_titles = gamedataResults.map( gamedata => gamedata.name ).filter( gamedata_name => !user_titles.includes(gamedata_name) )
 
-
-        // STEP 4: integrate the game data wit this app
-        // if (ifGameHasBeenAdded(yearMatches[0].id)) {
-        //     addMessages([ { message_str: '"' + withYear(userTitles[idx2], yearMatches[0].year_published, yearMatches[0].id) + '" was previously added'} ])
-        // } else {
-        //     gamedataApi(yearMatches[0].id)
-        //         .then(json => {
-        //             if (json.hasOwnProperty('id')) {
-        //                 if (desiredYear !== null) {
-        //                     addMessages([ { message_str: '"' + withYear(yearMatches[0].name, yearMatches[0].year_published, yearMatches[0].id) + '" has now been added'} ])
-        //                 } else {
-        //                     addMessages([ { message_str: '"' + withoutYear(yearMatches[0].name) + '" has now been added'} ])
-        //                 }
-        //                 json["name_is_unique"] = false
-        //                 setTimeout(function() {
-        //                     props.onnewtitle(json)
-        //                 }, 1000)
-        //             } else {
-        //                 addMessages([ { message_str: 'ERROR: "' + withoutYear(yearMatches[0].name) + '" was not found in the BGG database'} ])
-        //             }
-        //         })
-        // }
-
-
+        // All APIs are done. Now integrate the game data with this app.
+        if (user_titles.length - duplicates.length === 0) {
+            if (duplicates.length > 1) {
+                new_messages = [ { message_str: 'All ' + duplicates.length + ' games were previously added'} ]
+            }
+        } else if (duplicates.length === 0) {
+            new_messages.push({ message_str: (user_titles.length - duplicates.length) + ' additional games have been added'})
+        } else {
+            let dup_str = ''
+            if (duplicates.length === 1) {
+                dup_str = ' was a duplicate)'
+            } else {
+                dup_str = ' were duplicates)'
+            }
+            new_messages.push({ message_str: (user_titles.length - duplicates.length) + ' additional games have been added (' + duplicates.length + dup_str })
+        }
+        addMessages(new_messages)
+        gamedataResults.forEach(function(game_data) {
+            if (game_data.hasOwnProperty('id')) {
+                game_data["name_is_unique"] = false
+                props.onnewtitle(game_data)
+            }
+        })
 
     }
 

@@ -51,12 +51,15 @@ export const AddGames = (props) => {
             new_results.forEach(function(result_array) {
                 let results_for_title = result_array.filter(result => result.name === withoutYear(title) || result.id === parseInt(title))
                 results_for_title.forEach(function(result) {
-                    if ( (disambiguation_year === null && results_for_title.length === 1 && (result.name === withoutYear(title) || parseInt(result.id) === parseInt(title)))
-                        || (disambiguation_year !== null && results_for_title.length > 1 && result.name === withoutYear(title) && result.year_published === parseInt(disambiguation_year))) {
+                    if ( (disambiguation_year === null  && (result.name === withoutYear(title) || parseInt(result.id) === parseInt(title)))
+                        || (disambiguation_year !== null && result.name === withoutYear(title) && result.year_published === parseInt(disambiguation_year))) {
                         let newResult = {
                             id: result.id,
                             name: result.name,
                             year_published: result.year_published
+                        }
+                        if (result.year_published !== parseInt(disambiguation_year) && results_for_title.length > 1) {
+                            newResult['ambiguous'] = true
                         }
                         updated_results.push(newResult)
                     }
@@ -122,6 +125,17 @@ export const AddGames = (props) => {
         if (remaining_titles.length) {
             remaining_titles.forEach(function(title) {
                 new_messages.push({ message_str: 'ERROR: "' + withoutYear(title) + '" was not found in the BGG database'})
+            })
+            addMessages(new_messages)
+            return
+        }
+
+        // If any of the results were ambiguous (ie, one title yielded mutiple search results), prompt the user for disambiguation
+        let ambiguous_titles = all_validated_games.filter( game => game.hasOwnProperty('ambiguous') )
+        if (ambiguous_titles.length) {
+            new_messages.push({ message_str: 'Multiple matches exist. Please specify further:'})
+            ambiguous_titles.forEach(function(title) {
+                new_messages.push({ message_str: title.name + ' (' + title.year_published + ')', ambiguous: true })
             })
             addMessages(new_messages)
             return
@@ -198,7 +212,7 @@ export const AddGames = (props) => {
     }
 
     const addButton = (message) => {
-        if (message.hasOwnProperty('add_button') && message.add_button) {
+        if (message.hasOwnProperty('ambiguous') && message.ambiguous) {
             return (
                 <button className="default-primary-styles" onClick={ (e) => validateUserTitles([message.message_str]) }>Add</button>
             )

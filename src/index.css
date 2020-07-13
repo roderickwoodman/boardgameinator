@@ -793,6 +793,7 @@ button:enabled,
   .game.inspecting {
     min-height: 0;
     max-height: none;
+    min-width: 0;
     grid-template-rows: 1.5rem 3rem auto calc(40px - 2rem) 2rem;
     grid-template-columns: 175px 1fr 1fr auto 75px;
     grid-template-areas:

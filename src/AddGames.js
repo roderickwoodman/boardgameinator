@@ -131,11 +131,32 @@ export const AddGames = (props) => {
         }
 
         // If any of the results were ambiguous (ie, one title yielded mutiple search results), prompt the user for disambiguation
-        let ambiguous_titles = all_validated_games.filter( game => game.hasOwnProperty('ambiguous') )
-        if (ambiguous_titles.length) {
-            new_messages.push({ message_str: 'Multiple matches exist. Please specify further:'})
-            ambiguous_titles.forEach(function(title) {
-                new_messages.push({ message_str: title.name + ' (' + title.year_published + ')', ambiguous: true })
+        let ambiguous_matches = all_validated_games.filter( game => game.hasOwnProperty('ambiguous') )
+        let ambiguous_titles = {}
+        ambiguous_matches.forEach(function(title) {
+            let new_disambiguation = {
+                id: title.id,
+                year_published: title.year_published
+            }
+            if (ambiguous_titles.hasOwnProperty(title.name)) {
+                ambiguous_titles[title.name].push(new_disambiguation)
+                ambiguous_titles[title.name] = ambiguous_titles[title.name].sort(function(a,b) {
+                    if (a.year_published < b.year_published) {
+                        return -1
+                    } else if (a.year_published > b.year_published) {
+                        return 1
+                    } else {
+                        return 0
+                    }
+                })
+            } else {
+                ambiguous_titles[title.name] = [new_disambiguation]
+            }
+        })
+        if (Object.keys(ambiguous_titles).length) {
+            Object.entries(ambiguous_titles).forEach(function(entry) {
+                let ambiguous_arr = JSON.parse(JSON.stringify(entry[1]))
+                new_messages.push({ message_str: 'Which version of "'+ entry[0] + '": ', ambiguous: ambiguous_arr })
             })
             addMessages(new_messages)
             return
@@ -212,9 +233,11 @@ export const AddGames = (props) => {
     }
 
     const addButton = (message) => {
-        if (message.hasOwnProperty('ambiguous') && message.ambiguous) {
+        if (message.hasOwnProperty('ambiguous')) {
             return (
-                <button className="default-primary-styles" onClick={ (e) => validateUserTitles([message.message_str]) }>Add</button>
+                message.ambiguous.map( disambiguation => 
+                    <button key={disambiguation.id} className="default-primary-styles" onClick={ (e) => validateUserTitles([disambiguation.id.toString()]) }>{disambiguation.year_published}</button>
+                )
             )
         } else {
             return null

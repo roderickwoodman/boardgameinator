@@ -770,9 +770,7 @@ button:enabled,
   and (max-width: 849px) {
 
   #resulting-games {
-    flex-direction: column;
-    flex-wrap: nowrap;
-    align-items: stretch;
+    display: inline-block;
     width: 100%;
     overflow-x: hidden;
   }
@@ -793,7 +791,7 @@ button:enabled,
   }
 
   .game.inspecting {
-    min-height: 450px;
+    min-height: 0;
     max-height: none;
     grid-template-rows: 1.5rem 3rem auto calc(40px - 2rem) 2rem;
     grid-template-columns: 175px 1fr 1fr auto 75px;
@@ -835,7 +833,7 @@ button:enabled,
   }
 
   .game.inspecting .gamecard-variable {
-    overflow: visible;
+    /* overflow: visible; */
   }
 
   .gamecard-upvoted-attributes,

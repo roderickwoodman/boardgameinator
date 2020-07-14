@@ -188,7 +188,7 @@ export class Boardgameinator extends React.Component {
             activeGameList.push(newGameData.id)
             localStorage.setItem('activeGameList', JSON.stringify(activeGameList))
 
-            let allGameData = prevState.allGameData.slice()
+            let allGameData = JSON.parse(JSON.stringify(prevState.allGameData))
             allGameData.push(newGameData)
             localStorage.setItem('allGameData', JSON.stringify(allGameData))
 
@@ -214,7 +214,7 @@ export class Boardgameinator extends React.Component {
             activeGameList = activeGameList.filter(game_id => game_id !== parseInt(id))
 
             // remove the game from the game list
-            let allGameData = prevState.allGameData.slice()
+            let allGameData = JSON.parse(JSON.stringify(prevState.allGameData))
             allGameData = allGameData.filter(game => game.id !== parseInt(id))
 
             let allThumbs = JSON.parse(JSON.stringify(prevState.allThumbs))

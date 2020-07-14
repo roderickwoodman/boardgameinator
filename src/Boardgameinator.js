@@ -13,7 +13,7 @@ export class Boardgameinator extends React.Component {
     constructor(props) {
         super(props)
         this.state = { 
-            allGames: [],
+            allGameData: [],
             allThumbs: {
                 attributes: {
                     players: {}, 
@@ -52,7 +52,7 @@ export class Boardgameinator extends React.Component {
 
     componentDidMount() {
 
-        let allGames = []
+        let allGameData = []
 
         let query_strings, new_list = [], addto_list = []
         let path = this.props.location.search.slice(1).split('?')
@@ -74,20 +74,20 @@ export class Boardgameinator extends React.Component {
         if (new_list.length === 0) {
             const stored_gamedataVersion = JSON.parse(localStorage.getItem("gamedataVersion"))
             if (stored_gamedataVersion === this.gamedataVersion) {
-                allGames = JSON.parse(localStorage.getItem("allGames"))
+                allGameData = JSON.parse(localStorage.getItem("allGameData"))
             } else {
                 localStorage.setItem('gamedataVersion', JSON.stringify(this.gamedataVersion))
-                localStorage.setItem('allGames', JSON.stringify(allGames))
+                localStorage.setItem('allGameData', JSON.stringify(allGameData))
             }
             addto_list.forEach( function(game_id) {
-                if (!self.gameHasBeenAdded(game_id, allGames)) {
+                if (!self.gameHasBeenAdded(game_id, allGameData)) {
                     self.addGameById(game_id)
                 }
             })
-            this.setState({ allGames })
+            this.setState({ allGameData })
         } else {
             new_list.forEach( function(game_id) {
-                if (!self.gameHasBeenAdded(game_id, allGames)) {
+                if (!self.gameHasBeenAdded(game_id, allGameData)) {
                     self.addGameById(game_id)
                 }
             })
@@ -159,10 +159,10 @@ export class Boardgameinator extends React.Component {
         newGame["updated_at"] = now.getTime()
 
         this.setState(prevState => {
-            let allGames = prevState.allGames.slice()
-            allGames.push(newGame)
-            localStorage.setItem('allGames', JSON.stringify(allGames))
-            return { allGames }
+            let allGameData = prevState.allGameData.slice()
+            allGameData.push(newGame)
+            localStorage.setItem('allGameData', JSON.stringify(allGameData))
+            return { allGameData }
         })
 
     }
@@ -180,8 +180,8 @@ export class Boardgameinator extends React.Component {
         this.setState(prevState => {
 
             // remove the game from the game list
-            let allGames = prevState.allGames.slice()
-            allGames = allGames.filter(game => game.id !== parseInt(id))
+            let allGameData = prevState.allGameData.slice()
+            allGameData = allGameData.filter(game => game.id !== parseInt(id))
 
             let allThumbs = JSON.parse(JSON.stringify(prevState.allThumbs))
 
@@ -195,7 +195,7 @@ export class Boardgameinator extends React.Component {
                 if (attrName === 'players') {
                     for (let votedplayercount in allThumbs.attributes[attrName]) {
                         let attributeStillOccurs = false
-                        for (let game of allGames) {
+                        for (let game of allGameData) {
                             if (this.gameSupportsPlayercount(game, votedplayercount)) {
                                 attributeStillOccurs = true
                                 break
@@ -208,7 +208,7 @@ export class Boardgameinator extends React.Component {
                 } else if (attrName === 'weight') {
                     for (let votedweight in allThumbs.attributes[attrName]) {
                         let attributeStillOccurs = false
-                        for (let game of allGames) {
+                        for (let game of allGameData) {
                             if (game.weight === votedweight) {
                                 attributeStillOccurs = true
                                 break
@@ -221,7 +221,7 @@ export class Boardgameinator extends React.Component {
                 } else if (attrName === 'category') {
                     for (let votedcategory in allThumbs.attributes[attrName]) {
                         let attributeStillOccurs = false
-                        for (let game of allGames) {
+                        for (let game of allGameData) {
                             for (let category of game.attributes.categories) {
                                 if (category === votedcategory) {
                                     attributeStillOccurs = true
@@ -236,7 +236,7 @@ export class Boardgameinator extends React.Component {
                 } else if (attrName === 'mechanic') {
                     for (let votedmechanic in allThumbs.attributes[attrName]) {
                         let attributeStillOccurs = false
-                        for (let game of allGames) {
+                        for (let game of allGameData) {
                             for (let mechanic of game.attributes.mechanics) {
                                 if (mechanic === votedmechanic) {
                                     attributeStillOccurs = true
@@ -251,12 +251,12 @@ export class Boardgameinator extends React.Component {
                 }
             }
 
-            localStorage.setItem('allGames', JSON.stringify(allGames))
+            localStorage.setItem('allGameData', JSON.stringify(allGameData))
             localStorage.setItem('allThumbs', JSON.stringify(allThumbs))
 
             // push these changes into 2 state variables
             return { 
-                allGames: allGames,
+                allGameData: allGameData,
                 allThumbs:allThumbs 
             }
         })
@@ -264,7 +264,7 @@ export class Boardgameinator extends React.Component {
 
     onDeleteAllTitles(event) {
         this.setState(prevState => {
-            let allGames = []
+            let allGameData = []
             let allThumbs = {
                 'attributes': {
                     'players': {}, 
@@ -274,10 +274,10 @@ export class Boardgameinator extends React.Component {
                 },
                 'titles': {}
             }
-            localStorage.setItem('allGames', JSON.stringify(allGames))
+            localStorage.setItem('allGameData', JSON.stringify(allGameData))
             localStorage.setItem('allThumbs', JSON.stringify(allThumbs))
             return { 
-                allGames: allGames, 
+                allGameData: allGameData, 
                 allThumbs:allThumbs 
             }
         })
@@ -416,7 +416,7 @@ export class Boardgameinator extends React.Component {
             </div>
             <div id="content-wrapper">
                 <GameList
-                    allgames={this.state.allGames} 
+                    allgamedata={this.state.allGameData} 
                     onnewtitle={this.onNewTitle}
                     allthumbs={this.state.allThumbs} 
                     sortby={this.state.sortOrder}

@@ -97,12 +97,12 @@ export const AddGames = (props) => {
     }
 
     const getGamedataResults = async function (games) {
-        const gameData = await Promise.all(
+        const gamedata = await Promise.all(
             games.map( function(game) {
                 return (
                     gamedataApi(game.id) // query the API with the BGG game ID
         )}))
-        return gameData
+        return gamedata
     }
 
     const validateUserTitles = async function (user_titles) { 
@@ -204,7 +204,7 @@ export const AddGames = (props) => {
     }
 
     const ifGameHasBeenAdded = (gameId) => {
-        for (let game of props.allgames) {
+        for (let game of props.allgamedata) {
             if (game.id === parseInt(gameId)) {
                 return true
             }
@@ -275,6 +275,6 @@ export const AddGames = (props) => {
 }
 
 AddGames.propTypes = {
-    allgames: PropTypes.array.isRequired,
+    allgamedata: PropTypes.array.isRequired,
     onnewtitle: PropTypes.func.isRequired,
 }

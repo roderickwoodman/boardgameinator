@@ -13,6 +13,7 @@ export class Boardgameinator extends React.Component {
     constructor(props) {
         super(props)
         this.state = { 
+            activeGameList: [],
             allGameData: [],
             allThumbs: {
                 attributes: {
@@ -69,6 +70,11 @@ export class Boardgameinator extends React.Component {
                 qs[1].split('+').forEach( game_id => addto_list.push(parseInt(game_id)) )
             }
         })
+
+        const stored_activeGameList = JSON.parse(localStorage.getItem("activeGameList"))
+        if (stored_activeGameList !== null) {
+            this.setState({ activeGameList: stored_activeGameList })
+        }
 
         let self = this
         if (new_list.length === 0) {
@@ -159,10 +165,16 @@ export class Boardgameinator extends React.Component {
         newGame["updated_at"] = now.getTime()
 
         this.setState(prevState => {
+
+            let activeGameList = prevState.activeGameList.slice()
+            activeGameList.push(newGame.id)
+            localStorage.setItem('activeGameList', JSON.stringify(activeGameList))
+
             let allGameData = prevState.allGameData.slice()
             allGameData.push(newGame)
             localStorage.setItem('allGameData', JSON.stringify(allGameData))
-            return { allGameData }
+
+            return { activeGameList, allGameData }
         })
 
     }
@@ -178,6 +190,10 @@ export class Boardgameinator extends React.Component {
 
     onDeleteTitle(event, id) {
         this.setState(prevState => {
+
+            // remove the game from the game list
+            let activeGameList = prevState.activeGameList.slice()
+            activeGameList = activeGameList.filter(game_id => game_id !== parseInt(id))
 
             // remove the game from the game list
             let allGameData = prevState.allGameData.slice()
@@ -251,11 +267,13 @@ export class Boardgameinator extends React.Component {
                 }
             }
 
+            localStorage.setItem('activeGameList', JSON.stringify(activeGameList))
             localStorage.setItem('allGameData', JSON.stringify(allGameData))
             localStorage.setItem('allThumbs', JSON.stringify(allThumbs))
 
             // push these changes into 2 state variables
             return { 
+                activeGameList: activeGameList,
                 allGameData: allGameData,
                 allThumbs:allThumbs 
             }

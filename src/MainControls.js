@@ -93,6 +93,7 @@ export const MainControls = (props) => {
                     <div id="gameinput-controls">
                         <AddGames
                             activegamedata={props.activegamedata}
+                            getcachedgamedata={props.getcachedgamedata}
                             onnewtitle={props.onnewtitle} />
                     </div>
                 </ModalBody>
@@ -149,6 +150,7 @@ export const MainControls = (props) => {
 
 MainControls.propTypes = {
     activegamedata: PropTypes.array.isRequired,
+    getcachedgamedata: PropTypes.func.isRequired,
     allthumbs: PropTypes.object.isRequired,
     onnewtitle: PropTypes.func.isRequired,
     ondeleteall: PropTypes.func.isRequired,

@@ -282,6 +282,7 @@ export const GameList = (props) => {
         <React.Fragment>
         <MainControls 
             activegamedata={props.activegamedata}
+            getcachedgamedata={props.getcachedgamedata}
             allthumbs={props.allthumbs}
             onnewtitle={props.onnewtitle}
             ondeleteall={props.ondeleteall}
@@ -330,6 +331,7 @@ export const GameList = (props) => {
 
 GameList.propTypes = {
     activegamedata: PropTypes.array.isRequired,
+    getcachedgamedata: PropTypes.func.isRequired,
     sortby: PropTypes.string.isRequired,
     filterplayercount: PropTypes.bool.isRequired,
     filterweight: PropTypes.bool.isRequired,

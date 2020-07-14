@@ -35,6 +35,7 @@ export class Boardgameinator extends React.Component {
         }
         this.totalTitleVotes = this.totalTitleVotes.bind(this)
         this.totalAttributeVotes = this.totalAttributeVotes.bind(this)
+        this.getCachedGameData = this.getCachedGameData.bind(this)
         this.gameHasBeenAdded = this.gameHasBeenAdded.bind(this)
         this.gameSupportsPlayercount = this.gameSupportsPlayercount.bind(this)
         this.addGameById = this.addGameById.bind(this)
@@ -134,6 +135,11 @@ export class Boardgameinator extends React.Component {
         this.setState({ windowWidth, windowHeight })
     }
 
+    getCachedGameData(gameId) {
+        const cached = this.state.allGameData.filter( gamedata => gamedata.id === parseInt(gameId) )
+        return [cached]
+    }
+
     gameHasBeenAdded(gameId, gameSet) {
         for (let game of gameSet) {
             if (game.id === parseInt(gameId)) {
@@ -152,26 +158,26 @@ export class Boardgameinator extends React.Component {
                 }})
     }
 
-    onNewTitle(newGame) {
+    onNewTitle(newGameData) {
 
-        if (newGame.hasOwnProperty("name_is_unique") && newGame["name_is_unique"] !== true) {
-            let disambiguation = (newGame.year_published !== null)
-                ? " ("+ newGame.year_published + ")"
-                : " (#" + newGame.id + ")"
-            newGame["disambiguation"] = disambiguation
+        if (newGameData.hasOwnProperty("name_is_unique") && newGameData["name_is_unique"] !== true) {
+            let disambiguation = (newGameData.year_published !== null)
+                ? " ("+ newGameData.year_published + ")"
+                : " (#" + newGameData.id + ")"
+            newGameData["disambiguation"] = disambiguation
         }
 
         let now = new Date()
-        newGame["updated_at"] = now.getTime()
+        newGameData["updated_at"] = now.getTime()
 
         this.setState(prevState => {
 
             let activeGameList = prevState.activeGameList.slice()
-            activeGameList.push(newGame.id)
+            activeGameList.push(newGameData.id)
             localStorage.setItem('activeGameList', JSON.stringify(activeGameList))
 
             let allGameData = prevState.allGameData.slice()
-            allGameData.push(newGame)
+            allGameData.push(newGameData)
             localStorage.setItem('allGameData', JSON.stringify(allGameData))
 
             return { activeGameList, allGameData }
@@ -191,7 +197,7 @@ export class Boardgameinator extends React.Component {
     onDeleteTitle(event, id) {
         this.setState(prevState => {
 
-            // remove the game from the game list
+            // remove the game from the active game list (but still keep its game data cached)
             let activeGameList = prevState.activeGameList.slice()
             activeGameList = activeGameList.filter(game_id => game_id !== parseInt(id))
 
@@ -267,14 +273,15 @@ export class Boardgameinator extends React.Component {
                 }
             }
 
+            // NOTE: Update the active game list, but leave allGameData unchanged. It will serve as 
+            // the cache of API data. Most downstream components only need to operate on game data 
+            // for titles that are on the active list.
+
             localStorage.setItem('activeGameList', JSON.stringify(activeGameList))
-            localStorage.setItem('allGameData', JSON.stringify(allGameData))
             localStorage.setItem('allThumbs', JSON.stringify(allThumbs))
 
-            // push these changes into 2 state variables
             return { 
                 activeGameList: activeGameList,
-                allGameData: allGameData,
                 allThumbs:allThumbs 
             }
         })
@@ -323,7 +330,6 @@ export class Boardgameinator extends React.Component {
 
     onNewVote(event) {
         const { attrtype, attrname, newvote } = Object.assign({}, event.currentTarget.dataset)
-        console.log('attrtype:', attrtype)
         this.setState(prevState => {
             let updated_allThumbs = JSON.parse(JSON.stringify(prevState.allThumbs))
             // record a new title vote
@@ -436,6 +442,7 @@ export class Boardgameinator extends React.Component {
             <div id="content-wrapper">
                 <GameList
                     activegamedata={activeGameData} 
+                    getcachedgamedata={this.getCachedGameData}
                     onnewtitle={this.onNewTitle}
                     allthumbs={this.state.allThumbs} 
                     sortby={this.state.sortOrder}

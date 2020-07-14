@@ -140,14 +140,15 @@ export const AddGames = (props) => {
         all_validated_games = updateValidatedGameList(all_validated_games, cached_search_results, remaining_titles)
         remaining_titles = getRemainingTitles(remaining_titles, all_validated_games)
 
+
         // STEP 1 API: Do BGG exact search API, using user-supplied name string.
         const exact_search_results = await getExactSearchResults(remaining_titles)
-        all_validated_games = updateValidatedGameList(all_validated_games, exact_search_results, user_titles)
+        all_validated_games = updateValidatedGameList(all_validated_games, exact_search_results, remaining_titles)
         remaining_titles = getRemainingTitles(remaining_titles, all_validated_games)
 
         // STEP 2 OPTIONAL FOLLOW-UP API (If unresolved titles remain): Do BGG non-exact search API, using user-supplied name string.
         const non_exact_search_results = await getNonexactSearchResults(remaining_titles)
-        all_validated_games = updateValidatedGameList(all_validated_games, non_exact_search_results, user_titles)
+        all_validated_games = updateValidatedGameList(all_validated_games, non_exact_search_results, remaining_titles)
         remaining_titles = getRemainingTitles(remaining_titles, all_validated_games)
 
         // ERROR if any title does not have a BGG ID associated with it.
@@ -201,7 +202,9 @@ export const AddGames = (props) => {
         // })
 
         // STEP 3 API: Do BGG game data API, using BGG-API-supplied game ID
-        const gamedata_results = await getGamedataResults(all_validated_games)
+        let cached_game_ids = cached_gamedata_results.map( result => result.id )
+        let all_uncached_validated_games = all_validated_games.filter( game => !cached_game_ids.includes(game.id) )
+        const gamedata_results = await getGamedataResults(all_uncached_validated_games)
         remaining_titles = gamedata_results.map( gamedata => gamedata.name ).filter( gamedata_name => !user_titles.includes(gamedata_name) )
 
         // All APIs are done. Now integrate the game data with this app.
@@ -215,13 +218,17 @@ export const AddGames = (props) => {
             new_messages.push({ message_str: (user_titles.length - already_active.length) + ' additional games have been added (' + already_active.length + ' were previously added)' })
         }
         addMessages(new_messages)
+        cached_gamedata_results.forEach(function(cached_game_data) {
+            if (cached_game_data.hasOwnProperty('id')) {
+                props.oncachedtitle(cached_game_data.id)
+            }
+        })
         gamedata_results.forEach(function(game_data) {
             if (game_data.hasOwnProperty('id')) {
                 game_data["name_is_unique"] = false
                 props.onnewtitle(game_data)
             }
         })
-
     }
 
     const gameIsActive = (gameId) => {
@@ -301,5 +308,6 @@ export const AddGames = (props) => {
 AddGames.propTypes = {
     activegamedata: PropTypes.array.isRequired,
     getcachedgamedata: PropTypes.func.isRequired,
+    oncachedtitle: PropTypes.func.isRequired,
     onnewtitle: PropTypes.func.isRequired,
 }

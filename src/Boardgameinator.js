@@ -39,6 +39,7 @@ export class Boardgameinator extends React.Component {
         this.gameHasBeenAdded = this.gameHasBeenAdded.bind(this)
         this.gameSupportsPlayercount = this.gameSupportsPlayercount.bind(this)
         this.addGameById = this.addGameById.bind(this)
+        this.onCachedTitle = this.onCachedTitle.bind(this)
         this.onNewTitle = this.onNewTitle.bind(this)
         this.onNewVote = this.onNewVote.bind(this)
         this.onDeleteTitle = this.onDeleteTitle.bind(this)
@@ -156,6 +157,17 @@ export class Boardgameinator extends React.Component {
                     json["name_is_unique"] = true
                     this.onNewTitle(json)
                 }})
+    }
+
+    onCachedTitle(cachedGameId) {
+        this.setState(prevState => {
+
+            let activeGameList = prevState.activeGameList.slice()
+            activeGameList.push(cachedGameId)
+            localStorage.setItem('activeGameList', JSON.stringify(activeGameList))
+
+            return { activeGameList }
+        })
     }
 
     onNewTitle(newGameData) {
@@ -443,6 +455,7 @@ export class Boardgameinator extends React.Component {
                 <GameList
                     activegamedata={activeGameData} 
                     getcachedgamedata={this.getCachedGameData}
+                    oncachedtitle={this.onCachedTitle}
                     onnewtitle={this.onNewTitle}
                     allthumbs={this.state.allThumbs} 
                     sortby={this.state.sortOrder}

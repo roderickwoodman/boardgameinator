@@ -28,7 +28,7 @@ export class Boardgameinator extends React.Component {
             },
             filterPlayercount: true,
             filterWeight: true,
-            sortOrder: 'maxattrvotes',
+            sortOrder: 'maxtitlevotes',
             windowWidth: 0,
             windowHeight: 0
         }
@@ -305,6 +305,7 @@ export class Boardgameinator extends React.Component {
 
     onNewVote(event) {
         const { attrtype, attrname, newvote } = Object.assign({}, event.currentTarget.dataset)
+        console.log('attrtype:', attrtype)
         this.setState(prevState => {
             let updated_allThumbs = JSON.parse(JSON.stringify(prevState.allThumbs))
             // record a new title vote

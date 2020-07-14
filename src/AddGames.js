@@ -204,7 +204,7 @@ export const AddGames = (props) => {
     }
 
     const ifGameHasBeenAdded = (gameId) => {
-        for (let game of props.allgamedata) {
+        for (let game of props.activegamedata) {
             if (game.id === parseInt(gameId)) {
                 return true
             }
@@ -275,6 +275,6 @@ export const AddGames = (props) => {
 }
 
 AddGames.propTypes = {
-    allgamedata: PropTypes.array.isRequired,
+    activegamedata: PropTypes.array.isRequired,
     onnewtitle: PropTypes.func.isRequired,
 }

@@ -107,8 +107,8 @@ export const GameList = (props) => {
     const getTotalVotes = (props) => {
         // tally all votes for each game
         let all_vote_counts = {}
-        if (props.allgamedata.length) {
-            for (const game of props.allgamedata) {
+        if (props.activegamedata.length) {
+            for (const game of props.activegamedata) {
                 let new_vote_counts = {
                     attributes: 0,
                     titles: 0
@@ -277,11 +277,11 @@ export const GameList = (props) => {
     }
 
     let thumbcounts = getTotalVotes(props)
-    let sortedFilteredGames = sortGames(filterWeight(filterPlayercount(props.allgamedata)), thumbcounts)
+    let sortedFilteredGames = sortGames(filterWeight(filterPlayercount(props.activegamedata)), thumbcounts)
     return (
         <React.Fragment>
         <MainControls 
-            allgamedata={props.allgamedata}
+            activegamedata={props.activegamedata}
             allthumbs={props.allthumbs}
             onnewtitle={props.onnewtitle}
             ondeleteall={props.ondeleteall}
@@ -312,7 +312,7 @@ export const GameList = (props) => {
                                 oninspectionsectionchange={handleInspectionSectionChange}
                                 reallynarrow={props.reallynarrow} />)
             )}
-            {props.allgamedata.length === 0 && (
+            {props.activegamedata.length === 0 && (
                 <span className="message warning">
                     <p>START COMPARING BOARDGAMES!</p>
                     <p>Please add game titles using the form in the left sidebar.</p>
@@ -329,7 +329,7 @@ export const GameList = (props) => {
 }
 
 GameList.propTypes = {
-    allgamedata: PropTypes.array.isRequired,
+    activegamedata: PropTypes.array.isRequired,
     sortby: PropTypes.string.isRequired,
     filterplayercount: PropTypes.bool.isRequired,
     filterweight: PropTypes.bool.isRequired,

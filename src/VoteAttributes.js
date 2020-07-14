@@ -31,7 +31,7 @@ export const VoteAttributes = (props) => {
     const tallyPlayerCounts = (props) => {
         // tally each allowable player count occurrence across all games
         let countsObj = {}
-        for (const game of props.allgamedata) {
+        for (const game of props.activegamedata) {
             for (let playercount=game.attributes.min_players; playercount<=game.attributes.max_players; playercount++) {
                 let playerCountAttr = playercount + 'P'
                 if (countsObj.hasOwnProperty(playerCountAttr)) {
@@ -54,7 +54,7 @@ export const VoteAttributes = (props) => {
     const tallyWeightCounts = (props) => {
         // tally each weight occurrence across all games
         let countsObj = {}
-        for (const game of props.allgamedata) {
+        for (const game of props.activegamedata) {
             if (countsObj.hasOwnProperty(game.attributes.average_weight_name)) {
                 countsObj[game.attributes.average_weight_name] = countsObj[game.attributes.average_weight_name] + 1
             } else {
@@ -77,7 +77,7 @@ export const VoteAttributes = (props) => {
     const tallyCategoryCounts = (props) => {
         // tally each attribute's occurrence across all games
         let countsObj = {}
-        for (const game of props.allgamedata) {
+        for (const game of props.activegamedata) {
             for (const category of game.attributes.categories) {
                 if (countsObj.hasOwnProperty(category)) {
                     countsObj[category] = countsObj[category] + 1
@@ -98,7 +98,7 @@ export const VoteAttributes = (props) => {
     const tallyMechanicCounts = (props) => {
         // tally each attribute's occurrence across all games
         let countsObj = {}
-        for (const game of props.allgamedata) {
+        for (const game of props.activegamedata) {
             for (const mechanic of game.attributes.mechanics) {
                 if (countsObj.hasOwnProperty(mechanic)) {
                     countsObj[mechanic] = countsObj[mechanic] + 1
@@ -232,7 +232,7 @@ export const VoteAttributes = (props) => {
 }
 
 VoteAttributes.propTypes = {
-    allgamedata: PropTypes.array.isRequired,
+    activegamedata: PropTypes.array.isRequired,
     attrthumbs: PropTypes.object.isRequired,
     onnewvote: PropTypes.func.isRequired,
 }

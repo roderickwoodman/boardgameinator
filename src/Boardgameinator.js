@@ -418,6 +418,7 @@ export class Boardgameinator extends React.Component {
         const styles = {
             reallyNarrow: windowWidth < 650
         }
+        const activeGameData = this.state.allGameData.filter( gameData => this.state.activeGameList.includes(gameData.id) )
         return (
             <React.Fragment>
             <div id="page-header">
@@ -434,7 +435,7 @@ export class Boardgameinator extends React.Component {
             </div>
             <div id="content-wrapper">
                 <GameList
-                    allgamedata={this.state.allGameData} 
+                    activegamedata={activeGameData} 
                     onnewtitle={this.onNewTitle}
                     allthumbs={this.state.allThumbs} 
                     sortby={this.state.sortOrder}

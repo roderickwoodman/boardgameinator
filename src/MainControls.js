@@ -48,7 +48,7 @@ export const MainControls = (props) => {
     }
 
     useEffect( () => {
-        if (props.allgamedata.length === 0) {
+        if (props.activegamedata.length === 0) {
             showAddModal()
         } else {
             hideAddModal()
@@ -64,7 +64,7 @@ export const MainControls = (props) => {
 
     const handleCopyToClipboard = () => {
         let games = ""
-        props.allgamedata.forEach((game) => {
+        props.activegamedata.forEach((game) => {
             if (games === "") {
                 games += game.id
             } else {
@@ -92,7 +92,7 @@ export const MainControls = (props) => {
                 <ModalBody>
                     <div id="gameinput-controls">
                         <AddGames
-                            allgamedata={props.allgamedata}
+                            activegamedata={props.activegamedata}
                             onnewtitle={props.onnewtitle} />
                     </div>
                 </ModalBody>
@@ -106,7 +106,7 @@ export const MainControls = (props) => {
                 <ModalBody>
                     <div id="attribute-voting-controls">
                         <VoteAttributes 
-                            allgamedata={props.allgamedata}
+                            activegamedata={props.activegamedata}
                             attrthumbs={props.allthumbs.attributes} 
                             onnewvote={props.onnewvote} />
                     </div>
@@ -122,20 +122,20 @@ export const MainControls = (props) => {
                 <ModalBody>
                     <div id="title-voting-controls">
                         <VoteTitles
-                            allgamedata={props.allgamedata} 
+                            activegamedata={props.activegamedata} 
                             titlethumbs={props.allthumbs.titles} 
                             onnewvote={props.onnewvote}
                             ondeleteall={props.ondeleteall} />
                     </div>
                 </ModalBody>
                 <ModalFooter> 
-                    <button className="default-danger-styles" onClick={props.ondeleteall} disabled={props.allgamedata.length===0}>Remove All Games</button>
+                    <button className="default-danger-styles" onClick={props.ondeleteall} disabled={props.activegamedata.length===0}>Remove All Games</button>
                     <button className="default-danger-styles" data-attrtype="all_titles" onClick={props.onclearsectionvotes} disabled={num_title_votes===0}>Remove All Votes</button>
                     <button className="default-primary-styles" onClick={hideVoteTitlesModal}>Close</button>
                 </ModalFooter>
             </Modal>
 
-            <button className="default-primary-styles"><FontAwesomeIcon icon={faClipboard} onClick={handleCopyToClipboard} disabled={!props.allgamedata.length} /></button>
+            <button className="default-primary-styles"><FontAwesomeIcon icon={faClipboard} onClick={handleCopyToClipboard} disabled={!props.activegamedata.length} /></button>
             <section>
                 <form>
                     <textarea id="games-clipboard" style={inlineStyle} defaultValue={clipboardValue}></textarea>
@@ -148,7 +148,7 @@ export const MainControls = (props) => {
 }
 
 MainControls.propTypes = {
-    allgamedata: PropTypes.array.isRequired,
+    activegamedata: PropTypes.array.isRequired,
     allthumbs: PropTypes.object.isRequired,
     onnewtitle: PropTypes.func.isRequired,
     ondeleteall: PropTypes.func.isRequired,

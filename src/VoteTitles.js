@@ -5,7 +5,7 @@ import { VotingSection } from './VotingSection';
 export const VoteTitles = (props) => {
 
     let countsArray = []
-    props.allgamedata.forEach(function(game) {
+    props.activegamedata.forEach(function(game) {
         let game_name = game.name.concat((game.hasOwnProperty("name_is_unique") && game["name_is_unique"] === false) ? game["disambiguation"] : "")
         countsArray.push({'attrName': game_name, 'attrCount': 1})
     })
@@ -28,7 +28,7 @@ export const VoteTitles = (props) => {
 }
 
 VoteTitles.propTypes = {
-    allgamedata: PropTypes.array.isRequired,
+    activegamedata: PropTypes.array.isRequired,
     titlethumbs: PropTypes.object.isRequired,
     onnewvote: PropTypes.func.isRequired,
     ondeleteall: PropTypes.func.isRequired,

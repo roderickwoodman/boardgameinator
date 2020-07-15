@@ -155,6 +155,7 @@ export class Boardgameinator extends React.Component {
     }
 
     getCachedGameData(name) {
+        let self = this
         const cached = this.state.allGameData.filter(function(gamedata) {
             if (gamedata.id === parseInt(name)) {
                 return true
@@ -162,7 +163,7 @@ export class Boardgameinator extends React.Component {
                 if (gamedata.hasOwnProperty('name_is_unique') && gamedata.name_is_unique) {
                     return true
                 } else {
-                    let disambiguation_year = this.extractYearFromTitle(name.toString())
+                    let disambiguation_year = self.extractYearFromTitle(name.toString())
                     if (gamedata.year_published === disambiguation_year) {
                         return true
                     }

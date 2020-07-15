@@ -120,7 +120,11 @@ export const AddGames = (props) => {
         return gamedata
     }
 
-    const validateUserTitles = async function (user_titles) { 
+    const validateAmbiguousTitles = function (ambiguous_titles) { 
+        validateUserTitles(ambiguous_titles, true)
+    }
+
+    const validateUserTitles = async function (user_titles, all_ambiguous) { 
 
         let all_validated_games = []
         let remaining_titles = [...user_titles]
@@ -175,6 +179,7 @@ export const AddGames = (props) => {
         let ambiguous_titles = {}
         ambiguous_matches.forEach(function(title) {
             let new_disambiguation = {
+                name: title.name,
                 id: title.id,
                 year_published: title.year_published
             }
@@ -226,7 +231,7 @@ export const AddGames = (props) => {
         })
         gamedata_results.forEach(function(game_data) {
             if (game_data.hasOwnProperty('id')) {
-                if (ambiguous_titles.hasOwnProperty(game_data.name)) {
+                if (all_ambiguous) {
                     game_data["name_is_unique"] = false
                 } else {
                     game_data["name_is_unique"] = true
@@ -271,14 +276,14 @@ export const AddGames = (props) => {
             .map(str => str.trim())
             .map(str => str.replace(/[^0-9a-zA-Z:()&!–#' ]/g, ""))
             .filter( function(e){return e} )
-        validateUserTitles(Array.from(new Set(userTitles)))
+        validateUserTitles(Array.from(new Set(userTitles)), false)
     }
 
     const addButton = (message) => {
         if (message.hasOwnProperty('ambiguous')) {
             return (
                 message.ambiguous.map( disambiguation => 
-                    <button key={disambiguation.id} className="default-primary-styles" onClick={ (e) => validateUserTitles([disambiguation.id.toString()]) }>{disambiguation.year_published}</button>
+                    <button key={disambiguation.id} className="default-primary-styles" onClick={ (e) => validateAmbiguousTitles([disambiguation.id.toString()]) }>{disambiguation.year_published}</button>
                 )
             )
         } else {

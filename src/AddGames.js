@@ -18,15 +18,19 @@ export const AddGames = (props) => {
                     return true
                 } else {
                     let disambiguation_year = extractYearFromTitle(name.toString())
-                    if (gamedata.year_published === disambiguation_year) {
+                    if (gamedata.year_published === parseInt(disambiguation_year)) {
                         return true
                     }
                 }
             } 
             return false
         })
-        let printedYear = (data[0].year_published === null) ? '#'+data[0].id : data[0].year_published
-        return data[0].name.replace(/(( +)\(([-#]?)\d{1,6}\))$/, '').concat(' ('+printedYear+')')
+        if (data.length) {
+            let printedYear = (data[0].year_published === null) ? '#'+data[0].id : data[0].year_published
+            return data[0].name.replace(/(( +)\(([-#]?)\d{1,6}\))$/, '').concat(' ('+printedYear+')')
+        } else {
+            return name
+        }
     }
 
     const withoutYear = (title) => {
@@ -233,10 +237,14 @@ export const AddGames = (props) => {
             if (game_data.hasOwnProperty('id')) {
                 if (all_ambiguous) {
                     game_data["name_is_unique"] = false
-                } else {
-                    game_data["name_is_unique"] = true
                 }
-                props.onnewtitle(game_data)
+                let disambiguous_title = game_data.name
+                if (game_data.hasOwnProperty('name_is_unique') && game_data.name_is_unique) {
+                    disambiguous_title += ' (' + game_data.year_published + ')'
+                }
+                if (!gameIsActive(disambiguous_title)) {
+                    props.onnewtitle(game_data)
+                }
             }
         })
     }
@@ -245,12 +253,12 @@ export const AddGames = (props) => {
         for (let game of props.activegamedata) {
             if (game.id === parseInt(name)) {
                 return true
-            } else if (game.name === name) {
+            } else if (game.name === withoutYear(name)) {
                 if (game.hasOwnProperty('name_is_unique') && game.name_is_unique) {
                     return true
                 } else {
                     let disambiguation_year = extractYearFromTitle(name.toString())
-                    if (game.year_published === disambiguation_year) {
+                    if (game.year_published === parseInt(disambiguation_year)) {
                         return true
                     }
                 }

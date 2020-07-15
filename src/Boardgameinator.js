@@ -47,6 +47,7 @@ export class Boardgameinator extends React.Component {
         this.onClearSectionVotes = this.onClearSectionVotes.bind(this)
         this.handleSortChange = this.handleSortChange.bind(this)
         this.handleFilterChange = this.handleFilterChange.bind(this)
+        this.extractYearFromTitle = this.extractYearFromTitle.bind(this)
         this.updateDimensions = this.updateDimensions.bind(this)
         this.onHamburger = this.onHamburger.bind(this)
     }
@@ -136,8 +137,39 @@ export class Boardgameinator extends React.Component {
         this.setState({ windowWidth, windowHeight })
     }
 
-    getCachedGameData(gameId) {
-        const cached = this.state.allGameData.filter( gamedata => gamedata.id === parseInt(gameId) )
+    // for disambiguation of titles, the game ID will be put in parentheses when the API does not provide yearpublished info
+    extractYearFromTitle(title) {
+        if (typeof title === 'string' && title.length) {
+            let matchesDate = title.match(/(( +)\((-?)\d{1,4}\))$/)
+            if (matchesDate !== null) {
+                return matchesDate[0].replace(/[^0-9-]/g, "")
+            } else {
+                let matchesId = title.match(/(( +)\(#\d{1,6}\))$/)
+                if (matchesId !== null) {
+                    return matchesId[0].replace(/[^#0-9-]/g, "")
+                } else {
+                    return null
+                }
+            }
+        }
+    }
+
+    getCachedGameData(name) {
+        const cached = this.state.allGameData.filter(function(gamedata) {
+            if (gamedata.id === parseInt(name)) {
+                return true
+            } else if (gamedata.name === name) {
+                if (gamedata.hasOwnProperty('name_is_unique') && gamedata.name_is_unique) {
+                    return true
+                } else {
+                    let disambiguation_year = this.extractYearFromTitle(name.toString())
+                    if (gamedata.year_published === disambiguation_year) {
+                        return true
+                    }
+                }
+            } 
+            return false
+        })
         return [cached]
     }
 
@@ -154,7 +186,6 @@ export class Boardgameinator extends React.Component {
         gamedataApi(game_id)
             .then(json => {
                 if (json.hasOwnProperty('id')) {
-                    json["name_is_unique"] = true
                     this.onNewTitle(json)
                 }})
     }
@@ -172,7 +203,7 @@ export class Boardgameinator extends React.Component {
 
     onNewTitle(newGameData) {
 
-        if (newGameData.hasOwnProperty("name_is_unique") && newGameData["name_is_unique"] !== true) {
+        if (newGameData.hasOwnProperty("name_is_unique") && newGameData["name_is_unique"] === false) {
             let disambiguation = (newGameData.year_published !== null)
                 ? " ("+ newGameData.year_published + ")"
                 : " (#" + newGameData.id + ")"

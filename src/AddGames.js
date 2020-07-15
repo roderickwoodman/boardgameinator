@@ -9,11 +9,22 @@ export const AddGames = (props) => {
     const [ inputValue, setTextareaValue ] = useState('')
     const [ statusMessages, setStatusMessages ] = useState([])
 
-    const titleWithYear = (id) => {
-
-        // FIXME: do disambiguation here, allowing this function to accept either game ID or game title
-
-        let data = props.activegamedata.filter( gamedata => gamedata.id === parseInt(id) )
+    const titleWithYear = (name) => {
+        const data = props.activegamedata.filter(function(gamedata) {
+            if (gamedata.id === parseInt(name)) {
+                return true
+            } else if (gamedata.name === name) {
+                if (gamedata.hasOwnProperty('name_is_unique') && gamedata.name_is_unique) {
+                    return true
+                } else {
+                    let disambiguation_year = extractYearFromTitle(name.toString())
+                    if (gamedata.year_published === disambiguation_year) {
+                        return true
+                    }
+                }
+            } 
+            return false
+        })
         let printedYear = (data[0].year_published === null) ? '#'+data[0].id : data[0].year_published
         return data[0].name.replace(/(( +)\(([-#]?)\d{1,6}\))$/, '').concat(' ('+printedYear+')')
     }
@@ -140,7 +151,6 @@ export const AddGames = (props) => {
         all_validated_games = updateValidatedGameList(all_validated_games, cached_search_results, remaining_titles)
         remaining_titles = getRemainingTitles(remaining_titles, all_validated_games)
 
-
         // STEP 1 API: Do BGG exact search API, using user-supplied name string.
         const exact_search_results = await getExactSearchResults(remaining_titles)
         all_validated_games = updateValidatedGameList(all_validated_games, exact_search_results, remaining_titles)
@@ -192,15 +202,6 @@ export const AddGames = (props) => {
             return
         }
 
-        // // INFO if any title has already been added to this app.
-        // new_messages = []
-        // all_validated_games.forEach(function(game) {
-        //     if (gameIsActive(game.id)) {
-        //         new_messages.push({ message_str: '"' + titleWithYear(game.id) + '" was previously added'})
-        //         already_active.push(game.id)
-        //     }
-        // })
-
         // STEP 3 API: Do BGG game data API, using BGG-API-supplied game ID
         let cached_game_ids = cached_gamedata_results.map( result => result.id )
         let all_uncached_validated_games = all_validated_games.filter( game => !cached_game_ids.includes(game.id) )
@@ -225,20 +226,30 @@ export const AddGames = (props) => {
         })
         gamedata_results.forEach(function(game_data) {
             if (game_data.hasOwnProperty('id')) {
-                game_data["name_is_unique"] = false
+                if (ambiguous_titles.hasOwnProperty(game_data.name)) {
+                    game_data["name_is_unique"] = false
+                } else {
+                    game_data["name_is_unique"] = true
+                }
                 props.onnewtitle(game_data)
             }
         })
     }
 
-    const gameIsActive = (gameId) => {
-
-        // FIXME: do disambiguation here, allowing this function to accept either game ID or game title
-
+    const gameIsActive = (name) => {
         for (let game of props.activegamedata) {
-            if (game.id === parseInt(gameId)) {
+            if (game.id === parseInt(name)) {
                 return true
-            }
+            } else if (game.name === name) {
+                if (game.hasOwnProperty('name_is_unique') && game.name_is_unique) {
+                    return true
+                } else {
+                    let disambiguation_year = extractYearFromTitle(name.toString())
+                    if (game.year_published === disambiguation_year) {
+                        return true
+                    }
+                }
+            } 
         }
         return false
     }

@@ -87,7 +87,6 @@ html, #root {
   font-size: 1.75rem;
   text-align: center;
   color: white;
-  /* text-shadow: -2px -2px 0 black, 2px -2px 0 black, -2px 2px 0 black, 2px 2px 0 black; */
 }
 
 #content-wrapper {
@@ -258,10 +257,6 @@ html, #root {
 .gamecard-weight {
   grid-area: gc-weight;
   display: inline-block;
-  /* display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: space-evenly; */
   line-height: 1.5;
   font-weight: 800;
 }
@@ -833,10 +828,6 @@ button:enabled,
     display: flex;
   }
 
-  .game.inspecting .gamecard-variable {
-    /* overflow: visible; */
-  }
-
   .gamecard-upvoted-attributes,
   .gamecard-upvoted-attributes > * {
     display: inline-block;
@@ -874,15 +865,6 @@ button:enabled,
   .gamecard-footer {
     flex-direction: row;
     justify-content: flex-end;
-  }
-
-  #content-wrapper,
-  .game,
-  .game.inspecting,
-  .gamecard-variable,
-  .gamecard-variable * {
-    /* height: auto; */
-    /* max-height: none; */
   }
 }
 

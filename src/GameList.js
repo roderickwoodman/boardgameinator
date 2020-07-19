@@ -3,8 +3,6 @@ import PropTypes from 'prop-types'
 import { MainControls } from './MainControls'
 import { GameCardFront } from './GameCardFront'
 import { GameCardBack } from './GameCardBack'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faLongArrowAltLeft } from '@fortawesome/free-solid-svg-icons'
 import bggLogo from './img/bgg-logo-50.png'
 
 const GameFooter = (props) => {
@@ -316,13 +314,8 @@ export const GameList = (props) => {
             )}
             {props.activegamedata.length === 0 && (
                 <span className="message warning">
-                    <p>START COMPARING BOARDGAMES!</p>
-                    <p>Please add game titles using the form in the left sidebar.</p>
-                    <p>
-                        <FontAwesomeIcon icon={faLongArrowAltLeft} />&nbsp;
-                        <FontAwesomeIcon icon={faLongArrowAltLeft} />&nbsp;
-                        <FontAwesomeIcon icon={faLongArrowAltLeft} />&nbsp;
-                    </p>
+                    <p>No board games to compare yet!</p>
+                    <p>Please add game titles by clicking "Add".</p>
                 </span>
             )}
         </div>

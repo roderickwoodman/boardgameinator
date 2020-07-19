@@ -1,8 +1,6 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { VotingSection } from './VotingSection';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faLongArrowAltUp } from '@fortawesome/free-solid-svg-icons'
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
 export const VoteAttributes = (props) => {
@@ -17,13 +15,8 @@ export const VoteAttributes = (props) => {
     const emptyMessage = () => {
         return (
             <span className="message warning">
-                <p>START COMPARING BOARDGAMES!</p>
-                <p>Please add game titles using the form in the left sidebar.</p>
-                <p>
-                    <FontAwesomeIcon icon={faLongArrowAltUp} />&nbsp;
-                    <FontAwesomeIcon icon={faLongArrowAltUp} />&nbsp;
-                    <FontAwesomeIcon icon={faLongArrowAltUp} />&nbsp;
-                </p>
+                <p>No board games to compare yet</p>
+                <p>Please add game titles by clicking on "Add".</p>
             </span>
         )
     }

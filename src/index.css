@@ -597,7 +597,7 @@ button.fa.fa-button {
 }
 
 .gamecard-collapse-control {
-  visibility: hidden;
+  display: none;
 }
 
 .game.inspecting .gamecard-header .fa-button.inspect:hover,

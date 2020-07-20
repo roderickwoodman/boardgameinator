@@ -714,12 +714,6 @@ button:enabled,
     flex: 1 1 auto;
   }
 
-  .gamecard-categories,
-  .gamecard-mechanics,
-  .gamecard-variable {
-    overflow: hidden;
-  }
-
 }
 
 /* "really short but still wide enough screen" */

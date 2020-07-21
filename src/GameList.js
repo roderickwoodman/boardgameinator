@@ -200,8 +200,8 @@ export const GameList = (props) => {
         // SORTING OPTIONS:
         //   sort by maxtitlevotes... FIRST: most title votes,  SECOND: most attr votes
         //   sort by maxattrvotes...  FIRST: most attr votes,   SECOND: most title votes
-        //   sort by minplaytime...   FIRST: shortest playtime, SECOND: most attr votes
-        //   sort by maxplayers...    FIRST: most players,      SECOND: most attr votes
+        //   sort by minplaytime...   FIRST: shortest playtime, SECOND: most title votes, THIRD: most attr votes
+        //   sort by maxplayers...    FIRST: most players,      SECOND: most title votes, THIRD: most attr votes
         let sorted = games.sort(function(a, b) {
             if (props.sortby === 'maxtitlevotes') {
                 if (votecounts[a.name].titles < votecounts[b.name].titles) {
@@ -214,7 +214,13 @@ export const GameList = (props) => {
                     } else if (votecounts[a.name].attributes > votecounts[b.name].attributes) {
                         return -1
                     } else {
-                        return 0
+                        if (a.attributes.max_playtime > b.attributes.max_playtime) {
+                            return 1
+                        } else if (a.attributes.max_playtime < b.attributes.max_playtime) {
+                            return -1
+                        } else {
+                            return 0
+                        }
                     }
                 }
             } else if (props.sortby === 'maxattrvotes') {
@@ -223,12 +229,18 @@ export const GameList = (props) => {
                 } else if (votecounts[a.name].attributes > votecounts[b.name].attributes) {
                     return -1
                 } else {
-                    if (votecounts[a.name].titles > votecounts[b.name].titles) {
+                    if (votecounts[a.name].titles < votecounts[b.name].titles) {
                         return 1
-                    } else if (votecounts[a.name].titles < votecounts[b.name].titles) {
+                    } else if (votecounts[a.name].titles > votecounts[b.name].titles) {
                         return -1
                     } else {
-                        return 0
+                        if (a.attributes.max_playtime > b.attributes.max_playtime) {
+                            return 1
+                        } else if (a.attributes.max_playtime < b.attributes.max_playtime) {
+                            return -1
+                        } else {
+                            return 0
+                        }
                     }
                 }
             } else if (props.sortby === 'minplaytime') {
@@ -237,12 +249,18 @@ export const GameList = (props) => {
                 } else if (a.attributes.max_playtime < b.attributes.max_playtime) {
                     return -1
                 } else {
-                    if (votecounts[a.name].attributes < votecounts[b.name].attributes) {
+                    if (votecounts[a.name].titles < votecounts[b.name].titles) {
                         return 1
-                    } else if (votecounts[a.name].attributes > votecounts[b.name].attributes) {
+                    } else if (votecounts[a.name].titles > votecounts[b.name].titles) {
                         return -1
                     } else {
-                        return 0
+                        if (votecounts[a.name].attributes < votecounts[b.name].attributes) {
+                            return 1
+                        } else if (votecounts[a.name].attributes > votecounts[b.name].attributes) {
+                            return -1
+                        } else {
+                            return 0
+                        }
                     }
                 }
             } else if (props.sortby === 'maxplayers') {
@@ -251,12 +269,18 @@ export const GameList = (props) => {
                 } else if (a.attributes.max_players > b.attributes.max_players) {
                     return -1
                 } else {
-                    if (votecounts[a.name].attributes < votecounts[b.name].attributes) {
+                    if (votecounts[a.name].titles < votecounts[b.name].titles) {
                         return 1
-                    } else if (votecounts[a.name].attributes > votecounts[b.name].attributes) {
+                    } else if (votecounts[a.name].titles > votecounts[b.name].titles) {
                         return -1
                     } else {
-                        return 0
+                        if (votecounts[a.name].attributes < votecounts[b.name].attributes) {
+                            return 1
+                        } else if (votecounts[a.name].attributes > votecounts[b.name].attributes) {
+                            return -1
+                        } else {
+                            return 0
+                        }
                     }
                 }
             } else {

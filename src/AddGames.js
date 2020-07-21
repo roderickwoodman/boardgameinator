@@ -308,7 +308,7 @@ export const AddGames = (props) => {
 
             <section id="input-by-title">
                     <section className="buttonrow">
-                        <input size="30" value={inputValue} onChange={handleChange} placeholder="(exact game title)" required/>
+                        <input size="30" value={inputValue} onChange={handleChange} placeholder="(exact game title or BGG ID)" required/>
                         <button onClick={handleSubmit} className="default-primary-styles">Add</button>
                     </section>
                 <div className="status-messages">

@@ -22,6 +22,9 @@ export const Thumbnail = (props) => {
         if (props.allthumbs.total_title_votes === 0 && props.allthumbs.total_attribute_votes === 0) {
             classes += ' no-votes-to-show'
         }
+        if (props.allthumbs.total_title_votes !== 0) {
+            classes += ' deemphasize-notvoted-games'
+        }
         return classes
     }
 

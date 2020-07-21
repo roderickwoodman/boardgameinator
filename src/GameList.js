@@ -268,7 +268,7 @@ export const GameList = (props) => {
 
     const getClasses = () => {
         let classes = ''
-        if (props.allthumbs.total_title_votes === 0) {
+        if (props.allthumbs.total_title_votes === 0 && props.allthumbs.total_attribute_votes === 0) {
             classes = 'no-votes-to-show'
         }
         return classes

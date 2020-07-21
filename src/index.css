@@ -759,6 +759,10 @@ button:enabled,
     top: unset;
   }
 
+  .vote-count.no-votes-to-show {
+    display: block;
+  }
+
 }
 
 /* "narrow screen" */
@@ -867,6 +871,11 @@ button:enabled,
     flex-direction: row;
     justify-content: flex-end;
   }
+
+  .vote-count.no-votes-to-show {
+    display: none;
+  }
+
 }
 
 /* "really narrow screen" */

@@ -855,8 +855,15 @@ button:enabled,
     justify-content: flex-start;
   }
 
-  .gamecard-weight > .halfsized {
+  .gamecard-weight > * {
     display: inline-block;
+  }
+
+  .gamecard-weight > .halfsized > *,
+  .gamecard-weight > .attribute.weight {
+    display: inline-block;
+    margin: 0 10px 0 0;
+    padding: 0;
   }
 
   .gamecard-visual .overlay,

@@ -710,7 +710,7 @@ button:enabled,
     flex: 0 0 1.5rem;
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: space-around;
     margin: 10px;
   }
 

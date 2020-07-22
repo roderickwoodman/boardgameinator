@@ -711,11 +711,15 @@ button:enabled,
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    margin: 10px;
   }
 
   .gamecard-weight > .halfsized > * {
     display: inline-block;
-    flex: 0 0 50%;
+    width: max-content;
+    margin: 0;
+    padding: 0;
+    flex: 0 0 auto;
   }
 
   .gamecard-header button.fa.fa-button {

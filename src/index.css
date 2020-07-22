@@ -701,19 +701,21 @@ button:enabled,
   }
 
   .gamecard-weight {
-    display: inline-block;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
   }
 
   .gamecard-weight > .halfsized {
+    flex: 0 0 1.5rem;
     display: flex;
+    flex-direction: row;
     justify-content: space-between;
-    margin: 10px;
   }
 
   .gamecard-weight > .halfsized > * {
-    height: 1.5rem;
-    flex: 0 0 50%;
     display: inline-block;
+    flex: 0 0 50%;
   }
 
   .gamecard-header button.fa.fa-button {

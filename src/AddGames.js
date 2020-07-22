@@ -68,10 +68,10 @@ export const AddGames = (props) => {
         original_title_set.forEach(function(title) {
             let disambiguation_year = extractYearFromTitle(title.toString())
             new_results.forEach(function(result_array) {
-                let results_for_title = result_array.filter(result => result.name === withoutYear(title) || result.id === parseInt(title))
+                let results_for_title = result_array.filter(result => result.name.toLowerCase() === withoutYear(title.toLowerCase()) || result.id === parseInt(title))
                 results_for_title.forEach(function(result) {
-                    if ( (disambiguation_year === null  && (result.name === withoutYear(title) || parseInt(result.id) === parseInt(title)))
-                        || (disambiguation_year !== null && result.name === withoutYear(title) && result.year_published === parseInt(disambiguation_year))) {
+                    if ( (disambiguation_year === null  && (result.name.toLowerCase() === withoutYear(title.toLowerCase()) || parseInt(result.id) === parseInt(title)))
+                        || (disambiguation_year !== null && result.name.toLowerCase() === withoutYear(title.toLowerCase()) && result.year_published === parseInt(disambiguation_year))) {
                         let newResult = {
                             id: result.id,
                             name: result.name,
@@ -92,7 +92,7 @@ export const AddGames = (props) => {
 
     const getRemainingTitles = function (old_remaining_titles, final_results) {
         let remaining_titles = old_remaining_titles.filter(function(title) {
-            return (final_results.filter( result => result.name === withoutYear(title) || result.id === parseInt(title)).length) ? false : true
+            return (final_results.filter( result => result.name.toLowerCase() === withoutYear(title.toLowerCase()) || result.id === parseInt(title)).length) ? false : true
         })
         return remaining_titles
     }

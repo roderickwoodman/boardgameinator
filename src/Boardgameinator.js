@@ -27,6 +27,7 @@ export class Boardgameinator extends React.Component {
                 },
                 total_title_votes: 0,
             },
+            filterTitles: false,
             filterPlayercount: true,
             filterWeight: true,
             sortOrder: 'maxtitlevotes',
@@ -111,6 +112,11 @@ export class Boardgameinator extends React.Component {
         const stored_sortorder = JSON.parse(localStorage.getItem("sortOrder"))
         if (stored_sortorder !== null) {
             this.setState({ sortOrder: stored_sortorder })
+        }
+
+        const stored_filtertitles = JSON.parse(localStorage.getItem("filterTitles"))
+        if (stored_filtertitles !== null) {
+            this.setState({ filterTitles: stored_filtertitles })
         }
 
         const stored_filterplayercount = JSON.parse(localStorage.getItem("filterPlayercount"))
@@ -435,6 +441,15 @@ export class Boardgameinator extends React.Component {
 
     handleFilterChange(event, value) {
         switch (value) {
+            case 'titles':
+                this.setState(prevState => {
+                    let filterTitles = !prevState.filterTitles
+                    localStorage.setItem('filterTitles', JSON.stringify(filterTitles))
+                    return { 
+                        filterTitles: !this.state.filterTitles,
+                    }
+                })
+                break
             case 'playercount':
                 this.setState(prevState => {
                     let filterPlayercount = !prevState.filterPlayercount
@@ -479,6 +494,7 @@ export class Boardgameinator extends React.Component {
                 <ViewControls 
                 sortby={this.state.sortOrder}
                 onsortchange={this.handleSortChange}
+                filtertitles={this.state.filterTitles}
                 filterplayercount={this.state.filterPlayercount}
                 filterweight={this.state.filterWeight}
                 onfilterchange={this.handleFilterChange} />
@@ -491,6 +507,7 @@ export class Boardgameinator extends React.Component {
                     onnewtitle={this.onNewTitle}
                     allthumbs={this.state.allThumbs} 
                     sortby={this.state.sortOrder}
+                    filtertitles={this.state.filterTitles}
                     filterplayercount={this.state.filterPlayercount}
                     filterweight={this.state.filterWeight}
                     ondelete={this.onDeleteTitle}

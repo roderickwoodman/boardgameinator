@@ -80,6 +80,19 @@ export const GameList = (props) => {
         }
     }, [])
 
+    const getThumbedTitles = (props) => {
+        // collect all of the voted titles
+        let titles = []
+        if (props.allthumbs.hasOwnProperty('titles')) {
+            for (let entry of Object.entries(props.allthumbs.titles)) {
+                if (entry[1] === 'thumbsup') {
+                    titles.push(entry[0])
+                }
+            }
+        }
+        return titles
+    } 
+
     const getThumbedPlayercounts = (props) => {
         // collect all of the voted playercounts
         let playercounts = []
@@ -162,7 +175,22 @@ export const GameList = (props) => {
         setInspectingSection(newSelection)
     }
 
-    // apply a playercount filter, if configured to and if playercount votes exist
+    // apply a title filter, if configured and if title votes exist
+    const filterTitles = (games) => {
+        let favoredTitles = getThumbedTitles(props)
+        let filtered = games.filter(function(game) {
+            if (!props.filtertitles || !favoredTitles.length) {
+                return true
+            } else if (favoredTitles.includes(game.name)) {
+                return true
+            } else {
+                return false
+            }
+        })
+        return filtered
+    }
+
+    // apply a playercount filter, if configured and if playercount votes exist
     const filterPlayercount = (games) => {
         let favoredPlayercounts = getThumbedPlayercounts(props)
         let filtered = games.filter(function(game) {
@@ -180,7 +208,7 @@ export const GameList = (props) => {
         return filtered
     }
 
-    // apply a weight filter, if configured to and if weight votes exist
+    // apply a weight filter, if configured and if weight votes exist
     const filterWeight = (games) => {
         let favoredWeights = getThumbedWeights(props)
         let filtered = games.filter(function(game) {
@@ -302,7 +330,7 @@ export const GameList = (props) => {
     }
 
     let thumbcounts = getTotalVotes(props)
-    let sortedFilteredGames = sortGames(filterWeight(filterPlayercount(props.activegamedata)), thumbcounts)
+    let sortedFilteredGames = sortGames(filterWeight(filterPlayercount(filterTitles(props.activegamedata))), thumbcounts)
     return (
         <React.Fragment>
         <MainControls 
@@ -354,6 +382,7 @@ GameList.propTypes = {
     activegamedata: PropTypes.array.isRequired,
     getcachedgamedata: PropTypes.func.isRequired,
     sortby: PropTypes.string.isRequired,
+    filtertitles: PropTypes.bool.isRequired,
     filterplayercount: PropTypes.bool.isRequired,
     filterweight: PropTypes.bool.isRequired,
     oncachedtitle: PropTypes.func.isRequired,

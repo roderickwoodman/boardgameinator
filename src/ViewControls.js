@@ -56,6 +56,7 @@ export const ViewControls = (props) => {
                 <ModalBody>
                     <div id="gamefiltering-controls">
                         <h4>Show only the board games that support...</h4>
+                        <button className={`default-secondary-styles ${(props.filtertitles) ? 'active-button' : ''}`} onClick={ (e) => props.onfilterchange(e, "titles") }>upvoted titles</button>
                         <button className={`default-secondary-styles ${(props.filterplayercount) ? 'active-button' : ''}`} onClick={ (e) => props.onfilterchange(e, "playercount") }>upvoted player counts</button>
                         <button className={`default-secondary-styles ${(props.filterweight) ? 'active-button' : ''}`} onClick={ (e) => props.onfilterchange(e, "weight") }>upvoted weights</button>
                     </div>
@@ -73,6 +74,7 @@ export const ViewControls = (props) => {
 ViewControls.propTypes = {
     sortby: PropTypes.string.isRequired,
     onsortchange: PropTypes.func.isRequired,
+    filtertitles: PropTypes.bool.isRequired,
     filterplayercount: PropTypes.bool.isRequired,
     filterweight: PropTypes.bool.isRequired,
     onfilterchange: PropTypes.func.isRequired,

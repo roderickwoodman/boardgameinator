@@ -28,12 +28,23 @@ export const Thumbnail = (props) => {
         return classes
     }
 
+    const printAttributeTally = () => {
+        if (props.allthumbs.total_attribute_votes) {
+            return (
+                <span className="vote-count-label">& {props.thumbcounts.attributes} {getAttributeCountLabel(props.thumbcounts.attributes)}</span>
+            )
+        } else {
+            return null
+        }
+    }
+
     return (
         <div className="thumbnail">
             <img src={props.url} alt="game box cover" />
             <div className={getClasses()}>
                 <FontAwesomeIcon icon={faThumbsUp} /> {props.thumbcounts.titles} 
-                <span className="vote-count-label">& {props.thumbcounts.attributes} {getAttributeCountLabel(props.thumbcounts.attributes)}</span>
+                { printAttributeTally() }
+                {/* <span className="vote-count-label">& {props.thumbcounts.attributes} {getAttributeCountLabel(props.thumbcounts.attributes)}</span> */}
             </div>
         </div>
     )

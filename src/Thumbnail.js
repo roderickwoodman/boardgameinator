@@ -44,7 +44,6 @@ export const Thumbnail = (props) => {
             <div className={getClasses()}>
                 <FontAwesomeIcon icon={faThumbsUp} /> {props.thumbcounts.titles} 
                 { printAttributeTally() }
-                {/* <span className="vote-count-label">& {props.thumbcounts.attributes} {getAttributeCountLabel(props.thumbcounts.attributes)}</span> */}
             </div>
         </div>
     )

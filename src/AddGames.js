@@ -9,25 +9,18 @@ export const AddGames = (props) => {
     const [ inputValue, setTextareaValue ] = useState('')
     const [ statusMessages, setStatusMessages ] = useState([])
 
-    const titleWithYear = (name) => {
+    const unambiguousTitle = (name) => {
         const data = props.activegamedata.filter(function(gamedata) {
             if (gamedata.id === parseInt(name)) {
                 return true
-            } else if (gamedata.name === name) {
-                if (gamedata.hasOwnProperty('name_is_unique') && gamedata.name_is_unique) {
-                    return true
-                } else {
-                    let disambiguation_year = extractYearFromTitle(name.toString())
-                    if (gamedata.year_published === parseInt(disambiguation_year)) {
-                        return true
-                    }
-                }
+            } else if (gamedata.unambiguous_name === name) {
+                return true
+            } else {
+                return false
             } 
-            return false
         })
         if (data.length) {
-            let printedYear = (data[0].year_published === null) ? '#'+data[0].id : data[0].year_published
-            return data[0].name.replace(/(( +)\(([-#]?)\d{1,6}\))$/, '').concat(' ('+printedYear+')')
+            return data[0].unambiguous_name
         } else {
             return name
         }
@@ -139,7 +132,7 @@ export const AddGames = (props) => {
         let already_active = []
         user_titles.forEach(function(title) {
             if (gameIsActive(title)) {
-                new_messages.push({ message_str: '"' + titleWithYear(title) + '" was previously added'})
+                new_messages.push({ message_str: '"' + unambiguousTitle(title) + '" was previously added'})
                 already_active.push(title)
             } else {
                 let cache_entry = props.getcachedgamedata(title)[0]

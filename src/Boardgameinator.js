@@ -41,7 +41,7 @@ export class Boardgameinator extends React.Component {
         this.gameSupportsPlayercount = this.gameSupportsPlayercount.bind(this)
         this.addGameById = this.addGameById.bind(this)
         this.onAddCachedTitle = this.onAddCachedTitle.bind(this)
-        this.onNewTitle = this.onNewTitle.bind(this)
+        this.onAddNewTitle = this.onAddNewTitle.bind(this)
         this.onNewVote = this.onNewVote.bind(this)
         this.onDeleteTitle = this.onDeleteTitle.bind(this)
         this.onDeleteAllTitles = this.onDeleteAllTitles.bind(this)
@@ -193,7 +193,7 @@ export class Boardgameinator extends React.Component {
         gamedataApi(game_id)
             .then(json => {
                 if (json.hasOwnProperty('id')) {
-                    this.onNewTitle(json)
+                    this.onAddNewTitle(json)
                 }})
     }
 
@@ -208,7 +208,7 @@ export class Boardgameinator extends React.Component {
         })
     }
 
-    onNewTitle(newGameData) {
+    onAddNewTitle(newGameData) {
 
         let now = new Date()
         newGameData["updated_at"] = now.getTime()
@@ -499,7 +499,7 @@ export class Boardgameinator extends React.Component {
                     activegamedata={activeGameData} 
                     getcachedgamedata={this.getCachedGameData}
                     onaddcachedtitle={this.onAddCachedTitle}
-                    onnewtitle={this.onNewTitle}
+                    onaddnewtitle={this.onAddNewTitle}
                     allthumbs={this.state.allThumbs} 
                     sortby={this.state.sortOrder}
                     filtertitles={this.state.filterTitles}

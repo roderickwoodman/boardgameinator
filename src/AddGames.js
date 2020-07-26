@@ -242,7 +242,7 @@ export const AddGames = (props) => {
                             : " (#" + game_data.id + ")"
                         game_data["disambiguation"] = disambiguation
                     }
-                    props.onnewtitle(game_data)
+                    props.onaddnewtitle(game_data)
                 }
             }
         })
@@ -332,5 +332,5 @@ AddGames.propTypes = {
     activegamedata: PropTypes.array.isRequired,
     getcachedgamedata: PropTypes.func.isRequired,
     onaddcachedtitle: PropTypes.func.isRequired,
-    onnewtitle: PropTypes.func.isRequired,
+    onaddnewtitle: PropTypes.func.isRequired,
 }

@@ -240,7 +240,7 @@ export const AddGames = (props) => {
                         let disambiguation = (game_data.year_published !== null)
                             ? " ("+ game_data.year_published + ")"
                             : " (#" + game_data.id + ")"
-                        game_data["disambiguation"] = disambiguation
+                        game_data["unambiguous_name"] = game_data.name + disambiguation
                     }
                     props.onaddnewtitle(game_data)
                 }

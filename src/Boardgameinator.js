@@ -210,13 +210,6 @@ export class Boardgameinator extends React.Component {
 
     onNewTitle(newGameData) {
 
-        if (newGameData.hasOwnProperty("name_is_unique") && newGameData["name_is_unique"] === false) {
-            let disambiguation = (newGameData.year_published !== null)
-                ? " ("+ newGameData.year_published + ")"
-                : " (#" + newGameData.id + ")"
-            newGameData["disambiguation"] = disambiguation
-        }
-
         let now = new Date()
         newGameData["updated_at"] = now.getTime()
 

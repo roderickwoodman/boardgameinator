@@ -236,6 +236,12 @@ export const AddGames = (props) => {
                     disambiguous_title += ' (' + game_data.year_published + ')'
                 }
                 if (!gameIsActive(disambiguous_title)) {
+                    if (game_data.hasOwnProperty("name_is_unique") && game_data["name_is_unique"] === false) {
+                        let disambiguation = (game_data.year_published !== null)
+                            ? " ("+ game_data.year_published + ")"
+                            : " (#" + game_data.id + ")"
+                        game_data["disambiguation"] = disambiguation
+                    }
                     props.onnewtitle(game_data)
                 }
             }

@@ -223,7 +223,7 @@ export const AddGames = (props) => {
         addMessages(new_messages)
         cached_gamedata_results.forEach(function(cached_game_data) {
             if (cached_game_data.hasOwnProperty('id')) {
-                props.oncachedtitle(cached_game_data.id)
+                props.onaddcachedtitle(cached_game_data.id)
             }
         })
         gamedata_results.forEach(function(game_data) {
@@ -331,6 +331,6 @@ export const AddGames = (props) => {
 AddGames.propTypes = {
     activegamedata: PropTypes.array.isRequired,
     getcachedgamedata: PropTypes.func.isRequired,
-    oncachedtitle: PropTypes.func.isRequired,
+    onaddcachedtitle: PropTypes.func.isRequired,
     onnewtitle: PropTypes.func.isRequired,
 }

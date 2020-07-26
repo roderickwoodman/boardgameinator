@@ -40,7 +40,7 @@ export class Boardgameinator extends React.Component {
         this.gameHasBeenAdded = this.gameHasBeenAdded.bind(this)
         this.gameSupportsPlayercount = this.gameSupportsPlayercount.bind(this)
         this.addGameById = this.addGameById.bind(this)
-        this.onCachedTitle = this.onCachedTitle.bind(this)
+        this.onAddCachedTitle = this.onAddCachedTitle.bind(this)
         this.onNewTitle = this.onNewTitle.bind(this)
         this.onNewVote = this.onNewVote.bind(this)
         this.onDeleteTitle = this.onDeleteTitle.bind(this)
@@ -197,7 +197,7 @@ export class Boardgameinator extends React.Component {
                 }})
     }
 
-    onCachedTitle(cachedGameId) {
+    onAddCachedTitle(cachedGameId) {
         this.setState(prevState => {
 
             let activeGameList = prevState.activeGameList.slice()
@@ -498,7 +498,7 @@ export class Boardgameinator extends React.Component {
                 <GameList
                     activegamedata={activeGameData} 
                     getcachedgamedata={this.getCachedGameData}
-                    oncachedtitle={this.onCachedTitle}
+                    onaddcachedtitle={this.onAddCachedTitle}
                     onnewtitle={this.onNewTitle}
                     allthumbs={this.state.allThumbs} 
                     sortby={this.state.sortOrder}

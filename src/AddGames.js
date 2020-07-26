@@ -333,4 +333,5 @@ AddGames.propTypes = {
     getcachedgamedata: PropTypes.func.isRequired,
     onaddcachedtitle: PropTypes.func.isRequired,
     onaddnewtitle: PropTypes.func.isRequired,
+    oncachenewtitle: PropTypes.func.isRequired,
 }

@@ -339,6 +339,7 @@ export const GameList = (props) => {
             allthumbs={props.allthumbs}
             onaddcachedtitle={props.onaddcachedtitle}
             onaddnewtitle={props.onaddnewtitle}
+            oncachenewtitle={props.oncachenewtitle}
             ondeleteall={props.ondeleteall}
             onnewvote={props.onnewvote}
             onclearsectionvotes={props.onclearsectionvotes} />
@@ -387,6 +388,7 @@ GameList.propTypes = {
     filterweight: PropTypes.bool.isRequired,
     onaddcachedtitle: PropTypes.func.isRequired,
     onaddnewtitle: PropTypes.func.isRequired,
+    oncachenewtitle: PropTypes.func.isRequired,
     ondelete: PropTypes.func.isRequired,
     ondeleteall: PropTypes.func.isRequired,
     allthumbs: PropTypes.object.isRequired,

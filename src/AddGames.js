@@ -329,9 +329,10 @@ export const AddGames = (props) => {
 }
 
 AddGames.propTypes = {
-    activegamedata: PropTypes.array.isRequired,
-    getcachedgamedata: PropTypes.func.isRequired,
-    onaddcachedtitle: PropTypes.func.isRequired,
-    onaddnewtitle: PropTypes.func.isRequired,
-    oncachenewtitle: PropTypes.func.isRequired,
+    activegamedata: PropTypes.array.isRequired,   // FIXME: delete?
+    getcachedgamedata: PropTypes.func.isRequired, // FIXME: delete?
+    cachedgametitles: PropTypes.object.isRequired,
+    onaddcachedtitle: PropTypes.func.isRequired,  // FIXME: send unambiguous title only
+    onaddnewtitle: PropTypes.func.isRequired,     // FIXME: send unambiguous title INSIDE OF new game data
+    oncachenewtitle: PropTypes.func.isRequired,   // FIXME: send unambiguous title INSIDE OF new game data
 }

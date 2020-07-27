@@ -337,6 +337,7 @@ export const GameList = (props) => {
             activegamedata={props.activegamedata}
             getcachedgamedata={props.getcachedgamedata}
             allthumbs={props.allthumbs}
+            cachedgametitles={props.cachedgametitles},
             onaddcachedtitle={props.onaddcachedtitle}
             onaddnewtitle={props.onaddnewtitle}
             oncachenewtitle={props.oncachenewtitle}
@@ -386,6 +387,7 @@ GameList.propTypes = {
     filtertitles: PropTypes.bool.isRequired,
     filterplayercount: PropTypes.bool.isRequired,
     filterweight: PropTypes.bool.isRequired,
+    cachedgametitles: PropTypes.object.isRequired,
     onaddcachedtitle: PropTypes.func.isRequired,
     onaddnewtitle: PropTypes.func.isRequired,
     oncachenewtitle: PropTypes.func.isRequired,

@@ -94,6 +94,7 @@ export const MainControls = (props) => {
                         <AddGames
                             activegamedata={props.activegamedata}
                             getcachedgamedata={props.getcachedgamedata}
+                            cachedgametitles={props.cachedgametitles}
                             onaddcachedtitle={props.onaddcachedtitle}
                             onaddnewtitle={props.onaddnewtitle}
                             oncachenewtitle={props.oncachenewtitle} />
@@ -154,6 +155,7 @@ MainControls.propTypes = {
     activegamedata: PropTypes.array.isRequired,
     getcachedgamedata: PropTypes.func.isRequired,
     allthumbs: PropTypes.object.isRequired,
+    cachedgametitles: PropTypes.object.isRequired,
     onaddcachedtitle: PropTypes.func.isRequired,
     onaddnewtitle: PropTypes.func.isRequired,
     oncachenewtitle: PropTypes.func.isRequired,

@@ -36,6 +36,7 @@ export class Boardgameinator extends React.Component {
         }
         this.totalTitleVotes = this.totalTitleVotes.bind(this)
         this.totalAttributeVotes = this.totalAttributeVotes.bind(this)
+        this.getCachedGameTitles = this.getCachedGameTitles.bind(this)
         this.getCachedGameData = this.getCachedGameData.bind(this)
         this.gameHasBeenAdded = this.gameHasBeenAdded.bind(this)
         this.gameSupportsPlayercount = this.gameSupportsPlayercount.bind(this)
@@ -179,6 +180,16 @@ export class Boardgameinator extends React.Component {
             return false
         })
         return [cached]
+    }
+
+    getCachedGameTitles() {
+        let titles = {}
+        this.state.allGameData.filter(function(gamedata) {
+            if (gamedata.hasOwnProperty('unambiguous_name')) {
+                titles[gamedata.unambiguous_name] = gamedata.id
+            }
+        })
+        return titles
     }
 
     gameHasBeenAdded(gameId, gameSet) {
@@ -515,6 +526,7 @@ export class Boardgameinator extends React.Component {
                 <GameList
                     activegamedata={activeGameData} 
                     getcachedgamedata={this.getCachedGameData}
+                    cachedgametitles={this.getCachedGameTitles}
                     onaddcachedtitle={this.onAddCachedTitle}
                     onaddnewtitle={this.onAddNewTitle}
                     oncachenewtitle={this.onCacheNewTitle}

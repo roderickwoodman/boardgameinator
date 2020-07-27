@@ -511,6 +511,7 @@ export class Boardgameinator extends React.Component {
             reallyNarrow: windowWidth < 650
         }
         const activeGameData = this.state.allGameData.filter( gameData => this.state.activeGameList.includes(gameData.id) )
+        const cachedGameTitles = this.getCachedGameTitles()
         return (
             <React.Fragment>
             <div id="page-header">
@@ -530,7 +531,7 @@ export class Boardgameinator extends React.Component {
                 <GameList
                     activegamedata={activeGameData} 
                     getcachedgamedata={this.getCachedGameData}
-                    cachedgametitles={this.getCachedGameTitles}
+                    cachedgametitles={cachedGameTitles}
                     onaddcachedtitle={this.onAddCachedTitle}
                     onaddnewtitle={this.onAddNewTitle}
                     oncachenewtitle={this.onCacheNewTitle}

@@ -337,7 +337,7 @@ export const GameList = (props) => {
             activegamedata={props.activegamedata}
             getcachedgamedata={props.getcachedgamedata}
             allthumbs={props.allthumbs}
-            cachedgametitles={props.cachedgametitles},
+            cachedgametitles={props.cachedgametitles}
             onaddcachedtitle={props.onaddcachedtitle}
             onaddnewtitle={props.onaddnewtitle}
             oncachenewtitle={props.oncachenewtitle}

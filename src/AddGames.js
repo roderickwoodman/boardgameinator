@@ -121,7 +121,7 @@ export const AddGames = (props) => {
         validateUserTitles(ambiguous_titles, true)
     }
 
-    const validateUserTitles = async function (user_titles, all_ambiguous) { 
+    const validateUserTitles_old = async function (user_titles, all_ambiguous) { 
 
         let all_validated_games = []
         let remaining_titles = [...user_titles]
@@ -248,6 +248,110 @@ export const AddGames = (props) => {
         })
     }
 
+    const validateUserTitles = async function (user_titles, all_ambiguous) { 
+
+        console.log('Already cached:', props.cachedgametitles)
+
+        let new_messages = []
+
+        let uncached_titles = []
+        let to_add_cached = []
+        let ambiguous_titles = []
+        let to_add_new = []
+        let to_cache_new = []
+
+        // STEP 0: Look up the title in the cache
+        user_titles.forEach(function(title) {
+            if (props.cachedgametitles.hasOwnProperty(title)) {
+                if (props.cachedgametitles[title].active) {
+                    new_messages.push({ message_str: '"' + title + '" was previously added'})
+                } else {
+                    to_add_cached.push(title)
+                }
+            } else {
+                uncached_titles.push(title)
+            }
+        })
+
+        // STEP 1 API: Do BGG exact search API, using user-supplied name string.
+        const exact_search_results = await getExactSearchResults(uncached_titles)
+        exact_search_results.forEach(function(result,idx) {
+            if (result.length === 1) {
+                to_add_new.push(result[0])
+            } else if (result.length > 1) {
+                result.forEach(function(ambiguous_result) {
+                    to_add_new.push(ambiguous_result)
+                })
+            } else if (!result.length) {
+                new_messages.push({ message_str: 'ERROR: "' + uncached_titles[idx] + '" was not found in the BGG database'})
+                addMessages(new_messages)
+                return
+            }
+        })
+
+        // STEP 2 OPTIONAL FOLLOW-UP API (If unresolved titles remain): Do BGG non-exact search API, using user-supplied name string.
+        // const non_exact_search_results = await getNonexactSearchResults(remaining_titles)
+        // all_validated_games = updateValidatedGameList(all_validated_games, non_exact_search_results, remaining_titles)
+        // remaining_titles = getRemainingTitles(remaining_titles, all_validated_games)
+
+        // ERROR if any title does not have a BGG ID associated with it.
+        // if (remaining_titles.length) {
+            // remaining_titles.forEach(function(title) {
+                // new_messages.push({ message_str: 'ERROR: "' + withoutYear(title) + '" was not found in the BGG database'})
+            // })
+            // addMessages(new_messages)
+            // return
+        // }
+
+        // Prompt for disambiguation if one title yielded mutiple search results.
+        // let ambiguous_matches = all_validated_games.filter( game => game.hasOwnProperty('ambiguous') )
+        // let ambiguous_titles = {}
+        // ambiguous_matches.forEach(function(title) {
+        //     let new_disambiguation = {
+        //         name: title.name,
+        //         id: title.id,
+        //         year_published: title.year_published
+        //     }
+        //     if (ambiguous_titles.hasOwnProperty(title.name)) {
+        //         ambiguous_titles[title.name].push(new_disambiguation)
+        //         ambiguous_titles[title.name] = ambiguous_titles[title.name].sort(function(a,b) {
+        //             if (a.year_published < b.year_published) {
+        //                 return -1
+        //             } else if (a.year_published > b.year_published) {
+        //                 return 1
+        //             } else {
+        //                 return 0
+        //             }
+        //         })
+        //     } else {
+        //         ambiguous_titles[title.name] = [new_disambiguation]
+        //     }
+        // })
+        // if (Object.keys(ambiguous_titles).length) {
+        //     Object.entries(ambiguous_titles).forEach(function(entry) {
+        //         let ambiguous_arr = JSON.parse(JSON.stringify(entry[1]))
+        //         new_messages.push({ message_str: 'Which version of "'+ entry[0] + '": ', ambiguous: ambiguous_arr })
+        //     })
+        //     addMessages(new_messages)
+        //     return
+        // }
+
+        // STEP 3 API: Do BGG game data API, using BGG-API-supplied game ID
+        const gamedata_results = await getGamedataResults(to_add_new)
+
+        // All APIs are done. Now integrate the game data with this app.
+        to_add_cached.forEach(function(title) {
+            props.onaddcachedtitle(title)
+        })
+        gamedata_results.forEach(function(game_data) {
+            let disambiguation = (game_data.year_published !== null)
+                ? " ("+ game_data.year_published + ")"
+                : " (#" + game_data.id + ")"
+            game_data["unambiguous_name"] = game_data.name// + disambiguation
+            props.onaddnewtitle(game_data)
+        })
+    }
+
     const gameIsActive = (name) => {
         for (let game of props.activegamedata) {
             if (game.id === parseInt(name)) {
@@ -332,7 +436,7 @@ AddGames.propTypes = {
     activegamedata: PropTypes.array.isRequired,   // FIXME: delete?
     getcachedgamedata: PropTypes.func.isRequired, // FIXME: delete?
     cachedgametitles: PropTypes.object.isRequired,
-    onaddcachedtitle: PropTypes.func.isRequired,  // FIXME: send unambiguous title only
-    onaddnewtitle: PropTypes.func.isRequired,     // FIXME: send unambiguous title INSIDE OF new game data
+    onaddcachedtitle: PropTypes.func.isRequired,
+    onaddnewtitle: PropTypes.func.isRequired,
     oncachenewtitle: PropTypes.func.isRequired,   // FIXME: send unambiguous title INSIDE OF new game data
 }

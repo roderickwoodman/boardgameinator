@@ -183,12 +183,12 @@ export class Boardgameinator extends React.Component {
     }
 
     getCachedGameTitles() {
-        let titles = {}
+        let titles = {}, self = this
         this.state.allGameData.filter(function(gamedata) {
             if (gamedata.hasOwnProperty('unambiguous_name')) {
                 let new_cache_info = {
                     id: gamedata.id,
-                    active: (this.state.activeGameList.includes(gamedata.id)) ? true : false,
+                    active: (self.state.activeGameList.includes(gamedata.id)) ? true : false,
                 }
                 titles[gamedata.unambiguous_name] = new_cache_info
             }
@@ -213,11 +213,12 @@ export class Boardgameinator extends React.Component {
                 }})
     }
 
-    onAddCachedTitle(cachedGameId) {
+    onAddCachedTitle(title) {
+
         this.setState(prevState => {
 
             let activeGameList = prevState.activeGameList.slice()
-            activeGameList.push(cachedGameId)
+            activeGameList.push(prevState.allGameData.filter( game_data => game_data.unambiguous_name === title )[0].id)
             localStorage.setItem('activeGameList', JSON.stringify(activeGameList))
 
             return { activeGameList }

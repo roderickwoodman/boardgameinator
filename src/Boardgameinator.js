@@ -188,6 +188,8 @@ export class Boardgameinator extends React.Component {
             if (gamedata.hasOwnProperty('unambiguous_name')) {
                 let new_cache_info = {
                     id: gamedata.id,
+                    name: gamedata.name,
+                    year_published: gamedata.year_published,
                     active: (self.state.activeGameList.includes(gamedata.id)) ? true : false,
                 }
                 titles[gamedata.unambiguous_name] = new_cache_info

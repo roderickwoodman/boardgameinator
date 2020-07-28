@@ -121,7 +121,7 @@ export const AddGames = (props) => {
         validateUserTitles(ambiguous_titles, true)
     }
 
-    const validateUserTitles_old = async function (user_titles, all_ambiguous) { 
+    const validateUserTitles_old = async function (user_titles, second_pass) { 
 
         let all_validated_games = []
         let remaining_titles = [...user_titles]
@@ -228,7 +228,7 @@ export const AddGames = (props) => {
         })
         gamedata_results.forEach(function(game_data) {
             if (game_data.hasOwnProperty('id')) {
-                if (all_ambiguous) {
+                if (second_pass) {
                     game_data["name_is_unique"] = false
                 }
                 let disambiguous_title = game_data.name
@@ -248,9 +248,10 @@ export const AddGames = (props) => {
         })
     }
 
-    // The param 'all_ambiguous' flags the second pass through this function, which is triggered by
-    // a button press. Using two passes of this function is a hack to keep the modal open for the user.
-    const validateUserTitles = async function (user_titles, all_ambiguous) { 
+    // The param 'second_pass' flags the second pass through this function, which is triggered by
+    // a button press. Using two passes of this function is a hack to keep the modal open for the 
+    // user while content inside of it dynamically changes.
+    const validateUserTitles = async function (user_titles, second_pass) { 
 
         console.log('=== VALIDATING === ', user_titles)
         console.log('Already cached titles:', props.cachedgametitles)
@@ -333,7 +334,7 @@ export const AddGames = (props) => {
             searchresults_for_ambiguous[0].forEach(function(possible_match) {
                 if (ambiguous_titles.includes(possible_match.name)) {
 
-                    if (!all_ambiguous) {
+                    if (!second_pass) {
 
                         // collect the ambiguous references for this game name
                         let new_disambiguation = {

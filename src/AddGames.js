@@ -395,10 +395,17 @@ export const AddGames = (props) => {
             props.onaddcachedtitle(title)
         })
         gamedata_results.forEach(function(game_data) {
-            let disambiguation = (game_data.year_published !== null)
-                ? " ("+ game_data.year_published + ")"
-                : " (#" + game_data.id + ")"
-            game_data["unambiguous_name"] = game_data.name// + disambiguation
+
+            // determine disambiguous name
+            let disambiguation = ""
+            if (ambiguous_titles.includes(game_data.name)) {
+                disambiguation = (game_data.year_published !== null)
+                    ? " ("+ game_data.year_published + ")"
+                    : " (#" + game_data.id + ")"
+            }
+            game_data["unambiguous_name"] = game_data.name + disambiguation
+
+            // determine the proper handler for the API data
             props.onaddnewtitle(game_data)
         })
     }

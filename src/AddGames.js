@@ -293,7 +293,7 @@ export const AddGames = (props) => {
         })
         console.log('Uncached IDs:', uncached_ids)
 
-        // STEP 0B OPTIONAL FOLLOW-UP API (If uncached IDs were submitted): Do BGG non-exact search API, using user-supplied game ID string.
+        // STEP 1 API: If uncached IDs were submitted instead of titles, use BGG non-exact search API to convert IDs into titles.
         const searchresults_for_ids = await getNonexactSearchResults(uncached_ids)
         console.log('searchresults_for_ids:',searchresults_for_ids)
         if (searchresults_for_ids.length === 1) {
@@ -305,7 +305,7 @@ export const AddGames = (props) => {
         }
         console.log('Uncached titles:', uncached_titles)
 
-        // STEP 1 API: Do BGG exact search API, using user-supplied name string.
+        // STEP 2 API: Use BGG exact search API to determine the unique titles.
         const searchresults_for_uncached = await getExactSearchResults(uncached_titles)
         console.log('searchresults_for_uncached:',searchresults_for_uncached)
         searchresults_for_uncached.forEach(function(result,idx) {
@@ -325,7 +325,7 @@ export const AddGames = (props) => {
         })
         console.log('Ambiguous titles:', ambiguous_titles)
 
-        // STEP 2A OPTIONAL FOLLOW-UP API (If unresolved titles remain): Do BGG non-exact search API, using user-supplied name string.
+        // STEP 3 API: If unresolved titles remain, use BGG non-exact search API to determine the potential (ambiguous) titles.
         const searchresults_for_ambiguous = await getNonexactSearchResults(ambiguous_titles)
         let ambiguous_titles_info = {}
         console.log('searchresults_for_ambiguous:', searchresults_for_ambiguous)
@@ -387,7 +387,7 @@ export const AddGames = (props) => {
 
         console.log(' ==> looking up data for:', to_lookup_data)
 
-        // STEP 3 API: Do BGG game data API, using BGG-API-supplied game ID
+        // STEP 4 API: For each ID collected from previous API results, use BGG game data API to get all of the game-specific details.
         const gamedata_results = await getGamedataResults(to_lookup_data)
 
         // All APIs are done. Now integrate the game data with this app.

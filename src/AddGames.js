@@ -117,8 +117,8 @@ export const AddGames = (props) => {
         return gamedata
     }
 
-    const validateAmbiguousTitles = function (ambiguous_titles) { 
-        validateUserTitles(ambiguous_titles, true)
+    const validateAmbiguousTitles = function (unambiguous_titles) { 
+        validateUserTitles(unambiguous_titles, true)
     }
 
     const validateUserTitles_old = async function (user_titles, second_pass) { 
@@ -262,8 +262,6 @@ export const AddGames = (props) => {
         let uncached_ids = []
         let to_add_cached = []
         let ambiguous_titles = []
-        let to_add_new = []
-        let to_cache_new = []
 
         let to_lookup_data = []
 
@@ -339,6 +337,7 @@ export const AddGames = (props) => {
                         // collect the ambiguous references for this game name
                         let new_disambiguation = {
                             name: possible_match.name,
+                            unambiguous_name: possible_match.name + ' (' + possible_match.year_published + ')',
                             id: possible_match.id,
                             year_published: possible_match.year_published
                         }
@@ -361,6 +360,7 @@ export const AddGames = (props) => {
                         if (!ambiguous_titles_info.hasOwnProperty(possible_match.name)) {
                             let new_disambiguation = {
                                 name: possible_match.name,
+                                unambiguous_name: possible_match.name + ' (' + possible_match.year_published + ')',
                                 id: possible_match.id,
                                 year_published: possible_match.year_published
                             }
@@ -392,22 +392,33 @@ export const AddGames = (props) => {
         const gamedata_results = await getGamedataResults(to_lookup_data)
 
         // All APIs are done. Now integrate the game data with this app.
+
         to_add_cached.forEach(function(title) {
             props.onaddcachedtitle(title)
         })
+
         gamedata_results.forEach(function(game_data) {
 
-            // determine disambiguous name
+            // assign a unique game name
             let disambiguation = ""
             if (ambiguous_titles.includes(game_data.name)) {
                 disambiguation = (game_data.year_published !== null)
                     ? " ("+ game_data.year_published + ")"
                     : " (#" + game_data.id + ")"
             }
-            game_data["unambiguous_name"] = game_data.name + disambiguation
+            let unambiguous_title = game_data.name + disambiguation
+            game_data["unambiguous_name"] = unambiguous_title
 
             // determine the proper handler for the API data
-            props.onaddnewtitle(game_data)
+            if (ambiguous_titles.includes(game_data.name)){
+                if (user_titles.includes(game_data.unambiguous_name)) {
+                    props.onaddnewtitle(game_data)
+                } else {
+                    props.oncachenewtitle(game_data)
+                }
+            } else {
+                props.onaddnewtitle(game_data)
+            }
         })
     }
 
@@ -453,7 +464,7 @@ export const AddGames = (props) => {
         if (message.hasOwnProperty('ambiguous')) {
             return (
                 message.ambiguous.map( disambiguation => 
-                    <button key={disambiguation.id} className="default-primary-styles" onClick={ (e) => validateAmbiguousTitles([disambiguation.id.toString()]) }>{disambiguation.year_published}</button>
+                    <button key={disambiguation.id} className="default-primary-styles" onClick={ (e) => validateAmbiguousTitles([disambiguation.unambiguous_name]) }>{disambiguation.year_published}</button>
                 )
             )
         } else {

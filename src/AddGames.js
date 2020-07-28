@@ -260,6 +260,8 @@ export const AddGames = (props) => {
         let to_add_new = []
         let to_cache_new = []
 
+        let to_lookup_data = []
+
         // STEP 0: Look up the title in the cache
         user_titles.forEach(function(title) {
             if (props.cachedgametitles.hasOwnProperty(title)) {
@@ -274,14 +276,16 @@ export const AddGames = (props) => {
         })
 
         // STEP 1 API: Do BGG exact search API, using user-supplied name string.
-        const exact_search_results = await getExactSearchResults(uncached_titles)
-        exact_search_results.forEach(function(result,idx) {
+        const searchresults_for_uncached = await getExactSearchResults(uncached_titles)
+        searchresults_for_uncached.forEach(function(result,idx) {
             if (result.length === 1) {
-                to_add_new.push(result[0])
+                let new_game_to_lookup = {
+                    id: result[0].id,
+                    is_ambiguous: false
+                }
+                to_lookup_data.push(new_game_to_lookup)
             } else if (result.length > 1) {
-                result.forEach(function(ambiguous_result) {
-                    to_add_new.push(ambiguous_result)
-                })
+                ambiguous_titles.push(result[0].name)
             } else if (!result.length) {
                 new_messages.push({ message_str: 'ERROR: "' + uncached_titles[idx] + '" was not found in the BGG database'})
                 addMessages(new_messages)
@@ -290,54 +294,65 @@ export const AddGames = (props) => {
         })
 
         // STEP 2 OPTIONAL FOLLOW-UP API (If unresolved titles remain): Do BGG non-exact search API, using user-supplied name string.
-        // const non_exact_search_results = await getNonexactSearchResults(remaining_titles)
-        // all_validated_games = updateValidatedGameList(all_validated_games, non_exact_search_results, remaining_titles)
-        // remaining_titles = getRemainingTitles(remaining_titles, all_validated_games)
+        const searchresults_for_ambiguous = await getNonexactSearchResults(ambiguous_titles)
+        let ambiguous_titles_info = {}
+        if (searchresults_for_ambiguous.length === 1) {
+            searchresults_for_ambiguous[0].forEach(function(possible_match) {
+                if (ambiguous_titles.includes(possible_match.name)) {
 
-        // ERROR if any title does not have a BGG ID associated with it.
-        // if (remaining_titles.length) {
-            // remaining_titles.forEach(function(title) {
-                // new_messages.push({ message_str: 'ERROR: "' + withoutYear(title) + '" was not found in the BGG database'})
-            // })
-            // addMessages(new_messages)
-            // return
-        // }
+                    // collect the ambiguous references for this game name
+                    let new_disambiguation = {
+                        name: possible_match.name,
+                        id: possible_match.id,
+                        year_published: possible_match.year_published
+                    }
+                    if (ambiguous_titles_info.hasOwnProperty(possible_match.name)) {
+                        ambiguous_titles_info[possible_match.name].push(new_disambiguation)
+                        ambiguous_titles_info[possible_match.name] = ambiguous_titles_info[possible_match.name].sort(function(a,b) {
+                            if (a.year_published < b.year_published) {
+                                return -1
+                            } else if (a.year_published > b.year_published) {
+                                return 1
+                            } else {
+                                return 0
+                            }
+                        })
+                    } else {
+                        ambiguous_titles_info[possible_match.name] = [new_disambiguation]
+                    }
 
-        // Prompt for disambiguation if one title yielded mutiple search results.
-        // let ambiguous_matches = all_validated_games.filter( game => game.hasOwnProperty('ambiguous') )
-        // let ambiguous_titles = {}
-        // ambiguous_matches.forEach(function(title) {
-        //     let new_disambiguation = {
-        //         name: title.name,
-        //         id: title.id,
-        //         year_published: title.year_published
-        //     }
-        //     if (ambiguous_titles.hasOwnProperty(title.name)) {
-        //         ambiguous_titles[title.name].push(new_disambiguation)
-        //         ambiguous_titles[title.name] = ambiguous_titles[title.name].sort(function(a,b) {
-        //             if (a.year_published < b.year_published) {
-        //                 return -1
-        //             } else if (a.year_published > b.year_published) {
-        //                 return 1
-        //             } else {
-        //                 return 0
-        //             }
-        //         })
-        //     } else {
-        //         ambiguous_titles[title.name] = [new_disambiguation]
-        //     }
-        // })
-        // if (Object.keys(ambiguous_titles).length) {
-        //     Object.entries(ambiguous_titles).forEach(function(entry) {
-        //         let ambiguous_arr = JSON.parse(JSON.stringify(entry[1]))
-        //         new_messages.push({ message_str: 'Which version of "'+ entry[0] + '": ', ambiguous: ambiguous_arr })
-        //     })
-        //     addMessages(new_messages)
-        //     return
-        // }
+                    // collect the ambiguous references for this game name
+                    if (!ambiguous_titles_info.hasOwnProperty(possible_match.name)) {
+                        let new_disambiguation = {
+                            name: possible_match.name,
+                            id: possible_match.id,
+                            year_published: possible_match.year_published
+                        }
+                        ambiguous_titles_info[possible_match.name].push(new_disambiguation)
+                    }
+
+                    // look up data for this game ID
+                    let new_game_to_lookup = {
+                        id: possible_match.id,
+                        is_ambiguous: true
+                    }
+                    to_lookup_data.push(new_game_to_lookup)
+                }
+            })
+            if (Object.keys(ambiguous_titles_info).length) {
+                Object.entries(ambiguous_titles_info).forEach(function(entry) {
+                    let ambiguous_arr = JSON.parse(JSON.stringify(entry[1]))
+                    new_messages.push({ message_str: 'Which version of "'+ entry[0] + '": ', ambiguous: ambiguous_arr })
+                })
+                addMessages(new_messages)
+                return
+            }
+        }
+
+        console.log('looking up data for:', to_lookup_data)
 
         // STEP 3 API: Do BGG game data API, using BGG-API-supplied game ID
-        const gamedata_results = await getGamedataResults(to_add_new)
+        const gamedata_results = await getGamedataResults(to_lookup_data)
 
         // All APIs are done. Now integrate the game data with this app.
         to_add_cached.forEach(function(title) {

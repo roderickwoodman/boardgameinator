@@ -260,37 +260,84 @@ export const AddGames = (props) => {
 
         let uncached_titles = []
         let uncached_ids = []
+        let potential_cached_titles = []
         let to_add_cached = []
         let ambiguous_titles = []
 
         let to_lookup_data = []
 
         // STEP 0: Look up the title in the cache
+        let all_cached_titles = Object.keys(props.cachedgametitles)
         user_titles.forEach(function(title) {
-            let unambiguous_title = title
+            let title_to_lookup = title
 
             // if title is an ID, use cache to convert it to an unambiguous title
             let title_is_id_cache = Object.entries(props.cachedgametitles).filter( cached => cached[1].id === parseInt(title) )
             if (title_is_id_cache.length) {
-                unambiguous_title = title_is_id_cache[0][0]
+                title_to_lookup = title_is_id_cache[0][0]
             }
 
-            // cache lookup is by unambiguous title
+            // note that cache lookup is keyed by unambiguous title
             if (props.cachedgametitles.hasOwnProperty(title) || title_is_id_cache.length) {
-                if (props.cachedgametitles[unambiguous_title].active) {
-                    new_messages.push({ message_str: '"' + unambiguous_title + '" was previously added'})
+                if (props.cachedgametitles[title_to_lookup].active) {
+                    new_messages.push({ message_str: '"' + title_to_lookup + '" was previously added'})
                 } else {
-                    to_add_cached.push(unambiguous_title)
+                    to_add_cached.push(title_to_lookup)
                 }
+            } else if (all_cached_titles.filter(cached_title => cached_title.includes(title)).length) {
+                potential_cached_titles.push(title)
             } else {
                 if (isNaN(title)) {
-                    uncached_titles.push(unambiguous_title)
+                    uncached_titles.push(title_to_lookup)
                 } else {
-                    uncached_ids.push(unambiguous_title)
+                    uncached_ids.push(title_to_lookup)
                 }
             }
         })
         console.log('Uncached IDs:', uncached_ids)
+
+        // STEP 0.5: If cache-matching is uncertain, prompt the user for more information.
+
+        if (potential_cached_titles.length === 1) {
+            let potential_cached_titles_info = {}
+            console.log('Potential cached titles:', potential_cached_titles)
+            potential_cached_titles.forEach(function(potential_cached_title) {
+
+                Object.entries(props.cachedgametitles).forEach(function(cached_title) {
+                    if (cached_title[0].includes(potential_cached_title)) {
+                        // collect the ambiguous references for this game name
+                        let new_disambiguation = {
+                            name: cached_title[1].name,
+                            unambiguous_name: cached_title[1].name + ' (' + cached_title[1].year_published + ')',
+                            id: cached_title[1].id,
+                            year_published: cached_title[1].year_published
+                        }
+                        if (potential_cached_titles_info.hasOwnProperty(cached_title[1].name)) {
+                            potential_cached_titles_info[cached_title[1].name].push(new_disambiguation)
+                            potential_cached_titles_info[cached_title[1].name] = potential_cached_titles_info[cached_title[1].name].sort(function(a,b) {
+                                if (a.year_published < b.year_published) {
+                                    return -1
+                                } else if (a.year_published > b.year_published) {
+                                    return 1
+                                } else {
+                                    return 0
+                                }
+                            })
+                        } else {
+                            potential_cached_titles_info[cached_title[1].name] = [new_disambiguation]
+                        }
+                    }
+                })
+            })
+            if (Object.keys(potential_cached_titles_info).length) {
+                Object.entries(potential_cached_titles_info).forEach(function(entry) {
+                    let ambiguous_arr = JSON.parse(JSON.stringify(entry[1]))
+                    new_messages.push({ message_str: 'Which version of "'+ entry[0] + '": ', ambiguous: ambiguous_arr })
+                })
+                addMessages(new_messages)
+                return
+            }
+        }
 
         // STEP 1 API: If uncached IDs were submitted instead of titles, use BGG non-exact search API to convert IDs into titles.
         const searchresults_for_ids = await getNonexactSearchResults(uncached_ids)

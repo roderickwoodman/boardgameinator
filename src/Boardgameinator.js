@@ -367,7 +367,7 @@ export class Boardgameinator extends React.Component {
 
     onDeleteAllTitles(event) {
         this.setState(prevState => {
-            let allGameData = []
+            let activeGameList = []
             let allThumbs = {
                 'attributes': {
                     'players': {}, 
@@ -379,10 +379,10 @@ export class Boardgameinator extends React.Component {
                 total_title_votes: 0,
                 total_attribute_votes: 0,
             }
-            localStorage.setItem('allGameData', JSON.stringify(allGameData))
+            localStorage.setItem('activeGameList', JSON.stringify(activeGameList))
             localStorage.setItem('allThumbs', JSON.stringify(allThumbs))
             return { 
-                allGameData: allGameData, 
+                activeGameList: activeGameList,
                 allThumbs:allThumbs 
             }
         })

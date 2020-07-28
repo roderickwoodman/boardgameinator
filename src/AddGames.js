@@ -248,13 +248,17 @@ export const AddGames = (props) => {
         })
     }
 
+    // The param 'all_ambiguous' flags the second pass through this function, which is triggered by
+    // a button press. Using two passes of this function is a hack to keep the modal open for the user.
     const validateUserTitles = async function (user_titles, all_ambiguous) { 
 
-        console.log('Already cached:', props.cachedgametitles)
+        console.log('=== VALIDATING === ', user_titles)
+        console.log('Already cached titles:', props.cachedgametitles)
 
         let new_messages = []
 
         let uncached_titles = []
+        let uncached_ids = []
         let to_add_cached = []
         let ambiguous_titles = []
         let to_add_new = []
@@ -264,16 +268,42 @@ export const AddGames = (props) => {
 
         // STEP 0: Look up the title in the cache
         user_titles.forEach(function(title) {
-            if (props.cachedgametitles.hasOwnProperty(title)) {
-                if (props.cachedgametitles[title].active) {
-                    new_messages.push({ message_str: '"' + title + '" was previously added'})
+            let unambiguous_title = title
+
+            // if title is an ID, use cache to convert it to an unambiguous title
+            let title_is_id_cache = Object.entries(props.cachedgametitles).filter( cached => cached[1].id === parseInt(title) )
+            if (title_is_id_cache.length) {
+                unambiguous_title = title_is_id_cache[0][0]
+            }
+
+            // cache lookup is by unambiguous title
+            if (props.cachedgametitles.hasOwnProperty(title) || title_is_id_cache.length) {
+                if (props.cachedgametitles[unambiguous_title].active) {
+                    new_messages.push({ message_str: '"' + unambiguous_title + '" was previously added'})
                 } else {
-                    to_add_cached.push(title)
+                    to_add_cached.push(unambiguous_title)
                 }
             } else {
-                uncached_titles.push(title)
+                if (isNaN(title)) {
+                    uncached_titles.push(unambiguous_title)
+                } else {
+                    uncached_ids.push(unambiguous_title)
+                }
             }
         })
+        console.log('Uncached IDs:', uncached_ids)
+
+        // STEP 0B OPTIONAL FOLLOW-UP API (If uncached IDs were submitted): Do BGG non-exact search API, using user-supplied game ID string.
+        const searchresults_for_ids = await getNonexactSearchResults(uncached_ids)
+        console.log('searchresults_for_ids:',searchresults_for_ids)
+        if (searchresults_for_ids.length === 1) {
+            searchresults_for_ids[0].forEach(function(possible_match) {
+                if (uncached_ids.includes(possible_match.id.toString())) {
+                    uncached_titles.push(possible_match.name)
+                }
+            })
+        }
+        console.log('Uncached titles:', uncached_titles)
 
         // STEP 1 API: Do BGG exact search API, using user-supplied name string.
         const searchresults_for_uncached = await getExactSearchResults(uncached_titles)
@@ -292,8 +322,9 @@ export const AddGames = (props) => {
                 return
             }
         })
+        console.log('Ambiguous titles:', ambiguous_titles)
 
-        // STEP 2 OPTIONAL FOLLOW-UP API (If unresolved titles remain): Do BGG non-exact search API, using user-supplied name string.
+        // STEP 2A OPTIONAL FOLLOW-UP API (If titleslved titles remain): Do BGG non-exact search API, using user-supplied name string.
         const searchresults_for_ambiguous = await getNonexactSearchResults(ambiguous_titles)
         let ambiguous_titles_info = {}
         if (searchresults_for_ambiguous.length === 1) {
@@ -349,7 +380,7 @@ export const AddGames = (props) => {
             }
         }
 
-        console.log('looking up data for:', to_lookup_data)
+        console.log(' ==> looking up data for:', to_lookup_data)
 
         // STEP 3 API: Do BGG game data API, using BGG-API-supplied game ID
         const gamedata_results = await getGamedataResults(to_lookup_data)

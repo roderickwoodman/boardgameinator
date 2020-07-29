@@ -277,8 +277,13 @@ export const AddGames = (props) => {
                 title_to_lookup = title_is_id_cache[0][0]
             }
 
-            // note that cache lookup is keyed by unambiguous title
-            if (props.cachedgametitles.hasOwnProperty(title) || title_is_id_cache.length) {
+            // note that cache is keyed by unambiguous title, which may or may not need to include a year for disambiguation
+            if ( props.cachedgametitles.hasOwnProperty(title)
+                || props.cachedgametitles.hasOwnProperty(withoutYear(title))
+                || title_is_id_cache.length ) {
+                if (props.cachedgametitles.hasOwnProperty(withoutYear(title))) {
+                    title_to_lookup = withoutYear(title)
+                } 
                 if (props.cachedgametitles[title_to_lookup].active) {
                     new_messages.push({ message_str: '"' + title_to_lookup + '" was previously added'})
                 } else {

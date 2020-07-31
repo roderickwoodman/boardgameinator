@@ -291,6 +291,8 @@ export const AddGames = (props) => {
                 }
             } else if (all_cached_titles.filter(cached_title => cached_title.includes(title)).length) {
                 potential_cached_titles.push(title)
+            } else if (all_cached_titles.filter(cached_title => cached_title.includes(withoutYear(title))).length) {
+                potential_cached_titles.push(withoutYear(title))
             } else {
                 if (isNaN(title)) {
                     uncached_titles.push(title_to_lookup)
@@ -367,7 +369,14 @@ export const AddGames = (props) => {
                 }
                 to_lookup_data.push(new_game_to_lookup)
             } else if (result.length > 1) {
-                ambiguous_titles.push(uncached_titles[idx])
+                let years_published = result.map( ambiguous_result => ambiguous_result.year_published )
+                let disambiguation_year = extractYearFromTitle(uncached_titles[idx])
+                console.log('years_published:', years_published, ' disambiguation_year:', disambiguation_year, ' uncached_titles:', uncached_titles[idx])
+                if (years_published.includes(parseInt(disambiguation_year))) {
+                    ambiguous_titles.push(uncached_titles[idx])
+                } else {
+                    ambiguous_titles.push(withoutYear(uncached_titles[idx])) // the given year was wrong, so strike the yeear input
+                }
             } else if (!result.length) {
                 new_messages.push({ message_str: 'ERROR: "' + uncached_titles[idx] + '" was not found in the BGG database'})
                 addMessages(new_messages)
@@ -488,6 +497,7 @@ export const AddGames = (props) => {
             game_data["unambiguous_name"] = unambiguous_title
 
             // determine the proper handler for the API data
+            console.log('unambiguous_title:',unambiguous_title)
             if (ambiguous_titles.includes(unambiguous_title)) {
                 props.onaddnewtitle(game_data)
             } else if (ambiguous_titles_without_year.includes(game_data.name)) {

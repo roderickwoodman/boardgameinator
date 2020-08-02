@@ -37,7 +37,6 @@ export class Boardgameinator extends React.Component {
         this.totalTitleVotes = this.totalTitleVotes.bind(this)
         this.totalAttributeVotes = this.totalAttributeVotes.bind(this)
         this.getCachedGameTitles = this.getCachedGameTitles.bind(this)
-        this.getCachedGameData = this.getCachedGameData.bind(this)
         this.gameHasBeenAdded = this.gameHasBeenAdded.bind(this)
         this.gameSupportsPlayercount = this.gameSupportsPlayercount.bind(this)
         this.addGameById = this.addGameById.bind(this)
@@ -160,26 +159,6 @@ export class Boardgameinator extends React.Component {
                 }
             }
         }
-    }
-
-    getCachedGameData(name) {
-        let self = this
-        const cached = this.state.allGameData.filter(function(gamedata) {
-            if (gamedata.id === parseInt(name)) {
-                return true
-            } else if (gamedata.name === name) {
-                if (gamedata.hasOwnProperty('name_is_unique') && gamedata.name_is_unique) {
-                    return true
-                } else {
-                    let disambiguation_year = self.extractYearFromTitle(name.toString())
-                    if (gamedata.year_published === disambiguation_year) {
-                        return true
-                    }
-                }
-            } 
-            return false
-        })
-        return [cached]
     }
 
     getCachedGameTitles() {
@@ -533,7 +512,6 @@ export class Boardgameinator extends React.Component {
             <div id="content-wrapper">
                 <GameList
                     activegamedata={activeGameData} 
-                    getcachedgamedata={this.getCachedGameData}
                     cachedgametitles={cachedGameTitles}
                     onaddcachedtitle={this.onAddCachedTitle}
                     onaddnewtitle={this.onAddNewTitle}

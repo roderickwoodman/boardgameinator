@@ -370,7 +370,7 @@ export const AddGames = (props) => {
         if (message.hasOwnProperty('ambiguous')) {
             let classes = {}
             message.ambiguous.forEach(function(game) {
-                let new_classes = 'default-secondary-sytles'
+                let new_classes = 'default-secondary-styles'
                 if (disambiguousTitleIsSelected.hasOwnProperty(game.unambiguous_name) && disambiguousTitleIsSelected[game.unambiguous_name]) {
                     new_classes += ' active-button'
                 }

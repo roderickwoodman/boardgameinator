@@ -163,7 +163,7 @@ export class Boardgameinator extends React.Component {
 
     getCachedGameTitles() {
         let titles = {}, self = this
-        this.state.allGameData.filter(function(gamedata) {
+        this.state.allGameData.forEach(function(gamedata) {
             if (gamedata.hasOwnProperty('unambiguous_name')) {
                 let new_cache_info = {
                     id: gamedata.id,

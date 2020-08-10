@@ -8,8 +8,7 @@ export const AddGames = (props) => {
 
     const [ inputValue, setTextareaValue ] = useState('')
     const [ statusMessages, setStatusMessages ] = useState([])
-    const [ selectedAmbiguousTitles, setSelectedAmbiguousTitles ] = useState([]) 
-    const [ unselectedAmbiguousTitles, setUnselectedAmbiguousTitles ] = useState([]) 
+    const [ disambiguousTitleIsSelected, setDisambiguousTitleIsSelected ] = useState({}) 
 
     const withoutYear = (title) => {
         if (typeof title === 'string' && title.length) {
@@ -68,16 +67,20 @@ export const AddGames = (props) => {
         return gamedata
     }
 
-    const selectAmbiguousTitle = function (unambiguous_title) { 
+    const addUnselectedAmbiguousTitles = function (unambiguous_titles) { 
+        let new_disambiguous_title_is_selected = JSON.parse(JSON.stringify(disambiguousTitleIsSelected))
+        unambiguous_titles.forEach(function(unambiguous_title) {
+            new_disambiguous_title_is_selected[unambiguous_title] = false
+        })
+        setDisambiguousTitleIsSelected(new_disambiguous_title_is_selected)
+    }
 
-        let new_unselected_ambiguous_titles = unselectedAmbiguousTitles.filter(title => title !== unambiguous_title)
-        setUnselectedAmbiguousTitles(new_unselected_ambiguous_titles)
-
-        let new_selected_ambiguous_titles = selectedAmbiguousTitles
-        if (!selectedAmbiguousTitles.includes(unambiguous_title)) {
-            new_selected_ambiguous_titles.push(unambiguous_title)
+    const toggleAmbiguousTitleSelection = function (unambiguous_title) { 
+        if (disambiguousTitleIsSelected.hasOwnProperty(unambiguous_title)) {
+            let new_disambiguous_title_is_selected = JSON.parse(JSON.stringify(disambiguousTitleIsSelected))
+            new_disambiguous_title_is_selected[unambiguous_title] = !new_disambiguous_title_is_selected[unambiguous_title]
+            setDisambiguousTitleIsSelected(new_disambiguous_title_is_selected)
         }
-        setSelectedAmbiguousTitles(new_selected_ambiguous_titles)
     }
 
     const validateAmbiguousTitles = function (unambiguous_titles) { 
@@ -165,18 +168,16 @@ export const AddGames = (props) => {
                 })
             })
             if (Object.keys(potential_cached_titles_info).length) {
-                let new_unselected_ambiguous_titles = unselectedAmbiguousTitles
                 Object.entries(potential_cached_titles_info).forEach(function(entry) {
                     let ambiguous_arr = JSON.parse(JSON.stringify(entry[1]))
+                    let ambiguous_titles = []
                     ambiguous_arr.forEach(function(game) {
-                        new_unselected_ambiguous_titles.push(game.unambiguous_name)
+                        ambiguous_titles.push(game.unambiguous_name)
                     })
-                    // console.log('ambiguous_arr:', ambiguous_arr)
+                    addUnselectedAmbiguousTitles(ambiguous_titles) 
                     new_messages.push({ message_str: 'Which version of "'+ entry[0] + '": ', ambiguous: ambiguous_arr })
                 })
-                setUnselectedAmbiguousTitles(new_unselected_ambiguous_titles)
                 addMessages(new_messages)
-                console.log('nuat:', new_unselected_ambiguous_titles)
                 return
             }
         }
@@ -367,9 +368,17 @@ export const AddGames = (props) => {
 
     const addButton2 = (message) => {
         if (message.hasOwnProperty('ambiguous')) {
+            let classes = {}
+            message.ambiguous.forEach(function(game) {
+                let new_classes = 'default-secondary-sytles'
+                if (disambiguousTitleIsSelected.hasOwnProperty(game.unambiguous_name) && disambiguousTitleIsSelected[game.unambiguous_name]) {
+                    new_classes += ' active-button'
+                }
+                classes[game.unambiguous_name] = new_classes
+            })
             return (
                 message.ambiguous.map( disambiguation => 
-                    <button key={disambiguation.id} className="default-primary-styles" onClick={ (e) => selectAmbiguousTitle([disambiguation.unambiguous_name]) }>{disambiguation.year_published}</button>
+                    <button key={disambiguation.id} className={classes[disambiguation.unambiguous_name]} onClick={ (e) => toggleAmbiguousTitleSelection([disambiguation.unambiguous_name]) }>{disambiguation.year_published}</button>
                 )
             )
         } else {

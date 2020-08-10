@@ -8,6 +8,8 @@ export const AddGames = (props) => {
 
     const [ inputValue, setTextareaValue ] = useState('')
     const [ statusMessages, setStatusMessages ] = useState([])
+    const [ selectedAmbiguousTitles, setSelectedAmbiguousTitles ] = useState([]) 
+    const [ unselectedAmbiguousTitles, setUnselectedAmbiguousTitles ] = useState([]) 
 
     const withoutYear = (title) => {
         if (typeof title === 'string' && title.length) {
@@ -64,6 +66,18 @@ export const AddGames = (props) => {
                     gamedataApi(game.id) // query the API with the BGG game ID
         )}))
         return gamedata
+    }
+
+    const selectAmbiguousTitle = function (unambiguous_title) { 
+
+        let new_unselected_ambiguous_titles = unselectedAmbiguousTitles.filter(title => title !== unambiguous_title)
+        setUnselectedAmbiguousTitles(new_unselected_ambiguous_titles)
+
+        let new_selected_ambiguous_titles = selectedAmbiguousTitles
+        if (!selectedAmbiguousTitles.includes(unambiguous_title)) {
+            new_selected_ambiguous_titles.push(unambiguous_title)
+        }
+        setSelectedAmbiguousTitles(new_selected_ambiguous_titles)
     }
 
     const validateAmbiguousTitles = function (unambiguous_titles) { 
@@ -151,11 +165,18 @@ export const AddGames = (props) => {
                 })
             })
             if (Object.keys(potential_cached_titles_info).length) {
+                let new_unselected_ambiguous_titles = unselectedAmbiguousTitles
                 Object.entries(potential_cached_titles_info).forEach(function(entry) {
                     let ambiguous_arr = JSON.parse(JSON.stringify(entry[1]))
+                    ambiguous_arr.forEach(function(game) {
+                        new_unselected_ambiguous_titles.push(game.unambiguous_name)
+                    })
+                    // console.log('ambiguous_arr:', ambiguous_arr)
                     new_messages.push({ message_str: 'Which version of "'+ entry[0] + '": ', ambiguous: ambiguous_arr })
                 })
+                setUnselectedAmbiguousTitles(new_unselected_ambiguous_titles)
                 addMessages(new_messages)
+                console.log('nuat:', new_unselected_ambiguous_titles)
                 return
             }
         }
@@ -344,6 +365,18 @@ export const AddGames = (props) => {
         }
     }
 
+    const addButton2 = (message) => {
+        if (message.hasOwnProperty('ambiguous')) {
+            return (
+                message.ambiguous.map( disambiguation => 
+                    <button key={disambiguation.id} className="default-primary-styles" onClick={ (e) => selectAmbiguousTitle([disambiguation.unambiguous_name]) }>{disambiguation.year_published}</button>
+                )
+            )
+        } else {
+            return null
+        }
+    }
+
     return (
         <React.Fragment>
 
@@ -362,7 +395,7 @@ export const AddGames = (props) => {
                             (message, i) => {
                                 return (message.message_str.toLowerCase().startsWith("error"))
                                 ? <p key={i} className="message error">{message.message_str} {addButton(message)}</p>
-                                : <p key={i} className="message"><FontAwesomeIcon icon={faLongArrowAltRight} /> {message.message_str} {addButton(message)}</p>
+                                : <p key={i} className="message"><FontAwesomeIcon icon={faLongArrowAltRight} /> {message.message_str} {addButton(message)} {addButton2(message)}</p>
                             }
                         )
                     }

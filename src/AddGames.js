@@ -70,15 +70,34 @@ export const AddGames = (props) => {
     const addUnselectedAmbiguousTitles = function (unambiguous_titles) { 
         let new_disambiguous_title_is_selected = JSON.parse(JSON.stringify(disambiguousTitleIsSelected))
         unambiguous_titles.forEach(function(unambiguous_title) {
-            new_disambiguous_title_is_selected[unambiguous_title] = false
+            let base_name = withoutYear(unambiguous_title)
+            if (new_disambiguous_title_is_selected.hasOwnProperty(base_name)) {
+                new_disambiguous_title_is_selected[base_name][unambiguous_title] = false
+            } else {
+                let new_base_name = {}
+                new_base_name[unambiguous_title] = false
+                new_disambiguous_title_is_selected[base_name] = new_base_name
+            }
         })
         setDisambiguousTitleIsSelected(new_disambiguous_title_is_selected)
     }
 
-    const toggleAmbiguousTitleSelection = function (unambiguous_title) { 
-        if (disambiguousTitleIsSelected.hasOwnProperty(unambiguous_title)) {
-            let new_disambiguous_title_is_selected = JSON.parse(JSON.stringify(disambiguousTitleIsSelected))
-            new_disambiguous_title_is_selected[unambiguous_title] = !new_disambiguous_title_is_selected[unambiguous_title]
+    const selectUnambiguousTitle = function (unambiguous_title) { 
+        let new_disambiguous_title_is_selected = JSON.parse(JSON.stringify(disambiguousTitleIsSelected))
+        let base_name = withoutYear(unambiguous_title)
+        if (new_disambiguous_title_is_selected.hasOwnProperty(base_name)) {
+            if (new_disambiguous_title_is_selected[base_name].hasOwnProperty(unambiguous_title)) {
+                let originally_selected_title = Object.entries(new_disambiguous_title_is_selected[base_name]).filter( game => game[1] === true )
+                if (originally_selected_title[0] !== unambiguous_title) {
+                    Object.keys(new_disambiguous_title_is_selected[base_name]).forEach(function(game) {
+                        if (game === unambiguous_title) {
+                            new_disambiguous_title_is_selected[base_name][game] = true
+                        } else {
+                            new_disambiguous_title_is_selected[base_name][game] = false
+                        }
+                    })
+                }
+            }
             setDisambiguousTitleIsSelected(new_disambiguous_title_is_selected)
         }
     }
@@ -371,14 +390,17 @@ export const AddGames = (props) => {
             let classes = {}
             message.ambiguous.forEach(function(game) {
                 let new_classes = 'default-secondary-styles'
-                if (disambiguousTitleIsSelected.hasOwnProperty(game.unambiguous_name) && disambiguousTitleIsSelected[game.unambiguous_name]) {
+                let base_name = withoutYear(game.unambiguous_name)
+                if (disambiguousTitleIsSelected.hasOwnProperty(base_name)
+                    && disambiguousTitleIsSelected[base_name].hasOwnProperty(game.unambiguous_name)
+                    && disambiguousTitleIsSelected[base_name][game.unambiguous_name]) {
                     new_classes += ' active-button'
                 }
                 classes[game.unambiguous_name] = new_classes
             })
             return (
                 message.ambiguous.map( disambiguation => 
-                    <button key={disambiguation.id} className={classes[disambiguation.unambiguous_name]} onClick={ (e) => toggleAmbiguousTitleSelection([disambiguation.unambiguous_name]) }>{disambiguation.year_published}</button>
+                    <button key={disambiguation.id} className={classes[disambiguation.unambiguous_name]} onClick={ (e) => selectUnambiguousTitle(disambiguation.unambiguous_name) }>{disambiguation.year_published}</button>
                 )
             )
         } else {

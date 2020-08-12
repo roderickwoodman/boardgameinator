@@ -9,6 +9,18 @@ export const AddGames = (props) => {
     const [ inputValue, setTextareaValue ] = useState('')
     const [ statusMessages, setStatusMessages ] = useState([])
     const [ disambiguousTitleIsSelected, setDisambiguousTitleIsSelected ] = useState({}) 
+    const [ ambiguityRemains, setAmbiguityRemains ] = useState(false)
+
+    function doesAmbiguityRemain(disambiguation) {
+        let num_still_ambiguous = Object.values(disambiguation).filter(function(duplicates) {
+            if (Object.values(duplicates).includes(true)) {
+                return 0
+            } else {
+                return 1
+            }
+        }).length
+        return (num_still_ambiguous) ? true : false
+    }
 
     const withoutYear = (title) => {
         if (typeof title === 'string' && title.length) {
@@ -67,6 +79,14 @@ export const AddGames = (props) => {
         return gamedata
     }
 
+    const updateAmbiguityRemains = (disambiguation) => {
+        if (doesAmbiguityRemain(disambiguation)) {
+            setAmbiguityRemains(true)
+        } else {
+            setAmbiguityRemains(false)
+        }
+    }
+
     const addUnselectedAmbiguousTitles = function (unambiguous_titles) { 
         let new_disambiguous_title_is_selected = JSON.parse(JSON.stringify(disambiguousTitleIsSelected))
         unambiguous_titles.forEach(function(unambiguous_title) {
@@ -79,6 +99,7 @@ export const AddGames = (props) => {
                 new_disambiguous_title_is_selected[base_name] = new_base_name
             }
         })
+        updateAmbiguityRemains(new_disambiguous_title_is_selected)
         setDisambiguousTitleIsSelected(new_disambiguous_title_is_selected)
     }
 
@@ -96,9 +117,24 @@ export const AddGames = (props) => {
                             new_disambiguous_title_is_selected[base_name][game] = false
                         }
                     })
+                    updateAmbiguityRemains(new_disambiguous_title_is_selected)
+                    setDisambiguousTitleIsSelected(new_disambiguous_title_is_selected)
+                    validateAmbiguousTitles([unambiguous_title])
                 }
             }
-            setDisambiguousTitleIsSelected(new_disambiguous_title_is_selected)
+        }
+    }
+
+    const getDisambiguousTitle = function (title) {
+        if (disambiguousTitleIsSelected.hasOwnProperty(withoutYear(title))) {
+            let disambiguation = Object.entries(disambiguousTitleIsSelected[withoutYear(title)]).filter( entry => entry[1] )
+            if (disambiguation.length) {
+                return disambiguation[0]
+            } else {
+                return title
+            }
+        } else {
+            return title
         }
     }
 
@@ -119,9 +155,11 @@ export const AddGames = (props) => {
         let ambiguous_titles = []
         let to_lookup_data = []
 
+        let disambiguous_user_titles = user_titles.map( title => getDisambiguousTitle(title) )
+
         // STEP 0: Look up the title in the cache
         let all_cached_titles = Object.keys(props.cachedgametitles)
-        user_titles.forEach(function(title) {
+        disambiguous_user_titles.forEach(function(title) {
             let title_to_lookup = title
 
             // if title is an ID, use cache to convert it to an unambiguous title
@@ -263,7 +301,7 @@ export const AddGames = (props) => {
                     to_lookup_data.push(new_game_to_lookup)
                 }
                 // If no user-specified disambiguation, prompt the user for disambiguation
-                else if (!second_pass && ambiguous_titles.includes(possible_match.name)) {
+                else if (ambiguityRemains && !second_pass && ambiguous_titles.includes(possible_match.name)) {
 
                     // collect the ambiguous references for this game name
                     let new_disambiguation = {

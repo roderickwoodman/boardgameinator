@@ -271,6 +271,7 @@ export const AddGames = (props) => {
                     is_ambiguous: false
                 }
                 titles_for_api.push(new_game_to_lookup)
+                console.log('[',second_pass,']  ==> FOR API:',result[0].id)
             } else if (result.length > 1) {
                 let years_published = result.map( ambiguous_result => ambiguous_result.year_published )
                 let disambiguation_year = extractYearFromTitle(uncached_titles[idx])
@@ -312,6 +313,7 @@ export const AddGames = (props) => {
                         is_ambiguous: true
                     }
                     titles_for_api.push(new_game_to_lookup)
+                    console.log('[',second_pass,']  ==> FOR API:',possible_match.id)
                 }
                 // If no user-specified disambiguation, prompt the user for disambiguation
                 else if (ambiguityRemains && !second_pass && ambiguous_titles.includes(possible_match.name)) {
@@ -353,6 +355,7 @@ export const AddGames = (props) => {
                         is_ambiguous: true
                     }
                     titles_for_api.push(new_game_to_lookup)
+                    console.log('[',second_pass,']  ==> FOR API:',possible_match.id)
                 }
             })
             if (Object.keys(ambiguous_titles_info).length) {

@@ -151,11 +151,13 @@ export const AddGames = (props) => {
         let uncached_titles = []
         let uncached_ids = []
         let potential_cached_titles = []
-        let to_add_cached = []
+        let cached_titles = []
         let ambiguous_titles = []
-        let to_lookup_data = []
+        let titles_for_api = []
 
+        console.log('[',second_pass,'] user_titles:',user_titles)
         let disambiguous_user_titles = user_titles.map( title => getDisambiguousTitle(title) )
+        console.log('[',second_pass,'] disambiguous_user_titles:',disambiguous_user_titles)
 
         // STEP 0: Look up the title in the cache
         let all_cached_titles = Object.keys(props.cachedgametitles)
@@ -178,11 +180,14 @@ export const AddGames = (props) => {
                 if (props.cachedgametitles[title_to_lookup].active) {
                     new_messages.push({ message_str: '"' + title_to_lookup + '" was previously added'})
                 } else {
-                    to_add_cached.push(title_to_lookup)
+                    console.log('[',second_pass,']  ==> IS CACHED:',title_to_lookup)
+                    cached_titles.push(title_to_lookup)
                 }
             } else if (all_cached_titles.filter(cached_title => cached_title.includes(title)).length) {
+                console.log('[',second_pass,']  ==> marking',title,'as ambiguous')
                 potential_cached_titles.push(title)
             } else if (all_cached_titles.filter(cached_title => cached_title.includes(withoutYear(title))).length) {
+                console.log('[',second_pass,']  ==> marking',title,'as ambiguous')
                 potential_cached_titles.push(withoutYear(title))
             } else {
                 if (isNaN(title)) {
@@ -193,9 +198,11 @@ export const AddGames = (props) => {
             }
         })
 
+        console.log('[',second_pass,'] potential_cached_titles:',potential_cached_titles)
+
         // STEP 0.5: If cache-matching is uncertain, prompt the user for more information.
         if (potential_cached_titles.length === 1) {
-            let potential_cached_titles_info = {}
+            let potential_cached_titles_disambiguation = {}
             potential_cached_titles.forEach(function(potential_cached_title) {
 
                 Object.entries(props.cachedgametitles).forEach(function(cached_title) {
@@ -207,9 +214,9 @@ export const AddGames = (props) => {
                             id: cached_title[1].id,
                             year_published: cached_title[1].year_published
                         }
-                        if (potential_cached_titles_info.hasOwnProperty(cached_title[1].name)) {
-                            potential_cached_titles_info[cached_title[1].name].push(new_disambiguation)
-                            potential_cached_titles_info[cached_title[1].name] = potential_cached_titles_info[cached_title[1].name].sort(function(a,b) {
+                        if (potential_cached_titles_disambiguation.hasOwnProperty(cached_title[1].name)) {
+                            potential_cached_titles_disambiguation[cached_title[1].name].push(new_disambiguation)
+                            potential_cached_titles_disambiguation[cached_title[1].name] = potential_cached_titles_disambiguation[cached_title[1].name].sort(function(a,b) {
                                 if (a.year_published < b.year_published) {
                                     return -1
                                 } else if (a.year_published > b.year_published) {
@@ -219,16 +226,19 @@ export const AddGames = (props) => {
                                 }
                             })
                         } else {
-                            potential_cached_titles_info[cached_title[1].name] = [new_disambiguation]
+                            potential_cached_titles_disambiguation[cached_title[1].name] = [new_disambiguation]
                         }
                     }
                 })
             })
-            if (Object.keys(potential_cached_titles_info).length) {
-                Object.entries(potential_cached_titles_info).forEach(function(entry) {
+            console.log('[',second_pass,'] potential_cached_titles_disambiguation:',potential_cached_titles_disambiguation)
+            if (Object.keys(potential_cached_titles_disambiguation).length) {
+                Object.entries(potential_cached_titles_disambiguation).forEach(function(entry) {
                     let ambiguous_arr = JSON.parse(JSON.stringify(entry[1]))
                     let ambiguous_titles = []
+                    console.log('[',second_pass,']  ==> IS AMBIGUOUS:',entry[0])
                     ambiguous_arr.forEach(function(game) {
+                        console.log('[',second_pass,']  ==> adding',game.unambiguous_name,'as unselected ambiguous title')
                         ambiguous_titles.push(game.unambiguous_name)
                     })
                     addUnselectedAmbiguousTitles(ambiguous_titles) 
@@ -239,6 +249,8 @@ export const AddGames = (props) => {
             }
         }
 
+        console.log('[',second_pass,'] ambiguous_titles:',ambiguous_titles)
+        console.log('[',second_pass,'] uncached_ids:',uncached_ids)
         // STEP 1 API: If uncached IDs were submitted instead of titles, use BGG non-exact search API to convert IDs into titles.
         const searchresults_for_ids = await getNonexactSearchResults(uncached_ids)
         if (searchresults_for_ids.length === 1) {
@@ -249,6 +261,7 @@ export const AddGames = (props) => {
             })
         }
 
+        console.log('[',second_pass,'] uncached_titles:',uncached_titles)
         // STEP 2 API: Use BGG exact search API to determine the unique titles.
         const searchresults_for_uncached = await getExactSearchResults(uncached_titles)
         searchresults_for_uncached.forEach(function(result,idx) {
@@ -257,7 +270,7 @@ export const AddGames = (props) => {
                     id: result[0].id,
                     is_ambiguous: false
                 }
-                to_lookup_data.push(new_game_to_lookup)
+                titles_for_api.push(new_game_to_lookup)
             } else if (result.length > 1) {
                 let years_published = result.map( ambiguous_result => ambiguous_result.year_published )
                 let disambiguation_year = extractYearFromTitle(uncached_titles[idx])
@@ -298,7 +311,7 @@ export const AddGames = (props) => {
                         id: possible_match.id,
                         is_ambiguous: true
                     }
-                    to_lookup_data.push(new_game_to_lookup)
+                    titles_for_api.push(new_game_to_lookup)
                 }
                 // If no user-specified disambiguation, prompt the user for disambiguation
                 else if (ambiguityRemains && !second_pass && ambiguous_titles.includes(possible_match.name)) {
@@ -339,7 +352,7 @@ export const AddGames = (props) => {
                         id: possible_match.id,
                         is_ambiguous: true
                     }
-                    to_lookup_data.push(new_game_to_lookup)
+                    titles_for_api.push(new_game_to_lookup)
                 }
             })
             if (Object.keys(ambiguous_titles_info).length) {
@@ -352,12 +365,14 @@ export const AddGames = (props) => {
             }
         }
 
+        console.log('[',second_pass,'] cached_titles:',cached_titles)
+        console.log('[',second_pass,'] titles_for_api:',titles_for_api)
         // STEP 4 API: For each ID collected from previous API results, use BGG game data API to get all of the game-specific details.
-        const gamedata_results = await getGamedataResults(to_lookup_data)
+        const gamedata_results = await getGamedataResults(titles_for_api)
 
         // All APIs are done. Now integrate the game data with this app.
 
-        to_add_cached.forEach(function(title) {
+        cached_titles.forEach(function(title) {
             props.onaddcachedtitle(title)
         })
 

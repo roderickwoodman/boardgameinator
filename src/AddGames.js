@@ -434,18 +434,6 @@ export const AddGames = (props) => {
 
     const addButton = (message) => {
         if (message.hasOwnProperty('ambiguous')) {
-            return (
-                message.ambiguous.map( disambiguation => 
-                    <button key={disambiguation.id} className="default-primary-styles" onClick={ (e) => validateAmbiguousTitles([disambiguation.unambiguous_name]) }>{disambiguation.year_published}</button>
-                )
-            )
-        } else {
-            return null
-        }
-    }
-
-    const addButton2 = (message) => {
-        if (message.hasOwnProperty('ambiguous')) {
             let classes = {}
             message.ambiguous.forEach(function(game) {
                 let new_classes = 'default-secondary-styles'
@@ -485,7 +473,7 @@ export const AddGames = (props) => {
                             (message, i) => {
                                 return (message.message_str.toLowerCase().startsWith("error"))
                                 ? <p key={i} className="message error">{message.message_str} {addButton(message)}</p>
-                                : <p key={i} className="message"><FontAwesomeIcon icon={faLongArrowAltRight} /> {message.message_str} {addButton(message)} {addButton2(message)}</p>
+                                : <p key={i} className="message"><FontAwesomeIcon icon={faLongArrowAltRight} /> {message.message_str} {addButton(message)}</p>
                             }
                         )
                     }

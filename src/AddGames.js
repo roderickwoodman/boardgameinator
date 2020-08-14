@@ -156,9 +156,9 @@ export const AddGames = (props) => {
         let ambiguous_titles = []
         let titles_for_api = []
 
-        console.log('[',second_pass,'] user_titles:',user_titles)
+        // console.log('[',second_pass,'] user_titles:',user_titles)
         let disambiguous_user_titles = user_titles.map( title => getDisambiguousTitle(title) )
-        console.log('[',second_pass,'] disambiguous_user_titles:',disambiguous_user_titles)
+        // console.log('[',second_pass,'] disambiguous_user_titles:',disambiguous_user_titles)
 
         // STEP 0: Look up the title in the cache
         let all_cached_titles = Object.keys(props.cachedgametitles)
@@ -181,14 +181,14 @@ export const AddGames = (props) => {
                 if (props.cachedgametitles[title_to_lookup].active) {
                     new_messages.push({ message_str: '"' + title_to_lookup + '" was previously added'})
                 } else {
-                    console.log('[',second_pass,']  ==> IS CACHED:',title_to_lookup)
+                    // console.log('[',second_pass,']  ==> IS CACHED:',title_to_lookup)
                     cached_titles.push(title_to_lookup)
                 }
             } else if (all_cached_titles.filter(cached_title => cached_title.includes(title)).length) {
-                console.log('[',second_pass,']  ==> marking',title,'as ambiguous')
+                // console.log('[',second_pass,']  ==> marking',title,'as ambiguous')
                 potential_cached_titles.push(title)
             } else if (all_cached_titles.filter(cached_title => cached_title.includes(withoutYear(title))).length) {
-                console.log('[',second_pass,']  ==> marking',title,'as ambiguous')
+                // console.log('[',second_pass,']  ==> marking',title,'as ambiguous')
                 potential_cached_titles.push(withoutYear(title))
             } else {
                 if (isNaN(title)) {
@@ -199,7 +199,7 @@ export const AddGames = (props) => {
             }
         })
 
-        console.log('[',second_pass,'] potential_cached_titles:',potential_cached_titles)
+        // console.log('[',second_pass,'] potential_cached_titles:',potential_cached_titles)
 
         // STEP 0.5: If cache-matching is uncertain, prompt the user for more information.
         if (potential_cached_titles.length === 1) {
@@ -232,25 +232,25 @@ export const AddGames = (props) => {
                     }
                 })
             })
-            console.log('[',second_pass,'] potential_cached_titles_disambiguation:',potential_cached_titles_disambiguation)
+            // console.log('[',second_pass,'] potential_cached_titles_disambiguation:',potential_cached_titles_disambiguation)
             if (Object.keys(potential_cached_titles_disambiguation).length) {
                 Object.entries(potential_cached_titles_disambiguation).forEach(function(entry) {
                     let ambiguous_arr = JSON.parse(JSON.stringify(entry[1]))
                     let ambiguous_titles = []
-                    console.log('[',second_pass,']  ==> IS AMBIGUOUS:',entry[0])
+                    // console.log('[',second_pass,']  ==> IS AMBIGUOUS:',entry[0])
                     ambiguous_arr.forEach(function(game) {
-                        console.log('[',second_pass,']  ==> adding',game.unambiguous_name,'as unselected ambiguous title')
+                        // console.log('[',second_pass,']  ==> adding',game.unambiguous_name,'as unselected ambiguous title')
                         ambiguous_titles.push(game.unambiguous_name)
                     })
                     addUnselectedAmbiguousTitles(ambiguous_titles) 
-                    new_messages.push({ message_str: 'Which version of "'+ entry[0] + '": ', ambiguous: ambiguous_arr })
+                    new_messages.push({ message_str: 'A Which version of "'+ entry[0] + '": ', ambiguous: ambiguous_arr })
                 })
                 addMessages(new_messages)
                 return
             }
         }
 
-        console.log('[',second_pass,'] uncached_ids:',uncached_ids)
+        // console.log('[',second_pass,'] uncached_ids:',uncached_ids)
         // STEP 1 API: If uncached IDs were submitted instead of titles, use BGG non-exact search API to convert IDs into titles.
         const searchresults_for_ids = await getNonexactSearchResults(uncached_ids)
         if (searchresults_for_ids.length === 1) {
@@ -261,7 +261,7 @@ export const AddGames = (props) => {
             })
         }
 
-        console.log('[',second_pass,'] uncached_titles:',uncached_titles)
+        // console.log('[',second_pass,'] uncached_titles:',uncached_titles)
         // STEP 2 API: Use BGG exact search API to determine the unique titles.
         const searchresults_for_uncached = await getExactSearchResults(uncached_titles)
         searchresults_for_uncached.forEach(function(result,idx) {
@@ -271,16 +271,16 @@ export const AddGames = (props) => {
                     is_ambiguous: false
                 }
                 titles_for_api.push(new_game_to_lookup)
-                console.log('[',second_pass,']  ==> FOR API:',result[0].id, result[0].name)
+                // console.log('[',second_pass,']  ==> FOR API:',result[0].id, result[0].name)
             } else if (result.length > 1) {
                 let years_published = result.map( ambiguous_result => ambiguous_result.year_published )
                 let disambiguation_year = extractYearFromTitle(uncached_titles[idx])
                 if (years_published.includes(parseInt(disambiguation_year))) {
                     ambiguous_titles.push(uncached_titles[idx])
-                    console.log('[',second_pass,']  ==> IS AMBIGUOUS:',uncached_titles[idx])
+                    // console.log('[',second_pass,']  ==> IS AMBIGUOUS:',uncached_titles[idx])
                 } else {
                     ambiguous_titles.push(withoutYear(uncached_titles[idx])) // the given year was wrong, so strike the yeear input
-                    console.log('[',second_pass,']  ==> IS AMBIGUOUS:',withoutYear(uncached_titles[idx]))
+                    // console.log('[',second_pass,']  ==> IS AMBIGUOUS:',withoutYear(uncached_titles[idx]))
                 }
             } else if (!result.length) {
                 new_messages.push({ message_str: 'ERROR: "' + uncached_titles[idx] + '" was not found in the BGG database'})
@@ -289,90 +289,96 @@ export const AddGames = (props) => {
             }
         })
 
-        console.log('[',second_pass,'] ambiguous_titles:',ambiguous_titles)
+        // console.log('[',second_pass,'] ambiguous_titles:',ambiguous_titles)
         // STEP 3 API: If unresolved titles remain, use BGG non-exact search API to determine the potential (ambiguous) titles.
         const searchresults_for_ambiguous = await getNonexactSearchResults(ambiguous_titles)
         let ambiguous_titles_info = {}
-        if (searchresults_for_ambiguous.length === 1) {
-            let titles_given_with_disambiguation = ambiguous_titles.filter( title => title !== withoutYear(title) ).map( title => withoutYear(title) )
-            let disambiguation_was_given = {}
+        // console.log('searchresults_for_ambiguous:', searchresults_for_ambiguous)
+        if (searchresults_for_ambiguous.length) {
+            searchresults_for_ambiguous.forEach(function(per_title_results) {
+                let titles_given_with_disambiguation = ambiguous_titles.filter( title => title !== withoutYear(title) ).map( title => withoutYear(title) )
+                let disambiguation_was_given = {}
 
-            // identify any titles where disambiguation was given by the user
-            searchresults_for_ambiguous[0].forEach(function(possible_match) {
-                if (titles_given_with_disambiguation.includes(possible_match.name)) {
-                    const unambiguous_name_from_results = possible_match.name + ' (' + possible_match.year_published + ')'
-                    if (ambiguous_titles.includes(unambiguous_name_from_results)) {
-                        disambiguation_was_given[possible_match.name] = true
+                // identify any titles where disambiguation was given by the user
+                per_title_results.forEach(function(possible_match) {
+                    if (titles_given_with_disambiguation.includes(possible_match.name)) {
+                        const unambiguous_name_from_results = possible_match.name + ' (' + possible_match.year_published + ')'
+                        if (ambiguous_titles.includes(unambiguous_name_from_results)) {
+                            disambiguation_was_given[possible_match.name] = true
+                        }
                     }
-                }
-            })
+                })
 
-            searchresults_for_ambiguous[0].forEach(function(possible_match) {
+                per_title_results.forEach(function(possible_match) {
 
-                if (disambiguation_was_given.hasOwnProperty(possible_match.name)) {
-                    // look up data for this game ID
-                    let new_game_to_lookup = {
-                        id: possible_match.id,
-                        is_ambiguous: true
+                    if (disambiguation_was_given.hasOwnProperty(possible_match.name)) {
+                        // look up data for this game ID
+                        let new_game_to_lookup = {
+                            id: possible_match.id,
+                            is_ambiguous: true
+                        }
+                        titles_for_api.push(new_game_to_lookup)
+                        // console.log('[',second_pass,']  ==> FOR API:',possible_match.id,'Name:',possible_match.name)
                     }
-                    titles_for_api.push(new_game_to_lookup)
-                    console.log('[',second_pass,']  ==> FOR API:',possible_match.id,'Name:',possible_match.name)
-                }
-                // If no user-specified disambiguation, prompt the user for disambiguation
-                else if (!second_pass && ambiguityRemains && ambiguous_titles.includes(possible_match.name))  {
+                    // If no user-specified disambiguation, prompt the user for disambiguation
+                    else if (!second_pass && ambiguityRemains && ambiguous_titles.includes(possible_match.name))  {
 
-                    // collect the ambiguous references for this game name
-                    let new_disambiguation = {
-                        name: possible_match.name,
-                        unambiguous_name: possible_match.name + ' (' + possible_match.year_published + ')',
-                        id: possible_match.id,
-                        year_published: possible_match.year_published
-                    }
-                    if (ambiguous_titles_info.hasOwnProperty(possible_match.name)) {
-                        ambiguous_titles_info[possible_match.name].push(new_disambiguation)
-                        ambiguous_titles_info[possible_match.name] = ambiguous_titles_info[possible_match.name].sort(function(a,b) {
-                            if (a.year_published < b.year_published) {
-                                return -1
-                            } else if (a.year_published > b.year_published) {
-                                return 1
-                            } else {
-                                return 0
-                            }
-                        })
-                    } else {
-                        ambiguous_titles_info[possible_match.name] = [new_disambiguation]
-                    }
-                    if (!ambiguous_titles_info.hasOwnProperty(possible_match.name)) {
+                        // collect the ambiguous references for this game name
                         let new_disambiguation = {
                             name: possible_match.name,
                             unambiguous_name: possible_match.name + ' (' + possible_match.year_published + ')',
                             id: possible_match.id,
                             year_published: possible_match.year_published
                         }
-                        ambiguous_titles_info[possible_match.name].push(new_disambiguation)
-                    }
+                        if (ambiguous_titles_info.hasOwnProperty(possible_match.name)) {
+                            ambiguous_titles_info[possible_match.name].push(new_disambiguation)
+                            ambiguous_titles_info[possible_match.name] = ambiguous_titles_info[possible_match.name].sort(function(a,b) {
+                                if (a.year_published < b.year_published) {
+                                    return -1
+                                } else if (a.year_published > b.year_published) {
+                                    return 1
+                                } else {
+                                    return 0
+                                }
+                            })
+                        } else {
+                            ambiguous_titles_info[possible_match.name] = [new_disambiguation]
+                        }
+                        if (!ambiguous_titles_info.hasOwnProperty(possible_match.name)) {
+                            let new_disambiguation = {
+                                name: possible_match.name,
+                                unambiguous_name: possible_match.name + ' (' + possible_match.year_published + ')',
+                                id: possible_match.id,
+                                year_published: possible_match.year_published
+                            }
+                            ambiguous_titles_info[possible_match.name].push(new_disambiguation)
+                        }
 
-                    // look up data for this game ID
-                    let new_game_to_lookup = {
-                        id: possible_match.id,
-                        is_ambiguous: true
+                        // look up data for this game ID
+                        let new_game_to_lookup = {
+                            id: possible_match.id,
+                            is_ambiguous: true
+                        }
+                        titles_for_api.push(new_game_to_lookup)
+                        // console.log('[',second_pass,']  ==> FOR API:',possible_match.id,'Name:',possible_match.name)
                     }
-                    titles_for_api.push(new_game_to_lookup)
-                    console.log('[',second_pass,']  ==> FOR API:',possible_match.id,'Name:',possible_match.name)
+                })
+                // console.log('ambiguous_titles_info:',ambiguous_titles_info)
+                let title_disambiguation = Object.entries(ambiguous_titles_info)
+                if (title_disambiguation.length) {
+                    // console.log('ambiguous_titles_info does have some keys')
+                    Object.entries(ambiguous_titles_info).forEach(function(entry) {
+                        let ambiguous_arr = JSON.parse(JSON.stringify(entry[1]))
+                        new_messages.push({ message_str: 'B Which version of "'+ entry[0] + '": ', ambiguous: ambiguous_arr })
+                    })
+                    addMessages(new_messages)
+                    return
                 }
             })
-            if (Object.keys(ambiguous_titles_info).length) {
-                Object.entries(ambiguous_titles_info).forEach(function(entry) {
-                    let ambiguous_arr = JSON.parse(JSON.stringify(entry[1]))
-                    new_messages.push({ message_str: 'Which version of "'+ entry[0] + '": ', ambiguous: ambiguous_arr })
-                })
-                addMessages(new_messages)
-                return
-            }
         }
 
-        console.log('[',second_pass,'] cached_titles:',cached_titles)
-        console.log('[',second_pass,'] titles_for_api:',titles_for_api)
+        // console.log('[',second_pass,'] cached_titles:',cached_titles)
+        // console.log('[',second_pass,'] titles_for_api:',titles_for_api)
         // STEP 4 API: For each ID collected from previous API results, use BGG game data API to get all of the game-specific details.
         const gamedata_results = await getGamedataResults(titles_for_api)
 

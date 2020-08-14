@@ -9,7 +9,7 @@ export const AddGames = (props) => {
     const [ inputValue, setTextareaValue ] = useState('')
     const [ statusMessages, setStatusMessages ] = useState([])
     const [ disambiguousTitleIsSelected, setDisambiguousTitleIsSelected ] = useState({}) 
-    const [ ambiguityRemains, setAmbiguityRemains ] = useState(false)
+    const [ ambiguityRemains, setAmbiguityRemains ] = useState(true)
 
     function doesAmbiguityRemain(disambiguation) {
         let num_still_ambiguous = Object.values(disambiguation).filter(function(duplicates) {
@@ -123,6 +123,7 @@ export const AddGames = (props) => {
                 }
             }
         }
+        validateAmbiguousTitles([unambiguous_title])
     }
 
     const getDisambiguousTitle = function (title) {
@@ -249,7 +250,6 @@ export const AddGames = (props) => {
             }
         }
 
-        console.log('[',second_pass,'] ambiguous_titles:',ambiguous_titles)
         console.log('[',second_pass,'] uncached_ids:',uncached_ids)
         // STEP 1 API: If uncached IDs were submitted instead of titles, use BGG non-exact search API to convert IDs into titles.
         const searchresults_for_ids = await getNonexactSearchResults(uncached_ids)
@@ -271,14 +271,16 @@ export const AddGames = (props) => {
                     is_ambiguous: false
                 }
                 titles_for_api.push(new_game_to_lookup)
-                console.log('[',second_pass,']  ==> FOR API:',result[0].id)
+                console.log('[',second_pass,']  ==> FOR API:',result[0].id, result[0].name)
             } else if (result.length > 1) {
                 let years_published = result.map( ambiguous_result => ambiguous_result.year_published )
                 let disambiguation_year = extractYearFromTitle(uncached_titles[idx])
                 if (years_published.includes(parseInt(disambiguation_year))) {
                     ambiguous_titles.push(uncached_titles[idx])
+                    console.log('[',second_pass,']  ==> IS AMBIGUOUS:',uncached_titles[idx])
                 } else {
                     ambiguous_titles.push(withoutYear(uncached_titles[idx])) // the given year was wrong, so strike the yeear input
+                    console.log('[',second_pass,']  ==> IS AMBIGUOUS:',withoutYear(uncached_titles[idx]))
                 }
             } else if (!result.length) {
                 new_messages.push({ message_str: 'ERROR: "' + uncached_titles[idx] + '" was not found in the BGG database'})
@@ -287,6 +289,7 @@ export const AddGames = (props) => {
             }
         })
 
+        console.log('[',second_pass,'] ambiguous_titles:',ambiguous_titles)
         // STEP 3 API: If unresolved titles remain, use BGG non-exact search API to determine the potential (ambiguous) titles.
         const searchresults_for_ambiguous = await getNonexactSearchResults(ambiguous_titles)
         let ambiguous_titles_info = {}
@@ -313,10 +316,10 @@ export const AddGames = (props) => {
                         is_ambiguous: true
                     }
                     titles_for_api.push(new_game_to_lookup)
-                    console.log('[',second_pass,']  ==> FOR API:',possible_match.id)
+                    console.log('[',second_pass,']  ==> FOR API:',possible_match.id,'Name:',possible_match.name)
                 }
                 // If no user-specified disambiguation, prompt the user for disambiguation
-                else if (ambiguityRemains && !second_pass && ambiguous_titles.includes(possible_match.name)) {
+                else if (!second_pass && ambiguityRemains && ambiguous_titles.includes(possible_match.name))  {
 
                     // collect the ambiguous references for this game name
                     let new_disambiguation = {
@@ -355,7 +358,7 @@ export const AddGames = (props) => {
                         is_ambiguous: true
                     }
                     titles_for_api.push(new_game_to_lookup)
-                    console.log('[',second_pass,']  ==> FOR API:',possible_match.id)
+                    console.log('[',second_pass,']  ==> FOR API:',possible_match.id,'Name:',possible_match.name)
                 }
             })
             if (Object.keys(ambiguous_titles_info).length) {

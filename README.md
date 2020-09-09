@@ -7,27 +7,29 @@
 
 Behold, the **BOARDGAMEINATOR**!  (...said in my best [Dr. Doofenshmirtz](https://www.youtube.com/watch?v=Sj7yxI-r_ag) accent)
 
-This app is a sandbox for users to prioritize a list of boardgames that they are considering playing or purchasing. Users add the names of games to this site, and immediately the app returns some data about each of them that can be upvoted. Any characteristic (for example, the theme or the player count) from any game that has been added to this site can be upvoted. And the games that get the most votes are displayed the most prominently. Simple.
+This app is a sandbox for users to prioritize a list of board games that they are considering playing or purchasing. 
+
+Any board game that has been added to this site can be upvoted. Any characteristic of these games (for example, the theme or the player count) can be upvoted too. And the games that get the most votes are displayed the most prominently. Simple.
 
 ### Who is it for?
 
 First of all, **Boardgameinator** IS NOT FOR geeks to manage their huge collections.
 
-Instead, this app IS FOR anyone who feels overwhelmed or who has stalled out in selecting a boardgame. And with so many new titles and all of the hype these days, I do feel your pain.
+Instead, this app IS FOR regular people who need help in selecting a board game. No BoardGameGeek account is needed. And with so many new titles and all of the hype these days, this is a common problem to have.
 
 ### What do I do with it?
 
-It is easy to build and upvote a list of board games. Added games will show up as a row of game cards, and their tallied upvotes will show up as an overlay on top of their thumbnail image.
-1. Click the "Add" button to add a board game or two by their titles. 
-2. Click the info button on a game card to get a brief description about a game.
-3. Optionally, click the "Vote Attributes" button to upvote an attribute across all games.
-4. Once you think that you might like a game, click its thumbnail or the "Vote Titles" button to upvote the game itself.
+It is easy to build and upvote a list of board games.
+1. **Add.** Click the "Add" button to add a board game by its title. 
+2. **Learn.** Click the info button on a game card to get a brief description about a game.
+3. **Upvote Attributes.** Click the "Vote Attributes" button to upvote an attribute across all games.
+4. **Upvote Games.** Once you think that you might like a game, click its thumbnail or the "Vote Titles" button to upvote the game itself.
 
 ### Why is it so awesome?
 
-The likability of any board game is so subjective and multifactorial, in the same way that a novel is. And unfortunately, the primary online  resource for the board game industry is a firehose of information called [BoardGameGeek](https://boardgamegeek.com) (BGG). But be very careful with even your most shallow research attempts. The BGG interface is very dense, and because it is organized like an encyclopedia, it forces you to focus on one game at a time.
+The likability of any board game is so subjective and multifactorial, in the same way that a novel is. And the primary online resource for the board game industry, [BoardGameGeek](https://boardgamegeek.com) (BGG), is a firehose of information that is organized like an encyclopedia. It forces you to focus on one game at a time.
 
-**Boardgameinator**, however, is a user-driven comparison tool that filters through those mountains of BGG data in a visually side-by-side fashion. There is no information overload, and simple mouse clicks either promote or eliminate games. It feels like driving a light e-commerce shopping experience as you converge on what you kinda-sorta knew what you wanted all along.
+**Boardgameinator**, though, is a user-driven comparison tool that displays select information in a visually side-by-side fashion, and allows users to either promote or eliminate games. It feels like driving a light e-commerce shopping experience as you converge on what is most in agreement with your selections.
 
 ### What is it doing under the hood?
 

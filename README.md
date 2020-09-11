@@ -9,13 +9,13 @@ Behold, the **BOARDGAMEINATOR**!  (...said in my best [Dr. Doofenshmirtz](https:
 
 This app is a sandbox for users to prioritize a list of board games that they are considering playing or purchasing. 
 
-Any board game that has been added to this site can be upvoted. Any characteristic of these games (for example, the theme or the player count) can be upvoted too. And the games that get the most votes are displayed the most prominently. Simple.
+Any board game that has been added to this site can be upvoted. And any characteristic of these games, like the theme or the player count for example, can be upvoted too. Then, the games that get the most votes are displayed the most prominently.
 
 ### Who is it for?
 
-First of all, **Boardgameinator** IS NOT FOR geeks to manage their huge collections.
+First of all, **Boardgameinator** IS NOT FOR geeks to manage their huge collections. It is not for people who spend any amount of time on [BoardGameGeek](https://boardgamegeek.com).
 
-Instead, this app IS FOR regular people who need help in selecting a board game. No BoardGameGeek account is needed. And with so many new titles and all of the hype these days, this is a common problem to have.
+Instead, this app IS FOR regular people who need help in selecting a board game. This can be a common problem these days, with so many new titles and all of the hype in the industry.
 
 ### What do I do with it?
 
@@ -23,17 +23,19 @@ It is easy to build and upvote a list of board games.
 1. **Add.** Click the "Add" button to add a board game by its title. 
 2. **Learn.** Click the info button on a game card to get a brief description about a game.
 3. **Upvote Attributes.** Click the "Vote Attributes" button to upvote an attribute across all games.
-4. **Upvote Games.** Once you think that you might like a game, click its thumbnail or the "Vote Titles" button to upvote the game itself.
+4. **Upvote Games.** Click its thumbnail or the "Vote Titles" button to upvote the game itself.
+
+Vote counts will appear overlayed on top of the game box art thumbnail, and the game list will be sorted and filtered according to the settings within the user preferences panel.
 
 ### Why is it so awesome?
 
-The likability of any board game is so subjective and multifactorial, in the same way that a novel is. And the primary online resource for the board game industry, [BoardGameGeek](https://boardgamegeek.com) (BGG), is a firehose of information that is organized like an encyclopedia. It forces you to focus on one game at a time.
+The likability of any board game is so subjective and multifactorial, in the same way that a novel is. But the primary online resource for the board game industry, [BoardGameGeek](https://boardgamegeek.com) (BGG), forces you to focus on one game at a time because it is organized like an encyclopedia.
 
-**Boardgameinator**, though, is a user-driven comparison tool that displays select information in a visually side-by-side fashion, and allows users to either promote or eliminate games. It feels like driving a light e-commerce shopping experience as you converge on what is most in agreement with your selections.
+**Boardgameinator**, however, is a user-driven comparison tool that displays information side-by-side, allowing users to either promote or eliminate games. It feels like driving a light e-commerce shopping experience as you converge on what is most in agreement with your preferences.
 
 ### What is it doing under the hood?
 
-Game data is pulled from [the BoardGameGeek API](https://boardgamegeek.com/wiki/page/BGG_XML_API2). All data is stored locally in the user's browser data area (aka: "local storage"). There are no user sessions or sensitive data for this application.
+Game data is pulled from [the BoardGameGeek API](https://boardgamegeek.com/wiki/page/BGG_XML_API2). All data is stored locally within the user's browser (aka: "local storage"). There are no user sessions or sensitive data for this application.
 
 ### DISCLAIMER
 

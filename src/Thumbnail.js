@@ -29,7 +29,7 @@ export const Thumbnail = (props) => {
     }
 
     const printAttributeTally = () => {
-        if (props.allthumbs.total_attribute_votes) {
+        if (props.allthumbs.total_attribute_votes && props.thumbcounts.attributes) {
             return (
                 <span className="vote-count-label">& {props.thumbcounts.attributes} {getAttributeCountLabel(props.thumbcounts.attributes)}</span>
             )

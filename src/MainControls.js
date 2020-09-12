@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { AddGames } from './AddGames'
 import { VoteAttributes } from './VoteAttributes'
 import { VoteTitles } from './VoteTitles'
+import { ImportPoll } from './ImportPoll'
 import Modal from 'react-bootstrap/Modal'
 import ModalBody from 'react-bootstrap/ModalBody'
 import ModalFooter from 'react-bootstrap/ModalFooter'
@@ -16,10 +17,12 @@ export const MainControls = (props) => {
     const [addIsOpen, setAddIsOpen] = useState(false)
     const [voteAttributesIsOpen, setVoteAttributesIsOpen] = useState(false)
     const [voteTitlesIsOpen, setVoteTitlesIsOpen] = useState(false)
+    const [importPollIsOpen, setImportPollIsOpen] = useState(false)
 
     const showAddModal = () => {
         setVoteAttributesIsOpen(false)
         setVoteTitlesIsOpen(false)
+        setImportPollIsOpen(false)
         setAddIsOpen(true)
     }
 
@@ -30,6 +33,7 @@ export const MainControls = (props) => {
     const showVoteAttributesModal = () => {
         setAddIsOpen(false)
         setVoteTitlesIsOpen(false)
+        setImportPollIsOpen(false)
         setVoteAttributesIsOpen(true)
     }
 
@@ -40,11 +44,23 @@ export const MainControls = (props) => {
     const showVoteTitlesModal = () => {
         setAddIsOpen(false)
         setVoteAttributesIsOpen(false)
+        setImportPollIsOpen(false)
         setVoteTitlesIsOpen(true)
     }
 
     const hideVoteTitlesModal = () => {
         setVoteTitlesIsOpen(false)
+    }
+
+    const showImportPollModal = () => {
+        setAddIsOpen(false)
+        setVoteAttributesIsOpen(false)
+        setVoteTitlesIsOpen(false)
+        setImportPollIsOpen(true)
+    }
+
+    const hideImportPollModal = () => {
+        setImportPollIsOpen(false)
     }
 
     useEffect( () => {
@@ -134,6 +150,18 @@ export const MainControls = (props) => {
                     <button className="default-danger-styles" onClick={props.ondeleteall} disabled={props.activegamedata.length===0}>Remove All Games</button>
                     <button className="default-danger-styles" data-attrtype="all_titles" onClick={props.onclearsectionvotes} disabled={num_title_votes===0}>Remove All Votes</button>
                     <button className="default-primary-styles" onClick={hideVoteTitlesModal}>Close</button>
+                </ModalFooter>
+            </Modal>
+
+            <button className="default-primary-styles" onClick={showImportPollModal}>Import Poll</button>
+            <Modal size="md" show={importPollIsOpen} onHide={hideImportPollModal}>
+                <ModalBody>
+                    <div id="poll-import-controls">
+                        <ImportPoll />
+                    </div>
+                </ModalBody>
+                <ModalFooter> 
+                    <button className="default-primary-styles" onClick={hideImportPollModal}>Close</button>
                 </ModalFooter>
             </Modal>
 

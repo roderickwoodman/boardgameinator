@@ -119,22 +119,6 @@ export const MainControls = (props) => {
                 </ModalFooter>
             </Modal>
 
-            <button className="default-primary-styles" onClick={showVoteAttributesModal}>Vote Attributes</button>
-            <Modal size="md" show={voteAttributesIsOpen} onHide={hideVoteAttributesModal}>
-                <ModalBody>
-                    <div id="attribute-voting-controls">
-                        <VoteAttributes 
-                            activegamedata={props.activegamedata}
-                            attrthumbs={props.allthumbs.attributes} 
-                            onnewvote={props.onnewvote} />
-                    </div>
-                </ModalBody>
-                <ModalFooter> 
-                    <button className="default-danger-styles" data-attrtype="all_attributes" onClick={props.onclearsectionvotes} disabled={num_attr_votes===0}>Remove All Votes</button>
-                    <button className="default-primary-styles" onClick={hideVoteAttributesModal}>Close</button>
-                </ModalFooter>
-            </Modal>
-
             <button className="default-primary-styles" onClick={showVoteTitlesModal}>Vote Games</button>
             <Modal size="md" show={voteTitlesIsOpen} onHide={hideVoteTitlesModal}>
                 <ModalBody>
@@ -150,6 +134,22 @@ export const MainControls = (props) => {
                     <button className="default-danger-styles" onClick={props.ondeleteall} disabled={props.activegamedata.length===0}>Remove All Games</button>
                     <button className="default-danger-styles" data-attrtype="all_titles" onClick={props.onclearsectionvotes} disabled={num_title_votes===0}>Remove All Votes</button>
                     <button className="default-primary-styles" onClick={hideVoteTitlesModal}>Close</button>
+                </ModalFooter>
+            </Modal>
+
+            <button className="default-primary-styles" onClick={showVoteAttributesModal}>Vote Attributes</button>
+            <Modal size="md" show={voteAttributesIsOpen} onHide={hideVoteAttributesModal}>
+                <ModalBody>
+                    <div id="attribute-voting-controls">
+                        <VoteAttributes 
+                            activegamedata={props.activegamedata}
+                            attrthumbs={props.allthumbs.attributes} 
+                            onnewvote={props.onnewvote} />
+                    </div>
+                </ModalBody>
+                <ModalFooter> 
+                    <button className="default-danger-styles" data-attrtype="all_attributes" onClick={props.onclearsectionvotes} disabled={num_attr_votes===0}>Remove All Votes</button>
+                    <button className="default-primary-styles" onClick={hideVoteAttributesModal}>Close</button>
                 </ModalFooter>
             </Modal>
 

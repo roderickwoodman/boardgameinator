@@ -30,6 +30,8 @@ const hardcoded_polls = [
                 },
                 'Wingspan': {
                     'Wesley': 'thumbsup',
+                },
+                'Flamme Rouge': {
                 }
             },
             total_title_votes: 4
@@ -46,7 +48,7 @@ export const ImportPoll = (props) => {
         { hardcoded_polls
             .map( (poll,i) => {
                 return (
-                    <li>{poll.name}</li>
+                    <li>{poll.name} ({Object.keys(poll.pollThumbs.titles).length} games, {poll.pollThumbs.total_title_votes} votes)</li>
                 )
             })
         }

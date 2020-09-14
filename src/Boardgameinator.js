@@ -418,7 +418,6 @@ export class Boardgameinator extends React.Component {
 
     onViewPoll(poll) {
 
-        console.log('poll:',poll)
         this.setState(prevState => {
 
             let new_activeGameList = Object.keys(poll.pollThumbs.titles).map( title => parseInt(title) )

@@ -31,7 +31,7 @@ const hardcoded_polls = [
                 266192: { // Wingspan
                     'Wesley': 'thumbsup',
                 },
-                199472: { // Flamme Rouge
+                199478: { // Flamme Rouge
                 }
             },
             total_title_votes: 4

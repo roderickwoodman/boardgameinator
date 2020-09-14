@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 // import PropTypes from 'prop-types'
 
 const hardcoded_polls = [
@@ -41,30 +41,42 @@ const hardcoded_polls = [
 
 export const ImportPoll = (props) => {
 
+    const [ inputValue, setInputValue ] = useState('local')
+
+    const handleChange = (event) => {
+        setInputValue(event.target.value)
+        console.log('event.target.value:', event.target.value)
+    }
+
     return (
         <React.Fragment>
         <h4>Import poll:</h4>
         <div id="import-poll">
 
             <label 
-                for="poll-local">
+                htmlFor="poll-local">
                 <input 
                     type="radio" 
                     id="poll-local" 
                     name="gamelist" 
-                    value="local" />
+                    value="local"
+                    checked={inputValue === 'local'}
+                    onChange={handleChange} />
                 &nbsp;No poll</label>
 
             { hardcoded_polls
                 .map( (poll,i) => {
                     return (
                         <label 
-                            for={"poll-" + i}>
+                            key={i}
+                            htmlFor={"poll-" + i}>
                             <input 
                                 type="radio" 
                                 id={"poll-" + i} 
                                 name="gamelist" 
-                                value={poll.name} />
+                                value={poll.name}
+                                checked={inputValue === poll.name}
+                                onChange={handleChange} />
                             &nbsp;{poll.name} ({Object.keys(poll.pollThumbs.titles).length} games, {poll.pollThumbs.total_title_votes} votes)</label>
                     )})
             }

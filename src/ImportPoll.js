@@ -44,15 +44,32 @@ export const ImportPoll = (props) => {
     return (
         <React.Fragment>
         <h4>Import poll:</h4>
-        <ul id="import-poll">
-        { hardcoded_polls
-            .map( (poll,i) => {
-                return (
-                    <li>{poll.name} ({Object.keys(poll.pollThumbs.titles).length} games, {poll.pollThumbs.total_title_votes} votes)</li>
-                )
-            })
-        }
-        </ul>
+        <div id="import-poll">
+
+            <input 
+                type="radio" 
+                id="poll-local" 
+                name="gamelist" 
+                value="local" />
+            <label 
+                for="poll-local">No poll</label>
+
+            { hardcoded_polls
+                .map( (poll,i) => {
+                    return (
+                        <React.Fragment>
+                        <input 
+                            type="radio" 
+                            id={"poll-" + i} 
+                            name="gamelist" 
+                            value={poll.name} />
+                        <label 
+                            for={"poll-" + i}>{poll.name} ({Object.keys(poll.pollThumbs.titles).length} games, {poll.pollThumbs.total_title_votes} votes)</label>
+                        </React.Fragment>
+                    )})
+            }
+
+        </div>
         </React.Fragment>
     )
 }

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-// import PropTypes from 'prop-types'
+import PropTypes from 'prop-types'
 
 const hardcoded_polls = [
     {
@@ -45,7 +45,12 @@ export const ImportPoll = (props) => {
 
     const handleChange = (event) => {
         setInputValue(event.target.value)
-        console.log('event.target.value:', event.target.value)
+        // console.log('event.target.value:', event.target.value)
+        if (event.target.value === 'local') {
+            props.onviewpoll(hardcoded_polls[0])
+        } else {
+            props.onviewpoll(hardcoded_polls[1])
+        }
     }
 
     return (
@@ -87,4 +92,5 @@ export const ImportPoll = (props) => {
 }
 
 ImportPoll.propTypes = {
+    onviewpoll: PropTypes.func.isRequired,
 }

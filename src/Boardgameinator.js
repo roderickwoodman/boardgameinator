@@ -47,6 +47,7 @@ export class Boardgameinator extends React.Component {
         this.onDeleteTitle = this.onDeleteTitle.bind(this)
         this.onDeleteAllTitles = this.onDeleteAllTitles.bind(this)
         this.onClearSectionVotes = this.onClearSectionVotes.bind(this)
+        this.onViewPoll = this.onViewPoll.bind(this)
         this.handleSortChange = this.handleSortChange.bind(this)
         this.handleFilterChange = this.handleFilterChange.bind(this)
         this.extractYearFromTitle = this.extractYearFromTitle.bind(this)
@@ -415,6 +416,18 @@ export class Boardgameinator extends React.Component {
         })
     }
 
+    onViewPoll(poll) {
+
+        console.log('poll:',poll)
+        this.setState(prevState => {
+
+            let new_activeGameList = Object.keys(poll.pollThumbs.titles).map( title => parseInt(title) )
+            localStorage.setItem('activeGameList', JSON.stringify(new_activeGameList))
+
+            return { activeGameList: new_activeGameList }
+        })
+    }
+
     onClearSectionVotes(event) {
         const { attrtype } = Object.assign({}, event.target.dataset)
         const clearVotes = {}
@@ -525,6 +538,7 @@ export class Boardgameinator extends React.Component {
                     ondeleteall={this.onDeleteAllTitles}
                     onnewvote={this.onNewVote}
                     onclearsectionvotes={this.onClearSectionVotes}
+                    onviewpoll={this.onViewPoll}
                     reallynarrow={styles.reallyNarrow} />
             </div>
             </React.Fragment>

@@ -45,7 +45,6 @@ export const ImportPoll = (props) => {
 
     const handleChange = (event) => {
         setInputValue(event.target.value)
-        // console.log('event.target.value:', event.target.value)
         if (event.target.value === 'local') {
             let no_poll = {
                 id: 'local',

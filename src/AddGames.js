@@ -461,37 +461,55 @@ export const AddGames = (props) => {
         }
     }
 
+    const ModalBody = () => {
+
+        if (props.activepoll === 'local') {
+            return (
+                <section id="input-by-title">
+                    <section className="buttonrow">
+                        <input size="30" value={inputValue} onChange={handleChange} placeholder="(exact game title or BGG ID)" required/>
+                        <button onClick={handleSubmit} className="default-primary-styles">Add</button>
+                    </section>
+                    <div className="status-messages">
+                        { statusMessages
+                            .map(
+                                (message, i) => {
+                                    return (message.message_str.toLowerCase().startsWith("error"))
+                                    ? <p key={i} className="message error">{message.message_str} {addButton(message)}</p>
+                                    : <p key={i} className="message"><FontAwesomeIcon icon={faLongArrowAltRight} /> {message.message_str} {addButton(message)}</p>
+                                }
+                            )
+                        }
+                    </div>
+                </section>
+            )
+        } else {
+            return (
+                <section id="input-by-title">
+                    <section>
+                        <p>ERROR: Cannot add a game to "{props.activepoll}".</p>
+                        <p>Please select the "Import Poll" action and choose "No poll" first.</p>
+                    </section>
+                </section>
+            )
+        }
+    }
+
     return (
         <React.Fragment>
 
         <h4>Add board game by title:</h4>
 
         <div id="input-section">
-
-            <section id="input-by-title">
-                    <section className="buttonrow">
-                        <input size="30" value={inputValue} onChange={handleChange} placeholder="(exact game title or BGG ID)" required/>
-                        <button onClick={handleSubmit} className="default-primary-styles">Add</button>
-                    </section>
-                <div className="status-messages">
-                    { statusMessages
-                        .map(
-                            (message, i) => {
-                                return (message.message_str.toLowerCase().startsWith("error"))
-                                ? <p key={i} className="message error">{message.message_str} {addButton(message)}</p>
-                                : <p key={i} className="message"><FontAwesomeIcon icon={faLongArrowAltRight} /> {message.message_str} {addButton(message)}</p>
-                            }
-                        )
-                    }
-                </div>
-            </section>
-
+            <ModalBody />
         </div>
+
         </React.Fragment>
     )
 }
 
 AddGames.propTypes = {
+    activepoll: PropTypes.string.isRequired,
     cachedgametitles: PropTypes.object.isRequired,
     onaddcachedtitle: PropTypes.func.isRequired,
     onaddnewtitle: PropTypes.func.isRequired,

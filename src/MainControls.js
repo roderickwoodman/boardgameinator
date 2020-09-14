@@ -108,6 +108,7 @@ export const MainControls = (props) => {
                 <ModalBody>
                     <div id="gameinput-controls">
                         <AddGames
+                            activepoll={props.activepoll} 
                             cachedgametitles={props.cachedgametitles}
                             onaddcachedtitle={props.onaddcachedtitle}
                             onaddnewtitle={props.onaddnewtitle}

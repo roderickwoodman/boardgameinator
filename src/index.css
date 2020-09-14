@@ -112,6 +112,10 @@ html, #root {
   justify-content: flex-end;
 }
 
+#import-poll label {
+  display: block;
+}
+
 #gamesorting-controls,
 #gamefiltering-controls {
   margin: 10px 10px 20px 10px;

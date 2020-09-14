@@ -555,7 +555,7 @@ export class Boardgameinator extends React.Component {
             <div id="page-header">
                 <button className="fa fa-button" onClick={ (e) => this.onHamburger(e) }><FontAwesomeIcon icon={faBars}/>
                     <img src={purpleMeeple} alt="Boardgameinator logo" />
-                    <h1>Boardgameinator</h1>
+                    <h1>{(this.state.activePoll === 'local') ? 'Boardgameinator' : this.state.activePoll}</h1>
                 </button>
                 <ViewControls 
                 sortby={this.state.sortOrder}

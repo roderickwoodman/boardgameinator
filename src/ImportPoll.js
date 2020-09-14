@@ -7,11 +7,11 @@ const hardcoded_polls = [
         name: 'Poll A',
         pollThumbs: {
             titles: {
-                'Coloretto (2003)': {
+                5782: { // Coloretto (2003)
                     'Charles': 'thumbsup',
                     'Cassidy': 'thumbsup',
                 },
-                'Wingspan': {
+                266192: { // Wingspan
                     'Wendy': 'thumbsup',
                 }
             },
@@ -23,15 +23,15 @@ const hardcoded_polls = [
         name: 'Poll B',
         pollThumbs: {
             titles: {
-                'Food Chain Magnate': {
+                175914: { // Food Chain Magnate
                     'Fran': 'thumbsup',
                     'Filipe': 'thumbsup',
                     'Fiona': 'thumbsup',
                 },
-                'Wingspan': {
+                266192: { // Wingspan
                     'Wesley': 'thumbsup',
                 },
-                'Flamme Rouge': {
+                199472: { // Flamme Rouge
                 }
             },
             total_title_votes: 4

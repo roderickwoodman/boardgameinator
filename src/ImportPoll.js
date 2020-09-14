@@ -47,9 +47,13 @@ export const ImportPoll = (props) => {
         setInputValue(event.target.value)
         // console.log('event.target.value:', event.target.value)
         if (event.target.value === 'local') {
-            props.onviewpoll(hardcoded_polls[0])
+            let no_poll = {
+                id: 'local',
+                name: 'local',
+            }
+            props.onviewpoll(no_poll)
         } else {
-            props.onviewpoll(hardcoded_polls[1])
+            props.onviewpoll(hardcoded_polls.filter( polls => polls.name === event.target.value )[0])
         }
     }
 

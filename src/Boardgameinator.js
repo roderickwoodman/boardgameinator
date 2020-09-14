@@ -30,6 +30,7 @@ export class Boardgameinator extends React.Component {
             filterTitles: false,
             filterPlayercount: true,
             filterWeight: true,
+            localGameList: [],
             sortOrder: 'maxtitlevotes',
             windowWidth: 0,
             windowHeight: 0
@@ -76,6 +77,11 @@ export class Boardgameinator extends React.Component {
                 qs[1].split('+').forEach( game_id => addto_list.push(parseInt(game_id)) )
             }
         })
+
+        const stored_localGameList = JSON.parse(localStorage.getItem("localGameList"))
+        if (stored_localGameList !== null) {
+            this.setState({ localGameList: stored_localGameList })
+        }
 
         const stored_activeGameList = JSON.parse(localStorage.getItem("activeGameList"))
         if (stored_activeGameList !== null) {
@@ -199,11 +205,16 @@ export class Boardgameinator extends React.Component {
 
         this.setState(prevState => {
 
+            // FIXME: Implement poll editing. May not want to update active list here if we are currently looking at a poll.
             let activeGameList = prevState.activeGameList.slice()
             activeGameList.push(prevState.allGameData.filter( game_data => game_data.unambiguous_name === title )[0].id)
             localStorage.setItem('activeGameList', JSON.stringify(activeGameList))
 
-            return { activeGameList }
+            let localGameList = prevState.localGameList.slice()
+            localGameList.push(prevState.allGameData.filter( game_data => game_data.unambiguous_name === title )[0].id)
+            localStorage.setItem('localGameList', JSON.stringify(localGameList))
+
+            return { activeGameList, localGameList }
         })
     }
 
@@ -214,15 +225,20 @@ export class Boardgameinator extends React.Component {
 
         this.setState(prevState => {
 
+            // FIXME: Implement poll editing. May not want to update active list here if we are currently looking at a poll.
             let activeGameList = prevState.activeGameList.slice()
             activeGameList.push(newGameData.id)
             localStorage.setItem('activeGameList', JSON.stringify(activeGameList))
+
+            let localGameList = prevState.localGameList.slice()
+            localGameList.push(newGameData.id)
+            localStorage.setItem('localGameList', JSON.stringify(localGameList))
 
             let allGameData = JSON.parse(JSON.stringify(prevState.allGameData))
             allGameData.push(newGameData)
             localStorage.setItem('allGameData', JSON.stringify(allGameData))
 
-            return { activeGameList, allGameData }
+            return { activeGameList, localGameList, allGameData }
         })
 
     }
@@ -255,9 +271,14 @@ export class Boardgameinator extends React.Component {
     onDeleteTitle(event, id) {
         this.setState(prevState => {
 
+            // FIXME: Implement poll editing. May not want to update active list here if we are currently looking at a poll.
             // remove the game from the active game list (but still keep its game data cached)
             let activeGameList = prevState.activeGameList.slice()
             activeGameList = activeGameList.filter(game_id => game_id !== parseInt(id))
+
+            // remove the game from the local game list (but still keep its game data cached)
+            let localGameList = prevState.localGameList.slice()
+            localGameList = localGameList.filter(game_id => game_id !== parseInt(id))
 
             // remove the game from the game list
             let allGameData = JSON.parse(JSON.stringify(prevState.allGameData))
@@ -336,10 +357,12 @@ export class Boardgameinator extends React.Component {
             // for titles that are on the active list.
 
             localStorage.setItem('activeGameList', JSON.stringify(activeGameList))
+            localStorage.setItem('localGameList', JSON.stringify(localGameList))
             localStorage.setItem('allThumbs', JSON.stringify(allThumbs))
 
             return { 
                 activeGameList: activeGameList,
+                localGameList: localGameList,
                 allThumbs:allThumbs 
             }
         })
@@ -347,7 +370,9 @@ export class Boardgameinator extends React.Component {
 
     onDeleteAllTitles(event) {
         this.setState(prevState => {
+            // FIXME: Implement poll editing. May not want to update active list here if we are currently looking at a poll.
             let activeGameList = []
+            let localGameList = []
             let allThumbs = {
                 'attributes': {
                     'players': {}, 
@@ -360,9 +385,11 @@ export class Boardgameinator extends React.Component {
                 total_attribute_votes: 0,
             }
             localStorage.setItem('activeGameList', JSON.stringify(activeGameList))
+            localStorage.setItem('localGameList', JSON.stringify(localGameList))
             localStorage.setItem('allThumbs', JSON.stringify(allThumbs))
             return { 
                 activeGameList: activeGameList,
+                localGameList: localGameList,
                 allThumbs:allThumbs 
             }
         })
@@ -420,7 +447,12 @@ export class Boardgameinator extends React.Component {
 
         this.setState(prevState => {
 
-            let new_activeGameList = Object.keys(poll.pollThumbs.titles).map( title => parseInt(title) )
+            let new_activeGameList = []
+            if (poll.name === 'local') {
+                new_activeGameList = [...prevState.localGameList]
+            } else {
+                new_activeGameList = Object.keys(poll.pollThumbs.titles).map( title => parseInt(title) )
+            }
             localStorage.setItem('activeGameList', JSON.stringify(new_activeGameList))
 
             return { activeGameList: new_activeGameList }

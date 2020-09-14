@@ -14,6 +14,7 @@ export class Boardgameinator extends React.Component {
         super(props)
         this.state = { 
             activeGameList: [],
+            activePoll: 'local',
             allGameData: [],
             allThumbs: {
                 attributes: {
@@ -86,6 +87,11 @@ export class Boardgameinator extends React.Component {
         const stored_activeGameList = JSON.parse(localStorage.getItem("activeGameList"))
         if (stored_activeGameList !== null) {
             this.setState({ activeGameList: stored_activeGameList })
+        }
+
+        const stored_activePoll = JSON.parse(localStorage.getItem("activePoll"))
+        if (stored_activePoll !== null) {
+            this.setState({ activePoll: stored_activePoll })
         }
 
         let self = this
@@ -447,6 +453,9 @@ export class Boardgameinator extends React.Component {
 
         this.setState(prevState => {
 
+            let new_pollName = poll.name
+            localStorage.setItem('activePoll', JSON.stringify(new_pollName))
+
             let new_activeGameList = []
             if (poll.name === 'local') {
                 new_activeGameList = [...prevState.localGameList]
@@ -455,7 +464,10 @@ export class Boardgameinator extends React.Component {
             }
             localStorage.setItem('activeGameList', JSON.stringify(new_activeGameList))
 
-            return { activeGameList: new_activeGameList }
+            return { 
+                activePoll: new_pollName,
+                activeGameList: new_activeGameList
+            }
         })
     }
 
@@ -569,6 +581,7 @@ export class Boardgameinator extends React.Component {
                     ondeleteall={this.onDeleteAllTitles}
                     onnewvote={this.onNewVote}
                     onclearsectionvotes={this.onClearSectionVotes}
+                    activepoll={this.state.activePoll}
                     onviewpoll={this.onViewPoll}
                     reallynarrow={styles.reallyNarrow} />
             </div>

@@ -343,6 +343,7 @@ export const GameList = (props) => {
             ondeleteall={props.ondeleteall}
             onnewvote={props.onnewvote}
             onclearsectionvotes={props.onclearsectionvotes}
+            activepoll={props.activepoll}
             onviewpoll={props.onviewpoll} />
         <div id="resulting-games" className={getClasses()}>
             {sortedFilteredGames.length !== 0 && (
@@ -395,6 +396,7 @@ GameList.propTypes = {
     allthumbs: PropTypes.object.isRequired,
     onnewvote: PropTypes.func.isRequired,
     onclearsectionvotes: PropTypes.func.isRequired,
+    activepoll: PropTypes.string.isRequired,
     onviewpoll: PropTypes.func.isRequired,
     reallynarrow: PropTypes.bool.isRequired,
 }

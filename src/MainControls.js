@@ -158,6 +158,7 @@ export const MainControls = (props) => {
                 <ModalBody>
                     <div id="poll-import-controls">
                         <ImportPoll
+                            activepoll={props.activepoll}
                             onviewpoll={props.onviewpoll} />
                     </div>
                 </ModalBody>
@@ -188,5 +189,6 @@ MainControls.propTypes = {
     ondeleteall: PropTypes.func.isRequired,
     onnewvote: PropTypes.func.isRequired,
     onclearsectionvotes: PropTypes.func.isRequired,
+    activepoll: PropTypes.string.isRequired,
     onviewpoll: PropTypes.func.isRequired,
 }

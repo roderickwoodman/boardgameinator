@@ -15,7 +15,9 @@ const hardcoded_polls = [
                     'Wendy': 'thumbsup',
                 }
             },
-            total_title_votes: 3
+            total_title_votes: 3,
+            attributes: {},
+            total_attribute_votes: 0,
         }
     },
     {
@@ -34,7 +36,9 @@ const hardcoded_polls = [
                 199478: { // Flamme Rouge
                 }
             },
-            total_title_votes: 4
+            total_title_votes: 4,
+            attributes: {},
+            total_attribute_votes: 0,
         }
     }
 ]

@@ -18,8 +18,8 @@ export const GameCardFront = (props) => {
             let supported_players_vote = getPlayersVote(props.attributes.min_players, props.attributes.max_players)
             classes += ' supported-playercount ' + supported_players_vote
         } else {
-            classes += (props.allthumbs.attributes[section].hasOwnProperty(attrName) 
-                        && props.allthumbs.attributes[section][attrName] === 'thumbsup')
+            classes += (props.activethumbs.attributes[section].hasOwnProperty(attrName) 
+                        && props.activethumbs.attributes[section][attrName] === 'thumbsup')
                 ? ' thumbsup' //FIXME, derive from props: props.preferences['attrVote']
                 : ' novote'
         }
@@ -27,21 +27,21 @@ export const GameCardFront = (props) => {
     }
 
     const getUpvotedCategories = () => {
-        return Object.entries(props.allthumbs.attributes['category']).filter( entry => entry[1] === 'thumbsup' && props.attributes.categories.includes(entry[0]) ).map( entry => entry[0] )
+        return Object.entries(props.activethumbs.attributes['category']).filter( entry => entry[1] === 'thumbsup' && props.attributes.categories.includes(entry[0]) ).map( entry => entry[0] )
     }
 
     const getUpvotedMechanics = () => {
-        return Object.entries(props.allthumbs.attributes['mechanic']).filter( entry => entry[1] === 'thumbsup' && props.attributes.mechanics.includes(entry[0]) ).map( entry => entry[0] )
+        return Object.entries(props.activethumbs.attributes['mechanic']).filter( entry => entry[1] === 'thumbsup' && props.attributes.mechanics.includes(entry[0]) ).map( entry => entry[0] )
     }
 
     // player count section gets only one, aggregated vote; only one <li> (ex: "2-6 players") 
     const getPlayersVote = (myminplayers, mymaxplayers) => {
         let vote = "novote"
-        Object.keys(props.allthumbs.attributes.players).forEach( (votedPlayercount) => {
+        Object.keys(props.activethumbs.attributes.players).forEach( (votedPlayercount) => {
             let voted = parseInt(votedPlayercount.slice(0, -1))
             if (voted >= myminplayers
                 && voted <= mymaxplayers
-                && props.allthumbs.attributes.players[votedPlayercount] === 'thumbsup')
+                && props.activethumbs.attributes.players[votedPlayercount] === 'thumbsup')
             {
                 vote = "thumbsup"
             }
@@ -52,9 +52,9 @@ export const GameCardFront = (props) => {
     // vote section gets only one, aggregated vote; only one <li> (ex: "medium heavy") 
     const getWeightVote = (myweight) => {
         let vote = "novote"
-        Object.keys(props.allthumbs.attributes.weight).forEach( (votedWeight) => {
+        Object.keys(props.activethumbs.attributes.weight).forEach( (votedWeight) => {
             if (myweight === votedWeight
-                && props.allthumbs.attributes.weight[votedWeight] === 'thumbsup')
+                && props.activethumbs.attributes.weight[votedWeight] === 'thumbsup')
             {
                 vote = "thumbsup"
             }
@@ -77,7 +77,7 @@ export const GameCardFront = (props) => {
         }
     }
 
-    const { id, thumbnail, name, yearpublished, attributes, allthumbs, thumbcounts, ontoggleinspection, onnewvote, ondelete, reallynarrow } = props
+    const { id, thumbnail, name, yearpublished, attributes, activethumbs, thumbcounts, ontoggleinspection, onnewvote, ondelete, reallynarrow } = props
     let upvoted_attributes = [ ...getUpvotedCategories(), ...getUpvotedMechanics() ].sort()
     return (
         <React.Fragment>
@@ -99,7 +99,7 @@ export const GameCardFront = (props) => {
             data-newvote="thumbsup"
             onClick={props.onnewvote}
             >
-            <Thumbnail name={name} url={thumbnail} allthumbs={allthumbs} thumbcounts={thumbcounts} reallynarrow={reallynarrow} onnewvote={onnewvote} />
+            <Thumbnail name={name} url={thumbnail} activethumbs={activethumbs} thumbcounts={thumbcounts} reallynarrow={reallynarrow} onnewvote={onnewvote} />
             <div className="overlay">
                 {(attributes.min_players !== attributes.max_players)
                     ? <div className={getClasses('supported-playercount', null)}><FontAwesomeIcon icon={faUserFriends}/> {attributes.min_players}-{attributes.max_players}</div>
@@ -154,7 +154,7 @@ GameCardFront.propTypes = {
     ontoggleinspection: PropTypes.func.isRequired,
     thumbcounts: PropTypes.object.isRequired,
     thumbnail: PropTypes.string,
-    allthumbs: PropTypes.object.isRequired,
+    activethumbs: PropTypes.object.isRequired,
     yearpublished: PropTypes.number,
     reallynarrow: PropTypes.bool.isRequired,
 }

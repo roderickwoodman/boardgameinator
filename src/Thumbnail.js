@@ -19,17 +19,17 @@ export const Thumbnail = (props) => {
 
     const getClasses = () => {
         let classes = 'vote-count'
-        if (props.allthumbs.total_title_votes === 0 && props.allthumbs.total_attribute_votes === 0) {
+        if (props.activethumbs.total_title_votes === 0 && props.activethumbs.total_attribute_votes === 0) {
             classes += ' no-votes-to-show'
         }
-        if (props.allthumbs.total_title_votes !== 0) {
+        if (props.activethumbs.total_title_votes !== 0) {
             classes += ' deemphasize-notvoted-games'
         }
         return classes
     }
 
     const printAttributeTally = () => {
-        if (props.allthumbs.total_attribute_votes && props.thumbcounts.attributes) {
+        if (props.activethumbs.total_attribute_votes && props.thumbcounts.attributes) {
             return (
                 <span className="vote-count-label">& {props.thumbcounts.attributes} {getAttributeCountLabel(props.thumbcounts.attributes)}</span>
             )
@@ -50,7 +50,7 @@ export const Thumbnail = (props) => {
 }
 
 Thumbnail.propTypes = {
-    allthumbs: PropTypes.object.isRequired,
+    activethumbs: PropTypes.object.isRequired,
     thumbcounts: PropTypes.object.isRequired,
     name: PropTypes.string.isRequired,
     reallynarrow: PropTypes.bool.isRequired,

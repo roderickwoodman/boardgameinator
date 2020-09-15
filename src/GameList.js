@@ -34,7 +34,7 @@ const Game = (props) => {
                 name={props.name}
                 yearpublished={props.yearpublished}
                 attributes={props.attributes}
-                allthumbs={props.allthumbs} 
+                activethumbs={props.activethumbs} 
                 thumbcounts={props.thumbcounts} 
                 ontoggleinspection={props.ontoggleinspection} 
                 onnewvote={props.onnewvote}
@@ -51,7 +51,7 @@ const Game = (props) => {
                 inspectingsection={props.inspectingsection}
                 comments={props.comments}
                 videos={props.videos}
-                allthumbs={props.allthumbs}
+                activethumbs={props.activethumbs}
                 ontoggleinspection={props.ontoggleinspection} 
                 oninspectionsectionchange={props.oninspectionsectionchange} 
                 onnewvote={props.onnewvote}
@@ -83,8 +83,8 @@ export const GameList = (props) => {
     const getThumbedTitles = (props) => {
         // collect all of the voted titles
         let titles = []
-        if (props.allthumbs.hasOwnProperty('titles')) {
-            for (let entry of Object.entries(props.allthumbs.titles)) {
+        if (props.activethumbs.hasOwnProperty('titles')) {
+            for (let entry of Object.entries(props.activethumbs.titles)) {
                 if (entry[1] === 'thumbsup') {
                     titles.push(entry[0])
                 }
@@ -96,8 +96,8 @@ export const GameList = (props) => {
     const getThumbedPlayercounts = (props) => {
         // collect all of the voted playercounts
         let playercounts = []
-        if (props.allthumbs.attributes.hasOwnProperty('players')) {
-            for (let playercount in props.allthumbs.attributes.players) {
+        if (props.activethumbs.attributes.hasOwnProperty('players')) {
+            for (let playercount in props.activethumbs.attributes.players) {
                 playercounts.push(parseInt(playercount.slice(0, -1)))
             }
         }
@@ -107,8 +107,8 @@ export const GameList = (props) => {
     const getThumbedWeights = (props) => {
         // collect all of the voted weights
         let weights = []
-        if (props.allthumbs.attributes.hasOwnProperty('weight')) {
-            for (let weight in props.allthumbs.attributes.weight) {
+        if (props.activethumbs.attributes.hasOwnProperty('weight')) {
+            for (let weight in props.activethumbs.attributes.weight) {
                 weights.push(weight)
             }
         }
@@ -126,30 +126,30 @@ export const GameList = (props) => {
                 }
                 // playercount section of a game gets ONE TOTAL thumbsup if any of its supported playercounts gets a thumbsup
                 for (let playercount=game.attributes.min_players; playercount<=game.attributes.max_players; playercount++) {
-                    if (props.allthumbs.attributes.players.hasOwnProperty(playercount + 'P')) {
+                    if (props.activethumbs.attributes.players.hasOwnProperty(playercount + 'P')) {
                         new_vote_counts.attributes++
                         break
                     }
                 }
                 // weight section of a game gets ONE TOTAL thumbsup if its weight has a thumbsup
-                if (props.allthumbs.attributes.weight.hasOwnProperty(game.attributes.average_weight_name)) {
+                if (props.activethumbs.attributes.weight.hasOwnProperty(game.attributes.average_weight_name)) {
                     new_vote_counts.attributes++
                 }
                 // categories section of a game gets one thumbsup for each thumbed-up category
                 for (const category of game.attributes.categories) {
-                    if (props.allthumbs.attributes.category.hasOwnProperty(category)) {
+                    if (props.activethumbs.attributes.category.hasOwnProperty(category)) {
                         new_vote_counts.attributes++
                     }
                 }
                 // mechanics section of a game gets one thumbsup for each thumbed-up mechanic
                 for (const mechanic of game.attributes.mechanics) {
-                    if (props.allthumbs.attributes.mechanic.hasOwnProperty(mechanic)) {
+                    if (props.activethumbs.attributes.mechanic.hasOwnProperty(mechanic)) {
                         new_vote_counts.attributes++
                     }
                 }
 
                 // title votes
-                if (props.allthumbs.titles.hasOwnProperty(game.name)) {
+                if (props.activethumbs.titles.hasOwnProperty(game.name)) {
                     new_vote_counts.titles++
                 }
 
@@ -320,10 +320,10 @@ export const GameList = (props) => {
 
     const getClasses = () => {
         let classes = ''
-        if (props.allthumbs.total_title_votes === 0 && props.allthumbs.total_attribute_votes === 0) {
+        if (props.activethumbs.total_title_votes === 0 && props.activethumbs.total_attribute_votes === 0) {
             classes += 'no-votes-to-show'
         }
-        if (props.allthumbs.total_title_votes !== 0) {
+        if (props.activethumbs.total_title_votes !== 0) {
             classes += ' deemphasize-notvoted-games'
         }
         return classes
@@ -335,7 +335,7 @@ export const GameList = (props) => {
         <React.Fragment>
         <MainControls 
             activegamedata={props.activegamedata}
-            allthumbs={props.allthumbs}
+            activethumbs={props.activethumbs}
             cachedgametitles={props.cachedgametitles}
             onaddcachedtitle={props.onaddcachedtitle}
             onaddnewtitle={props.onaddnewtitle}
@@ -362,7 +362,7 @@ export const GameList = (props) => {
                                 attributes={game.attributes}
                                 comments={game.comments}
                                 videos={game.videos}
-                                allthumbs={props.allthumbs} 
+                                activethumbs={props.activethumbs} 
                                 thumbcounts={thumbcounts[game.name]}
                                 onnewvote={props.onnewvote}
                                 ondelete={props.ondelete}
@@ -393,7 +393,7 @@ GameList.propTypes = {
     oncachenewtitle: PropTypes.func.isRequired,
     ondelete: PropTypes.func.isRequired,
     ondeleteall: PropTypes.func.isRequired,
-    allthumbs: PropTypes.object.isRequired,
+    activethumbs: PropTypes.object.isRequired,
     onnewvote: PropTypes.func.isRequired,
     onclearsectionvotes: PropTypes.func.isRequired,
     activepoll: PropTypes.string.isRequired,

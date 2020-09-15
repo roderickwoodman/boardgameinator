@@ -71,12 +71,12 @@ export const MainControls = (props) => {
         }
     }, [props])
 
-    let num_title_votes = Object.keys(props.allthumbs.titles).length
+    let num_title_votes = Object.keys(props.activethumbs.titles).length
 
-    let num_attr_votes = Object.keys(props.allthumbs.attributes.players).length
-    + Object.keys(props.allthumbs.attributes.weight).length
-    + Object.keys(props.allthumbs.attributes.category).length
-    + Object.keys(props.allthumbs.attributes.mechanic).length
+    let num_attr_votes = Object.keys(props.activethumbs.attributes.players).length
+    + Object.keys(props.activethumbs.attributes.weight).length
+    + Object.keys(props.activethumbs.attributes.category).length
+    + Object.keys(props.activethumbs.attributes.mechanic).length
 
     const handleCopyToClipboard = () => {
         let games = ""
@@ -126,7 +126,7 @@ export const MainControls = (props) => {
                     <div id="title-voting-controls">
                         <VoteTitles
                             activegamedata={props.activegamedata} 
-                            titlethumbs={props.allthumbs.titles} 
+                            titlethumbs={props.activethumbs.titles} 
                             onnewvote={props.onnewvote}
                             ondeleteall={props.ondeleteall} />
                     </div>
@@ -144,7 +144,7 @@ export const MainControls = (props) => {
                     <div id="attribute-voting-controls">
                         <VoteAttributes 
                             activegamedata={props.activegamedata}
-                            attrthumbs={props.allthumbs.attributes} 
+                            attrthumbs={props.activethumbs.attributes} 
                             onnewvote={props.onnewvote} />
                     </div>
                 </ModalBody>
@@ -182,7 +182,7 @@ export const MainControls = (props) => {
 
 MainControls.propTypes = {
     activegamedata: PropTypes.array.isRequired,
-    allthumbs: PropTypes.object.isRequired,
+    activethumbs: PropTypes.object.isRequired,
     cachedgametitles: PropTypes.object.isRequired,
     onaddcachedtitle: PropTypes.func.isRequired,
     onaddnewtitle: PropTypes.func.isRequired,

@@ -30,6 +30,9 @@ export class Boardgameinator extends React.Component {
             activePoll: 'local',
             allGameData: [],
             activeThumbs: emptyThumbs,
+            allThumbs: {
+                local: {},
+            },
             filterTitles: false,
             filterPlayercount: true,
             filterWeight: true,
@@ -94,6 +97,8 @@ export class Boardgameinator extends React.Component {
         const stored_activePoll = JSON.parse(localStorage.getItem("activePoll"))
         if (stored_activePoll !== null) {
             this.setState({ activePoll: stored_activePoll })
+        } else {
+            this.setState({ activePoll: 'local' })
         }
 
         let self = this
@@ -118,6 +123,14 @@ export class Boardgameinator extends React.Component {
                 }
             })
             localStorage.setItem('gamedataVersion', JSON.stringify(this.gamedataVersion))
+        }
+
+        const stored_allThumbs = JSON.parse(localStorage.getItem("allThumbs"))
+        if (stored_allThumbs !== null) {
+            this.setState({ allThumbs: stored_allThumbs })
+        } else {
+            let new_allThumbs = {}
+            this.setState({ allThumbs: new_allThumbs })
         }
 
         const stored_activeThumbs = JSON.parse(localStorage.getItem("activeThumbs"))
@@ -371,10 +384,17 @@ export class Boardgameinator extends React.Component {
             localStorage.setItem('localGameList', JSON.stringify(localGameList))
             localStorage.setItem('activeThumbs', JSON.stringify(activeThumbs))
 
+            // update the master list of all preferences
+            let new_allThumbs = JSON.parse(JSON.stringify(prevState.allThumbs))
+            let new_pollThumbs = JSON.parse(JSON.stringify(activeThumbs))
+            new_allThumbs[prevState.activePoll] = new_pollThumbs
+            localStorage.setItem('allThumbs', JSON.stringify(new_allThumbs))
+
             return { 
                 activeGameList: activeGameList,
                 localGameList: localGameList,
-                activeThumbs:activeThumbs 
+                allThumbs: new_allThumbs,
+                activeThumbs: activeThumbs,
             }
         })
     }
@@ -398,10 +418,18 @@ export class Boardgameinator extends React.Component {
             localStorage.setItem('activeGameList', JSON.stringify(activeGameList))
             localStorage.setItem('localGameList', JSON.stringify(localGameList))
             localStorage.setItem('activeThumbs', JSON.stringify(activeThumbs))
+
+            // update the master list of all preferences
+            let new_allThumbs = JSON.parse(JSON.stringify(prevState.allThumbs))
+            let new_pollThumbs = JSON.parse(JSON.stringify(activeThumbs))
+            new_allThumbs[prevState.activePoll] = new_pollThumbs
+            localStorage.setItem('allThumbs', JSON.stringify(new_allThumbs))
+
             return { 
                 activeGameList: activeGameList,
                 localGameList: localGameList,
-                activeThumbs:activeThumbs 
+                allThumbs: new_allThumbs,
+                activeThumbs: activeThumbs,
             }
         })
     }
@@ -450,7 +478,17 @@ export class Boardgameinator extends React.Component {
             updated_activeThumbs.total_title_votes = this.totalTitleVotes(updated_activeThumbs.titles)
             updated_activeThumbs.total_attribute_votes = this.totalAttributeVotes(updated_activeThumbs.attributes)
             localStorage.setItem('activeThumbs', JSON.stringify(updated_activeThumbs))
-            return { activeThumbs: updated_activeThumbs }
+
+            // update the master list of all preferences
+            let new_allThumbs = JSON.parse(JSON.stringify(prevState.allThumbs))
+            let new_pollThumbs = JSON.parse(JSON.stringify(updated_activeThumbs))
+            new_allThumbs[prevState.activePoll] = new_pollThumbs
+            localStorage.setItem('allThumbs', JSON.stringify(new_allThumbs))
+
+            return { 
+                activeThumbs: updated_activeThumbs,
+                allThumbs: new_allThumbs,
+            }
         })
     }
 
@@ -461,17 +499,31 @@ export class Boardgameinator extends React.Component {
             let new_pollName = poll.name
             localStorage.setItem('activePoll', JSON.stringify(new_pollName))
 
-            let new_activeGameList = []
+            let new_activeGameList = [], new_activeThumbs = {}
             if (poll.name === 'local') {
+                // disable poll: 
+                //   1) replace the active game list with the pre-existing list of local titles
+                //   2) replace all active votes with the saved local title and attribute votes
                 new_activeGameList = [...prevState.localGameList]
+                new_activeThumbs = JSON.parse(JSON.stringify(prevState.allThumbs.local))
             } else {
+                // enable poll: 
+                //   1) replace the active game list with all of the titles from this poll
+                //   2) replace the active title votes with all of the title votes from this poll
+                //   3) refresh the active attribute votes with the saved local attribute votes
                 new_activeGameList = Object.keys(poll.pollThumbs.titles).map( title => parseInt(title) )
+                new_activeThumbs = JSON.parse(JSON.stringify(poll.pollThumbs.titles))
+                new_activeThumbs.total_title_votes = poll.pollThumbs.total_title_votes
+                new_activeThumbs.attributes = JSON.parse(JSON.stringify(prevState.allThumbs.local.attributes))
+                new_activeThumbs.total_attribute_votes = prevState.allThumbs.local.total_attribute_votes
             }
             localStorage.setItem('activeGameList', JSON.stringify(new_activeGameList))
+            localStorage.setItem('activeThumbs', JSON.stringify(new_activeThumbs))
 
             return { 
                 activePoll: new_pollName,
-                activeGameList: new_activeGameList
+                activeGameList: new_activeGameList,
+                activeThumbs: new_activeThumbs,
             }
         })
     }
@@ -496,7 +548,17 @@ export class Boardgameinator extends React.Component {
                 updated_activeThumbs.total_attribute_votes = this.totalAttributeVotes(updated_activeThumbs.attributes)
             }
             localStorage.setItem('activeThumbs', JSON.stringify(updated_activeThumbs))
-            return { activeThumbs: updated_activeThumbs }
+
+            // update the master list of all preferences
+            let new_allThumbs = JSON.parse(JSON.stringify(prevState.allThumbs))
+            let new_pollThumbs = JSON.parse(JSON.stringify(updated_activeThumbs))
+            new_allThumbs[prevState.activePoll] = new_pollThumbs
+            localStorage.setItem('allThumbs', JSON.stringify(new_allThumbs))
+
+            return { 
+                activeThumbs: updated_activeThumbs,
+                allThumbs: new_allThumbs,
+            }
         })
     }
 

@@ -8,6 +8,19 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBars } from '@fortawesome/free-solid-svg-icons'
 
 
+const emptyThumbs = {
+    attributes: {
+        players: {}, 
+        weight: {}, 
+        category: {}, 
+        mechanic: {}
+    },
+    total_attribute_votes: 0,
+    titles: {
+    },
+    total_title_votes: 0,
+}
+
 export class Boardgameinator extends React.Component {
 
     constructor(props) {
@@ -16,18 +29,7 @@ export class Boardgameinator extends React.Component {
             activeGameList: [],
             activePoll: 'local',
             allGameData: [],
-            activeThumbs: {
-                attributes: {
-                    players: {}, 
-                    weight: {}, 
-                    category: {}, 
-                    mechanic: {}
-                },
-                total_attribute_votes: 0,
-                titles: {
-                },
-                total_title_votes: 0,
-            },
+            activeThumbs: emptyThumbs,
             filterTitles: false,
             filterPlayercount: true,
             filterWeight: true,
@@ -121,6 +123,9 @@ export class Boardgameinator extends React.Component {
         const stored_activeThumbs = JSON.parse(localStorage.getItem("activeThumbs"))
         if (stored_activeThumbs !== null) {
             this.setState({ activeThumbs: stored_activeThumbs })
+        } else {
+            let new_activeThumbs = JSON.parse(JSON.stringify(emptyThumbs))
+            this.setState({ activeThumbs: new_activeThumbs })
         }
 
         const stored_sortorder = JSON.parse(localStorage.getItem("sortOrder"))

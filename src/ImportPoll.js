@@ -8,16 +8,13 @@ const hardcoded_polls = [
         pollThumbs: {
             titles: {
                 5782: { // Coloretto (2003)
-                    'Charles': 'thumbsup',
-                    'Cassidy': 'thumbsup',
+                    'thumbsup': ['Charles', 'Cassidy']
                 },
                 266192: { // Wingspan
-                    'Wendy': 'thumbsup',
+                    'thumbsup': ['Wendy']
                 }
             },
             total_title_votes: 3,
-            attributes: {},
-            total_attribute_votes: 0,
         }
     },
     {
@@ -26,19 +23,15 @@ const hardcoded_polls = [
         pollThumbs: {
             titles: {
                 175914: { // Food Chain Magnate
-                    'Fran': 'thumbsup',
-                    'Filipe': 'thumbsup',
-                    'Fiona': 'thumbsup',
+                    'thumbsup': ['Fran', 'Filipe', 'Fiona']
                 },
                 266192: { // Wingspan
-                    'Wesley': 'thumbsup',
+                    'thumbsup': ['Wesley']
                 },
                 199478: { // Flamme Rouge
                 }
             },
             total_title_votes: 4,
-            attributes: {},
-            total_attribute_votes: 0,
         }
     }
 ]

@@ -6,15 +6,15 @@ import { faThumbsUp } from '@fortawesome/free-solid-svg-icons'
 const VotableElement = (props) => {
 
     let elementStyle = "voteable"
-    let vote = (props.preferences.hasOwnProperty(props.attrname)) ? 'thumbsup' : 'novote'
+    let vote = (props.preferences.hasOwnProperty(props.votingon)) ? 'thumbsup' : 'novote'
     elementStyle += ' ' + vote
-    let votable_text = props.attrname
+    let votable_text = props.votingon
     if (props.attrcount > 1 || !props.suppresslowcounts) {
         votable_text += ' ('+props.attrcount+')'
     }
     return (
         <li 
-            key={props.attrname} 
+            key={props.votingon} 
             className={elementStyle} 
         > 
             <div className="vote">
@@ -24,8 +24,8 @@ const VotableElement = (props) => {
             </div>
             <div
                 className="clickable"
-                data-attrtype={props.attrtype}
-                data-attrname={props.attrname}
+                data-votingtype={props.votingtype}
+                data-votingon={props.votingon}
                 data-newvote='thumbsup'
                 onClick={props.onnewvote}
             >
@@ -72,8 +72,8 @@ export const VotingSection = (props) => {
                 return <VotableElement 
                     key={key.attrName}
                     preferences={props.sectionthumbs}
-                    attrtype={props.type}
-                    attrname={key.attrName} 
+                    votingtype={props.type}
+                    votingon={key.attrName} 
                     attrcount={key.attrCount} 
                     suppresslowcounts={props.suppresslowcounts}
                     onnewvote={props.onnewvote}/>

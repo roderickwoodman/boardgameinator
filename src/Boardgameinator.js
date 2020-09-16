@@ -456,24 +456,24 @@ export class Boardgameinator extends React.Component {
     }
 
     onNewVote(event) {
-        const { attrtype, attrname, newvote } = Object.assign({}, event.currentTarget.dataset)
+        const { votingtype, votingon, newvote } = Object.assign({}, event.currentTarget.dataset)
         this.setState(prevState => {
             let updated_activeThumbs = JSON.parse(JSON.stringify(prevState.activeThumbs))
             // record a new title vote
-            if ( attrtype === 'title') {
-                let oldvote = updated_activeThumbs.titles[attrname]
+            if ( votingtype === 'title') {
+                let oldvote = updated_activeThumbs.titles[votingon]
                 if (newvote !== oldvote) {
-                    updated_activeThumbs.titles[attrname] = newvote
+                    updated_activeThumbs.titles[votingon] = newvote
                 } else {
-                    delete(updated_activeThumbs.titles[attrname])
+                    delete(updated_activeThumbs.titles[votingon])
                 }
             // record a new attribute vote
             } else {
-                let oldvote = updated_activeThumbs.attributes[attrtype][attrname]
+                let oldvote = updated_activeThumbs.attributes[votingtype][votingon]
                 if (newvote !== oldvote) {
-                    updated_activeThumbs.attributes[attrtype][attrname] = newvote
+                    updated_activeThumbs.attributes[votingtype][votingon] = newvote
                 } else {
-                    delete(updated_activeThumbs.attributes[attrtype][attrname])
+                    delete(updated_activeThumbs.attributes[votingtype][votingon])
                 }
             }
             updated_activeThumbs.total_title_votes = this.totalTitleVotes(updated_activeThumbs.titles)
@@ -530,21 +530,21 @@ export class Boardgameinator extends React.Component {
     }
 
     onClearSectionVotes(event) {
-        const { attrtype } = Object.assign({}, event.target.dataset)
+        const { votingtype } = Object.assign({}, event.target.dataset)
         const clearVotes = {}
         this.setState(prevState => {
             let updated_activeThumbs = JSON.parse(JSON.stringify(prevState.activeThumbs))
-            if (attrtype === 'all_titles') {
+            if (votingtype === 'all_titles') {
                 updated_activeThumbs.titles = clearVotes
                 updated_activeThumbs.total_title_votes = this.totalTitleVotes(updated_activeThumbs.titles)
             } else {
-                if (attrtype === 'all_attributes') {
+                if (votingtype === 'all_attributes') {
                     updated_activeThumbs.attributes['players'] = clearVotes
                     updated_activeThumbs.attributes['weight'] = clearVotes
                     updated_activeThumbs.attributes['category'] = clearVotes
                     updated_activeThumbs.attributes['mechanic'] = clearVotes
                 } else {
-                    updated_activeThumbs.attributes[attrtype] = clearVotes
+                    updated_activeThumbs.attributes[votingtype] = clearVotes
                 }
                 updated_activeThumbs.total_attribute_votes = this.totalAttributeVotes(updated_activeThumbs.attributes)
             }

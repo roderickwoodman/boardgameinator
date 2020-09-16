@@ -133,7 +133,7 @@ export const MainControls = (props) => {
                 </ModalBody>
                 <ModalFooter> 
                     <button className="default-danger-styles" onClick={props.ondeleteall} disabled={props.activegamedata.length===0}>Remove All Games</button>
-                    <button className="default-danger-styles" data-attrtype="all_titles" onClick={props.onclearsectionvotes} disabled={num_title_votes===0}>Remove All Votes</button>
+                    <button className="default-danger-styles" data-votingtype="all_titles" onClick={props.onclearsectionvotes} disabled={num_title_votes===0}>Remove All Votes</button>
                     <button className="default-primary-styles" onClick={hideVoteTitlesModal}>Close</button>
                 </ModalFooter>
             </Modal>
@@ -149,7 +149,7 @@ export const MainControls = (props) => {
                     </div>
                 </ModalBody>
                 <ModalFooter> 
-                    <button className="default-danger-styles" data-attrtype="all_attributes" onClick={props.onclearsectionvotes} disabled={num_attr_votes===0}>Remove All Votes</button>
+                    <button className="default-danger-styles" data-votingtype="all_attributes" onClick={props.onclearsectionvotes} disabled={num_attr_votes===0}>Remove All Votes</button>
                     <button className="default-primary-styles" onClick={hideVoteAttributesModal}>Close</button>
                 </ModalFooter>
             </Modal>

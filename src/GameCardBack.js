@@ -75,9 +75,9 @@ export const GameCardBack = (props) => {
             data-attrtype="title"
             data-attrname={name}
             data-newvote="thumbsup"
-            onClick={props.onnewvote}
+            onClick={onnewvote}
             >
-            <Thumbnail name={name} url={thumbnail} activethumbs={activethumbs} thumbcounts={thumbcounts} reallynarrow={reallynarrow} onnewvote={onnewvote} />
+            <Thumbnail name={name} url={thumbnail} activethumbs={activethumbs} thumbcounts={thumbcounts} reallynarrow={reallynarrow} />
 
         </section>
         <ul id="inspectionsection-selector">

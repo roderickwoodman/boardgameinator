@@ -411,7 +411,8 @@ export class Boardgameinator extends React.Component {
                     'category': {}, 
                     'mechanic': {}
                 },
-                'titles': {},
+                'titles': {
+                },
                 total_title_votes: 0,
                 total_attribute_votes: 0,
             }

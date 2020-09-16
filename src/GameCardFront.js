@@ -97,9 +97,9 @@ export const GameCardFront = (props) => {
             data-attrtype="title"
             data-attrname={name}
             data-newvote="thumbsup"
-            onClick={props.onnewvote}
+            onClick={onnewvote}
             >
-            <Thumbnail name={name} url={thumbnail} activethumbs={activethumbs} thumbcounts={thumbcounts} reallynarrow={reallynarrow} onnewvote={onnewvote} />
+            <Thumbnail name={name} url={thumbnail} activethumbs={activethumbs} thumbcounts={thumbcounts} reallynarrow={reallynarrow} />
             <div className="overlay">
                 {(attributes.min_players !== attributes.max_players)
                     ? <div className={getClasses('supported-playercount', null)}><FontAwesomeIcon icon={faUserFriends}/> {attributes.min_players}-{attributes.max_players}</div>

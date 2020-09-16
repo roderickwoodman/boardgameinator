@@ -73,7 +73,7 @@ export const GameCardBack = (props) => {
         <section 
             className="gamecard-visual"
             data-votingtype="title"
-            data-votingon={name}
+            data-votingon={id}
             data-newvote="thumbsup"
             onClick={onnewvote}
             >

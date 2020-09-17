@@ -461,10 +461,14 @@ export const AddGames = (props) => {
         }
     }
 
-    const ModalBody = () => {
+    return (
+        <React.Fragment>
 
-        if (props.activepoll === 'local') {
-            return (
+        <h4>Add board game by title:</h4>
+
+        <div id="input-section">
+
+
                 <section id="input-by-title">
                     <section className="buttonrow">
                         <input size="30" value={inputValue} onChange={handleChange} placeholder="(exact game title or BGG ID)" required/>
@@ -482,26 +486,7 @@ export const AddGames = (props) => {
                         }
                     </div>
                 </section>
-            )
-        } else {
-            return (
-                <section id="input-by-title">
-                    <section>
-                        <p>ERROR: Cannot add a game to "{props.activepoll}".</p>
-                        <p>Please select the "Import Poll" action and choose "No poll" first.</p>
-                    </section>
-                </section>
-            )
-        }
-    }
 
-    return (
-        <React.Fragment>
-
-        <h4>Add board game by title:</h4>
-
-        <div id="input-section">
-            <ModalBody />
         </div>
 
         </React.Fragment>

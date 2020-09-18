@@ -440,8 +440,8 @@ export class Boardgameinator extends React.Component {
         let count = 0
         Object.entries(all_title_thumbs)
             .forEach( function(title) {
-                if (title[1] === 'thumbsup') {
-                    count += 1
+                if (Object.keys(title[1]).includes('thumbsup')) {
+                    count += title[1]['thumbsup'].length
                 }
             })
         return  count
@@ -461,12 +461,19 @@ export class Boardgameinator extends React.Component {
         this.setState(prevState => {
             let updated_activeThumbs = JSON.parse(JSON.stringify(prevState.activeThumbs))
             // record a new title vote
-            if ( votingtype === 'title') {
-                let oldvote = updated_activeThumbs.titles[votingon]
-                if (newvote !== oldvote) {
-                    updated_activeThumbs.titles[votingon] = newvote
+            if (votingtype === 'title') {
+                if (updated_activeThumbs.titles.hasOwnProperty(votingon.toString())) {
+                    let updated_thistitle = JSON.parse(JSON.stringify(updated_activeThumbs.titles[votingon.toString()]))
+                    if (updated_thistitle.hasOwnProperty(newvote)) {
+                        delete(updated_thistitle[newvote])
+                    } else {
+                        updated_thistitle[newvote] = [newvote]
+                    }
+                    updated_activeThumbs.titles[votingon] = updated_thistitle
                 } else {
-                    delete(updated_activeThumbs.titles[votingon])
+                    let updated_vote = {}
+                    updated_vote[newvote] = [newvote]
+                    updated_activeThumbs.titles[votingon] = updated_vote
                 }
             // record a new attribute vote
             } else {

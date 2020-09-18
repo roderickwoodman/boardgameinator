@@ -149,12 +149,14 @@ export const GameList = (props) => {
                         new_vote_counts.attributes++
                     }
                 }
+                if (props.activethumbs.hasOwnProperty('titles')) {
+                }
 
                 // title votes
                 if (props.activethumbs.hasOwnProperty('titles') 
-                  && props.activethumbs.titles.hasOwnProperty(game.id)
+                  && props.activethumbs.titles.hasOwnProperty(game.id.toString())
                   && props.activethumbs.titles[game.id].hasOwnProperty('thumbsup')) {
-                    new_vote_counts.titles += props.activethumbs.titles[game.id].thumbsup.length
+                    new_vote_counts.titles += props.activethumbs.titles[game.id.toString()].thumbsup.length
                 }
 
                 all_vote_counts[game.id] = new_vote_counts

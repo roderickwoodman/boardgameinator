@@ -8,19 +8,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBars } from '@fortawesome/free-solid-svg-icons'
 
 
-const emptyThumbs = {
-    attributes: {
-        players: {}, 
-        weight: {}, 
-        category: {}, 
-        mechanic: {}
-    },
-    total_attribute_votes: 0,
-    titles: {
-    },
-    total_title_votes: 0,
-}
-
 export class Boardgameinator extends React.Component {
 
     constructor(props) {
@@ -29,9 +16,29 @@ export class Boardgameinator extends React.Component {
             activeGameList: [],
             activePoll: 'local',
             allGameData: [],
-            activeThumbs: emptyThumbs,
-            allThumbs: {
-                local: {},
+            activeThumbs: {
+                attributes: {
+                    players: {}, 
+                    weight: {}, 
+                    category: {}, 
+                    mechanic: {}
+                },
+                total_attribute_votes: 0,
+                titles: {},
+                total_title_votes: 0,
+            },
+            allThumbs:  {
+                local: {
+                    attributes: {
+                        players: {}, 
+                        weight: {}, 
+                        category: {}, 
+                        mechanic: {}
+                    },
+                    total_attribute_votes: 0,
+                    titles: {},
+                    total_title_votes: 0,
+                }
             },
             filterTitles: false,
             filterPlayercount: true,
@@ -128,17 +135,11 @@ export class Boardgameinator extends React.Component {
         const stored_allThumbs = JSON.parse(localStorage.getItem("allThumbs"))
         if (stored_allThumbs !== null) {
             this.setState({ allThumbs: stored_allThumbs })
-        } else {
-            let new_allThumbs = {}
-            this.setState({ allThumbs: new_allThumbs })
         }
 
         const stored_activeThumbs = JSON.parse(localStorage.getItem("activeThumbs"))
         if (stored_activeThumbs !== null) {
             this.setState({ activeThumbs: stored_activeThumbs })
-        } else {
-            let new_activeThumbs = JSON.parse(JSON.stringify(emptyThumbs))
-            this.setState({ activeThumbs: new_activeThumbs })
         }
 
         const stored_sortorder = JSON.parse(localStorage.getItem("sortOrder"))

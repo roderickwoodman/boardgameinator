@@ -38,11 +38,25 @@ export const Thumbnail = (props) => {
         }
     }
 
+    const printTitleTally = () => {
+        if (props.activethumbs.total_title_votes 
+          && typeof props.thumbcounts !== 'undefined'
+          && props.thumbcounts.hasOwnProperty('titles')) {
+            let count = props.thumbcounts.titles
+            return (
+                {count}
+            )
+        } else {
+            return null
+        }
+    }
+
     return (
         <div className="thumbnail">
             <img src={props.url} alt="game box cover" />
             <div className={getClasses()}>
-                <FontAwesomeIcon icon={faThumbsUp} /> {props.thumbcounts.titles} 
+                <FontAwesomeIcon icon={faThumbsUp} />
+                { printTitleTally() }
                 { printAttributeTally() }
             </div>
         </div>
@@ -51,7 +65,7 @@ export const Thumbnail = (props) => {
 
 Thumbnail.propTypes = {
     activethumbs: PropTypes.object.isRequired,
-    thumbcounts: PropTypes.object.isRequired,
+    thumbcounts: PropTypes.object,
     name: PropTypes.string.isRequired,
     reallynarrow: PropTypes.bool.isRequired,
     url: PropTypes.string,

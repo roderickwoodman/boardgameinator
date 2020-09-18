@@ -133,7 +133,7 @@ GameCardBack.propTypes = {
     description: PropTypes.array.isRequired,
     inspectingsection: PropTypes.string.isRequired,
     activethumbs: PropTypes.object.isRequired,
-    thumbcounts: PropTypes.object.isRequired,
+    thumbcounts: PropTypes.object,
     comments: PropTypes.array,
     videos: PropTypes.array,
     ontoggleinspection: PropTypes.func.isRequired,

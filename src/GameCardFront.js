@@ -152,7 +152,7 @@ GameCardFront.propTypes = {
     onnewvote: PropTypes.func.isRequired,
     ondelete: PropTypes.func.isRequired,
     ontoggleinspection: PropTypes.func.isRequired,
-    thumbcounts: PropTypes.object.isRequired,
+    thumbcounts: PropTypes.object,
     thumbnail: PropTypes.string,
     activethumbs: PropTypes.object.isRequired,
     yearpublished: PropTypes.number,

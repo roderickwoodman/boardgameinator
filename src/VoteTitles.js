@@ -28,7 +28,7 @@ export const VoteTitles = (props) => {
 
 VoteTitles.propTypes = {
     activegamedata: PropTypes.array.isRequired,
-    titlethumbs: PropTypes.object.isRequired,
+    titlethumbs: PropTypes.object,
     onnewvote: PropTypes.func.isRequired,
     ondeleteall: PropTypes.func.isRequired,
 }

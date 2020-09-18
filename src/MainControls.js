@@ -74,7 +74,7 @@ export const MainControls = (props) => {
     let num_title_votes = 0
     for (let gameId in props.activethumbs.titles) {
         for (let vote of Object.keys(props.activethumbs.titles[gameId])) {
-            num_title_votes += 1
+            num_title_votes += props.activethumbs.titles[gameId][vote].length
         }
     }
 

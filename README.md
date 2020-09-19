@@ -25,7 +25,7 @@ It is easy to build and upvote a list of board games.
 3. **Upvote Attributes.** Click the "Vote Attributes" button to upvote an attribute across all games.
 4. **Upvote Games.** Click its thumbnail or the "Vote Titles" button to upvote the game itself.
 
-Vote counts will appear overlayed on top of the game box art thumbnail, and the game list will be sorted and filtered according to the settings within the user preferences panel.
+Within the user preferences panel, the user can choose to sort and/or filter the list of added games by these title and attribute vote counts. The vote counts will appear overlayed on top of the game box art thumbnail.
 
 ### Why is it so awesome?
 

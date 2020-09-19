@@ -42,7 +42,7 @@ export const Thumbnail = (props) => {
         if (props.activethumbs.total_title_votes 
           && typeof props.thumbcounts !== 'undefined'
           && props.thumbcounts.hasOwnProperty('titles') ) {
-            return props.thumbcounts.titles
+            return <span>&nbsp;{props.thumbcounts.titles}</span>
         } else {
             return null
         }

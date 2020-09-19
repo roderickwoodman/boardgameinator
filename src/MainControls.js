@@ -16,11 +16,13 @@ export const MainControls = (props) => {
 
     const [addIsOpen, setAddIsOpen] = useState(false)
     const [voteAttributesIsOpen, setVoteAttributesIsOpen] = useState(false)
+    const [voteAttributesErrorIsOpen, setVoteAttributesErrorIsOpen] = useState(false)
     const [voteTitlesIsOpen, setVoteTitlesIsOpen] = useState(false)
     const [importPollIsOpen, setImportPollIsOpen] = useState(false)
 
     const showAddModal = () => {
         setVoteAttributesIsOpen(false)
+        setVoteAttributesErrorIsOpen(false)
         setVoteTitlesIsOpen(false)
         setImportPollIsOpen(false)
         setAddIsOpen(true)
@@ -34,11 +36,24 @@ export const MainControls = (props) => {
         setAddIsOpen(false)
         setVoteTitlesIsOpen(false)
         setImportPollIsOpen(false)
+        setVoteAttributesErrorIsOpen(false)
         setVoteAttributesIsOpen(true)
     }
 
     const hideVoteAttributesModal = () => {
         setVoteAttributesIsOpen(false)
+    }
+
+    const showVoteAttributesErrorModal = () => {
+        setAddIsOpen(false)
+        setVoteTitlesIsOpen(false)
+        setImportPollIsOpen(false)
+        setVoteAttributesIsOpen(false)
+        setVoteAttributesErrorIsOpen(true)
+    }
+
+    const hideVoteAttributesErrorModal = () => {
+        setVoteAttributesErrorIsOpen(false)
     }
 
     const showVoteTitlesModal = () => {
@@ -55,6 +70,7 @@ export const MainControls = (props) => {
     const showImportPollModal = () => {
         setAddIsOpen(false)
         setVoteAttributesIsOpen(false)
+        setVoteAttributesErrorIsOpen(false)
         setVoteTitlesIsOpen(false)
         setImportPollIsOpen(true)
     }
@@ -104,6 +120,47 @@ export const MainControls = (props) => {
         left: "-1000px",
         top: "-1000px"
     }
+    const VoteAttributesModal = () => {
+        if (props.activepoll === 'local') {
+            return (
+                <React.Fragment>
+                <button className="default-primary-styles" onClick={showVoteAttributesModal}>Vote Attributes</button>
+                <Modal size="md" show={voteAttributesIsOpen} onHide={hideVoteAttributesModal}>
+                    <ModalBody>
+                        <div id="attribute-voting-controls">
+                            <VoteAttributes 
+                                activegamedata={props.activegamedata}
+                                attrthumbs={props.activethumbs.attributes} 
+                                onnewvote={props.onnewvote} />
+                        </div>
+                    </ModalBody>
+                    <ModalFooter> 
+                        <button className="default-danger-styles" data-votingtype="all_attributes" onClick={props.onclearsectionvotes} disabled={num_attr_votes===0}>Remove All Votes</button>
+                        <button className="default-primary-styles" onClick={hideVoteAttributesModal}>Close</button>
+                    </ModalFooter>
+                </Modal>
+                </React.Fragment>
+            )
+        } else {
+            return (
+                <React.Fragment>
+                <button className="default-primary-styles" onClick={showVoteAttributesErrorModal}>Vote Attributes</button>
+                <Modal size="md" show={voteAttributesErrorIsOpen} onHide={hideVoteAttributesErrorModal}>
+                    <ModalBody>
+                        <div id="attribute-voting-controls">
+                            <p>ERROR: Cannot vote on attributes while "{props.activepoll}" is enabled.</p>
+                        </div>
+                    </ModalBody>
+                    <ModalFooter> 
+                        <button className="default-primary-styles" onClick={hideVoteAttributesErrorModal}>Close</button>
+                    </ModalFooter>
+                </Modal>
+                </React.Fragment>
+            )
+        }
+
+    }
+
     return (
         <React.Fragment>
         <div id="main-controls">
@@ -143,21 +200,7 @@ export const MainControls = (props) => {
                 </ModalFooter>
             </Modal>
 
-            <button className="default-primary-styles" onClick={showVoteAttributesModal}>Vote Attributes</button>
-            <Modal size="md" show={voteAttributesIsOpen} onHide={hideVoteAttributesModal}>
-                <ModalBody>
-                    <div id="attribute-voting-controls">
-                        <VoteAttributes 
-                            activegamedata={props.activegamedata}
-                            attrthumbs={props.activethumbs.attributes} 
-                            onnewvote={props.onnewvote} />
-                    </div>
-                </ModalBody>
-                <ModalFooter> 
-                    <button className="default-danger-styles" data-votingtype="all_attributes" onClick={props.onclearsectionvotes} disabled={num_attr_votes===0}>Remove All Votes</button>
-                    <button className="default-primary-styles" onClick={hideVoteAttributesModal}>Close</button>
-                </ModalFooter>
-            </Modal>
+            <VoteAttributesModal />
 
             <button className="default-primary-styles" onClick={showImportPollModal}>Import Poll</button>
             <Modal size="md" show={importPollIsOpen} onHide={hideImportPollModal}>

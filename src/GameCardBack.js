@@ -77,7 +77,7 @@ export const GameCardBack = (props) => {
             data-newvote="thumbsup"
             onClick={onnewvote}
             >
-            <Thumbnail name={name} url={thumbnail} activethumbs={activethumbs} thumbcounts={thumbcounts} reallynarrow={reallynarrow} />
+            <Thumbnail id={id} name={name} url={thumbnail} activethumbs={activethumbs} thumbcounts={thumbcounts} reallynarrow={reallynarrow} />
 
         </section>
         <ul id="inspectionsection-selector">
@@ -129,11 +129,11 @@ export const GameCardBack = (props) => {
 GameCardBack.propTypes = {
     id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
+    activethumbs: PropTypes.object.isRequired,
+    thumbcounts: PropTypes.object,
     yearpublished: PropTypes.number,
     description: PropTypes.array.isRequired,
     inspectingsection: PropTypes.string.isRequired,
-    activethumbs: PropTypes.object.isRequired,
-    thumbcounts: PropTypes.object,
     comments: PropTypes.array,
     videos: PropTypes.array,
     ontoggleinspection: PropTypes.func.isRequired,

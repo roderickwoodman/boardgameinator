@@ -99,7 +99,7 @@ export const GameCardFront = (props) => {
             data-newvote="thumbsup"
             onClick={onnewvote}
             >
-            <Thumbnail name={name} url={thumbnail} activethumbs={activethumbs} thumbcounts={thumbcounts} reallynarrow={reallynarrow} />
+            <Thumbnail id={id} name={name} url={thumbnail} activethumbs={activethumbs} thumbcounts={thumbcounts} reallynarrow={reallynarrow} />
             <div className="overlay">
                 {(attributes.min_players !== attributes.max_players)
                     ? <div className={getClasses('supported-playercount', null)}><FontAwesomeIcon icon={faUserFriends}/> {attributes.min_players}-{attributes.max_players}</div>
@@ -148,13 +148,13 @@ export const GameCardFront = (props) => {
 GameCardFront.propTypes = {
     id: PropTypes.number.isRequired,
     attributes: PropTypes.object.isRequired,
+    activethumbs: PropTypes.object.isRequired,
+    thumbcounts: PropTypes.object,
     name: PropTypes.string.isRequired,
     onnewvote: PropTypes.func.isRequired,
     ondelete: PropTypes.func.isRequired,
     ontoggleinspection: PropTypes.func.isRequired,
-    thumbcounts: PropTypes.object,
     thumbnail: PropTypes.string,
-    activethumbs: PropTypes.object.isRequired,
     yearpublished: PropTypes.number,
     reallynarrow: PropTypes.bool.isRequired,
 }

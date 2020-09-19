@@ -33,11 +33,11 @@ const Game = (props) => {
             gamecard = <GameCardFront 
                 id={props.id}
                 thumbnail={props.thumbnail}
+                activethumbs={props.activethumbs} 
+                thumbcounts={props.thumbcounts} 
                 name={props.name}
                 yearpublished={props.yearpublished}
                 attributes={props.attributes}
-                activethumbs={props.activethumbs} 
-                thumbcounts={props.thumbcounts} 
                 ontoggleinspection={props.ontoggleinspection} 
                 onnewvote={props.onnewvote}
                 ondelete={props.ondelete}
@@ -46,6 +46,7 @@ const Game = (props) => {
             gamecard = <GameCardBack 
                 id={props.id}
                 thumbnail={props.thumbnail}
+                activethumbs={props.activethumbs}
                 thumbcounts={props.thumbcounts} 
                 name={props.name}
                 yearpublished={props.yearpublished}
@@ -53,7 +54,6 @@ const Game = (props) => {
                 inspectingsection={props.inspectingsection}
                 comments={props.comments}
                 videos={props.videos}
-                activethumbs={props.activethumbs}
                 ontoggleinspection={props.ontoggleinspection} 
                 oninspectionsectionchange={props.oninspectionsectionchange} 
                 onnewvote={props.onnewvote}
@@ -117,7 +117,7 @@ export const GameList = (props) => {
         return weights
     } 
 
-    const getTotalVotes = (props) => {
+    const getTotalVotes = () => {
         // tally all votes for each game
         let all_vote_counts = {}
         if (props.activegamedata.length) {
@@ -335,7 +335,7 @@ export const GameList = (props) => {
         return classes
     }
 
-    let thumbcounts = getTotalVotes(props)
+    let thumbcounts = getTotalVotes()
     let sortedFilteredGames = sortGames(filterWeight(filterPlayercount(filterTitles(props.activegamedata))), thumbcounts)
     return (
         <React.Fragment>
@@ -369,7 +369,7 @@ export const GameList = (props) => {
                                 comments={game.comments}
                                 videos={game.videos}
                                 activethumbs={props.activethumbs} 
-                                thumbcounts={thumbcounts[game.name]}
+                                thumbcounts={thumbcounts[game.id]}
                                 onnewvote={props.onnewvote}
                                 ondelete={props.ondelete}
                                 ontoggleinspection={handleInspectionChange}

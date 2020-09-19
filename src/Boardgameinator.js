@@ -521,7 +521,7 @@ export class Boardgameinator extends React.Component {
                 //   2) replace the active title votes with all of the title votes from this poll
                 //   3) refresh the active attribute votes with the saved local attribute votes
                 new_activeGameList = Object.keys(poll.pollThumbs.titles).map( title => parseInt(title) )
-                new_activeThumbs = JSON.parse(JSON.stringify(poll.pollThumbs.titles))
+                new_activeThumbs = JSON.parse(JSON.stringify(poll.pollThumbs))
                 new_activeThumbs.total_title_votes = poll.pollThumbs.total_title_votes
                 new_activeThumbs.attributes = JSON.parse(JSON.stringify(prevState.allThumbs.local.attributes))
                 new_activeThumbs.total_attribute_votes = prevState.allThumbs.local.total_attribute_votes

@@ -15,6 +15,7 @@ import { faClipboard } from '@fortawesome/free-solid-svg-icons'
 export const MainControls = (props) => {
 
     const [addIsOpen, setAddIsOpen] = useState(false)
+    const [addErrorIsOpen, setAddErrorIsOpen] = useState(false)
     const [voteAttributesIsOpen, setVoteAttributesIsOpen] = useState(false)
     const [voteAttributesErrorIsOpen, setVoteAttributesErrorIsOpen] = useState(false)
     const [voteTitlesIsOpen, setVoteTitlesIsOpen] = useState(false)
@@ -25,6 +26,7 @@ export const MainControls = (props) => {
         setVoteAttributesErrorIsOpen(false)
         setVoteTitlesIsOpen(false)
         setImportPollIsOpen(false)
+        setAddErrorIsOpen(false)
         setAddIsOpen(true)
     }
 
@@ -32,8 +34,22 @@ export const MainControls = (props) => {
         setAddIsOpen(false)
     }
 
+    const showAddErrorModal = () => {
+        setVoteAttributesIsOpen(false)
+        setVoteAttributesErrorIsOpen(false)
+        setVoteTitlesIsOpen(false)
+        setImportPollIsOpen(false)
+        setAddIsOpen(false)
+        setAddErrorIsOpen(true)
+    }
+
+    const hideAddErrorModal = () => {
+        setAddErrorIsOpen(false)
+    }
+
     const showVoteAttributesModal = () => {
         setAddIsOpen(false)
+        setAddErrorIsOpen(false)
         setVoteTitlesIsOpen(false)
         setImportPollIsOpen(false)
         setVoteAttributesErrorIsOpen(false)
@@ -46,6 +62,7 @@ export const MainControls = (props) => {
 
     const showVoteAttributesErrorModal = () => {
         setAddIsOpen(false)
+        setAddErrorIsOpen(false)
         setVoteTitlesIsOpen(false)
         setImportPollIsOpen(false)
         setVoteAttributesIsOpen(false)
@@ -58,7 +75,9 @@ export const MainControls = (props) => {
 
     const showVoteTitlesModal = () => {
         setAddIsOpen(false)
+        setAddErrorIsOpen(false)
         setVoteAttributesIsOpen(false)
+        setVoteAttributesErrorIsOpen(false)
         setImportPollIsOpen(false)
         setVoteTitlesIsOpen(true)
     }
@@ -69,6 +88,7 @@ export const MainControls = (props) => {
 
     const showImportPollModal = () => {
         setAddIsOpen(false)
+        setAddErrorIsOpen(false)
         setVoteAttributesIsOpen(false)
         setVoteAttributesErrorIsOpen(false)
         setVoteTitlesIsOpen(false)
@@ -120,6 +140,47 @@ export const MainControls = (props) => {
         left: "-1000px",
         top: "-1000px"
     }
+    const AddModal = () => {
+        if (props.activepoll === 'local') {
+            return (
+                <React.Fragment>
+                <button className="default-primary-styles" onClick={showAddModal}>Add Games</button>
+                <Modal size="md" show={addIsOpen} onHide={hideAddModal}>
+                    <ModalBody>
+                        <div id="gameinput-controls">
+                            <AddGames
+                                activepoll={props.activepoll} 
+                                cachedgametitles={props.cachedgametitles}
+                                onaddcachedtitle={props.onaddcachedtitle}
+                                onaddnewtitle={props.onaddnewtitle}
+                                oncachenewtitle={props.oncachenewtitle} />
+                        </div>
+                    </ModalBody>
+                    <ModalFooter> 
+                        <button className="default-primary-styles" onClick={hideAddModal}>Close</button>
+                    </ModalFooter>
+                </Modal>
+                </React.Fragment>
+            )
+        } else {
+            return (
+                <React.Fragment>
+                <button className="default-primary-styles" onClick={showAddErrorModal}>Add Games</button>
+                <Modal size="md" show={addErrorIsOpen} onHide={hideAddErrorModal}>
+                    <ModalBody>
+                        <div id="gameinput-controls">
+                            <p>INFO: Adding of games is disabled while "{props.activepoll}" is selected.</p>
+                        </div>
+                    </ModalBody>
+                    <ModalFooter> 
+                        <button className="default-primary-styles" onClick={hideAddErrorModal}>Close</button>
+                    </ModalFooter>
+                </Modal>
+                </React.Fragment>
+            )
+        }
+    }
+
     const VoteAttributesModal = () => {
         if (props.activepoll === 'local') {
             return (
@@ -148,7 +209,7 @@ export const MainControls = (props) => {
                 <Modal size="md" show={voteAttributesErrorIsOpen} onHide={hideVoteAttributesErrorModal}>
                     <ModalBody>
                         <div id="attribute-voting-controls">
-                            <p>ERROR: Cannot vote on attributes while "{props.activepoll}" is enabled.</p>
+                            <p>INFO: Voting on attributes is disabled while "{props.activepoll}" is selected.</p>
                         </div>
                     </ModalBody>
                     <ModalFooter> 
@@ -165,22 +226,7 @@ export const MainControls = (props) => {
         <React.Fragment>
         <div id="main-controls">
 
-            <button className="default-primary-styles" onClick={showAddModal}>Add Games</button>
-            <Modal size="md" show={addIsOpen} onHide={hideAddModal}>
-                <ModalBody>
-                    <div id="gameinput-controls">
-                        <AddGames
-                            activepoll={props.activepoll} 
-                            cachedgametitles={props.cachedgametitles}
-                            onaddcachedtitle={props.onaddcachedtitle}
-                            onaddnewtitle={props.onaddnewtitle}
-                            oncachenewtitle={props.oncachenewtitle} />
-                    </div>
-                </ModalBody>
-                <ModalFooter> 
-                    <button className="default-primary-styles" onClick={hideAddModal}>Close</button>
-                </ModalFooter>
-            </Modal>
+            <AddModal />
 
             <button className="default-primary-styles" onClick={showVoteTitlesModal}>Vote Games</button>
             <Modal size="md" show={voteTitlesIsOpen} onHide={hideVoteTitlesModal}>

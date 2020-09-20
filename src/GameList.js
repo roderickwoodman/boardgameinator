@@ -124,7 +124,8 @@ export const GameList = (props) => {
             for (const game of props.activegamedata) {
                 let new_vote_counts = {
                     attributes: 0,
-                    titles: 0
+                    titles: 0,
+                    my_rank: 0
                 }
                 // playercount section of a game gets ONE TOTAL thumbsup if any of its supported playercounts gets a thumbsup
                 for (let playercount=game.attributes.min_players; playercount<=game.attributes.max_players; playercount++) {
@@ -149,14 +150,14 @@ export const GameList = (props) => {
                         new_vote_counts.attributes++
                     }
                 }
-                if (props.activethumbs.hasOwnProperty('titles')) {
-                }
 
                 // title votes
                 if (props.activethumbs.hasOwnProperty('titles') 
                   && props.activethumbs.titles.hasOwnProperty(game.id.toString())
                   && props.activethumbs.titles[game.id].hasOwnProperty('thumbsup')) {
-                    new_vote_counts.titles += props.activethumbs.titles[game.id.toString()].thumbsup.length
+                    let thumbsup_data = props.activethumbs.titles[game.id.toString()].thumbsup
+                    new_vote_counts.titles += thumbsup_data.length //props.activethumbs.titles[game.id.toString()].thumbsup.length
+                    new_vote_counts.my_rank = thumbsup_data.filter(user => user === props.user).length //props.activethumbs.titles[game.id.toString()].thumbsup.filter( user => user === props.user ).length
                 }
 
                 all_vote_counts[game.id] = new_vote_counts
@@ -405,4 +406,5 @@ GameList.propTypes = {
     activepoll: PropTypes.string.isRequired,
     onviewpoll: PropTypes.func.isRequired,
     reallynarrow: PropTypes.bool.isRequired,
+    user: PropTypes.string.isRequired,
 }

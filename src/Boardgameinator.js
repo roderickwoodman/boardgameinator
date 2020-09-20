@@ -661,7 +661,8 @@ export class Boardgameinator extends React.Component {
                     onclearsectionvotes={this.onClearSectionVotes}
                     activepoll={this.state.activePoll}
                     onviewpoll={this.onViewPoll}
-                    reallynarrow={styles.reallyNarrow} />
+                    reallynarrow={styles.reallyNarrow} 
+                    user={this.state.user} />
             </div>
             </React.Fragment>
         )

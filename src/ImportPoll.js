@@ -23,7 +23,7 @@ const hardcoded_polls = [
         pollThumbs: {
             titles: {
                 175914: { // Food Chain Magnate
-                    'thumbsup': ['Fran', 'Filipe', 'Fiona']
+                    'thumbsup': ['Fran', 'Filipe', 'Fiona', '_me_']
                 },
                 266192: { // Wingspan
                     'thumbsup': ['Wesley']

@@ -243,19 +243,11 @@ export const MainControls = (props) => {
                 </React.Fragment>
             )
         }
-
     }
 
-    return (
-        <React.Fragment>
-        <div id="main-controls">
-
-            <AddModal />
-
-            <VoteTitlesModal />
-
-            <VoteAttributesModal />
-
+    const ImportPollModal = () => {
+        return (
+            <React.Fragment>
             <button className="default-primary-styles" onClick={showImportPollModal}>Import Poll</button>
             <Modal size="md" show={importPollIsOpen} onHide={hideImportPollModal}>
                 <ModalBody>
@@ -269,6 +261,21 @@ export const MainControls = (props) => {
                     <button className="default-primary-styles" onClick={hideImportPollModal}>Close</button>
                 </ModalFooter>
             </Modal>
+            </React.Fragment>
+        )
+    }
+
+    return (
+        <React.Fragment>
+        <div id="main-controls">
+
+            <AddModal />
+
+            <VoteTitlesModal />
+
+            <VoteAttributesModal />
+
+            <ImportPollModal />
 
             <button className="default-primary-styles"><FontAwesomeIcon icon={faClipboard} onClick={handleCopyToClipboard} disabled={!props.activegamedata.length} /></button>
             <section>

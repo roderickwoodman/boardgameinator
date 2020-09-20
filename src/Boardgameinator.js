@@ -465,8 +465,9 @@ export class Boardgameinator extends React.Component {
             if (votingtype === 'title') {
                 if (updated_activeThumbs.titles.hasOwnProperty(votingon.toString())) {
                     let updated_thistitle = JSON.parse(JSON.stringify(updated_activeThumbs.titles[votingon.toString()]))
-                    if (updated_thistitle.hasOwnProperty(newvote)) {
-                        delete(updated_thistitle[newvote])
+                    if (updated_thistitle.hasOwnProperty(newvote)
+                        && updated_thistitle[newvote].includes(prevState.user)) {
+                        updated_thistitle[newvote] = updated_thistitle[newvote].filter( user => user !== prevState.user )
                     } else {
                         updated_thistitle[newvote] = [prevState.user]
                     }

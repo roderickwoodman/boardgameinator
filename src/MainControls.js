@@ -265,6 +265,19 @@ export const MainControls = (props) => {
         )
     }
 
+    const CopyToClipboard = () => {
+        return (
+            <React.Fragment>
+            <button className="default-primary-styles"><FontAwesomeIcon icon={faClipboard} onClick={handleCopyToClipboard} disabled={!props.activegamedata.length} /></button>
+            <section>
+                <form>
+                    <textarea id="games-clipboard" style={inlineStyle} defaultValue={clipboardValue}></textarea>
+                </form>
+            </section>
+            </React.Fragment>
+        )
+    }
+
     return (
         <React.Fragment>
         <div id="main-controls">
@@ -277,12 +290,7 @@ export const MainControls = (props) => {
 
             <ImportPollModal />
 
-            <button className="default-primary-styles"><FontAwesomeIcon icon={faClipboard} onClick={handleCopyToClipboard} disabled={!props.activegamedata.length} /></button>
-            <section>
-                <form>
-                    <textarea id="games-clipboard" style={inlineStyle} defaultValue={clipboardValue}></textarea>
-                </form>
-            </section>
+            <CopyToClipboard />
 
         </div>
         </React.Fragment>

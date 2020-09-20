@@ -181,6 +181,30 @@ export const MainControls = (props) => {
         }
     }
 
+    const VoteTitlesModal = () => {
+        return (
+            <React.Fragment>
+            <button className="default-primary-styles" onClick={showVoteTitlesModal}>Vote Games</button>
+            <Modal size="md" show={voteTitlesIsOpen} onHide={hideVoteTitlesModal}>
+                <ModalBody>
+                    <div id="title-voting-controls">
+                        <VoteTitles
+                            activegamedata={props.activegamedata} 
+                            titlethumbs={props.activethumbs.titles} 
+                            onnewvote={props.onnewvote}
+                            ondeleteall={props.ondeleteall} />
+                    </div>
+                </ModalBody>
+                <ModalFooter> 
+                    <button className="default-danger-styles" onClick={props.ondeleteall} disabled={props.activegamedata.length===0}>Remove All Games</button>
+                    <button className="default-danger-styles" data-votingtype="all_titles" onClick={props.onclearsectionvotes} disabled={num_title_votes===0}>Remove All Votes</button>
+                    <button className="default-primary-styles" onClick={hideVoteTitlesModal}>Close</button>
+                </ModalFooter>
+            </Modal>
+            </React.Fragment>
+        )
+    }
+
     const VoteAttributesModal = () => {
         if (props.activepoll === 'local') {
             return (
@@ -228,23 +252,7 @@ export const MainControls = (props) => {
 
             <AddModal />
 
-            <button className="default-primary-styles" onClick={showVoteTitlesModal}>Vote Games</button>
-            <Modal size="md" show={voteTitlesIsOpen} onHide={hideVoteTitlesModal}>
-                <ModalBody>
-                    <div id="title-voting-controls">
-                        <VoteTitles
-                            activegamedata={props.activegamedata} 
-                            titlethumbs={props.activethumbs.titles} 
-                            onnewvote={props.onnewvote}
-                            ondeleteall={props.ondeleteall} />
-                    </div>
-                </ModalBody>
-                <ModalFooter> 
-                    <button className="default-danger-styles" onClick={props.ondeleteall} disabled={props.activegamedata.length===0}>Remove All Games</button>
-                    <button className="default-danger-styles" data-votingtype="all_titles" onClick={props.onclearsectionvotes} disabled={num_title_votes===0}>Remove All Votes</button>
-                    <button className="default-primary-styles" onClick={hideVoteTitlesModal}>Close</button>
-                </ModalFooter>
-            </Modal>
+            <VoteTitlesModal />
 
             <VoteAttributesModal />
 

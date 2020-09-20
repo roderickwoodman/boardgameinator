@@ -45,6 +45,7 @@ export class Boardgameinator extends React.Component {
             filterWeight: true,
             localGameList: [],
             sortOrder: 'maxtitlevotes',
+            user: '_me_', // FIXME: implement user auths
             windowWidth: 0,
             windowHeight: 0
         }
@@ -467,12 +468,12 @@ export class Boardgameinator extends React.Component {
                     if (updated_thistitle.hasOwnProperty(newvote)) {
                         delete(updated_thistitle[newvote])
                     } else {
-                        updated_thistitle[newvote] = [newvote]
+                        updated_thistitle[newvote] = [prevState.user]
                     }
                     updated_activeThumbs.titles[votingon] = updated_thistitle
                 } else {
                     let updated_vote = {}
-                    updated_vote[newvote] = [newvote]
+                    updated_vote[newvote] = [prevState.user]
                     updated_activeThumbs.titles[votingon] = updated_vote
                 }
             // record a new attribute vote

@@ -42,7 +42,11 @@ export const Thumbnail = (props) => {
         if (props.activethumbs.total_title_votes 
           && typeof props.thumbcounts !== 'undefined'
           && props.thumbcounts.hasOwnProperty('titles') ) {
-            return <span>&nbsp;{props.thumbcounts.titles}</span>
+            let extra_text = null
+            if (props.thumbcounts.my_rank > 0 && props.thumbcounts.titles > props.thumbcounts.my_rank) {
+                extra_text = 'You & ' + (props.thumbcounts.titles - props.thumbcounts.my_rank) + ' others'
+            }
+            return <span>&nbsp;{props.thumbcounts.titles}{extra_text}</span>
         } else {
             return null
         }

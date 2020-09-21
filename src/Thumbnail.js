@@ -31,7 +31,7 @@ export const Thumbnail = (props) => {
     const printAttributeTally = () => {
         if (props.activethumbs.total_attribute_votes && props.thumbcounts.attributes) {
             return (
-                <span className="vote-count-subheading">& {props.thumbcounts.attributes} {getAttributeCountLabel(props.thumbcounts.attributes)}</span>
+                <span className="vote-count-subheading-block">& {props.thumbcounts.attributes} {getAttributeCountLabel(props.thumbcounts.attributes)}</span>
             )
         } else {
             return null
@@ -46,7 +46,7 @@ export const Thumbnail = (props) => {
             if (props.thumbcounts.my_rank > 0 && props.thumbcounts.titles > props.thumbcounts.my_rank) {
                 extra_text = 'You & ' + (props.thumbcounts.titles - props.thumbcounts.my_rank) + ' others'
             }
-            return <span>&nbsp;{props.thumbcounts.titles}{extra_text}</span>
+            return <span>&nbsp;{props.thumbcounts.titles}<span className="vote-count-subheading-inline">{extra_text}</span></span>
         } else {
             return null
         }

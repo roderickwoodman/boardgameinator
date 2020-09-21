@@ -238,9 +238,17 @@ html, #root {
   display: none;
 }
 
-.vote-count-subheading {
+.vote-count-subheading-block {
+  /* position: static; */
   display: block;
   font-size: 0.5em;
+}
+
+.vote-count-subheading-inline {
+  /* position: static; */
+  display: inline;
+  font-size: 0.5em;
+  line-height: 100%;
 }
 
 .thumbnail {

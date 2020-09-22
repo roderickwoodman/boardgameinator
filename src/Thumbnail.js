@@ -44,7 +44,7 @@ export const Thumbnail = (props) => {
           && props.thumbcounts.hasOwnProperty('titles') ) {
             let extra_text = null
             if (props.thumbcounts.my_rank > 0 && props.thumbcounts.titles > props.thumbcounts.my_rank) {
-                extra_text = 'You & ' + (props.thumbcounts.titles - props.thumbcounts.my_rank) + ' others'
+                extra_text = 'incl. You'
             }
             return <span>&nbsp;{props.thumbcounts.titles}<span className="vote-count-subheading-inline">{extra_text}</span></span>
         } else {

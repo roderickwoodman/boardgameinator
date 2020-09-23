@@ -31,7 +31,7 @@ export const Thumbnail = (props) => {
     const printAttributeTally = () => {
         if (props.activethumbs.total_attribute_votes && props.thumbcounts.attributes) {
             return (
-                <span className="vote-count-subheading-block">& {props.thumbcounts.attributes} {getAttributeCountLabel(props.thumbcounts.attributes)}</span>
+                <span>& {props.thumbcounts.attributes} {getAttributeCountLabel(props.thumbcounts.attributes)}</span>
             )
         } else {
             return null
@@ -45,8 +45,17 @@ export const Thumbnail = (props) => {
             let extra_text = null
             if (props.thumbcounts.my_rank > 0 && props.thumbcounts.titles > props.thumbcounts.my_rank) {
                 extra_text = 'incl. You'
+                return (
+                    <React.Fragment>
+                        <div>&nbsp;{props.thumbcounts.titles}</div>
+                        <div className="extra-text">{extra_text}</div>
+                    </React.Fragment>
+                )
+            } else {
+                return (
+                    <div>&nbsp;{props.thumbcounts.titles}</div>
+                )
             }
-            return <span>&nbsp;{props.thumbcounts.titles}<span className="vote-count-subheading-inline">{extra_text}</span></span>
         } else {
             return null
         }
@@ -56,9 +65,13 @@ export const Thumbnail = (props) => {
         <div className="thumbnail">
             <img src={props.url} alt="game box cover" />
             <div className={getClasses()}>
-                <FontAwesomeIcon icon={faThumbsUp} />
-                { printTitleTally() }
-                { printAttributeTally() }
+                <div className="vote-count-heading">
+                    <FontAwesomeIcon icon={faThumbsUp} />
+                    { printTitleTally() }
+                </div>
+                <div className="vote-count-subheading">
+                    { printAttributeTally() }
+                </div>
             </div>
         </div>
     )

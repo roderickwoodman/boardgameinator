@@ -232,23 +232,29 @@ html, #root {
   border-top: 1px solid silver;
   border-bottom: 1px solid silver;
   text-align: center;
+  display: flex;
+  flex-direction: column;
 }
 
 .vote-count.no-votes-to-show {
   display: none;
 }
 
-.vote-count-subheading-block {
-  /* position: static; */
-  display: block;
+.vote-count-heading {
+  font-size: 1em;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+.vote-count-heading .extra-text {
   font-size: 0.5em;
+  line-height: 125%;
+  flex: 0 0 25%;
 }
 
-.vote-count-subheading-inline {
-  /* position: static; */
-  display: inline;
+.vote-count-subheading {
   font-size: 0.5em;
-  line-height: 100%;
 }
 
 .thumbnail {

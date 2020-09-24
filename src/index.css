@@ -990,4 +990,12 @@ button:enabled,
     top: unset;
   }
 
+  .vote-count-heading {
+    font-size: 0.85em;
+  }
+
+  .vote-count-subheading {
+    font-size: 0.5em;
+  }
+
 }

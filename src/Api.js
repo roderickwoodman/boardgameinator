@@ -187,3 +187,8 @@ function parseIntoParagraphs(str) {
       .split('&#10;');
     return paragraphs;
 }
+
+export function voteinpollApi(poll_id, game_id, newvote, user) {
+    console.log('FIXME (WIP): implement a "' + newvote + '" vote by ' + user + ' in poll #' + poll_id + ' for game #' + game_id + '.')
+    return { }
+}

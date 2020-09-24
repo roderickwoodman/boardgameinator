@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import purpleMeeple from './img/purple-meeple-64.png'
 import { ViewControls } from './ViewControls'
 import { GameList } from './GameList'
-import { gamedataApi } from './Api.js'
+import { gamedataApi, voteinpollApi } from './Api.js'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBars } from '@fortawesome/free-solid-svg-icons'
 
@@ -54,6 +54,7 @@ export class Boardgameinator extends React.Component {
         this.getCachedGameTitles = this.getCachedGameTitles.bind(this)
         this.gameHasBeenAdded = this.gameHasBeenAdded.bind(this)
         this.gameSupportsPlayercount = this.gameSupportsPlayercount.bind(this)
+        this.voteTitleInPoll = this.voteTitleInPoll.bind(this)
         this.addGameById = this.addGameById.bind(this)
         this.onAddCachedTitle = this.onAddCachedTitle.bind(this)
         this.onAddNewTitle = this.onAddNewTitle.bind(this)
@@ -457,50 +458,69 @@ export class Boardgameinator extends React.Component {
         return  count
     }
 
+    async voteTitleInPoll(poll_id, title, newvote, user) {
+        voteinpollApi(poll_id, title, newvote, user)
+            // .then(json => {
+            //     if (json.hasOwnProperty('id') === poll_id) {
+            //         this.onViewPoll(json)
+            //     }})
+    }
+
     onNewVote(event) {
         const { votingtype, votingon, newvote } = Object.assign({}, event.currentTarget.dataset)
-        this.setState(prevState => {
-            let updated_activeThumbs = JSON.parse(JSON.stringify(prevState.activeThumbs))
-            // record a new title vote
-            if (votingtype === 'title') {
-                if (updated_activeThumbs.titles.hasOwnProperty(votingon.toString())) {
-                    let updated_thistitle = JSON.parse(JSON.stringify(updated_activeThumbs.titles[votingon.toString()]))
-                    if (updated_thistitle.hasOwnProperty(newvote)
-                        && updated_thistitle[newvote].includes(prevState.user)) {
-                        updated_thistitle[newvote] = updated_thistitle[newvote].filter( user => user !== prevState.user )
+
+        // title votes for polls are managed by the server
+        if (votingtype === 'title' && this.state.activePoll !== 'local') {
+
+            this.voteTitleInPoll(this.state.activePoll, votingon, newvote, this.state.user)
+
+        // attribute votes and all non-poll votes are kept on the client (state & local storage)
+        } else {
+
+            this.setState(prevState => {
+                let updated_activeThumbs = JSON.parse(JSON.stringify(prevState.activeThumbs))
+                // record a new title vote
+                if (votingtype === 'title') {
+                    if (updated_activeThumbs.titles.hasOwnProperty(votingon.toString())) {
+                        let updated_thistitle = JSON.parse(JSON.stringify(updated_activeThumbs.titles[votingon.toString()]))
+                        if (updated_thistitle.hasOwnProperty(newvote)
+                            && updated_thistitle[newvote].includes(prevState.user)) {
+                            updated_thistitle[newvote] = updated_thistitle[newvote].filter( user => user !== prevState.user )
+                        } else {
+                            updated_thistitle[newvote] = [prevState.user]
+                        }
+                        updated_activeThumbs.titles[votingon] = updated_thistitle
                     } else {
-                        updated_thistitle[newvote] = [prevState.user]
+                        let updated_vote = {}
+                        updated_vote[newvote] = [prevState.user]
+                        updated_activeThumbs.titles[votingon] = updated_vote
                     }
-                    updated_activeThumbs.titles[votingon] = updated_thistitle
+                // record a new attribute vote
                 } else {
-                    let updated_vote = {}
-                    updated_vote[newvote] = [prevState.user]
-                    updated_activeThumbs.titles[votingon] = updated_vote
+                    let oldvote = updated_activeThumbs.attributes[votingtype][votingon]
+                    if (newvote !== oldvote) {
+                        updated_activeThumbs.attributes[votingtype][votingon] = newvote
+                    } else {
+                        delete(updated_activeThumbs.attributes[votingtype][votingon])
+                    }
                 }
-            // record a new attribute vote
-            } else {
-                let oldvote = updated_activeThumbs.attributes[votingtype][votingon]
-                if (newvote !== oldvote) {
-                    updated_activeThumbs.attributes[votingtype][votingon] = newvote
-                } else {
-                    delete(updated_activeThumbs.attributes[votingtype][votingon])
+                updated_activeThumbs.total_title_votes = this.totalTitleVotes(updated_activeThumbs.titles)
+                updated_activeThumbs.total_attribute_votes = this.totalAttributeVotes(updated_activeThumbs.attributes)
+                localStorage.setItem('activeThumbs', JSON.stringify(updated_activeThumbs))
+
+                // update the master list of all preferences
+                let new_allThumbs = JSON.parse(JSON.stringify(prevState.allThumbs))
+                let new_pollThumbs = JSON.parse(JSON.stringify(updated_activeThumbs))
+                new_allThumbs[prevState.activePoll] = new_pollThumbs
+                localStorage.setItem('allThumbs', JSON.stringify(new_allThumbs))
+
+                return { 
+                    activeThumbs: updated_activeThumbs,
+                    allThumbs: new_allThumbs,
                 }
-            }
-            updated_activeThumbs.total_title_votes = this.totalTitleVotes(updated_activeThumbs.titles)
-            updated_activeThumbs.total_attribute_votes = this.totalAttributeVotes(updated_activeThumbs.attributes)
-            localStorage.setItem('activeThumbs', JSON.stringify(updated_activeThumbs))
+            })
 
-            // update the master list of all preferences
-            let new_allThumbs = JSON.parse(JSON.stringify(prevState.allThumbs))
-            let new_pollThumbs = JSON.parse(JSON.stringify(updated_activeThumbs))
-            new_allThumbs[prevState.activePoll] = new_pollThumbs
-            localStorage.setItem('allThumbs', JSON.stringify(new_allThumbs))
-
-            return { 
-                activeThumbs: updated_activeThumbs,
-                allThumbs: new_allThumbs,
-            }
-        })
+        }
     }
 
     onViewPoll(poll) {

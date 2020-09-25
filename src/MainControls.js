@@ -196,7 +196,9 @@ export const MainControls = (props) => {
                     </div>
                 </ModalBody>
                 <ModalFooter> 
-                    <button className="default-danger-styles" onClick={props.ondeleteall} disabled={props.activegamedata.length===0}>Remove All Games</button>
+                    { props.activepoll === 'local' && 
+                        <button className="default-danger-styles" onClick={props.ondeleteall} disabled={props.activegamedata.length===0}>Remove All Games</button>
+                    }
                     <button className="default-danger-styles" data-votingtype="all_titles" onClick={props.onclearsectionvotes} disabled={num_title_votes===0}>Remove All Votes</button>
                     <button className="default-primary-styles" onClick={hideVoteTitlesModal}>Close</button>
                 </ModalFooter>

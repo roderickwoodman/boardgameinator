@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import purpleMeeple from './img/purple-meeple-64.png'
 import { ViewControls } from './ViewControls'
 import { GameList } from './GameList'
-import { gamedataApi, voteinpollApi } from './Api.js'
+import { gamedataApi, voteinpollApi, clearmyvotesApi } from './Api.js'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBars } from '@fortawesome/free-solid-svg-icons'
 
@@ -55,6 +55,7 @@ export class Boardgameinator extends React.Component {
         this.gameHasBeenAdded = this.gameHasBeenAdded.bind(this)
         this.gameSupportsPlayercount = this.gameSupportsPlayercount.bind(this)
         this.voteTitleInPoll = this.voteTitleInPoll.bind(this)
+        this.clearMyTitleVotesInPoll = this.clearMyTitleVotesInPoll.bind(this)
         this.addGameById = this.addGameById.bind(this)
         this.onAddCachedTitle = this.onAddCachedTitle.bind(this)
         this.onAddNewTitle = this.onAddNewTitle.bind(this)
@@ -402,6 +403,14 @@ export class Boardgameinator extends React.Component {
         })
     }
 
+    async clearMyTitleVotesInPoll(poll_id, user) {
+        clearmyvotesApi(poll_id, user)
+            // .then(json => {
+            //     if (json.hasOwnProperty('id') === poll_id) {
+            //         this.onViewPoll(json)
+            //     }})
+    }
+
     onDeleteAllTitles(event) {
         this.setState(prevState => {
             // FIXME: Implement poll editing. May not want to update active list here if we are currently looking at a poll.
@@ -561,36 +570,47 @@ export class Boardgameinator extends React.Component {
 
     onClearSectionVotes(event) {
         const { votingtype } = Object.assign({}, event.target.dataset)
-        const clearVotes = {}
-        this.setState(prevState => {
-            let updated_activeThumbs = JSON.parse(JSON.stringify(prevState.activeThumbs))
-            if (votingtype === 'all_titles') {
-                updated_activeThumbs.titles = clearVotes
-                updated_activeThumbs.total_title_votes = this.totalTitleVotes(updated_activeThumbs.titles)
-            } else {
-                if (votingtype === 'all_attributes') {
-                    updated_activeThumbs.attributes['players'] = clearVotes
-                    updated_activeThumbs.attributes['weight'] = clearVotes
-                    updated_activeThumbs.attributes['category'] = clearVotes
-                    updated_activeThumbs.attributes['mechanic'] = clearVotes
+
+        // title votes for polls are managed by the server
+        if (votingtype === 'title' && this.state.activePoll !== 'local') {
+
+            this.clearMyTitleVotesInPoll(this.state.activePoll, this.state.user)
+
+        // attribute votes and all non-poll votes are kept on the client (state & local storage)
+        } else {
+
+            const clearVotes = {}
+            this.setState(prevState => {
+                let updated_activeThumbs = JSON.parse(JSON.stringify(prevState.activeThumbs))
+                if (votingtype === 'all_titles') {
+                    updated_activeThumbs.titles = clearVotes
+                    updated_activeThumbs.total_title_votes = this.totalTitleVotes(updated_activeThumbs.titles)
                 } else {
-                    updated_activeThumbs.attributes[votingtype] = clearVotes
+                    if (votingtype === 'all_attributes') {
+                        updated_activeThumbs.attributes['players'] = clearVotes
+                        updated_activeThumbs.attributes['weight'] = clearVotes
+                        updated_activeThumbs.attributes['category'] = clearVotes
+                        updated_activeThumbs.attributes['mechanic'] = clearVotes
+                    } else {
+                        updated_activeThumbs.attributes[votingtype] = clearVotes
+                    }
+                    updated_activeThumbs.total_attribute_votes = this.totalAttributeVotes(updated_activeThumbs.attributes)
                 }
-                updated_activeThumbs.total_attribute_votes = this.totalAttributeVotes(updated_activeThumbs.attributes)
-            }
-            localStorage.setItem('activeThumbs', JSON.stringify(updated_activeThumbs))
+                localStorage.setItem('activeThumbs', JSON.stringify(updated_activeThumbs))
 
-            // update the master list of all preferences
-            let new_allThumbs = JSON.parse(JSON.stringify(prevState.allThumbs))
-            let new_pollThumbs = JSON.parse(JSON.stringify(updated_activeThumbs))
-            new_allThumbs[prevState.activePoll] = new_pollThumbs
-            localStorage.setItem('allThumbs', JSON.stringify(new_allThumbs))
+                // update the master list of all preferences
+                let new_allThumbs = JSON.parse(JSON.stringify(prevState.allThumbs))
+                let new_pollThumbs = JSON.parse(JSON.stringify(updated_activeThumbs))
+                new_allThumbs[prevState.activePoll] = new_pollThumbs
+                localStorage.setItem('allThumbs', JSON.stringify(new_allThumbs))
 
-            return { 
-                activeThumbs: updated_activeThumbs,
-                allThumbs: new_allThumbs,
-            }
-        })
+                return { 
+                    activeThumbs: updated_activeThumbs,
+                    allThumbs: new_allThumbs,
+                }
+            })
+
+        }
     }
 
     handleSortChange(event, value) {

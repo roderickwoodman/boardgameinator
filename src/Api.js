@@ -192,3 +192,8 @@ export function voteinpollApi(poll_id, game_id, newvote, user) {
     console.log('FIXME (WIP): implement a "' + newvote + '" vote by ' + user + ' in poll #' + poll_id + ' for game #' + game_id + '.')
     return { }
 }
+
+export function clearmyvotesApi(poll_id, user) {
+    console.log('FIXME (WIP): implement clearing all title votes by ' + user + ' in poll #' + poll_id + '.')
+    return { }
+}

@@ -572,7 +572,7 @@ export class Boardgameinator extends React.Component {
         const { votingtype } = Object.assign({}, event.target.dataset)
 
         // title votes for polls are managed by the server
-        if (votingtype === 'title' && this.state.activePoll !== 'local') {
+        if (votingtype === 'all_titles' && this.state.activePoll !== 'local') {
 
             this.clearMyTitleVotesInPoll(this.state.activePoll, this.state.user)
 

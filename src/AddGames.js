@@ -387,6 +387,10 @@ export const AddGames = (props) => {
         })
 
         let ambiguous_titles_without_year = ambiguous_titles.map( title => withoutYear(title) )
+
+        if (!gamedata_results.length) {
+            props.closemymodal()
+        }
         gamedata_results.forEach(function(game_data) {
 
             // assign a unique game name
@@ -492,6 +496,7 @@ export const AddGames = (props) => {
 }
 
 AddGames.propTypes = {
+    closemymodal: PropTypes.func.isRequired,
     activepoll: PropTypes.string.isRequired,
     cachedgametitles: PropTypes.object.isRequired,
     onaddcachedtitle: PropTypes.func.isRequired,

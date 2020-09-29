@@ -21,6 +21,15 @@ export const MainControls = (props) => {
     const [voteTitlesIsOpen, setVoteTitlesIsOpen] = useState(false)
     const [importPollIsOpen, setImportPollIsOpen] = useState(false)
 
+    const closeMyModal = () => {
+        setAddIsOpen(false)
+        setAddErrorIsOpen(false)
+        setVoteAttributesIsOpen(false)
+        setVoteAttributesErrorIsOpen(false)
+        setVoteTitlesIsOpen(false)
+        setImportPollIsOpen(false)
+    }
+
     const showAddModal = () => {
         setVoteAttributesIsOpen(false)
         setVoteAttributesErrorIsOpen(false)
@@ -149,6 +158,7 @@ export const MainControls = (props) => {
                     <ModalBody>
                         <div id="gameinput-controls">
                             <AddGames
+                                closemymodal={closeMyModal}
                                 activepoll={props.activepoll} 
                                 cachedgametitles={props.cachedgametitles}
                                 onaddcachedtitle={props.onaddcachedtitle}
@@ -322,4 +332,5 @@ MainControls.propTypes = {
     onclearsectionvotes: PropTypes.func.isRequired,
     activepoll: PropTypes.string.isRequired,
     onviewpoll: PropTypes.func.isRequired,
+    closeallmodals: PropTypes.func.isRequired,
 }

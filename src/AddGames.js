@@ -123,7 +123,6 @@ export const AddGames = (props) => {
                 }
             }
         }
-        validateAmbiguousTitles([unambiguous_title])
     }
 
     const getDisambiguousTitle = function (title) {
@@ -205,7 +204,6 @@ export const AddGames = (props) => {
         if (potential_cached_titles.length === 1) {
             let potential_cached_titles_disambiguation = {}
             potential_cached_titles.forEach(function(potential_cached_title) {
-
                 Object.entries(props.cachedgametitles).forEach(function(cached_title) {
                     if (cached_title[0].includes(potential_cached_title)) {
                         // collect the ambiguous references for this game name

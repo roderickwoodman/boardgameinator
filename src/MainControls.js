@@ -332,5 +332,4 @@ MainControls.propTypes = {
     onclearsectionvotes: PropTypes.func.isRequired,
     activepoll: PropTypes.string.isRequired,
     onviewpoll: PropTypes.func.isRequired,
-    closeallmodals: PropTypes.func.isRequired,
 }

@@ -260,6 +260,7 @@ export const MainControls = (props) => {
                         </div>
                     </ModalBody>
                     <ModalFooter> 
+                        <button className="default-danger-styles" data-votingtype="all_attributes" onClick={props.onclearsectionvotes} disabled={num_attr_votes===0}>Remove All Votes</button>
                         <button className="default-primary-styles" onClick={hideVoteAttributesErrorModal}>Close</button>
                     </ModalFooter>
                 </Modal>

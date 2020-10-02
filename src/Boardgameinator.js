@@ -520,7 +520,7 @@ export class Boardgameinator extends React.Component {
                 // update the master list of all preferences
                 let new_allThumbs = JSON.parse(JSON.stringify(prevState.allThumbs))
                 let new_pollThumbs = JSON.parse(JSON.stringify(updated_activeThumbs))
-                new_allThumbs[prevState.activePoll] = new_pollThumbs
+                new_allThumbs['local'] = new_pollThumbs
                 localStorage.setItem('allThumbs', JSON.stringify(new_allThumbs))
 
                 return { 

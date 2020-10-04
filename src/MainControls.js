@@ -209,12 +209,12 @@ export const MainControls = (props) => {
                     { props.activepoll === 'local' && 
                         <React.Fragment>
                             <button className="default-danger-styles" onClick={props.ondeleteall} disabled={props.activegamedata.length===0}>Remove All Games</button>
-                            <button className="default-danger-styles" data-votingtype="all_titles" onClick={props.onclearsectionvotes} disabled={num_title_votes===0}>Remove All Votes</button>
+                            <button className="default-danger-styles" data-votingtype="all_titles" onClick={props.onclearsectionvotes} disabled={num_title_votes===0}>Remove All Title Votes</button>
                         </React.Fragment>
                     }
                     { props.activepoll !== 'local' && 
                         <React.Fragment>
-                            <button className="default-danger-styles" data-votingtype="all_titles" onClick={props.onclearsectionvotes}>Remove All Votes</button>
+                            <button className="default-danger-styles" data-votingtype="all_titles" onClick={props.onclearsectionvotes}>Remove All Title Votes</button>
                         </React.Fragment>
                     }
                     <button className="default-primary-styles" onClick={hideVoteTitlesModal}>Close</button>
@@ -239,7 +239,7 @@ export const MainControls = (props) => {
                         </div>
                     </ModalBody>
                     <ModalFooter> 
-                        <button className="default-danger-styles" data-votingtype="all_attributes" onClick={props.onclearsectionvotes} disabled={num_attr_votes===0}>Remove All Votes</button>
+                        <button className="default-danger-styles" data-votingtype="all_attributes" onClick={props.onclearsectionvotes} disabled={num_attr_votes===0}>Remove All Attribute Votes</button>
                         <button className="default-primary-styles" onClick={hideVoteAttributesModal}>Close</button>
                     </ModalFooter>
                 </Modal>
@@ -260,7 +260,7 @@ export const MainControls = (props) => {
                         </div>
                     </ModalBody>
                     <ModalFooter> 
-                        <button className="default-danger-styles" data-votingtype="all_attributes" onClick={props.onclearsectionvotes} disabled={num_attr_votes===0}>Remove All Votes</button>
+                        <button className="default-danger-styles" data-votingtype="all_attributes" onClick={props.onclearsectionvotes} disabled={num_attr_votes===0}>Remove All Attribute Votes</button>
                         <button className="default-primary-styles" onClick={hideVoteAttributesErrorModal}>Close</button>
                     </ModalFooter>
                 </Modal>

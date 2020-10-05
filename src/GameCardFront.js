@@ -77,7 +77,7 @@ export const GameCardFront = (props) => {
         }
     }
 
-    const { id, thumbnail, name, yearpublished, attributes, activethumbs, thumbcounts, ontoggleinspection, onnewvote, ondelete, reallynarrow } = props
+    const { id, thumbnail, activepoll, name, yearpublished, attributes, activethumbs, thumbcounts, ontoggleinspection, onnewvote, ondelete, reallynarrow } = props
     let upvoted_attributes = [ ...getUpvotedCategories(), ...getUpvotedMechanics() ].sort()
     return (
         <React.Fragment>
@@ -99,7 +99,14 @@ export const GameCardFront = (props) => {
             data-newvote="thumbsup"
             onClick={onnewvote}
             >
-            <Thumbnail id={id} name={name} url={thumbnail} activethumbs={activethumbs} thumbcounts={thumbcounts} reallynarrow={reallynarrow} />
+            <Thumbnail 
+              id={id} 
+              name={name} 
+              url={thumbnail} 
+              activepoll={activepoll} 
+              activethumbs={activethumbs} 
+              thumbcounts={thumbcounts} 
+              reallynarrow={reallynarrow} />
             <div className="overlay">
                 {(attributes.min_players !== attributes.max_players)
                     ? <div className={getClasses('supported-playercount', null)}><FontAwesomeIcon icon={faUserFriends}/> {attributes.min_players}-{attributes.max_players}</div>
@@ -148,6 +155,7 @@ export const GameCardFront = (props) => {
 GameCardFront.propTypes = {
     id: PropTypes.number.isRequired,
     attributes: PropTypes.object.isRequired,
+    activepoll: PropTypes.string.isRequired,
     activethumbs: PropTypes.object.isRequired,
     thumbcounts: PropTypes.object,
     name: PropTypes.string.isRequired,

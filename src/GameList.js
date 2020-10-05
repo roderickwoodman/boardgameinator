@@ -33,6 +33,7 @@ const Game = (props) => {
             gamecard = <GameCardFront 
                 id={props.id}
                 thumbnail={props.thumbnail}
+                activepoll={props.activepoll}
                 activethumbs={props.activethumbs} 
                 thumbcounts={props.thumbcounts} 
                 name={props.name}
@@ -46,6 +47,7 @@ const Game = (props) => {
             gamecard = <GameCardBack 
                 id={props.id}
                 thumbnail={props.thumbnail}
+                activepoll={props.activepoll}
                 activethumbs={props.activethumbs}
                 thumbcounts={props.thumbcounts} 
                 name={props.name}
@@ -369,6 +371,7 @@ export const GameList = (props) => {
                                 attributes={game.attributes}
                                 comments={game.comments}
                                 videos={game.videos}
+                                activepoll={props.activepoll}
                                 activethumbs={props.activethumbs} 
                                 thumbcounts={thumbcounts[game.id]}
                                 onnewvote={props.onnewvote}

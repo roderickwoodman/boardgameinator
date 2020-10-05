@@ -19,7 +19,13 @@ export const Thumbnail = (props) => {
 
     const getClasses = () => {
         let classes = 'vote-count'
-        if (props.activethumbs.total_title_votes === 0 && props.activethumbs.total_attribute_votes === 0) {
+        if (props.activethumbs.total_title_votes === 0 
+          && props.activethumbs.total_attribute_votes === 0) {
+            classes += ' no-votes-to-show'
+        } else if (props.thumbcounts.hasOwnProperty('titles')
+          && props.thumbcounts.titles === 0 
+          && props.thumbcounts.hasOwnProperty('attributes')
+          && props.thumbcounts.attributes === 0) {
             classes += ' no-votes-to-show'
         }
         if (props.activethumbs.total_title_votes !== 0) {

@@ -37,7 +37,7 @@ export const VoteAttributes = (props) => {
         // sort each attribute according to total occurrences
         let countsArray = []
         Object.keys(countsObj).forEach((elementTag) => {
-            let newCount = {'attrName': elementTag, 'attrCount': countsObj[elementTag]}
+            let newCount = {'attrId': elementTag, 'attrName': elementTag, 'attrCount': countsObj[elementTag]}
             countsArray.push(newCount)
         })
         countsArray.sort((a, b) => (parseInt(a.attrName.slice(0, -1)) < parseInt(b.attrName.slice(0, -1))) ? 1 : -1)
@@ -59,9 +59,9 @@ export const VoteAttributes = (props) => {
         let countsArray = []
         for (let weight of weights) {
             if (countsObj.hasOwnProperty(weight)) {
-                countsArray.push({'attrName': weight, 'attrCount': countsObj[weight]})
+                countsArray.push({'attrId': weight, 'attrName': weight, 'attrCount': countsObj[weight]})
             } else {
-                countsArray.push({'attrName': weight, 'attrCount': 0})
+                countsArray.push({'attrId': weight, 'attrName': weight, 'attrCount': 0})
             }
         }
         return countsArray
@@ -82,7 +82,7 @@ export const VoteAttributes = (props) => {
         // sort each attribute according to total occurrences
         let countsArray = []
         Object.keys(countsObj).forEach((elementTag) => {
-            countsArray.push({'attrName': elementTag, 'attrCount': countsObj[elementTag]})
+            countsArray.push({'attrId': elementTag, 'attrName': elementTag, 'attrCount': countsObj[elementTag]})
         })
         countsArray.sort((a, b) => (a.attrCount < b.attrCount) ? 1 : (a.attrCount === b.attrCount) && (a.attrName > b.attrName) ? 1 : -1)
         return countsArray
@@ -103,7 +103,7 @@ export const VoteAttributes = (props) => {
         // sort each attribute according to total occurrences
         let countsArray = []
         Object.keys(countsObj).forEach((elementTag) => {
-            countsArray.push({'attrName': elementTag, 'attrCount': countsObj[elementTag]})
+            countsArray.push({'attrId': elementTag, 'attrName': elementTag, 'attrCount': countsObj[elementTag]})
         })
         countsArray.sort((a, b) => (a.attrCount < b.attrCount) ? 1 : (a.attrCount === b.attrCount) && (a.attrName > b.attrName) ? 1 : -1)
         return countsArray

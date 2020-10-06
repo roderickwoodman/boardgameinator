@@ -19,8 +19,9 @@ export const GameCardFront = (props) => {
             classes += ' supported-playercount ' + supported_players_vote
         } else {
             classes += (props.activethumbs.attributes[section].hasOwnProperty(attrName) 
-                        && props.activethumbs.attributes[section][attrName] === 'thumbsup')
-                ? ' thumbsup' //FIXME, derive from props: props.preferences['attrVote']
+                        && props.activethumbs.attributes[section][attrName].hasOwnProperty('thumbsup')
+                        && props.activethumbs.attributes[section][attrName].thumbsup.length)
+                ? ' thumbsup'
                 : ' novote'
         }
         return classes

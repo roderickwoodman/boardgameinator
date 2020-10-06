@@ -37,12 +37,12 @@ export const GameCardFront = (props) => {
     // player count section gets only one, aggregated vote; only one <li> (ex: "2-6 players") 
     const getPlayersVote = (myminplayers, mymaxplayers) => {
         let vote = "novote"
-        Object.keys(props.activethumbs.attributes.players).forEach( (votedPlayercount) => {
-            let voted = parseInt(votedPlayercount.slice(0, -1))
+        Object.entries(props.activethumbs.attributes.players).forEach( (votedPlayercount) => {
+            let voted = parseInt(votedPlayercount[0].slice(0, -1))
             if (voted >= myminplayers
                 && voted <= mymaxplayers
-                && props.activethumbs.attributes.players[votedPlayercount] === 'thumbsup')
-            {
+                && votedPlayercount[1].hasOwnProperty('thumbsup')
+                && votedPlayercount[1].thumbsup.length) {
                 vote = "thumbsup"
             }
         })

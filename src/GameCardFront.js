@@ -27,11 +27,17 @@ export const GameCardFront = (props) => {
     }
 
     const getUpvotedCategories = () => {
-        return Object.entries(props.activethumbs.attributes['category']).filter( entry => entry[1].hasOwnProperty('thumbsup') && entry[1].thumbsup.length ).map( entry => entry[0] )
+        return Object.entries(props.activethumbs.attributes['category'])
+          .filter( entry => entry[1].hasOwnProperty('thumbsup') && entry[1].thumbsup.length )
+          .map( entry => entry[0] )
+          .filter( category => props.attributes.categories.includes(category) )
     }
 
     const getUpvotedMechanics = () => {
-        return Object.entries(props.activethumbs.attributes['mechanic']).filter( entry => entry[1].hasOwnProperty('thumbsup') && entry[1].thumbsup.length ).map( entry => entry[0] )
+        return Object.entries(props.activethumbs.attributes['mechanic'])
+          .filter( entry => entry[1].hasOwnProperty('thumbsup') && entry[1].thumbsup.length )
+          .map( entry => entry[0] )
+          .filter( mechanic => props.attributes.mechanics.includes(mechanic) )
     }
 
     // player count section gets only one, aggregated vote; only one <li> (ex: "2-6 players") 

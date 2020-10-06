@@ -462,7 +462,7 @@ export class Boardgameinator extends React.Component {
         let count = 0
         Object.entries(all_attribute_thumbs)
             .forEach( function(category) {
-                count += Object.values(category[1]).filter( vote => vote === 'thumbsup').length
+                count += Object.values(category[1]).filter( vote => vote.hasOwnProperty('thumbsup') && vote.thumbsup.length ).length
             })
         return  count
     }

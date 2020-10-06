@@ -8,7 +8,7 @@ const VotableElement = (props) => {
     let elementStyle = "voteable"
     let vote = (props.preferences.hasOwnProperty(props.votingon)) ? 'thumbsup' : 'novote'
     elementStyle += ' ' + vote
-    let votable_text = props.votingon
+    let votable_text = props.votingonlabel
     if (props.attrcount > 1 || !props.suppresslowcounts) {
         votable_text += ' ('+props.attrcount+')'
     }
@@ -73,7 +73,8 @@ export const VotingSection = (props) => {
                     key={key.attrName}
                     preferences={props.sectionthumbs}
                     votingtype={props.type}
-                    votingon={key.attrName} 
+                    votingon={key.attrId} 
+                    votingonlabel={key.attrName} 
                     attrcount={key.attrCount} 
                     suppresslowcounts={props.suppresslowcounts}
                     onnewvote={props.onnewvote}/>

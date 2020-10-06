@@ -6,7 +6,7 @@ export const VoteTitles = (props) => {
 
     let countsArray = []
     props.activegamedata.forEach(function(game) {
-        countsArray.push({'attrName': game.unambiguous_name, 'attrCount': 1})
+        countsArray.push({'attrId': game.id, 'attrName': game.unambiguous_name, 'attrCount': 1})
     })
 
     return (

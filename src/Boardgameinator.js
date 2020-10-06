@@ -507,11 +507,20 @@ export class Boardgameinator extends React.Component {
                     }
                 // record a new attribute vote
                 } else {
-                    let oldvote = updated_activeThumbs.attributes[votingtype][votingon]
-                    if (newvote !== oldvote) {
-                        updated_activeThumbs.attributes[votingtype][votingon] = newvote
+                    if (updated_activeThumbs.attributes.hasOwnProperty(votingon)) {
+                        let updated_thisattribute = JSON.parse(JSON.stringify(updated_activeThumbs.attributes[votingon]))
+                        if (updated_thisattribute.hasOwnProperty(newvote)
+                            && updated_thisattribute[newvote].includes(prevState.user)) {
+                            updated_thisattribute[newvote] = updated_thisattribute[newvote].filter( user => user !== prevState.user )
+                        } else {
+                            let updated_vote = [prevState.user]
+                            updated_thisattribute[newvote] = updated_vote
+                        }
+                        updated_activeThumbs.attributes[votingtype][votingon] = updated_thisattribute
                     } else {
-                        delete(updated_activeThumbs.attributes[votingtype][votingon])
+                        let updated_vote = {}
+                        updated_vote[newvote] = [prevState.user]
+                        updated_activeThumbs.attributes[votingtype][votingon] = updated_vote
                     }
                 }
                 updated_activeThumbs.total_title_votes = this.totalTitleVotes(updated_activeThumbs.titles)

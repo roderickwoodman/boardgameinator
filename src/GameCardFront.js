@@ -52,10 +52,10 @@ export const GameCardFront = (props) => {
     // vote section gets only one, aggregated vote; only one <li> (ex: "medium heavy") 
     const getWeightVote = (myweight) => {
         let vote = "novote"
-        Object.keys(props.activethumbs.attributes.weight).forEach( (votedWeight) => {
-            if (myweight === votedWeight
-                && props.activethumbs.attributes.weight[votedWeight] === 'thumbsup')
-            {
+        Object.entries(props.activethumbs.attributes.weight).forEach( (votedWeight) => {
+            if (myweight === votedWeight[0]
+              && votedWeight[1].hasOwnProperty('thumbsup') 
+              && votedWeight[1].thumbsup.length) {
                 vote = "thumbsup"
             }
         })

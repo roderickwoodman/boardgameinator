@@ -496,9 +496,10 @@ export class Boardgameinator extends React.Component {
                             && updated_thistitle[newvote].includes(prevState.user)) {
                             updated_thistitle[newvote] = updated_thistitle[newvote].filter( user => user !== prevState.user )
                         } else {
-                            updated_thistitle[newvote] = [prevState.user]
+                            let updated_vote = [prevState.user]
+                            updated_thistitle[newvote] = updated_vote
                         }
-                        updated_activeThumbs.titles[votingon] = updated_thistitle
+                        updated_activeThumbs.titles[votingon.toString()] = updated_thistitle
                     } else {
                         let updated_vote = {}
                         updated_vote[newvote] = [prevState.user]

@@ -131,24 +131,32 @@ export const GameList = (props) => {
                 }
                 // playercount section of a game gets ONE TOTAL thumbsup if any of its supported playercounts gets a thumbsup
                 for (let playercount=game.attributes.min_players; playercount<=game.attributes.max_players; playercount++) {
-                    if (props.activethumbs.attributes.players.hasOwnProperty(playercount + 'P')) {
+                    if (props.activethumbs.attributes.players.hasOwnProperty(playercount + 'P')
+                      && props.activethumbs.attributes.players[playercount + 'P'].hasOwnProperty('thumbsup')
+                      && props.activethumbs.attributes.players[playercount + 'P']['thumbsup'].length) {
                         new_vote_counts.attributes++
                         break
                     }
                 }
                 // weight section of a game gets ONE TOTAL thumbsup if its weight has a thumbsup
-                if (props.activethumbs.attributes.weight.hasOwnProperty(game.attributes.average_weight_name)) {
+                if (props.activethumbs.attributes.weight.hasOwnProperty(game.attributes.average_weight_name)
+                  && props.activethumbs.attributes.weight[game.attributes.average_weight_name].hasOwnProperty('thumbsup')
+                  && props.activethumbs.attributes.weight[game.attributes.average_weight_name]['thumbsup'].length) {
                     new_vote_counts.attributes++
                 }
                 // categories section of a game gets one thumbsup for each thumbed-up category
                 for (const category of game.attributes.categories) {
-                    if (props.activethumbs.attributes.category.hasOwnProperty(category)) {
+                    if (props.activethumbs.attributes.category.hasOwnProperty(category)
+                      && props.activethumbs.attributes.category[category].hasOwnProperty('thumbsup')
+                      && props.activethumbs.attributes.category[category]['thumbsup'].length) {
                         new_vote_counts.attributes++
                     }
                 }
                 // mechanics section of a game gets one thumbsup for each thumbed-up mechanic
                 for (const mechanic of game.attributes.mechanics) {
-                    if (props.activethumbs.attributes.mechanic.hasOwnProperty(mechanic)) {
+                    if (props.activethumbs.attributes.mechanic.hasOwnProperty(mechanic)
+                      && props.activethumbs.attributes.mechanic[mechanic].hasOwnProperty('thumbsup')
+                      && props.activethumbs.attributes.mechanic[mechanic]['thumbsup'].length) {
                         new_vote_counts.attributes++
                     }
                 }
@@ -156,10 +164,11 @@ export const GameList = (props) => {
                 // title votes
                 if (props.activethumbs.hasOwnProperty('titles') 
                   && props.activethumbs.titles.hasOwnProperty(game.id.toString())
-                  && props.activethumbs.titles[game.id].hasOwnProperty('thumbsup')) {
+                  && props.activethumbs.titles[game.id].hasOwnProperty('thumbsup')
+                  && props.activethumbs.titles[game.id]['thumbsup'].length) {
                     let thumbsup_data = props.activethumbs.titles[game.id.toString()].thumbsup
-                    new_vote_counts.titles += thumbsup_data.length //props.activethumbs.titles[game.id.toString()].thumbsup.length
-                    new_vote_counts.my_rank = thumbsup_data.filter(user => user === props.user).length //props.activethumbs.titles[game.id.toString()].thumbsup.filter( user => user === props.user ).length
+                    new_vote_counts.titles += thumbsup_data.length
+                    new_vote_counts.my_rank = thumbsup_data.filter(user => user === props.user).length
                 }
 
                 all_vote_counts[game.id] = new_vote_counts

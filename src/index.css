@@ -139,7 +139,7 @@ html, #root {
   border-bottom-right-radius: 5px;
 }
 
-#resulting-games.deemphasize-notvoted-games .game.novote {
+#resulting-games.deemphasize-nonvoted .game.novote {
   color: gray;
 }
 
@@ -157,8 +157,8 @@ html, #root {
   border: 1px solid purple;
 }
 
-#resulting-games.deemphasize-notvoted-games .game.novote .segmentedcontrol.darkbg,
-#resulting-games.deemphasize-notvoted-games .game.novote .segmentedcontrol.lightbg.selected {
+#resulting-games.deemphasize-nonvoted .game.novote .segmentedcontrol.darkbg,
+#resulting-games.deemphasize-nonvoted .game.novote .segmentedcontrol.lightbg.selected {
   background-color: purple;
   color: gray;
   border: 1px solid gray;
@@ -236,7 +236,7 @@ html, #root {
   flex-direction: column;
 }
 
-.vote-count.no-votes-to-show {
+.game.novote .vote-count {
   display: none;
 }
 
@@ -358,7 +358,7 @@ html, #root {
   cursor: pointer;
 }
 
-#resulting-games.deemphasize-notvoted-games .game.novote .attribute.thumbsup {
+#resulting-games.deemphasize-nonvoted .game.novote .attribute.thumbsup {
   color: white;
   background-color: gray;
 }
@@ -447,7 +447,7 @@ html, #root {
   color: white;
 }
 
-#resulting-games.deemphasize-notvoted-games .game.inspecting a:visited {
+#resulting-games.deemphasize-nonvoted .game.inspecting a:visited {
   color: lightgray;
 }
 
@@ -460,8 +460,8 @@ html, #root {
   color: yellow;
 }
 
-#resulting-games.deemphasize-notvoted-games .game.novote.inspecting .footer a,
-#resulting-games.deemphasize-notvoted-games .game.novote.inspecting .footer a:visited {
+#resulting-games.deemphasize-nonvoted .game.novote.inspecting .footer a,
+#resulting-games.deemphasize-nonvoted .game.novote.inspecting .footer a:visited {
   color: lightyellow;
 }
 
@@ -493,7 +493,7 @@ html, #root {
   text-decoration: underline;
 }
 
-#resulting-games.deemphasize-notvoted-games .game.novote .footer a {
+#resulting-games.deemphasize-nonvoted .game.novote .footer a {
   color: lightyellow;
   text-decoration: underline;
 }
@@ -590,7 +590,7 @@ button.default-danger-styles {
   color: white;
 }
 
-#resulting-games.deemphasize-notvoted-games .game.novote button.fa.fa-button {
+#resulting-games.deemphasize-nonvoted .game.novote button.fa.fa-button {
   border: 1px dotted gray;
   color: gray;
 }
@@ -607,7 +607,7 @@ button.fa.fa-button {
   border: transparent;
 }
 
-#resulting-games.deemphasize-notvoted-games .game.novote.inspecting button.fa.fa-button.inspect {
+#resulting-games.deemphasize-nonvoted .game.novote.inspecting button.fa.fa-button.inspect {
   background: gray;
   color: purple;
 }
@@ -634,8 +634,8 @@ button.fa.fa-button {
   color: white;
 }
 
-#resulting-games.deemphasize-notvoted-games .game.novote.inspecting .gamecard-header .fa-button.inspect:hover,
-#resulting-games.deemphasize-notvoted-games .game.novote.inspecting .gamecard-collapse-control .fa-button.inspect:hover {
+#resulting-games.deemphasize-nonvoted .game.novote.inspecting .gamecard-header .fa-button.inspect:hover,
+#resulting-games.deemphasize-nonvoted .game.novote.inspecting .gamecard-collapse-control .fa-button.inspect:hover {
   background: purple;
   color: gray;
 }
@@ -793,7 +793,7 @@ button:enabled,
     top: unset;
   }
 
-  .vote-count.no-votes-to-show {
+  .game.novote .vote-count {
     display: block;
   }
 
@@ -913,7 +913,7 @@ button:enabled,
     justify-content: flex-end;
   }
 
-  .vote-count.no-votes-to-show {
+  .game.novote .vote-count {
     display: none;
   }
 

@@ -346,7 +346,7 @@ export const GameList = (props) => {
     const getClasses = () => {
         let classes = ''
         if (props.activethumbs.total_title_votes !== 0) {
-            classes += 'deemphasize-nonvoted'
+            classes += 'deemphasize-nonvoted-titles'
         }
         return classes
     }

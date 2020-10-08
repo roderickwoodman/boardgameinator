@@ -139,7 +139,7 @@ html, #root {
   border-bottom-right-radius: 5px;
 }
 
-#resulting-games.deemphasize-nonvoted .game.no-title-votes {
+#resulting-games.deemphasize-nonvoted-titles .game.no-title-votes {
   color: gray;
 }
 
@@ -150,15 +150,15 @@ html, #root {
   height: 100%;
 }
 
-#resulting-games.deemphaisize-notvoted-games .game.no-title-votes .segmentedcontrol.lightbg,
-#resulting-games.deemphaisize-notvoted-games .game.no-title-votes .segmentedcontrol.darkbg.selected {
+#resulting-games.deemphasize-nonvoted-titles-games .game.no-title-votes .segmentedcontrol.lightbg,
+#resulting-games.deemphasize-nonvoted-titles-games .game.no-title-votes .segmentedcontrol.darkbg.selected {
   background-color: gray;
   color: purple;
   border: 1px solid purple;
 }
 
-#resulting-games.deemphasize-nonvoted .game.no-title-votes .segmentedcontrol.darkbg,
-#resulting-games.deemphasize-nonvoted .game.no-title-votes .segmentedcontrol.lightbg.selected {
+#resulting-games.deemphasize-nonvoted-titles .game.no-title-votes .segmentedcontrol.darkbg,
+#resulting-games.deemphasize-nonvoted-titles .game.no-title-votes .segmentedcontrol.lightbg.selected {
   background-color: purple;
   color: gray;
   border: 1px solid gray;
@@ -358,7 +358,7 @@ html, #root {
   cursor: pointer;
 }
 
-#resulting-games.deemphasize-nonvoted .game.no-title-votes .attribute.thumbsup {
+#resulting-games.deemphasize-nonvoted-titles .game.no-title-votes .attribute.thumbsup {
   color: white;
   background-color: gray;
 }
@@ -447,7 +447,7 @@ html, #root {
   color: white;
 }
 
-#resulting-games.deemphasize-nonvoted .game.inspecting a:visited {
+#resulting-games.deemphasize-nonvoted-titles .game.inspecting a:visited {
   color: lightgray;
 }
 
@@ -460,8 +460,8 @@ html, #root {
   color: yellow;
 }
 
-#resulting-games.deemphasize-nonvoted .game.no-title-votes.inspecting .footer a,
-#resulting-games.deemphasize-nonvoted .game.no-title-votes.inspecting .footer a:visited {
+#resulting-games.deemphasize-nonvoted-titles .game.no-title-votes.inspecting .footer a,
+#resulting-games.deemphasize-nonvoted-titles .game.no-title-votes.inspecting .footer a:visited {
   color: lightyellow;
 }
 
@@ -493,7 +493,7 @@ html, #root {
   text-decoration: underline;
 }
 
-#resulting-games.deemphasize-nonvoted .game.no-title-votes .footer a {
+#resulting-games.deemphasize-nonvoted-titles .game.no-title-votes .footer a {
   color: lightyellow;
   text-decoration: underline;
 }
@@ -590,7 +590,7 @@ button.default-danger-styles {
   color: white;
 }
 
-#resulting-games.deemphasize-nonvoted .game.no-title-votes button.fa.fa-button {
+#resulting-games.deemphasize-nonvoted-titles .game.no-title-votes button.fa.fa-button {
   border: 1px dotted gray;
   color: gray;
 }
@@ -607,7 +607,7 @@ button.fa.fa-button {
   border: transparent;
 }
 
-#resulting-games.deemphasize-nonvoted .game.no-title-votes.inspecting button.fa.fa-button.inspect {
+#resulting-games.deemphasize-nonvoted-titles .game.no-title-votes.inspecting button.fa.fa-button.inspect {
   background: gray;
   color: purple;
 }
@@ -634,8 +634,8 @@ button.fa.fa-button {
   color: white;
 }
 
-#resulting-games.deemphasize-nonvoted .game.no-title-votes.inspecting .gamecard-header .fa-button.inspect:hover,
-#resulting-games.deemphasize-nonvoted .game.no-title-votes.inspecting .gamecard-collapse-control .fa-button.inspect:hover {
+#resulting-games.deemphasize-nonvoted-titles .game.no-title-votes.inspecting .gamecard-header .fa-button.inspect:hover,
+#resulting-games.deemphasize-nonvoted-titles .game.no-title-votes.inspecting .gamecard-collapse-control .fa-button.inspect:hover {
   background: purple;
   color: gray;
 }

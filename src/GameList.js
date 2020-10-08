@@ -24,20 +24,16 @@ const Game = (props) => {
             gamecardClasses += ' inspecting'
         } 
 
-        if (typeof props.thumbcounts !== 'undefined' 
-          && props.thumbcounts.hasOwnProperty('titles') 
-          && props.thumbcounts.titles !== 0) {
-            gamecardClasses += ' thumbsup'
-        } else {
-            gamecardClasses += ' novote'
+        if (typeof props.thumbcounts === 'undefined' 
+          || !props.thumbcounts.hasOwnProperty('titles') 
+          || props.thumbcounts.titles === 0) {
+            gamecardClasses += ' no-title-votes'
         }
 
-        if (typeof props.thumbcounts !== 'undefined' 
-          && props.thumbcounts.hasOwnProperty('attributes') 
-          && props.thumbcounts.attributes !== 0) {
-            gamecardClasses += ' thumbsup-attributes'
-        } else {
-            gamecardClasses += ' novote-attributes'
+        if (typeof props.thumbcounts === 'undefined' 
+          || !props.thumbcounts.hasOwnProperty('attributes') 
+          || props.thumbcounts.attributes === 0) {
+            gamecardClasses += ' no-attribute-votes'
         }
 
         if (props.id !== props.idunderinspection) {

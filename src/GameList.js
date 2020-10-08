@@ -345,9 +345,6 @@ export const GameList = (props) => {
 
     const getClasses = () => {
         let classes = ''
-        if (props.activethumbs.total_attribute_votes === 0) {
-            classes += 'no-voted-attributes'
-        }
         if (props.activethumbs.total_title_votes !== 0) {
             classes += 'deemphasize-nonvoted'
         }

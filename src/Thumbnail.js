@@ -17,20 +17,6 @@ export const Thumbnail = (props) => {
         return label
     }
 
-    const getClasses = () => {
-        let classes = 'vote-count'
-        if (props.activethumbs.total_title_votes === 0 
-          && props.activethumbs.total_attribute_votes === 0) {
-            classes += ' no-voted-attributes'
-        } else if (props.thumbcounts.hasOwnProperty('titles')
-          && props.thumbcounts.titles === 0 
-          && props.thumbcounts.hasOwnProperty('attributes')
-          && props.thumbcounts.attributes === 0) {
-            classes += ' no-voted-attributes'
-        }
-        return classes
-    }
-
     const printAttributeTally = () => {
         if (props.activethumbs.total_attribute_votes && props.thumbcounts.attributes) {
             return (
@@ -68,7 +54,7 @@ export const Thumbnail = (props) => {
     return (
         <div className="thumbnail">
             <img src={props.url} alt="game box cover" />
-            <div className={getClasses()}>
+            <div className="vote-count">
                 <div className="vote-count-heading">
                     <FontAwesomeIcon icon={faThumbsUp} />
                     { printTitleTally() }

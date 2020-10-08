@@ -236,7 +236,7 @@ html, #root {
   flex-direction: column;
 }
 
-.game.novote .vote-count {
+.game.novote.novote-attributes .vote-count {
   display: none;
 }
 
@@ -793,7 +793,7 @@ button:enabled,
     top: unset;
   }
 
-  .game.novote .vote-count {
+  .game.novote.novote-attributes .vote-count {
     display: block;
   }
 
@@ -913,7 +913,7 @@ button:enabled,
     justify-content: flex-end;
   }
 
-  .game.novote .vote-count {
+  .game.novote.novote-attributes .vote-count {
     display: none;
   }
 

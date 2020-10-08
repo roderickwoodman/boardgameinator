@@ -19,9 +19,11 @@ const GameFooter = (props) => {
 const Game = (props) => {
         let gamecard
         let gamecardClasses = 'game'
+
         if (props.id === props.idunderinspection) {
             gamecardClasses += ' inspecting'
         } 
+
         if (typeof props.thumbcounts !== 'undefined' 
           && props.thumbcounts.hasOwnProperty('titles') 
           && props.thumbcounts.titles !== 0) {
@@ -29,6 +31,15 @@ const Game = (props) => {
         } else {
             gamecardClasses += ' novote'
         }
+
+        if (typeof props.thumbcounts !== 'undefined' 
+          && props.thumbcounts.hasOwnProperty('attributes') 
+          && props.thumbcounts.attributes !== 0) {
+            gamecardClasses += ' thumbsup-attributes'
+        } else {
+            gamecardClasses += ' novote-attributes'
+        }
+
         if (props.id !== props.idunderinspection) {
             gamecard = <GameCardFront 
                 id={props.id}

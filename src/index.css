@@ -241,6 +241,10 @@ html, #root {
   display: none;
 }
 
+.game.no-title-votes.no-attribute-votes .vote-count {
+  border: none;
+}
+
 .vote-count-heading {
   font-size: 1em;
   display: flex;

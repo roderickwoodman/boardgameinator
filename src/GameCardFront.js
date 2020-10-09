@@ -85,7 +85,9 @@ export const GameCardFront = (props) => {
     }
 
     const { id, thumbnail, activepoll, name, yearpublished, attributes, activethumbs, mythumbcounts, ontoggleinspection, onnewvote, ondelete, reallynarrow } = props
-    let upvoted_attributes = [ ...getUpvotedCategories(), ...getUpvotedMechanics() ].sort()
+    let upvoted_categories = getUpvotedCategories()
+    let upvoted_mechanics = getUpvotedMechanics()
+    let upvoted_attributes = [ ...upvoted_categories, ...upvoted_mechanics ].sort()
     return (
         <React.Fragment>
         <section className="gamecard-header">
@@ -147,7 +149,15 @@ export const GameCardFront = (props) => {
         </div>
         <div className="gamecard-upvoted-attributes">
             { upvoted_attributes.map( (value) =>
-                <div key={value} className="attribute thumbsup">{value}</div>
+                <div 
+                  key={value} 
+                  data-votingtype={ upvoted_categories.includes(value) ? 'category' : 'mechanic' }
+                  data-votingon={value}
+                  data-newvote='thumbsup'
+                  onClick={props.onnewvote}
+                  className="attribute thumbsup">
+                      {value}
+                  </div>
             )}
         </div>
         <ul className="gamecard-categories">

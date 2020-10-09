@@ -13,7 +13,7 @@ export const Thumbnail = (props) => {
         } else if (attributecount !== 1) {
             label = 'attrs. match'
         } else {
-            label = 'attr matches'
+            label = 'attr. matches'
         }
         return label
     }

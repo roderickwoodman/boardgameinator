@@ -971,6 +971,10 @@ button:enabled,
     overflow-y: auto;
   }
 
+  #resulting-games:not(.deemphasize-nonvoted-titles) .voting-affordance {
+    display: unset;
+  }
+
   .gamecard-visual {
     justify-content: center;
   }

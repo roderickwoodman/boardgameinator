@@ -378,7 +378,9 @@ html, #root {
 
 #voting-section li.thumbsup .clickable, 
 #voting-section li.thumbsdown .clickable, 
-#voting-section li.no-title-votes .clickable {
+#voting-section li.no-title-votes .clickable,
+.game div.clickable,
+.game li.clickable {
   cursor: pointer;
 }
 

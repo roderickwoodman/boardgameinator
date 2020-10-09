@@ -975,6 +975,11 @@ button:enabled,
     display: unset;
   }
 
+  #resulting-games:not(.deemphasize-nonvoted-titles) .game.no-title-votes:not(.no-attribute-votes) .vote-count {
+    background-color: transparent;
+    border: none;
+  }
+
   .gamecard-visual {
     justify-content: center;
   }

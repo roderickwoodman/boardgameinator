@@ -236,7 +236,8 @@ html, #root {
   flex-direction: column;
 }
 
-.game.no-title-votes.no-attribute-votes .vote-count {
+.game.no-title-votes .vote-count-heading,
+.game.no-attribute-votes .vote-count-subheading {
   display: none;
 }
 

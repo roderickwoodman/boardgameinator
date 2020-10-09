@@ -53,7 +53,7 @@ Videos.propTypes = {
 
 export const GameCardBack = (props) => {
 
-    const { id, name, yearpublished, description, inspectingsection, comments, videos, activethumbs, activepoll, ontoggleinspection, oninspectionsectionchange, onnewvote, ondelete, reallynarrow, thumbnail, thumbcounts } = props
+    const { id, name, yearpublished, description, inspectingsection, comments, videos, activethumbs, activepoll, ontoggleinspection, oninspectionsectionchange, onnewvote, ondelete, reallynarrow, thumbnail, mythumbcounts } = props
     return (
         <React.Fragment>
         <section className="gamecard-header">
@@ -83,7 +83,7 @@ export const GameCardBack = (props) => {
               url={thumbnail} 
               activepoll={activepoll} 
               activethumbs={activethumbs} 
-              thumbcounts={thumbcounts} 
+              mythumbcounts={mythumbcounts} 
               reallynarrow={reallynarrow} />
 
         </section>
@@ -138,7 +138,7 @@ GameCardBack.propTypes = {
     name: PropTypes.string.isRequired,
     activepoll: PropTypes.string.isRequired,
     activethumbs: PropTypes.object.isRequired,
-    thumbcounts: PropTypes.object,
+    mythumbcounts: PropTypes.object,
     yearpublished: PropTypes.number,
     description: PropTypes.array.isRequired,
     inspectingsection: PropTypes.string.isRequired,

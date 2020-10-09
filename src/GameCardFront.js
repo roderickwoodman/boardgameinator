@@ -84,7 +84,7 @@ export const GameCardFront = (props) => {
         }
     }
 
-    const { id, thumbnail, activepoll, name, yearpublished, attributes, activethumbs, thumbcounts, ontoggleinspection, onnewvote, ondelete, reallynarrow } = props
+    const { id, thumbnail, activepoll, name, yearpublished, attributes, activethumbs, mythumbcounts, ontoggleinspection, onnewvote, ondelete, reallynarrow } = props
     let upvoted_attributes = [ ...getUpvotedCategories(), ...getUpvotedMechanics() ].sort()
     return (
         <React.Fragment>
@@ -112,7 +112,7 @@ export const GameCardFront = (props) => {
               url={thumbnail} 
               activepoll={activepoll} 
               activethumbs={activethumbs} 
-              thumbcounts={thumbcounts} 
+              mythumbcounts={mythumbcounts} 
               reallynarrow={reallynarrow} />
             <div className="overlay">
                 {(attributes.min_players !== attributes.max_players)
@@ -164,7 +164,7 @@ GameCardFront.propTypes = {
     attributes: PropTypes.object.isRequired,
     activepoll: PropTypes.string.isRequired,
     activethumbs: PropTypes.object.isRequired,
-    thumbcounts: PropTypes.object,
+    mythumbcounts: PropTypes.object,
     name: PropTypes.string.isRequired,
     onnewvote: PropTypes.func.isRequired,
     ondelete: PropTypes.func.isRequired,

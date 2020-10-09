@@ -18,9 +18,9 @@ export const Thumbnail = (props) => {
     }
 
     const printAttributeTally = () => {
-        if (props.activethumbs.total_attribute_votes && props.thumbcounts.attributes) {
+        if (props.activethumbs.total_attribute_votes && props.mythumbcounts.attributes) {
             return (
-                <span>& {props.thumbcounts.attributes} {getAttributeCountLabel(props.thumbcounts.attributes)}</span>
+                <span>& {props.mythumbcounts.attributes} {getAttributeCountLabel(props.mythumbcounts.attributes)}</span>
             )
         } else {
             return null
@@ -30,20 +30,20 @@ export const Thumbnail = (props) => {
     const printTitleTally = () => {
         if (props.activepoll !== 'local'
           && props.activethumbs.total_title_votes 
-          && typeof props.thumbcounts !== 'undefined'
-          && props.thumbcounts.hasOwnProperty('titles') ) {
+          && typeof props.mythumbcounts !== 'undefined'
+          && props.mythumbcounts.hasOwnProperty('titles') ) {
             let extra_text = null
-            if (props.thumbcounts.my_rank > 0 && props.thumbcounts.titles > props.thumbcounts.my_rank) {
+            if (props.mythumbcounts.my_rank > 0 && props.mythumbcounts.titles > props.mythumbcounts.my_rank) {
                 extra_text = 'incl. You'
                 return (
                     <React.Fragment>
-                        <div>&nbsp;{props.thumbcounts.titles}</div>
+                        <div>&nbsp;{props.mythumbcounts.titles}</div>
                         <div className="extra-text">{extra_text}</div>
                     </React.Fragment>
                 )
             } else {
                 return (
-                    <div>&nbsp;{props.thumbcounts.titles}</div>
+                    <div>&nbsp;{props.mythumbcounts.titles}</div>
                 )
             }
         } else {
@@ -70,7 +70,7 @@ export const Thumbnail = (props) => {
 Thumbnail.propTypes = {
     activethumbs: PropTypes.object.isRequired,
     activepoll: PropTypes.string.isRequired,
-    thumbcounts: PropTypes.object,
+    mythumbcounts: PropTypes.object,
     id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
     reallynarrow: PropTypes.bool.isRequired,

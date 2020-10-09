@@ -24,15 +24,15 @@ const Game = (props) => {
             gamecardClasses += ' inspecting'
         } 
 
-        if (typeof props.thumbcounts === 'undefined' 
-          || !props.thumbcounts.hasOwnProperty('titles') 
-          || props.thumbcounts.titles === 0) {
+        if (typeof props.mythumbcounts === 'undefined' 
+          || !props.mythumbcounts.hasOwnProperty('titles') 
+          || props.mythumbcounts.titles === 0) {
             gamecardClasses += ' no-title-votes'
         }
 
-        if (typeof props.thumbcounts === 'undefined' 
-          || !props.thumbcounts.hasOwnProperty('attributes') 
-          || props.thumbcounts.attributes === 0) {
+        if (typeof props.mythumbcounts === 'undefined' 
+          || !props.mythumbcounts.hasOwnProperty('attributes') 
+          || props.mythumbcounts.attributes === 0) {
             gamecardClasses += ' no-attribute-votes'
         }
 
@@ -42,7 +42,7 @@ const Game = (props) => {
                 thumbnail={props.thumbnail}
                 activepoll={props.activepoll}
                 activethumbs={props.activethumbs} 
-                thumbcounts={props.thumbcounts} 
+                mythumbcounts={props.mythumbcounts} 
                 name={props.name}
                 yearpublished={props.yearpublished}
                 attributes={props.attributes}
@@ -56,7 +56,7 @@ const Game = (props) => {
                 thumbnail={props.thumbnail}
                 activepoll={props.activepoll}
                 activethumbs={props.activethumbs}
-                thumbcounts={props.thumbcounts} 
+                mythumbcounts={props.mythumbcounts} 
                 name={props.name}
                 yearpublished={props.yearpublished}
                 description={props.description}
@@ -351,8 +351,8 @@ export const GameList = (props) => {
         return classes
     }
 
-    let thumbcounts = getTotalVotes()
-    let sortedFilteredGames = sortGames(filterWeight(filterPlayercount(filterTitles(props.activegamedata))), thumbcounts)
+    let all_thumbcounts = getTotalVotes()
+    let sortedFilteredGames = sortGames(filterWeight(filterPlayercount(filterTitles(props.activegamedata))), all_thumbcounts)
     return (
         <React.Fragment>
         <MainControls 
@@ -386,7 +386,7 @@ export const GameList = (props) => {
                                 videos={game.videos}
                                 activepoll={props.activepoll}
                                 activethumbs={props.activethumbs} 
-                                thumbcounts={thumbcounts[game.id]}
+                                mythumbcounts={all_thumbcounts[game.id]}
                                 onnewvote={props.onnewvote}
                                 ondelete={props.ondelete}
                                 ontoggleinspection={handleInspectionChange}

@@ -155,7 +155,7 @@ export const GameCardFront = (props) => {
                   data-votingon={value}
                   data-newvote='thumbsup'
                   onClick={props.onnewvote}
-                  className="attribute thumbsup">
+                  className="clickable attribute thumbsup">
                       {value}
                   </div>
             )}

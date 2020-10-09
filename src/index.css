@@ -221,6 +221,14 @@ html, #root {
   padding: 0;
 }
 
+.vote-count {
+  z-index: 2;
+}
+
+.voting-affordance {
+  z-index: 1;
+}
+
 .vote-count,
 .voting-affordance {
   position: absolute;
@@ -240,6 +248,11 @@ html, #root {
 .game.no-title-votes .vote-count .vote-count-heading,
 .game.no-attribute-votes .vote-count .vote-count-subheading {
   display: none;
+}
+
+.game.no-title-votes:not(.no-attribute-votes) .vote-count {
+  background-color: transparent;
+  border: none;
 }
 
 .game.no-title-votes.no-attribute-votes .vote-count {

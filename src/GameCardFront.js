@@ -10,7 +10,7 @@ import { Thumbnail } from './Thumbnail'
 export const GameCardFront = (props) => {
 
     const getClasses = (section, attrName) => {
-        let classes = 'attribute'
+        let classes = 'clickable attribute'
         if (section === 'weight') {
             let weight_vote = getWeightVote(attrName)
             classes += ' weight ' + weight_vote
@@ -136,7 +136,14 @@ export const GameCardFront = (props) => {
                     : <div className="estimated-playtime"><FontAwesomeIcon icon={faClock}/> {attributes.min_playtime}'</div>
                 }
             </div>
-            <div className={getClasses('weight', attributes.average_weight_name)}>{getWeightName(attributes.average_weight_name)}</div>
+            <div 
+              data-votingtype='weight'
+              data-votingon={attributes.average_weight_name}
+              data-newvote='thumbsup'
+              onClick={props.onnewvote}
+              className={getClasses('weight', attributes.average_weight_name)}>
+                  {getWeightName(attributes.average_weight_name)}
+              </div>
         </div>
         <div className="gamecard-upvoted-attributes">
             { upvoted_attributes.map( (value) =>
@@ -145,13 +152,33 @@ export const GameCardFront = (props) => {
         </div>
         <ul className="gamecard-categories">
             {(attributes.categories.length)
-                ? attributes.categories.map(value => <li key={value} className={getClasses('category', value)}>{value}</li>)
+                ? attributes.categories
+                  .map(value => 
+                    <li 
+                      key={value} 
+                      data-votingtype='category'
+                      data-votingon={value}
+                      data-newvote='thumbsup'
+                      onClick={props.onnewvote}
+                      className={getClasses('category', value)}>
+                          {value}
+                      </li>)
                 : <li>(no categories)</li>
             }
         </ul>
         <ul className="gamecard-mechanics">
             {(attributes.mechanics.length)
-                ? attributes.mechanics.map(value => <li key={value} className={getClasses('mechanic', value)}>{value}</li>)
+                ? attributes.mechanics
+                  .map(value => 
+                    <li 
+                      key={value} 
+                      data-votingtype='mechanic'
+                      data-votingon={value}
+                      data-newvote='thumbsup'
+                      onClick={props.onnewvote}
+                      className={getClasses('mechanic', value)}>
+                          {value}
+                      </li>)
                 : <li>(no mechanics)</li>
             }
         </ul>

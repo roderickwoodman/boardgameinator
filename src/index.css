@@ -399,7 +399,7 @@ html, #root {
   border-radius: 5px;
 }
 
-*:not(.overlay):not(.halfsized) > .attribute.thumbsup {
+*:not(.overlay):not(.halfsized) > .attribute {
   margin:2px 10px;
 }
 

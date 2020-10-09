@@ -10,18 +10,25 @@ export const Thumbnail = (props) => {
         if (props.reallynarrow) {
             label = 'attr.'
         } else if (attributecount !== 1) {
-            label = 'attributes'
+            label = 'attrs. match'
         } else {
-            label = 'attribute'
+            label = 'attr matches'
         }
         return label
     }
 
     const printAttributeTally = () => {
-        if (props.activethumbs.total_attribute_votes && props.mythumbcounts.attributes) {
+        // display attribute votes with title votes
+        if (props.mythumbcounts.attributes && props.mythumbcounts.titles) {
             return (
                 <span>& {props.mythumbcounts.attributes} {getAttributeCountLabel(props.mythumbcounts.attributes)}</span>
             )
+        // display attribute votes without title votes
+        } else if (props.mythumbcounts.attributes && !props.mythumbcounts.titles) {
+            return (
+                <span>{props.mythumbcounts.attributes} {getAttributeCountLabel(props.mythumbcounts.attributes)}</span>
+            )
+        // no attribute votes to display
         } else {
             return null
         }

@@ -250,7 +250,11 @@ html, #root {
   display: none;
 }
 
-.game.no-title-votes:not(.no-attribute-votes) .vote-count {
+#resulting-games:not(.deemphasize-nonvoted-titles) .voting-affordance {
+  display: none;
+}
+
+#resulting-games.deemphasize-nonvoted-titles .game.no-title-votes:not(.no-attribute-votes) .vote-count {
   background-color: transparent;
   border: none;
 }

@@ -255,7 +255,8 @@ html, #root {
 }
 
 #resulting-games.deemphasize-nonvoted-titles .game.no-title-votes:not(.no-attribute-votes) .vote-count {
-  background-color: transparent;
+  background-color: rgba(0,0,0,0.5);
+  line-height: 0.5em;
   border: none;
 }
 
@@ -976,7 +977,8 @@ button:enabled,
   }
 
   #resulting-games:not(.deemphasize-nonvoted-titles) .game.no-title-votes:not(.no-attribute-votes) .vote-count {
-    background-color: transparent;
+    background-color: rgba(0,0,0,0.5);
+    line-height: 0.5em;
     border: none;
   }
 

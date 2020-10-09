@@ -221,7 +221,8 @@ html, #root {
   padding: 0;
 }
 
-.vote-count {
+.vote-count,
+.voting-affordance {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -236,8 +237,8 @@ html, #root {
   flex-direction: column;
 }
 
-.game.no-title-votes .vote-count-heading,
-.game.no-attribute-votes .vote-count-subheading {
+.game.no-title-votes .vote-count .vote-count-heading,
+.game.no-attribute-votes .vote-count .vote-count-subheading {
   display: none;
 }
 

@@ -1,7 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faThumbsUp } from '@fortawesome/free-solid-svg-icons'
+import { faThumbsUp as ThumbsUpSolid } from '@fortawesome/free-solid-svg-icons'
+import { faThumbsUp as ThumbsUpRegular } from '@fortawesome/free-regular-svg-icons'
 
 export const Thumbnail = (props) => {
 
@@ -58,18 +59,47 @@ export const Thumbnail = (props) => {
         }
     }
 
-    return (
-        <div className="thumbnail">
-            <img src={props.url} alt="game box cover" />
+    const printVoteCount = () => {
+        return (
             <div className="vote-count">
                 <div className="vote-count-heading">
-                    <FontAwesomeIcon icon={faThumbsUp} />
+                    <FontAwesomeIcon icon={ThumbsUpSolid} />
                     { printTitleTally() }
                 </div>
                 <div className="vote-count-subheading">
                     { printAttributeTally() }
                 </div>
             </div>
+            )
+    }
+
+    const printThumbnailOverlay = () => {
+
+        if (props.mythumbcounts.titles) {
+            return (
+                <React.Fragment>
+                { printVoteCount() }
+                </React.Fragment>
+            )
+        } else {
+            return (
+                <React.Fragment>
+                <div className="voting-affordance">
+                    <div className="vote-count-heading">
+                        <FontAwesomeIcon icon={ThumbsUpRegular} />
+                    </div>
+                </div>
+                { printVoteCount() }
+                </React.Fragment>
+            )
+        }
+
+    }
+
+    return (
+        <div className="thumbnail">
+            <img src={props.url} alt="game box cover" />
+            { printThumbnailOverlay() }
         </div>
     )
 }

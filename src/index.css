@@ -451,6 +451,7 @@ html, #root {
   grid-area: gc-variable;
   text-align: left;
   overflow-y: auto;
+  padding: 1rem;
 }
 
 .gamecard-variable li b {
@@ -943,6 +944,9 @@ button:enabled,
     display: none;
   }
 
+  .gamecard-variable {
+    padding: unset;
+  }
 }
 
 /* "really narrow screen" */

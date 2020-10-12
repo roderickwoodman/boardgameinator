@@ -7,15 +7,15 @@
 
 Behold, the **BOARDGAMEINATOR**!  (...said in my best [Dr. Doofenshmirtz](https://www.youtube.com/watch?v=Sj7yxI-r_ag) accent)
 
-This app is a sandbox for users to prioritize a list of board games that they are considering playing or purchasing. 
+This app is a sandbox that lets you prioritize a list of board games that you are considering either playing or purchasing.
 
-Any board game that has been added to this site can be upvoted. And any characteristic of these games, like the theme or the player count for example, can be upvoted too. Then, the games that get the most votes are displayed the most prominently.
+Any board game that has been added to this site can be upvoted. And any characteristic of these games, like the theme or the player count for example, can be upvoted too.
 
 ### Who is it for?
 
-First of all, **Boardgameinator** IS NOT FOR geeks to manage their huge collections. It is not for people who spend any amount of time on [BoardGameGeek](https://boardgamegeek.com).
+First of all, **Boardgameinator** IS NOT FOR geeks to manage their huge collections. 
 
-Instead, this app IS FOR regular people who need help in selecting a board game. This can be a common problem these days, with so many new titles and all of the hype in the industry.
+Instead, this app IS FOR regular people who need help in selecting a board game. There are so many titles and so much hype in the industry these days, that selecting a board game can be overwhelming.
 
 ### What do I do with it?
 
@@ -25,13 +25,11 @@ It is easy to build and upvote a list of board games.
 3. **Upvote Attributes.** Click the "Vote Attributes" button to upvote an attribute across all games.
 4. **Upvote Games.** Click its thumbnail or the "Vote Titles" button to upvote the game itself.
 
-Within the user preferences panel, the user can choose to sort and/or filter the list of added games by these title and attribute vote counts. The vote counts will appear overlayed on top of the game box art thumbnail.
-
 ### Why is it so awesome?
 
-The likability of any board game is so subjective and multifactorial, in the same way that a novel is. But the primary online resource for the board game industry, [BoardGameGeek](https://boardgamegeek.com) (BGG), forces you to focus on one game at a time because it is organized like an encyclopedia.
+The likability of any board game is so subjective and multifactorial, in the same way that a novel is. But the primary online resource for the board game industry, [BoardGameGeek](https://boardgamegeek.com) (BGG), is not great as a recommendation engine because it is organized like an encyclopedia.
 
-**Boardgameinator**, however, is a user-driven comparison tool that displays information side-by-side, allowing users to either promote or eliminate games. It feels like driving a light e-commerce shopping experience as you converge on what is most in agreement with your preferences.
+**Boardgameinator**, however, is a user-driven comparison tool similar to an e-commerce shopping experience. It displays information side-by-side, allowing you to converge on the right game for you based on your preferences.
 
 ### What is it doing under the hood?
 

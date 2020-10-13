@@ -883,6 +883,13 @@ button:enabled,
       "gc-collapse gc-footer gc-footer gc-footer gc-footer";
   }
 
+  .gamecard-overlay {
+    top: 30px;
+    left: -40px;
+    width: 160px;
+    text-align: center;
+  }
+
   .gamecard-collapse-control {
     grid-area: gc-collapse;
     display: flex;

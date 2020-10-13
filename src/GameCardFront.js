@@ -116,7 +116,7 @@ export const GameCardFront = (props) => {
               activethumbs={activethumbs} 
               mythumbcounts={mythumbcounts} 
               reallynarrow={reallynarrow} />
-            <div className="overlay">
+            <div className="gamecardvisual-overlay">
                 {(attributes.min_players !== attributes.max_players)
                     ? <div className={getClasses('supported-playercount', null)}><FontAwesomeIcon icon={faUserFriends}/> {attributes.min_players}-{attributes.max_players}</div>
                     : <div className={getClasses('supported-playercount', null)}><FontAwesomeIcon icon={faUserFriends}/> {attributes.min_players}</div>

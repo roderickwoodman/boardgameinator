@@ -348,6 +348,10 @@ html, #root {
   font-weight: 800;
 }
 
+.game.winner {
+  border: 0.5rem solid black;
+}
+
 .game.inspecting .gamecard-overlay {
   top: 30px;
   left: -210px;

@@ -14,6 +14,7 @@ const hardcoded_polls = [
                     'thumbsup': ['Wendy']
                 }
             },
+            winners: [5782],
             total_title_votes: 3,
         }
     },
@@ -31,6 +32,7 @@ const hardcoded_polls = [
                 199478: { // Flamme Rouge
                 }
             },
+            winners: [175914],
             total_title_votes: 4,
         }
     }

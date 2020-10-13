@@ -16,6 +16,17 @@ const GameFooter = (props) => {
     )
 }
 
+const GamecardOverlay = (props) => {
+        if (props.mythumbcounts.poll_rank === 1) {
+            return (
+                <div className="gamecard-overlay">WINNER!</div>
+
+            )
+        } else {
+            return null
+        }
+}
+
 const Game = (props) => {
         let gamecard
         let gamecardClasses = 'game'
@@ -23,6 +34,11 @@ const Game = (props) => {
         if (props.id === props.idunderinspection) {
             gamecardClasses += ' inspecting'
         } 
+
+        if (typeof props.mythumbcounts !== 'undefined' 
+          && props.mythumbcounts.poll_rank === 1) {
+            gamecardClasses += ' winner'
+        }
 
         if (typeof props.mythumbcounts === 'undefined' 
           || !props.mythumbcounts.hasOwnProperty('titles') 
@@ -69,8 +85,10 @@ const Game = (props) => {
                 ondelete={props.ondelete}
                 reallynarrow={props.reallynarrow} />
         }
+        let gamecard_overlay = <GamecardOverlay mythumbcounts={props.mythumbcounts} />
         return(
             <section className={gamecardClasses}>
+                {gamecard_overlay}
                 {gamecard}
                 <section className="gamecard-footer">
                     <GameFooter gameid={props.id}/>
@@ -134,6 +152,7 @@ export const GameList = (props) => {
                 let new_vote_counts = {
                     attributes: 0,
                     titles: 0,
+                    poll_rank: 0,
                     my_rank: 0
                 }
                 // playercount section of a game gets ONE TOTAL thumbsup if any of its supported playercounts gets a thumbsup
@@ -176,6 +195,13 @@ export const GameList = (props) => {
                     let thumbsup_data = props.activethumbs.titles[game.id.toString()].thumbsup
                     new_vote_counts.titles += thumbsup_data.length
                     new_vote_counts.my_rank = thumbsup_data.filter(user => user === props.user).length
+                }
+
+                // poll winner
+                if (props.activepoll !== 'local'
+                  && props.activethumbs.hasOwnProperty('winners')
+                  && props.activethumbs.winners.includes(game.id)) {
+                    new_vote_counts.poll_rank = 1
                 }
 
                 all_vote_counts[game.id] = new_vote_counts

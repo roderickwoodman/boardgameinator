@@ -337,6 +337,17 @@ html, #root {
   overflow-y: auto;
 }
 
+.gamecard-overlay {
+  background: black;
+  position: absolute;
+  top: 4%;
+  left: -28%;
+  transform: rotate(-45deg);
+  width: 100%;
+  z-index: 3;
+  font-weight: 800;
+}
+
 .gamecardvisual-overlay {
   position: absolute;
   width: 100px;

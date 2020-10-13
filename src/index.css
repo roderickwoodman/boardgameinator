@@ -340,12 +340,17 @@ html, #root {
 .gamecard-overlay {
   background: black;
   position: absolute;
-  top: 4%;
-  left: -28%;
+  top: 30px;
+  left: -60px;
   transform: rotate(-45deg);
   width: 100%;
   z-index: 3;
   font-weight: 800;
+}
+
+.game.inspecting .gamecard-overlay {
+  top: 30px;
+  left: -210px;
 }
 
 .gamecardvisual-overlay {

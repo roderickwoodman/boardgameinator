@@ -887,7 +887,8 @@ button:enabled,
       "gc-collapse gc-footer gc-footer gc-footer gc-footer";
   }
 
-  .gamecard-overlay {
+  .gamecard-overlay,
+  .game.inspecting .gamecard-overlay {
     top: 30px;
     left: -40px;
     width: 160px;

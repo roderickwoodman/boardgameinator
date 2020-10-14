@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import purpleMeeple from './img/purple-meeple-64.png'
 import { ViewControls } from './ViewControls'
 import { GameList } from './GameList'
-import { gamedataApi, voteinpollApi, clearmyvotesApi } from './Api.js'
+import { gamedataApi, voteinpollApi, clearmyvotesApi, deletetitleinpollApi } from './Api.js'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBars } from '@fortawesome/free-solid-svg-icons'
 
@@ -56,6 +56,7 @@ export class Boardgameinator extends React.Component {
         this.gameSupportsPlayercount = this.gameSupportsPlayercount.bind(this)
         this.voteTitleInPoll = this.voteTitleInPoll.bind(this)
         this.clearMyTitleVotesInPoll = this.clearMyTitleVotesInPoll.bind(this)
+        this.deleteTitleInPoll = this.deleteTitleInPoll.bind(this)
         this.addGameById = this.addGameById.bind(this)
         this.onAddCachedTitle = this.onAddCachedTitle.bind(this)
         this.onAddNewTitle = this.onAddNewTitle.bind(this)
@@ -297,110 +298,120 @@ export class Boardgameinator extends React.Component {
     }
 
     onDeleteTitle(event, id) {
-        this.setState(prevState => {
 
-            // FIXME: Implement poll editing. May not want to update active list here if we are currently looking at a poll.
-            // remove the game from the active game list (but still keep its game data cached)
-            let activeGameList = prevState.activeGameList.slice()
-            activeGameList = activeGameList.filter(game_id => game_id !== parseInt(id))
+        // title removals for polls are managed by the server
+        if (this.state.activePoll !== 'local') {
 
-            // remove the game from the local game list (but still keep its game data cached)
-            let localGameList = prevState.localGameList.slice()
-            localGameList = localGameList.filter(game_id => game_id !== parseInt(id))
+            this.deleteTitleInPoll(this.state.activePoll, id, this.state.user)
 
-            // remove the game from the game list
-            let allGameData = JSON.parse(JSON.stringify(prevState.allGameData))
-            allGameData = allGameData.filter(game => game.id !== parseInt(id))
+        // title removals for non-polls are kept on the client (state & local storage)
+        } else {
 
-            let activeThumbs = JSON.parse(JSON.stringify(prevState.activeThumbs))
+            this.setState(prevState => {
 
-            // remove any title upvotes
-            if (activeThumbs.titles.hasOwnProperty(id)) {
-                delete activeThumbs.titles[id]
-            }
+                // FIXME: Implement poll editing. May not want to update active list here if we are currently looking at a poll.
+                // remove the game from the active game list (but still keep its game data cached)
+                let activeGameList = prevState.activeGameList.slice()
+                activeGameList = activeGameList.filter(game_id => game_id !== parseInt(id))
 
-            // remove any attribute upvotes for attributes no longer occurring in any other game
-            for (let attrName in activeThumbs.attributes) {
-                if (attrName === 'players') {
-                    for (let votedplayercount in activeThumbs.attributes[attrName]) {
-                        let attributeStillOccurs = false
-                        for (let game of allGameData) {
-                            if (this.gameSupportsPlayercount(game, votedplayercount)) {
-                                attributeStillOccurs = true
-                                break
-                            }
-                        }
-                        if (!attributeStillOccurs) {
-                            delete activeThumbs.attributes[attrName][votedplayercount]
-                        }
-                    }
-                } else if (attrName === 'weight') {
-                    for (let votedweight in activeThumbs.attributes[attrName]) {
-                        let attributeStillOccurs = false
-                        for (let game of allGameData) {
-                            if (game.weight === votedweight) {
-                                attributeStillOccurs = true
-                                break
-                            }
-                        }
-                        if (!attributeStillOccurs) {
-                            delete activeThumbs.attributes[attrName][votedweight]
-                        }
-                    }
-                } else if (attrName === 'category') {
-                    for (let votedcategory in activeThumbs.attributes[attrName]) {
-                        let attributeStillOccurs = false
-                        for (let game of allGameData) {
-                            for (let category of game.attributes.categories) {
-                                if (category === votedcategory) {
+                // remove the game from the local game list (but still keep its game data cached)
+                let localGameList = prevState.localGameList.slice()
+                localGameList = localGameList.filter(game_id => game_id !== parseInt(id))
+
+                // remove the game from the game list
+                let allGameData = JSON.parse(JSON.stringify(prevState.allGameData))
+                allGameData = allGameData.filter(game => game.id !== parseInt(id))
+
+                let activeThumbs = JSON.parse(JSON.stringify(prevState.activeThumbs))
+
+                // remove any title upvotes
+                if (activeThumbs.titles.hasOwnProperty(id)) {
+                    delete activeThumbs.titles[id]
+                }
+
+                // remove any attribute upvotes for attributes no longer occurring in any other game
+                for (let attrName in activeThumbs.attributes) {
+                    if (attrName === 'players') {
+                        for (let votedplayercount in activeThumbs.attributes[attrName]) {
+                            let attributeStillOccurs = false
+                            for (let game of allGameData) {
+                                if (this.gameSupportsPlayercount(game, votedplayercount)) {
                                     attributeStillOccurs = true
                                     break
                                 }
                             }
+                            if (!attributeStillOccurs) {
+                                delete activeThumbs.attributes[attrName][votedplayercount]
+                            }
                         }
-                        if (!attributeStillOccurs) {
-                            delete activeThumbs.attributes[attrName][votedcategory]
-                        }
-                    }
-                } else if (attrName === 'mechanic') {
-                    for (let votedmechanic in activeThumbs.attributes[attrName]) {
-                        let attributeStillOccurs = false
-                        for (let game of allGameData) {
-                            for (let mechanic of game.attributes.mechanics) {
-                                if (mechanic === votedmechanic) {
+                    } else if (attrName === 'weight') {
+                        for (let votedweight in activeThumbs.attributes[attrName]) {
+                            let attributeStillOccurs = false
+                            for (let game of allGameData) {
+                                if (game.weight === votedweight) {
                                     attributeStillOccurs = true
                                     break
                                 }
                             }
+                            if (!attributeStillOccurs) {
+                                delete activeThumbs.attributes[attrName][votedweight]
+                            }
                         }
-                        if (!attributeStillOccurs) {
-                            delete activeThumbs.attributes[attrName][votedmechanic]
+                    } else if (attrName === 'category') {
+                        for (let votedcategory in activeThumbs.attributes[attrName]) {
+                            let attributeStillOccurs = false
+                            for (let game of allGameData) {
+                                for (let category of game.attributes.categories) {
+                                    if (category === votedcategory) {
+                                        attributeStillOccurs = true
+                                        break
+                                    }
+                                }
+                            }
+                            if (!attributeStillOccurs) {
+                                delete activeThumbs.attributes[attrName][votedcategory]
+                            }
+                        }
+                    } else if (attrName === 'mechanic') {
+                        for (let votedmechanic in activeThumbs.attributes[attrName]) {
+                            let attributeStillOccurs = false
+                            for (let game of allGameData) {
+                                for (let mechanic of game.attributes.mechanics) {
+                                    if (mechanic === votedmechanic) {
+                                        attributeStillOccurs = true
+                                        break
+                                    }
+                                }
+                            }
+                            if (!attributeStillOccurs) {
+                                delete activeThumbs.attributes[attrName][votedmechanic]
+                            }
                         }
                     }
                 }
-            }
 
-            // NOTE: Update the active game list, but leave allGameData unchanged. It will serve as 
-            // the cache of API data. Most downstream components only need to operate on game data 
-            // for titles that are on the active list.
+                // NOTE: Update the active game list, but leave allGameData unchanged. It will serve as 
+                // the cache of API data. Most downstream components only need to operate on game data 
+                // for titles that are on the active list.
 
-            localStorage.setItem('activeGameList', JSON.stringify(activeGameList))
-            localStorage.setItem('localGameList', JSON.stringify(localGameList))
-            localStorage.setItem('activeThumbs', JSON.stringify(activeThumbs))
+                localStorage.setItem('activeGameList', JSON.stringify(activeGameList))
+                localStorage.setItem('localGameList', JSON.stringify(localGameList))
+                localStorage.setItem('activeThumbs', JSON.stringify(activeThumbs))
 
-            // update the master list of all preferences
-            let new_allThumbs = JSON.parse(JSON.stringify(prevState.allThumbs))
-            let new_pollThumbs = JSON.parse(JSON.stringify(activeThumbs))
-            new_allThumbs[prevState.activePoll] = new_pollThumbs
-            localStorage.setItem('allThumbs', JSON.stringify(new_allThumbs))
+                // update the master list of all preferences
+                let new_allThumbs = JSON.parse(JSON.stringify(prevState.allThumbs))
+                let new_pollThumbs = JSON.parse(JSON.stringify(activeThumbs))
+                new_allThumbs[prevState.activePoll] = new_pollThumbs
+                localStorage.setItem('allThumbs', JSON.stringify(new_allThumbs))
 
-            return { 
-                activeGameList: activeGameList,
-                localGameList: localGameList,
-                allThumbs: new_allThumbs,
-                activeThumbs: activeThumbs,
-            }
-        })
+                return { 
+                    activeGameList: activeGameList,
+                    localGameList: localGameList,
+                    allThumbs: new_allThumbs,
+                    activeThumbs: activeThumbs,
+                }
+            })
+        }
     }
 
     async clearMyTitleVotesInPoll(poll_id, user) {
@@ -469,6 +480,14 @@ export class Boardgameinator extends React.Component {
 
     async voteTitleInPoll(poll_id, title, newvote, user) {
         voteinpollApi(poll_id, title, newvote, user)
+            // .then(json => {
+            //     if (json.hasOwnProperty('id') === poll_id) {
+            //         this.onViewPoll(json)
+            //     }})
+    }
+
+    async deleteTitleInPoll(poll_id, title_id, user) {
+        deletetitleinpollApi(poll_id, title_id, user)
             // .then(json => {
             //     if (json.hasOwnProperty('id') === poll_id) {
             //         this.onViewPoll(json)

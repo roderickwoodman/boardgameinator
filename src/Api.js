@@ -197,3 +197,8 @@ export function clearmyvotesApi(poll_id, user) {
     console.log('FIXME (WIP): implement clearing all title votes by ' + user + ' in poll #' + poll_id + '.')
     return { }
 }
+
+export function deletetitleinpollApi(poll_id, game_id, user) {
+    console.log('FIXME (WIP): implement deleting game #' + game_id + ' in poll #' + poll_id + ' by user ' + user + '.')
+    return { }
+}

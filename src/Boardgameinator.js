@@ -361,10 +361,14 @@ export class Boardgameinator extends React.Component {
                         for (let votedcategory in activeThumbs.attributes[attrName]) {
                             let attributeStillOccurs = false
                             for (let game of allGameData) {
-                                for (let category of game.attributes.categories) {
-                                    if (category === votedcategory) {
-                                        attributeStillOccurs = true
-                                        break
+                                if (typeof game.attributes !== 'undefined') {
+                                    for (let category of game.attributes.categories) {
+                                        if (votedcategory.hasOwnProperty(category)
+                                          && votedcategory[category].hasOwnProperty('thumbsup')
+                                          && votedcategory[category].thumbsup.length) {
+                                            attributeStillOccurs = true
+                                            break
+                                        }
                                     }
                                 }
                             }
@@ -376,10 +380,14 @@ export class Boardgameinator extends React.Component {
                         for (let votedmechanic in activeThumbs.attributes[attrName]) {
                             let attributeStillOccurs = false
                             for (let game of allGameData) {
-                                for (let mechanic of game.attributes.mechanics) {
-                                    if (mechanic === votedmechanic) {
-                                        attributeStillOccurs = true
-                                        break
+                                if (typeof game.attributes !== 'undefined') {
+                                    for (let mechanic of game.attributes.mechanics) {
+                                        if (votedmechanic.hasOwnProperty(mechanic)
+                                          && votedmechanic[mechanic].hasOwnProperty('thumbsup')
+                                          && votedmechanic[mechanic].thumbsup.length) {
+                                            attributeStillOccurs = true
+                                            break
+                                        }
                                     }
                                 }
                             }

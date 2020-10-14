@@ -4,23 +4,32 @@ import PropTypes from 'prop-types'
 const hardcoded_polls = [
     {
         id: '1',
-        name: 'Poll A',
+        name: 'Fake Poll A',
         pollThumbs: {
             titles: {
                 5782: { // Coloretto (2003)
-                    'thumbsup': ['Charles', 'Cassidy']
+                    'thumbsup': ['Charles', 'Cassidy', 'Carlos']
                 },
                 266192: { // Wingspan
                     'thumbsup': ['Wendy']
-                }
+                },
+                28023: { // Jamaica
+                    'thumbsup': ['_me_']
+                },
+                218603: { // Photosynthesis
+                    'thumbsup': ['Patty', 'Peter', 'Paula']
+                },
+                194626: { // Happy Salmon
+                    'thumbsup': ['Harry', '_me_']
+                },
             },
-            winners: [5782],
-            total_title_votes: 3,
+            winners: [5782, 218603],
+            total_title_votes: 10,
         }
     },
     {
         id: '2',
-        name: 'Poll B',
+        name: 'Fake Poll B',
         pollThumbs: {
             titles: {
                 175914: { // Food Chain Magnate
@@ -29,11 +38,17 @@ const hardcoded_polls = [
                 266192: { // Wingspan
                     'thumbsup': ['Wesley']
                 },
+                31481: { // Galaxy Trucker
+                    'thumbsup': ['Gary', 'Gianna']
+                },
                 199478: { // Flamme Rouge
-                }
+                },
+                9209: { // Ticket To Ride
+                    'thumbsup': ['Tina', 'Timothy', 'Trent']
+                },
             },
             winners: [175914],
-            total_title_votes: 4,
+            total_title_votes: 10,
         }
     }
 ]

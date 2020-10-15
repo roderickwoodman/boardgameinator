@@ -101,6 +101,8 @@ export const ImportPoll = (props) => {
 
             { hardcoded_polls
                 .map( (poll,i) => {
+                    let gamecount = Object.keys(poll.pollThumbs.titles).length + ' ' + ((Object.keys(poll.pollThumbs.titles).length === 1) ? 'game' : 'games')
+                    let votecount = poll.pollThumbs.total_title_votes + ' ' + ((poll.pollThumbs.total_title_votes === 1) ? 'vote' : 'votes')
                     return (
                         <label 
                             key={i}
@@ -112,7 +114,7 @@ export const ImportPoll = (props) => {
                                 value={poll.name}
                                 checked={inputValue === poll.name}
                                 onChange={handleChange} />
-                            &nbsp;{poll.name} ({Object.keys(poll.pollThumbs.titles).length} games, {poll.pollThumbs.total_title_votes} votes)</label>
+                            &nbsp;{poll.name} ({gamecount}, {votecount})</label>
                     )})
             }
 

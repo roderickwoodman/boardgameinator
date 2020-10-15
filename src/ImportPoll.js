@@ -50,6 +50,19 @@ const hardcoded_polls = [
             winners: [175914],
             total_title_votes: 10,
         }
+    },
+    {
+        id: '3',
+        name: 'Fake Poll C',
+        pollThumbs: {
+            titles: {
+                141791: { // Pinata
+                    'thumbsup': ['Peggy']
+                },
+            },
+            winners: [175914],
+            total_title_votes: 1,
+        }
     }
 ]
 

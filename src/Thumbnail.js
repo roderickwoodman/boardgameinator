@@ -41,7 +41,7 @@ export const Thumbnail = (props) => {
           && typeof props.mythumbcounts !== 'undefined'
           && props.mythumbcounts.hasOwnProperty('titles') ) {
             let extra_text = null
-            if (props.mythumbcounts.my_rank > 0 && props.mythumbcounts.titles > props.mythumbcounts.my_rank) {
+            if (props.mythumbcounts.my_rank > 0 && props.mythumbcounts.titles >= props.mythumbcounts.my_rank) {
                 extra_text = 'incl. You'
                 return (
                     <React.Fragment>

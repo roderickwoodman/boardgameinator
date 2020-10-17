@@ -4,6 +4,70 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLongArrowAltRight } from '@fortawesome/free-solid-svg-icons'
 import { searchApi, exactSearchApi, gamedataApi } from './Api.js'
 
+
+const withoutYear = (title) => {
+    if (typeof title === 'string' && title.length) {
+        return title.replace(/(( +)\(([-#]?)\d{1,6}\))$/, '')
+    } else {
+        return title
+    }
+}
+
+// for disambiguation of titles, the game ID will be put in parentheses when the API does not provide yearpublished info
+const extractYearFromTitle = (title) => {
+    if (typeof title === 'string' && title.length) {
+        let matchesDate = title.match(/(( +)\((-?)\d{1,4}\))$/)
+        if (matchesDate !== null) {
+            return matchesDate[0].replace(/[^0-9-]/g, "")
+        } else {
+            let matchesId = title.match(/(( +)\(#\d{1,6}\))$/)
+            if (matchesId !== null) {
+                return matchesId[0].replace(/[^#0-9-]/g, "")
+            } else {
+                return null
+            }
+        }
+    }
+}
+
+const getExactSearchResults = async function (titles) {
+    const titleData = await Promise.all(
+        titles.map( function(gameTitle) {
+            return (
+                exactSearchApi(withoutYear(gameTitle)) // query the API without the disambiguation
+    )}))
+    return titleData
+}
+
+const getNonexactSearchResults = async function (titles) {
+    const titleData = await Promise.all(
+        titles.map( function(gameTitle) {
+            return (
+                searchApi(withoutYear(gameTitle)) // query the API without the disambiguation
+    )}))
+    return titleData
+}
+
+const getGamedataResults = async function (games) {
+    const gamedata = await Promise.all(
+        games.map( function(game) {
+            return (
+                gamedataApi(game.id) // query the API with the BGG game ID
+    )}))
+    return gamedata
+}
+
+function doesAmbiguityRemain(disambiguation) {
+    let num_still_ambiguous = Object.values(disambiguation).filter(function(duplicates) {
+        if (Object.values(duplicates).includes(true)) {
+            return 0
+        } else {
+            return 1
+        }
+    }).length
+    return (num_still_ambiguous) ? true : false
+}
+
 export const AddGames = (props) => {
 
     const [ inputValue, setTextareaValue ] = useState('')
@@ -11,73 +75,11 @@ export const AddGames = (props) => {
     const [ disambiguousTitleIsSelected, setDisambiguousTitleIsSelected ] = useState({}) 
     const [ ambiguityRemains, setAmbiguityRemains ] = useState(true)
 
-    function doesAmbiguityRemain(disambiguation) {
-        let num_still_ambiguous = Object.values(disambiguation).filter(function(duplicates) {
-            if (Object.values(duplicates).includes(true)) {
-                return 0
-            } else {
-                return 1
-            }
-        }).length
-        return (num_still_ambiguous) ? true : false
-    }
-
-    const withoutYear = (title) => {
-        if (typeof title === 'string' && title.length) {
-            return title.replace(/(( +)\(([-#]?)\d{1,6}\))$/, '')
-        } else {
-            return title
-        }
-    }
-
-    // for disambiguation of titles, the game ID will be put in parentheses when the API does not provide yearpublished info
-    const extractYearFromTitle = (title) => {
-        if (typeof title === 'string' && title.length) {
-            let matchesDate = title.match(/(( +)\((-?)\d{1,4}\))$/)
-            if (matchesDate !== null) {
-                return matchesDate[0].replace(/[^0-9-]/g, "")
-            } else {
-                let matchesId = title.match(/(( +)\(#\d{1,6}\))$/)
-                if (matchesId !== null) {
-                    return matchesId[0].replace(/[^#0-9-]/g, "")
-                } else {
-                    return null
-                }
-            }
-        }
-    }
-
     const addMessages = (new_messages) => {
         const newStatusMessages = [...statusMessages, ...new_messages]
         setStatusMessages(newStatusMessages)
     }
 
-    const getExactSearchResults = async function (titles) {
-        const titleData = await Promise.all(
-            titles.map( function(gameTitle) {
-                return (
-                    exactSearchApi(withoutYear(gameTitle)) // query the API without the disambiguation
-        )}))
-        return titleData
-    }
-
-    const getNonexactSearchResults = async function (titles) {
-        const titleData = await Promise.all(
-            titles.map( function(gameTitle) {
-                return (
-                    searchApi(withoutYear(gameTitle)) // query the API without the disambiguation
-        )}))
-        return titleData
-    }
-
-    const getGamedataResults = async function (games) {
-        const gamedata = await Promise.all(
-            games.map( function(game) {
-                return (
-                    gamedataApi(game.id) // query the API with the BGG game ID
-        )}))
-        return gamedata
-    }
 
     const updateAmbiguityRemains = (disambiguation) => {
         if (doesAmbiguityRemain(disambiguation)) {

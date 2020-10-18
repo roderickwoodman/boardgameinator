@@ -70,7 +70,7 @@ function doesAmbiguityRemain(disambiguation) {
 
 export const AddGames = (props) => {
 
-    const [ inputValue, setTextareaValue ] = useState('')
+    const [ userTitlesInput, setUserTitlesInput ] = useState('')
     const [ statusMessages, setStatusMessages ] = useState([])
     const [ disambiguousTitleIsSelected, setDisambiguousTitleIsSelected ] = useState({}) 
     const [ ambiguityRemains, setAmbiguityRemains ] = useState(true)
@@ -79,7 +79,6 @@ export const AddGames = (props) => {
         const newStatusMessages = [...statusMessages, ...new_messages]
         setStatusMessages(newStatusMessages)
     }
-
 
     const updateAmbiguityRemains = (disambiguation) => {
         if (doesAmbiguityRemain(disambiguation)) {
@@ -423,18 +422,18 @@ export const AddGames = (props) => {
     }
 
     const handleChange = (event) => {
-        setTextareaValue(event.target.value)
+        setUserTitlesInput(event.target.value)
     }
 
     const handleSubmit = (event) => {
         event.preventDefault()
-        let delimiter, num_nonblank_lines = inputValue.split(/\r\n|\r|\n/).filter(line => line !== '').length
+        let delimiter, num_nonblank_lines = userTitlesInput.split(/\r\n|\r|\n/).filter(line => line !== '').length
         if (num_nonblank_lines > 1) {
             delimiter = '\n'
         } else {
             delimiter = ','
         }
-        let userTitles = inputValue
+        let userTitles = userTitlesInput
             .split(delimiter)
             .map(str => str.trim())
             .map(str => str.replace(/[^0-9a-zA-Z:()&!–#' ]/g, ""))
@@ -475,7 +474,7 @@ export const AddGames = (props) => {
 
                 <section id="input-by-title">
                     <section className="buttonrow">
-                        <input size="30" value={inputValue} onChange={handleChange} placeholder="(exact game title or BGG ID)" required/>
+                        <input size="30" value={userTitlesInput} onChange={handleChange} placeholder="(exact game title or BGG ID)" required/>
                         <button onClick={handleSubmit} className="default-primary-styles">Add</button>
                     </section>
                     <div className="status-messages">

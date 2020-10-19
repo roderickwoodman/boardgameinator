@@ -17,27 +17,30 @@ const getNonexactSearchResults = async function (titles) {
     return titleData
 }
 
-// This is a helper function for the data collection needed to add games to the library, given 
-// potentially incomplete user input and the numerous formats accepted for the user to add a game.
+// This is a helper function for the data collection needed to add games to the library/cache, given 
+// the numerous formats accepted for the user to add a game and potentially incomplete user input.
 //
-// LIBRARY: All unique games derived from each user-supplied title are added to the library alltogether.
-// This minimizes the input processing complexity and the future API calls needed.
+// LIBRARY UPDATE: All unique games that match each user-supplied title are added to the library.
+// This minimizes the input processing complexity and the future API calls that are needed just for
+// disambiguation.
 //
-// ACTIVE GAMES LIST: The active games list is only updated if every game supplied is unambiguous.
-// If not, disambiguation information will be returned that the calling function can use to re-form 
-// the titles for a subsequent call to this function.
-export const makeAllGamesActive = async (cachedgametitles, game_titles) => {
+// ACTIVE GAMES LIST UPDATE: The active games list is only updated if every user-supplied game exists,
+// was unambiguous, and was not already active. If not, disambiguation information will be returned 
+// that the calling function can use to re-form the titles for a subsequent call to this function.
+// In this way, this helper function is checking active status for the caller in the same "pass" 
+// that it is checking APIs for title validity. 
+export const makeGamesActive = async (cachedgametitles, game_titles) => {
 
     let status = {
+        not_found: [],
         already_active: [],
         ready_to_make_active: [],
         made_active: [],
         disambiguation_info: {},
-        not_found: [],
     }
-
     let titles_to_api_lookup = []
 
+    // CACHE LOOKUP, for all titles
     let all_cached_disambiguous_titles = Object.keys(cachedgametitles)
     let all_cached_ids = Object.entries(cachedgametitles).map( cachedgame => parseInt(cachedgame[1].id) )
     game_titles.forEach(function(user_title) {
@@ -72,7 +75,10 @@ export const makeAllGamesActive = async (cachedgametitles, game_titles) => {
         }
     })
 
-    // STEP 1 API: Use BGG API to collect disambiguation info for the user-supplied titles that need it.
+    // API LOOKUP, for titles that were not found in the cache
+    //   example disambiguation generated in "all_potential_titles" variable:
+    //     [ [{id: 2411, name:'Mount Everest', year_published: 1980},
+    //     {id: 147624, name:'Mount Everest', year_published: 2013}] ]
     let all_potential_titles = await getNonexactSearchResults(titles_to_api_lookup)
     all_potential_titles.forEach(function (all_results_for_title, idx) {
         let all_versions_of_this_title = []
@@ -86,9 +92,8 @@ export const makeAllGamesActive = async (cachedgametitles, game_titles) => {
         all_potential_titles[idx] = all_versions_of_this_title
     })
 
-    // [ [{id: 2411, name:'Mount Everest', year_published: 1980},
-    // {id: 147624, name:'Mount Everest', year_published: 2013}] ]
-
+    // BUNDLE EACH TITLE INTO ONE AND ONLY ONE STATUS BUCKET 
+    //   (not_found, already_active, ready_to_make_active, made_active, disambiguation_info)
     titles_to_api_lookup.forEach(function (user_title, idx) {
 
         // title was not found

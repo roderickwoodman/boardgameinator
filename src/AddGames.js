@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLongArrowAltRight } from '@fortawesome/free-solid-svg-icons'
-import { makeAllGamesActive } from './GameLibrary.js'
+import { makeGamesActive } from './GameLibrary.js'
 import { searchApi, exactSearchApi, gamedataApi } from './Api.js'
 
 
@@ -148,7 +148,7 @@ export const AddGames = (props) => {
     // WIP: Refactoring for more modular management of cache and user-supplied ambiguity
     const validateUserTitles2 = async function (user_titles) { 
 
-        let result = await makeAllGamesActive(props.cachedgametitles, user_titles)
+        let result = await makeGamesActive(props.cachedgametitles, user_titles)
         console.log('result:',result)
 
     }

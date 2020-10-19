@@ -17,20 +17,23 @@ const getNonexactSearchResults = async function (titles) {
     return titleData
 }
 
-// All versions of each user-supplied title are added alltogether. This minimizes the input processing
-// complexity and future API calls needed, both caused by the numerous ways that a user can add a game.
+// This is a helper function for the data collection needed to add games to the library, given 
+// potentially incomplete user input and the numerous formats accepted for the user to add a game.
 //
-// This function updates the library with all versions of each title supplied. However, if any 
-// user-supplied title is ambiguous, it will not update the active game list at all. In that case it 
-// will return disambiguation information that the calling function can use to re-form the titles for a 
-// subsequent call to this function.
+// LIBRARY: All unique games derived from each user-supplied title are added to the library alltogether.
+// This minimizes the input processing complexity and the future API calls needed.
+//
+// ACTIVE GAMES LIST: The active games list is only updated if every game supplied is unambiguous.
+// If not, disambiguation information will be returned that the calling function can use to re-form 
+// the titles for a subsequent call to this function.
 export const makeAllGamesActive = async (cachedgametitles, game_titles) => {
 
     let status = {
         already_active: [],
         ready_to_make_active: [],
         made_active: [],
-        ambiguous: [],
+        disambiguation_info: {},
+        not_found: [],
     }
 
     let titles_to_api_lookup = []
@@ -82,10 +85,27 @@ export const makeAllGamesActive = async (cachedgametitles, game_titles) => {
         })
         all_potential_titles[idx] = all_versions_of_this_title
     })
-    console.log('all_potential_titles:',all_potential_titles)
 
     // [ [{id: 2411, name:'Mount Everest', year_published: 1980},
     // {id: 147624, name:'Mount Everest', year_published: 2013}] ]
+
+    titles_to_api_lookup.forEach(function (user_title, idx) {
+
+        // title was not found
+        if (all_potential_titles[idx].length === 0) {
+            status.not_found.push(user_title)
+
+        // exact title match, add to the active list
+        } else if (all_potential_titles[idx].length === 1) {
+            status.ready_to_make_active.push(user_title)
+
+        // title requires disambiguation by the user
+        } else {
+            let new_disambiguation = JSON.parse(JSON.stringify(all_potential_titles[idx]))
+            status.disambiguation_info[user_title] = new_disambiguation
+        }
+
+    })
 
     return status
 

@@ -148,7 +148,7 @@ export const AddGames = (props) => {
     // WIP: Refactoring for more modular management of cache and user-supplied ambiguity
     const validateUserTitles2 = async function (user_titles) { 
 
-        let result = makeAllGamesActive(props.cachedgametitles, user_titles)
+        let result = await makeAllGamesActive(props.cachedgametitles, user_titles)
         console.log('result:',result)
 
     }

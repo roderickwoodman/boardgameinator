@@ -26,6 +26,8 @@ export const makeAllGamesActive = async (cachedgametitles, game_titles) => {
         ambiguous: [],
     }
 
+    let titles_to_api_lookup = []
+
     let all_cached_disambiguous_titles = Object.keys(cachedgametitles)
     let all_cached_ids = Object.entries(cachedgametitles).map( cachedgame => parseInt(cachedgame[1].id) )
     game_titles.forEach(function(user_title) {
@@ -54,28 +56,26 @@ export const makeAllGamesActive = async (cachedgametitles, game_titles) => {
                 status.ready_to_make_active.push(user_title)
             }
 
-        // user_title is ambiguous; may still be in the cache
+        // user_title is not immediately known, collect title info via API
         } else {
-            status.ambiguous.push(user_title)
+            titles_to_api_lookup.push(user_title)
         }
     })
 
-    // STEP 1 API: Use BGG API to collect disambiguation info for each AMBIGUOUS user-supplied title.
-    let nonexact_search_results = await getNonexactSearchResults(status.ambiguous)
-    nonexact_search_results.forEach(function (all_results_for_title, idx) {
-        console.log('all_results_for_title:',all_results_for_title)
-        let all_disambiguation_for_title = []
+    // STEP 1 API: Use BGG API to collect disambiguation info for the user-supplied titles that need it.
+    let all_potential_titles = await getNonexactSearchResults(titles_to_api_lookup)
+    all_potential_titles.forEach(function (all_results_for_title, idx) {
+        let all_versions_of_this_title = []
         all_results_for_title.forEach(function (one_similar_result) {
             let new_disambiguation
-            if (one_similar_result.name === status.ambiguous[idx]) {
-                // console.log('['+idx+']: '+one_similar_result.name+' MATCHES!')
+            if (one_similar_result.name === titles_to_api_lookup[idx]) {
                 new_disambiguation = JSON.parse(JSON.stringify(one_similar_result))
-                all_disambiguation_for_title.push(new_disambiguation)
+                all_versions_of_this_title.push(new_disambiguation)
             }
         })
-        nonexact_search_results[idx] = all_disambiguation_for_title
+        all_potential_titles[idx] = all_versions_of_this_title
     })
-    console.log('nonexact_search_results:',nonexact_search_results)
+    console.log('all_potential_titles:',all_potential_titles)
 
     // [ [{id: 2411, name:'Mount Everest', year_published: 1980},
     // {id: 147624, name:'Mount Everest', year_published: 2013}] ]

@@ -17,6 +17,13 @@ const getNonexactSearchResults = async function (titles) {
     return titleData
 }
 
+// All versions of each user-supplied title are added alltogether. This minimizes the input processing
+// complexity and future API calls needed, both caused by the numerous ways that a user can add a game.
+//
+// This function updates the library with all versions of each title supplied. However, if any 
+// user-supplied title is ambiguous, it will not update the active game list at all. In that case it 
+// will return disambiguation information that the calling function can use to re-form the titles for a 
+// subsequent call to this function.
 export const makeAllGamesActive = async (cachedgametitles, game_titles) => {
 
     let status = {

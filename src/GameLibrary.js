@@ -1,3 +1,5 @@
+import { searchApi } from './Api.js'
+
 const withoutYear = (title) => {
     if (typeof title === 'string' && title.length) {
         return title.replace(/(( +)\(([-#]?)\d{1,6}\))$/, '')
@@ -6,7 +8,16 @@ const withoutYear = (title) => {
     }
 }
 
-export const makeAllGamesActive = (cachedgametitles, game_titles) => {
+const getNonexactSearchResults = async function (titles) {
+    const titleData = await Promise.all(
+        titles.map( function(gameTitle) {
+            return (
+                searchApi(withoutYear(gameTitle)) // query the API without the disambiguation
+    )}))
+    return titleData
+}
+
+export const makeAllGamesActive = async (cachedgametitles, game_titles) => {
 
     let status = {
         already_active: [],
@@ -48,6 +59,26 @@ export const makeAllGamesActive = (cachedgametitles, game_titles) => {
             status.ambiguous.push(user_title)
         }
     })
+
+    // STEP 1 API: Use BGG API to collect disambiguation info for each AMBIGUOUS user-supplied title.
+    let nonexact_search_results = await getNonexactSearchResults(status.ambiguous)
+    nonexact_search_results.forEach(function (all_results_for_title, idx) {
+        console.log('all_results_for_title:',all_results_for_title)
+        let all_disambiguation_for_title = []
+        all_results_for_title.forEach(function (one_similar_result) {
+            let new_disambiguation
+            if (one_similar_result.name === status.ambiguous[idx]) {
+                // console.log('['+idx+']: '+one_similar_result.name+' MATCHES!')
+                new_disambiguation = JSON.parse(JSON.stringify(one_similar_result))
+                all_disambiguation_for_title.push(new_disambiguation)
+            }
+        })
+        nonexact_search_results[idx] = all_disambiguation_for_title
+    })
+    console.log('nonexact_search_results:',nonexact_search_results)
+
+    // [ [{id: 2411, name:'Mount Everest', year_published: 1980},
+    // {id: 147624, name:'Mount Everest', year_published: 2013}] ]
 
     return status
 

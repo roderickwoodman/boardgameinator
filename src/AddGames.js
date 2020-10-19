@@ -141,7 +141,16 @@ export const AddGames = (props) => {
     }
 
     const validateAmbiguousTitles = function (unambiguous_titles) { 
-        validateUserTitles(unambiguous_titles, true)
+        // validateUserTitles(unambiguous_titles, true)
+        validateUserTitles2(unambiguous_titles)
+    }
+
+    // WIP: Refactoring for more modular management of cache and user-supplied ambiguity
+    const validateUserTitles2 = async function (user_titles) { 
+
+        let result = makeAllGamesActive(props.cachedgametitles, user_titles)
+        console.log('result:',result)
+
     }
 
     // The param 'second_pass' indicates the second pass through this function. It is only
@@ -156,10 +165,6 @@ export const AddGames = (props) => {
         let cached_titles = []
         let ambiguous_titles = []
         let titles_for_api = []
-
-        // WIP: Adding a component to manage caching and user-supplied ambiguity
-        let result = makeAllGamesActive(props.cachedgametitles, user_titles)
-        console.log('result:',result)
 
         // console.log('[',second_pass,'] user_titles:',user_titles)
         let disambiguous_user_titles = user_titles.map( title => getDisambiguousTitle(title) )
@@ -443,7 +448,8 @@ export const AddGames = (props) => {
             .map(str => str.trim())
             .map(str => str.replace(/[^0-9a-zA-Z:()&!–#' ]/g, ""))
             .filter( function(e){return e} )
-        validateUserTitles(Array.from(new Set(userTitles)), false)
+        // validateUserTitles(Array.from(new Set(userTitles)), false)
+        validateUserTitles2(Array.from(new Set(userTitles)))
     }
 
     const addButton = (message) => {

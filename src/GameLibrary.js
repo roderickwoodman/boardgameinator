@@ -26,30 +26,31 @@ const getGamedataResults = async function (game_ids) {
     return gamedata
 }
 
-// This is a helper function for the data collection needed to add games to the library/cache, given 
-// the numerous formats accepted for the user to add a game and potentially incomplete user input.
+// This is a helper function for the data collection needed to check and to add games to the 
+// library/cache. It will do the following:
 //
-// LIBRARY UPDATE: All unique games that match each user-supplied title are added to the library.
-// This minimizes the input processing complexity and the future API calls that are needed just for
-// disambiguation.
+//   - VERIFY TITLE EXISTENCE (API)
+//   - VERIFY TITLE PRESENCE IN CACHE
+//   - VERIFY TITLE ACTIVE STATUS
+//   - COLLECT GAME DATA FOR UNCACHED TITLES (API)
 //
-// ACTIVE GAMES LIST UPDATE: The active games list is only updated if every user-supplied game exists,
-// was unambiguous, and was not already active. If not, disambiguation information will be returned 
-// that the calling function can use to re-form the titles for a subsequent call to this function.
-// In this way, this helper function is checking active status for the caller in the same "pass" 
-// that it is checking APIs for title validity. 
+// This function does not update either the library/cache or the active games list, so that these
+// operations can be coordinated by the calling function instead. This is necessary since many of
+// the titles in this function's input list may not be ready to be added because the numerous
+// accepted user input formats and multiple games having the same title can lead to ambiguity in
+// which games the user really wants to make active. 
 export const makeGamesActive = async (cachedgametitles, game_titles) => {
 
     let status = {
-        not_found: [],
-        already_active: [],
-        readytoadd_cachedtitle: [],      // just activate the game from already-cached data
-        readytoadd_newtitle: [],         // add this new game data to cache and activate the game
-        readytoadd_newcachedtitle: [],   // add this new game data to cache
-        made_active: [],
-        disambiguation_info: {},
+        does_not_exist: [],         // INPUT ERROR: bad title string
+        cached_active: [],          // INPUT ERROR: title is already active
+        cached_inactive: [],        // activate this game from already-cached data
+        unambiguous_gamedata: {},   // add this new game data to cache and activate the game
+        ambiguous_gamedata: {},     // add this new game data to cache
     }
     let titles_to_api_lookup = []
+    let unambiguous_ids = []
+    let ambiguous_ids = []
 
     // CACHE LOOKUP, for all user titles
     let all_cached_disambiguous_titles = Object.keys(cachedgametitles)
@@ -59,25 +60,25 @@ export const makeGamesActive = async (cachedgametitles, game_titles) => {
         // user_title was found verbatim in the cache
         if (all_cached_disambiguous_titles.includes(user_title)) {
             if (cachedgametitles[user_title].active) {
-                status.already_active.push(user_title)
+                status.cached_active.push(user_title)
             } else { 
-                status.readytoadd_cachedtitle.push(user_title)
+                status.cached_inactive.push(user_title)
             }
 
         // user_title without the year disambiguation was found in the cache
         } else if (all_cached_disambiguous_titles.includes(withoutYear(user_title))) {
             if (cachedgametitles[withoutYear(user_title)].active) {
-                status.already_active.push(withoutYear(user_title))
+                status.cached_active.push(withoutYear(user_title))
             } else { 
-                status.readytoadd_cachedtitle.push(withoutYear(user_title))
+                status.cached_inactive.push(withoutYear(user_title))
             }
 
         // user_title is actually an ID that was found in the cache 
         } else if (all_cached_ids.includes(parseInt(user_title))) {
             if (Object.entries(cachedgametitles).filter( cachedgame => cachedgame[1].id === parseInt(user_title) )[0][1].active) {
-                status.already_active.push(user_title)
+                status.cached_active.push(user_title)
             } else { 
-                status.readytoadd_cachedtitle.push(user_title)
+                status.cached_inactive.push(user_title)
             }
 
         // user_title is not immediately known, collect title info via API
@@ -104,39 +105,50 @@ export const makeGamesActive = async (cachedgametitles, game_titles) => {
     })
 
     // BUNDLE EACH TITLE INTO ONE AND ONLY ONE STATUS BUCKET 
-    //   (not_found, already_active, readytoadd_cachedtitle, made_active, disambiguation_info)
     titles_to_api_lookup.forEach(function (user_title, idx) {
 
         // title exists
         if (all_potential_titles[idx].length > 0) {
 
-            // multiple titles exists, so prepare disambiguation to return to the user
-            if (all_potential_titles[idx].length > 1) {
-                let new_disambiguation = JSON.parse(JSON.stringify(all_potential_titles[idx]))
-                status.disambiguation_info[user_title] = new_disambiguation
-            }
-
             // convert to IDs for the game data API
-            all_potential_titles[idx].forEach(function (one_title_version) {
-                let game_id = parseInt(one_title_version.id)
-                if (all_cached_ids.includes(game_id)) {
-                    status.readytoadd_newtitle.push(game_id)
+            all_potential_titles[idx].forEach(function (this_title_version) {
+                let game_id = parseInt(this_title_version.id)
+                if (all_potential_titles[idx].length === 1) {
+                    unambiguous_ids.push(game_id)
                 } else {
-                    status.readytoadd_newcachedtitle.push(game_id)
+                    ambiguous_ids.push(game_id)
                 }
             })
 
         // title does not exist
         } else {
-            status.not_found.push(user_title)
+            status.does_not_exist.push(user_title)
         }
 
     })
 
     // API RETRIEVAL OF GAME DATA, for all uncached user titles
-    let ids_for_gamedata_api = [ ...status.readytoadd_newtitle, ...status.readytoadd_newcachedtitle ]
+    let ids_for_gamedata_api = [ ...unambiguous_ids, ...ambiguous_ids ]
     let all_new_gamedata = await getGamedataResults(ids_for_gamedata_api)
-    status['new_gamedata'] = all_new_gamedata
+    all_new_gamedata.forEach(function (this_gamedata) {
+        let new_gamedata = JSON.parse(JSON.stringify(this_gamedata))
+
+        // collect game data for unambiguous titles separately
+        if (unambiguous_ids.includes(this_gamedata.id)) {
+            status.unambiguous_gamedata[this_gamedata.name] = new_gamedata
+
+        // collect game data for ambiguous titles separately
+        } else if (ambiguous_ids.includes(this_gamedata.id)) {
+            if (status.ambiguous_gamedata.hasOwnProperty(this_gamedata.name)) {
+                status.ambiguous_gamedata[this_gamedata.name].push(new_gamedata)
+            } else {
+                let new_ambiguous_gamedata_bundle = []
+                new_ambiguous_gamedata_bundle.push(new_gamedata) 
+                status.ambiguous_gamedata[this_gamedata.name] = new_ambiguous_gamedata_bundle
+            }
+        }
+
+    })
 
     return status
 

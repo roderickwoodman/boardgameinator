@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLongArrowAltRight } from '@fortawesome/free-solid-svg-icons'
+import { makeAllGamesActive } from './GameLibrary.js'
 import { searchApi, exactSearchApi, gamedataApi } from './Api.js'
 
 
@@ -155,6 +156,10 @@ export const AddGames = (props) => {
         let cached_titles = []
         let ambiguous_titles = []
         let titles_for_api = []
+
+        // WIP: Adding a component to manage caching and user-supplied ambiguity
+        let result = makeAllGamesActive(props.cachedgametitles, user_titles)
+        console.log('result:',result)
 
         // console.log('[',second_pass,'] user_titles:',user_titles)
         let disambiguous_user_titles = user_titles.map( title => getDisambiguousTitle(title) )
@@ -470,8 +475,6 @@ export const AddGames = (props) => {
         <h4>Add board game by title:</h4>
 
         <div id="input-section">
-
-
                 <section id="input-by-title">
                     <section className="buttonrow">
                         <input size="30" value={userTitlesInput} onChange={handleChange} placeholder="(exact game title or BGG ID)" required/>
@@ -489,7 +492,6 @@ export const AddGames = (props) => {
                         }
                     </div>
                 </section>
-
         </div>
 
         </React.Fragment>

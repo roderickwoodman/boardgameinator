@@ -183,6 +183,28 @@ export const AddGames = (props) => {
         }
         new_messages.push({ message_str: 'Adding ' + title_count_to_add + ' other titles: ' + title_names_to_add })
 
+        // Inform the user of all other games that could not be added
+        let title_count_already_active = 0, title_names_already_active = ''
+        for (let active_title of result.cached_active) {
+            title_count_already_active += 1
+            if (title_names_already_active !== '') {
+                title_names_already_active += ', ' + active_title
+            } else {
+                title_names_already_active += active_title
+            }
+        }
+        new_messages.push({ message_str: 'ERROR: ' + title_count_already_active + ' titles are already active: ' + title_names_already_active })
+        let title_count_does_not_exist = 0, title_names_does_not_exist = ''
+        for (let nonexistent_title of result.does_not_exist) {
+            title_count_does_not_exist += 1
+            if (title_names_does_not_exist !== '') {
+                title_names_does_not_exist += ', ' + nonexistent_title
+            } else {
+                title_names_does_not_exist += nonexistent_title
+            }
+        }
+        new_messages.push({ message_str: 'ERROR: ' + title_count_does_not_exist + ' titles do not exist: ' + title_names_does_not_exist })
+
         // Update the view
         addMessages(new_messages)
 

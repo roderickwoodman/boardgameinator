@@ -135,10 +135,14 @@ export const makeGamesActive = async (cachedgametitles, game_titles) => {
 
         // collect game data for unambiguous titles separately
         if (unambiguous_ids.includes(this_gamedata.id)) {
+            let unambiguous_name = this_gamedata.name
+            new_gamedata['unambiguous_name'] = unambiguous_name
             status.unambiguous_gamedata[this_gamedata.name] = new_gamedata
 
         // collect game data for ambiguous titles separately
         } else if (ambiguous_ids.includes(this_gamedata.id)) {
+            let unambiguous_name = this_gamedata.name + ' (' + this_gamedata.year_published + ')'
+            new_gamedata['unambiguous_name'] = unambiguous_name
             if (status.ambiguous_gamedata.hasOwnProperty(this_gamedata.name)) {
                 status.ambiguous_gamedata[this_gamedata.name].push(new_gamedata)
             } else {

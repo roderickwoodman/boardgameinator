@@ -148,8 +148,16 @@ export const AddGames = (props) => {
     // WIP: Refactoring for more modular management of cache and user-supplied ambiguity
     const validateUserTitles2 = async function (user_titles) { 
 
+        let new_messages = []
         let result = await makeGamesActive(props.cachedgametitles, user_titles)
         console.log('result:',result)
+
+        Object.entries(result.ambiguous_gamedata).forEach(function(ambiguous_title_info) {
+            let ambiguous_gamedata_arr = JSON.parse(JSON.stringify(ambiguous_title_info[1]))
+            new_messages.push({ message_str: 'Which version of "'+ ambiguous_title_info[0] + '": ', ambiguous: ambiguous_gamedata_arr })
+        })
+        addMessages(new_messages)
+        return
 
     }
 

@@ -73,8 +73,19 @@ export const AddGames = (props) => {
 
     const [ userTitlesInput, setUserTitlesInput ] = useState('')
     const [ statusMessages, setStatusMessages ] = useState([])
+
+    // (WIP) refactoring this out
     const [ disambiguousTitleIsSelected, setDisambiguousTitleIsSelected ] = useState({}) 
     const [ ambiguityRemains, setAmbiguityRemains ] = useState(true)
+
+    // unambiguous new user input
+    const [ gamesToActivate, setGamesToActivate ] = useState([])
+    const [ gamedataToActivate, setGamedataToActivate ] = useState({})
+    
+    // ambiguous new user input
+    const [ ambiguousCached, setAmbiguousCached ] = useState({})
+    const [ ambiguousGamedata, setAmbiguousGamedata ] = useState({})
+    const [ selectedGamesToActivate, setSelectedGamesToActivate ] = useState([])
 
     const addMessages = (new_messages) => {
         const newStatusMessages = [...statusMessages, ...new_messages]
@@ -103,6 +114,15 @@ export const AddGames = (props) => {
         })
         updateAmbiguityRemains(new_disambiguous_title_is_selected)
         setDisambiguousTitleIsSelected(new_disambiguous_title_is_selected)
+    }
+
+    const selectUnambiguousTitle2 = function (title_to_select) { 
+
+        // only one title with the same base name can be selected
+        let base_name_to_select = withoutYear(title_to_select)
+        let updated_selectedGamesToActivate = selectedGamesToActivate.filter( selected_title => withoutYear(selected_title) !== base_name_to_select )
+        updated_selectedGamesToActivate.push(title_to_select)
+        setSelectedGamesToActivate(updated_selectedGamesToActivate)
     }
 
     const selectUnambiguousTitle = function (unambiguous_title) { 
@@ -151,6 +171,12 @@ export const AddGames = (props) => {
         // Collect cache information and new game data if necessary
         let result = await makeGamesActive(props.cachedgametitles, user_titles)
         console.log('result:',result)
+
+        // store the user input results in state
+        setGamesToActivate(result.cached_inactive)
+        setGamedataToActivate(result.unambiguous_gamedata)
+        setAmbiguousCached(result.ambiguous_cached)
+        setAmbiguousGamedata(result.ambiguous_gamedata)
 
         // Prompt the user for disambiguation
         let new_messages = []
@@ -516,17 +542,14 @@ export const AddGames = (props) => {
             let classes = {}
             message.ambiguous.forEach(function(game) {
                 let new_classes = 'default-secondary-styles'
-                let base_name = withoutYear(game.unambiguous_name)
-                if (disambiguousTitleIsSelected.hasOwnProperty(base_name)
-                    && disambiguousTitleIsSelected[base_name].hasOwnProperty(game.unambiguous_name)
-                    && disambiguousTitleIsSelected[base_name][game.unambiguous_name]) {
+                if (selectedGamesToActivate.includes(game.unambiguous_name)) {
                     new_classes += ' active-button'
                 }
                 classes[game.unambiguous_name] = new_classes
             })
             return (
                 message.ambiguous.map( disambiguation => 
-                    <button key={disambiguation.id} className={classes[disambiguation.unambiguous_name]} onClick={ (e) => selectUnambiguousTitle(disambiguation.unambiguous_name) }>{disambiguation.year_published}</button>
+                    <button key={disambiguation.id} className={classes[disambiguation.unambiguous_name]} onClick={ (e) => selectUnambiguousTitle2(disambiguation.unambiguous_name) }>{disambiguation.year_published}</button>
                 )
             )
         } else {

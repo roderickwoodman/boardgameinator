@@ -162,6 +162,28 @@ export const AddGames = (props) => {
             let ambiguous_gamedata_arr = JSON.parse(JSON.stringify(ambiguous_title_info[1]))
             new_messages.push({ message_str: 'Which version of "'+ ambiguous_title_info[0] + '": ', ambiguous: ambiguous_gamedata_arr })
         })
+
+        // Inform the user of all other games that will be added
+        let title_count_to_add = 0, title_names_to_add = ''
+        for (let inactive_title of result.cached_inactive) {
+            title_count_to_add += 1
+            if (title_names_to_add !== '') {
+                title_names_to_add += ', ' + inactive_title
+            } else {
+                title_names_to_add += inactive_title
+            }
+        }
+        for (let unambiguous_new_title of Object.keys(result.unambiguous_gamedata)) {
+            title_count_to_add += 1
+            if (title_names_to_add !== '') {
+                title_names_to_add += ', ' + unambiguous_new_title
+            } else {
+                title_names_to_add += unambiguous_new_title
+            }
+        }
+        new_messages.push({ message_str: 'Adding ' + title_count_to_add + ' other titles: ' + title_names_to_add })
+
+        // Update the view
         addMessages(new_messages)
 
         return

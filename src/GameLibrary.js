@@ -103,6 +103,10 @@ export const makeGamesActive = async (cachedgametitles, game_titles) => {
             titles_to_api_lookup.push(user_title)
         }
     })
+    // sort ambiguous cached titles by year published, for their eventual displaying
+    Object.entries(status.ambiguous_cached).forEach(function(ambiguous_entry) {
+        status.ambiguous_cached[ambiguous_entry[0]] = ambiguous_entry[1].sort( (a,b) => (a.year_published < b.year_published) ? -1 : 1 )
+    })
 
     // API LOOKUP FOR TITLE INFO (for user titles that were not found in the cache)
     //   example disambiguation generated in "all_potential_titles" variable:

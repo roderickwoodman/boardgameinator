@@ -204,6 +204,7 @@ export class Boardgameinator extends React.Component {
                 let new_cache_info = {
                     id: gamedata.id,
                     name: gamedata.name,
+                    unambiguous_name: gamedata.unambiguous_name,
                     year_published: gamedata.year_published,
                     active: (self.state.activeGameList.includes(gamedata.id)) ? true : false,
                 }

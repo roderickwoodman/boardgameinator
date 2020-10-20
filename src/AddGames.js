@@ -123,6 +123,16 @@ export const AddGames = (props) => {
         let updated_selectedGamesToActivate = selectedGamesToActivate.filter( selected_title => withoutYear(selected_title) !== base_name_to_select )
         updated_selectedGamesToActivate.push(title_to_select)
         setSelectedGamesToActivate(updated_selectedGamesToActivate)
+
+        // update the status of whether or not ambiguity still remains
+        let ambiguous_count = Object.keys(ambiguousCached).length + Object.keys(ambiguousGamedata).length
+        let selected_count = updated_selectedGamesToActivate.length
+        if (selected_count < ambiguous_count) {
+            props.updateambiguityremains(true)
+        } else {
+            props.updateambiguityremains(false)
+        }
+
     }
 
     const selectUnambiguousTitle = function (unambiguous_title) { 
@@ -177,6 +187,14 @@ export const AddGames = (props) => {
         setGamedataToActivate(result.unambiguous_gamedata)
         setAmbiguousCached(result.ambiguous_cached)
         setAmbiguousGamedata(result.ambiguous_gamedata)
+
+        // update the status of whether or not ambiguity still remains
+        let ambiguous_count = Object.keys(result.ambiguous_cached).length + Object.keys(result.ambiguous_gamedata).length
+        if (ambiguous_count > 0) {
+            props.updateambiguityremains(true)
+        } else {
+            props.updateambiguityremains(false)
+        }
 
         // Prompt the user for disambiguation
         let new_messages = []
@@ -589,6 +607,7 @@ export const AddGames = (props) => {
 AddGames.propTypes = {
     closemymodal: PropTypes.func.isRequired,
     activepoll: PropTypes.string.isRequired,
+    updateambiguityremains: PropTypes.func.isRequired,
     cachedgametitles: PropTypes.object.isRequired,
     onaddcachedtitle: PropTypes.func.isRequired,
     onaddnewtitle: PropTypes.func.isRequired,

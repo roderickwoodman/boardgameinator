@@ -20,6 +20,7 @@ export const MainControls = (props) => {
     const [voteAttributesErrorIsOpen, setVoteAttributesErrorIsOpen] = useState(false)
     const [voteTitlesIsOpen, setVoteTitlesIsOpen] = useState(false)
     const [importPollIsOpen, setImportPollIsOpen] = useState(false)
+    const [ambiguityRemains, setAmbiguityRemains] = useState(false)
 
     const closeMyModal = () => {
         setAddIsOpen(false)
@@ -40,6 +41,11 @@ export const MainControls = (props) => {
     }
 
     const hideAddModal = () => {
+        setAddIsOpen(false)
+    }
+
+    const doAddGames = () => {
+        console.log('(WIP) add games!')
         setAddIsOpen(false)
     }
 
@@ -108,6 +114,11 @@ export const MainControls = (props) => {
         setImportPollIsOpen(false)
     }
 
+    const updateAmbiguityRemains = (remains) => {
+        console.log('updating ambiguityRemains:',remains)
+        setAmbiguityRemains(remains)
+    }
+
     useEffect( () => {
         if (props.activegamedata.length === 0) {
             showAddModal()
@@ -160,6 +171,7 @@ export const MainControls = (props) => {
                             <AddGames
                                 closemymodal={closeMyModal}
                                 activepoll={props.activepoll} 
+                                updateambiguityremains={updateAmbiguityRemains}
                                 cachedgametitles={props.cachedgametitles}
                                 onaddcachedtitle={props.onaddcachedtitle}
                                 onaddnewtitle={props.onaddnewtitle}
@@ -167,6 +179,9 @@ export const MainControls = (props) => {
                         </div>
                     </ModalBody>
                     <ModalFooter> 
+                        { !ambiguityRemains && 
+                        <button className="default-primary-styles" onClick={doAddGames}>Apply</button>
+                        }
                         <button className="default-primary-styles" onClick={hideAddModal}>Close</button>
                     </ModalFooter>
                 </Modal>

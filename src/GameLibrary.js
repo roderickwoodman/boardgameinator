@@ -45,8 +45,9 @@ export const makeGamesActive = async (cachedgametitles, game_titles) => {
         does_not_exist: [],         // INPUT ERROR: bad title string
         cached_active: [],          // INPUT ERROR: title is already active
         cached_inactive: [],        // activate this game from already-cached data
+        ambiguous_cached: {},       // cannot activate the game yet
         unambiguous_gamedata: {},   // add this new game data to cache and activate the game
-        ambiguous_gamedata: {},     // add this new game data to cache
+        ambiguous_gamedata: {},     // add this new game data to cache, but cannot activate the game yet
     }
     let titles_to_api_lookup = []
     let unambiguous_ids = []
@@ -54,6 +55,17 @@ export const makeGamesActive = async (cachedgametitles, game_titles) => {
 
     // CACHE LOOKUP (for all user titles)
     let all_cached_disambiguous_titles = Object.keys(cachedgametitles)
+    let all_cached_ambiguous_titles_entries = Object.entries(cachedgametitles).filter(cached_title => cached_title[0] !== cached_title[1].name)
+    let all_cached_ambiguous_titles = {}
+    all_cached_ambiguous_titles_entries.forEach(function(entry) {
+        let ambiguous_name = withoutYear(entry[0])
+        let title_info = JSON.parse(JSON.stringify(entry[1]))
+        if (all_cached_ambiguous_titles.hasOwnProperty(ambiguous_name)) {
+            all_cached_ambiguous_titles[ambiguous_name].push(title_info)
+        } else {
+            all_cached_ambiguous_titles[ambiguous_name] = [ title_info ]
+        }
+    })
     let all_cached_ids = Object.entries(cachedgametitles).map( cachedgame => parseInt(cachedgame[1].id) )
     game_titles.forEach(function(user_title) {
 
@@ -65,7 +77,12 @@ export const makeGamesActive = async (cachedgametitles, game_titles) => {
                 status.cached_inactive.push(user_title)
             }
 
-        // user_title without the year disambiguation was found in the cache
+        // user_title with year disambiguation added was found in the cache
+        } else if (all_cached_ambiguous_titles.hasOwnProperty(user_title)) {
+            let disambiguation = JSON.parse(JSON.stringify(all_cached_ambiguous_titles[user_title]))
+            status.ambiguous_cached[user_title] = disambiguation
+
+        // user_title with year disambiguation removed was found in the cache
         } else if (all_cached_disambiguous_titles.includes(withoutYear(user_title))) {
             if (cachedgametitles[withoutYear(user_title)].active) {
                 status.cached_active.push(withoutYear(user_title))

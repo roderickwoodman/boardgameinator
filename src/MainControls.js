@@ -112,6 +112,7 @@ export const MainControls = (props) => {
 
         hideAddModal()
 
+        // add all newly-retrieved game data
         let new_gamedata_to_activate = [ ...Object.values(updated_addingGames.gamedata_to_activate) ]
         let new_gamedata_to_cache = []
         Object.values(updated_addingGames.ambiguous_gamedata).forEach(possibilities => {
@@ -123,10 +124,19 @@ export const MainControls = (props) => {
                 }
             })
         })
-        console.log('new_gamedata_to_activate:',new_gamedata_to_activate)
         props.onaddnewtitles(new_gamedata_to_activate)
-        console.log('new_gamedata_to_cache:',new_gamedata_to_cache)
         props.oncachenewtitles(new_gamedata_to_cache)
+
+        // activate titles that were already in the cache
+        let cached_games_to_activate = [ ...updated_addingGames.games_to_activate ]
+        Object.values(updated_addingGames.ambiguous_cached).forEach(possibilities => {
+            possibilities.forEach(possible_game => {
+                if (updated_addingGames.selected_games_to_activate.includes(possible_game.unambiguous_name)) {
+                    cached_games_to_activate.push(possible_game.unambiguous_name)
+                }
+            })
+        })
+        props.onaddcachedtitles(cached_games_to_activate)
         
     }
 

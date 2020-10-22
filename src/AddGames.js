@@ -60,12 +60,40 @@ export const AddGames = (props) => {
         let new_messages = []
         Object.entries(result.ambiguous_cached).forEach(function(ambiguous_cached_title_info) {
             let ambiguous_cachedids_arr = JSON.parse(JSON.stringify(ambiguous_cached_title_info[1]))
-            new_messages.push({ message_str: 'Which version of "'+ ambiguous_cached_title_info[0] + '": ', ambiguous: ambiguous_cachedids_arr })
+            new_messages.push({ message_str: 'Which version of "'+ ambiguous_cached_title_info[0] + '"? ', ambiguous: ambiguous_cachedids_arr })
         })
         Object.entries(result.ambiguous_gamedata).forEach(function(ambiguous_title_info) {
             let ambiguous_gamedata_arr = JSON.parse(JSON.stringify(ambiguous_title_info[1]))
-            new_messages.push({ message_str: 'Which version of "'+ ambiguous_title_info[0] + '": ', ambiguous: ambiguous_gamedata_arr })
+            new_messages.push({ message_str: 'Which version of "'+ ambiguous_title_info[0] + '"? ', ambiguous: ambiguous_gamedata_arr })
         })
+
+        // Inform the user of all other games that could not be added
+        let title_count_already_active = 0, title_names_already_active = ''
+        for (let active_title of result.cached_active) {
+            title_count_already_active += 1
+            if (title_names_already_active !== '') {
+                title_names_already_active += ', ' + active_title
+            } else {
+                title_names_already_active += active_title
+            }
+        }
+        if (title_count_already_active > 0) {
+            let plural_txt = (title_count_already_active > 1) ? 's are' : ' is'
+            new_messages.push({ message_str: 'ERROR: ' + title_count_already_active + ' title' + plural_txt + ' already active - ' + title_names_already_active })
+        }
+        let title_count_does_not_exist = 0, title_names_does_not_exist = ''
+        for (let nonexistent_title of result.does_not_exist) {
+            title_count_does_not_exist += 1
+            if (title_names_does_not_exist !== '') {
+                title_names_does_not_exist += ', ' + nonexistent_title
+            } else {
+                title_names_does_not_exist += nonexistent_title
+            }
+        }
+        if (title_count_does_not_exist > 0) {
+            let plural_txt = (title_count_does_not_exist > 1) ? 's do' : ' does'
+            new_messages.push({ message_str: 'ERROR: ' + title_count_does_not_exist + ' title' + plural_txt + ' not exist - ' + title_names_does_not_exist })
+        }
 
         // Inform the user of all other games that will be added
         let title_count_to_add = 0, title_names_to_add = ''
@@ -86,33 +114,13 @@ export const AddGames = (props) => {
             }
         }
         if (title_count_to_add > 0) {
-            new_messages.push({ message_str: 'Adding ' + title_count_to_add + ' other titles: ' + title_names_to_add })
-        }
-
-        // Inform the user of all other games that could not be added
-        let title_count_already_active = 0, title_names_already_active = ''
-        for (let active_title of result.cached_active) {
-            title_count_already_active += 1
-            if (title_names_already_active !== '') {
-                title_names_already_active += ', ' + active_title
-            } else {
-                title_names_already_active += active_title
-            }
-        }
-        if (title_count_already_active > 0) {
-            new_messages.push({ message_str: 'ERROR: ' + title_count_already_active + ' titles are already active: ' + title_names_already_active })
-        }
-        let title_count_does_not_exist = 0, title_names_does_not_exist = ''
-        for (let nonexistent_title of result.does_not_exist) {
-            title_count_does_not_exist += 1
-            if (title_names_does_not_exist !== '') {
-                title_names_does_not_exist += ', ' + nonexistent_title
-            } else {
-                title_names_does_not_exist += nonexistent_title
-            }
-        }
-        if (title_count_does_not_exist > 0) {
-            new_messages.push({ message_str: 'ERROR: ' + title_count_does_not_exist + ' titles do not exist: ' + title_names_does_not_exist })
+            let other_txt = ( (Object.keys(result.ambiguous_cached).length > 0) 
+                              || (Object.keys(result.ambiguous_gamedata).length > 0) 
+                              || (result.does_not_exist.length > 0)
+                              || (result.cached_active.length > 0) )
+                                ? ' other' : ''
+            let plural_txt = (title_count_to_add > 1) ? 's' : ''
+            new_messages.push({ message_str: 'Adding ' + title_count_to_add + other_txt + ' title' + plural_txt + ' - ' + title_names_to_add })
         }
 
         // Update the view

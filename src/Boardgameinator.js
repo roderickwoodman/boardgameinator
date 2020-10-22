@@ -241,8 +241,16 @@ export class Boardgameinator extends React.Component {
                 let activeGameList = prevState.activeGameList.slice()
                 let localGameList = prevState.localGameList.slice()
                 titles.forEach(title => {
-                    activeGameList.push(prevState.allGameData.filter( game_data => game_data.unambiguous_name === title )[0].id)
-                    localGameList.push(prevState.allGameData.filter( game_data => game_data.unambiguous_name === title )[0].id)
+                    // title is an unambiguous name
+                    if (isNaN(parseInt(title))) {
+                        activeGameList.push(prevState.allGameData.filter( game_data => game_data.unambiguous_name === title )[0].id)
+                        localGameList.push(prevState.allGameData.filter( game_data => game_data.unambiguous_name === title )[0].id)
+                    // title is a game ID
+                    } else {
+                        activeGameList.push(parseInt(title))
+                        localGameList.push(parseInt(title))
+                    }
+
                 })
                 localStorage.setItem('activeGameList', JSON.stringify(activeGameList))
                 localStorage.setItem('localGameList', JSON.stringify(localGameList))

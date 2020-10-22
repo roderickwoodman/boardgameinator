@@ -20,6 +20,7 @@ export const MainControls = (props) => {
     const [voteAttributesErrorIsOpen, setVoteAttributesErrorIsOpen] = useState(false)
     const [voteTitlesIsOpen, setVoteTitlesIsOpen] = useState(false)
     const [importPollIsOpen, setImportPollIsOpen] = useState(false)
+    const [addingGames, setAddingGames] = useState({})
     const [ambiguityRemains, setAmbiguityRemains] = useState(false)
 
     const closeMyModal = () => {
@@ -45,7 +46,7 @@ export const MainControls = (props) => {
     }
 
     const doAddGames = () => {
-        console.log('(WIP) add games!')
+        console.log('(WIP) add games!', /*addingGames*/)
         setAddIsOpen(false)
     }
 
@@ -114,6 +115,11 @@ export const MainControls = (props) => {
         setImportPollIsOpen(false)
     }
 
+    const updateAddingGames = (updated_addingGames) => {
+        console.log('updating addingGames:',updated_addingGames)
+        setAddingGames(updated_addingGames)
+    }
+
     const updateAmbiguityRemains = (remains) => {
         console.log('updating ambiguityRemains:',remains)
         setAmbiguityRemains(remains)
@@ -171,7 +177,7 @@ export const MainControls = (props) => {
                             <AddGames
                                 closemymodal={closeMyModal}
                                 activepoll={props.activepoll} 
-                                updateambiguityremains={updateAmbiguityRemains}
+                                updateaddinggames={updateAddingGames}
                                 cachedgametitles={props.cachedgametitles}
                                 onaddcachedtitle={props.onaddcachedtitle}
                                 onaddnewtitle={props.onaddnewtitle}

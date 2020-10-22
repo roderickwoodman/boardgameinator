@@ -40,6 +40,16 @@ export const AddGames = (props) => {
 
     }
 
+    const displayNameForMessages = function (title) {
+        let all_cached_ids = Object.entries(props.cachedgametitles).map( cachedgame => parseInt(cachedgame[1].id) )
+        if (all_cached_ids.includes(parseInt(title))) {
+            let unambiguous_name = Object.values(props.cachedgametitles).filter( cachedgame => cachedgame.id === parseInt(title) )[0].unambiguous_name
+            return '[#' + title + '] ' + unambiguous_name
+        } else {
+            return title
+        }
+    }
+
     const validateUserTitles = async function (user_titles) { 
 
         // Collect cache information and new game data if necessary
@@ -72,9 +82,9 @@ export const AddGames = (props) => {
         for (let active_title of result.cached_active) {
             title_count_already_active += 1
             if (title_names_already_active !== '') {
-                title_names_already_active += ', ' + active_title
+                title_names_already_active += ', ' + displayNameForMessages(active_title)
             } else {
-                title_names_already_active += active_title
+                title_names_already_active += displayNameForMessages(active_title)
             }
         }
         if (title_count_already_active > 0) {
@@ -100,17 +110,17 @@ export const AddGames = (props) => {
         for (let inactive_title of result.cached_inactive) {
             title_count_to_add += 1
             if (title_names_to_add !== '') {
-                title_names_to_add += ', ' + inactive_title
+                title_names_to_add += ', ' + displayNameForMessages(inactive_title)
             } else {
-                title_names_to_add += inactive_title
+                title_names_to_add += displayNameForMessages(inactive_title)
             }
         }
         for (let unambiguous_new_title of Object.keys(result.unambiguous_gamedata)) {
             title_count_to_add += 1
             if (title_names_to_add !== '') {
-                title_names_to_add += ', ' + unambiguous_new_title
+                title_names_to_add += ', ' + displayNameForMessages(unambiguous_new_title)
             } else {
-                title_names_to_add += unambiguous_new_title
+                title_names_to_add += displayNameForMessages(unambiguous_new_title)
             }
         }
         if (title_count_to_add > 0) {

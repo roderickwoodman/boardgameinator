@@ -92,10 +92,13 @@ export const makeGamesActive = async (cachedgametitles, game_titles) => {
 
         // user_title is actually an ID that was found in the cache 
         } else if (all_cached_ids.includes(parseInt(user_title))) {
-            if (Object.entries(cachedgametitles).filter( cachedgame => cachedgame[1].id === parseInt(user_title) )[0][1].active) {
-                status.cached_active.push(user_title)
+            console.log('cachedgametitles:',cachedgametitles)
+            let gamedata = Object.values(cachedgametitles).filter( cachedgame => cachedgame.id === parseInt(user_title) )[0]
+            let unambiguous_name = gamedata.unambiguous_name
+            if (gamedata.active) {
+                status.cached_active.push(unambiguous_name)
             } else { 
-                status.cached_inactive.push(user_title)
+                status.cached_inactive.push(unambiguous_name)
             }
 
         // user_title is not immediately known, collect title info via API

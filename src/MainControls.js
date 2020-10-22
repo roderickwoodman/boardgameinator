@@ -171,7 +171,7 @@ export const MainControls = (props) => {
             return (
                 <React.Fragment>
                 <button className="default-primary-styles" onClick={showAddModal}>Add Games</button>
-                <Modal size="md" show={addIsOpen} onHide={hideAddModal}>
+                <Modal size="md" backdrop="static" show={addIsOpen} onHide={hideAddModal}>
                     <ModalBody>
                         <div id="gameinput-controls">
                             <AddGames

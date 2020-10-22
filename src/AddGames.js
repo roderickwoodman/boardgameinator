@@ -126,10 +126,13 @@ export const AddGames = (props) => {
         let updated_selectedGamesToActivate = selectedGamesToActivate.filter( selected_title => withoutYear(selected_title) !== base_name_to_select )
         updated_selectedGamesToActivate.push(title_to_select)
         setSelectedGamesToActivate(updated_selectedGamesToActivate)
+        // console.log('UPDATE selected:', updated_selectedGamesToActivate)
+        // console.log('CURRENT adding_games:', addingGames)
         let updated_addingGames = addingGames
         updated_addingGames.selected_games_to_activate = JSON.parse(JSON.stringify(updated_selectedGamesToActivate))
         setAddingGames(updated_addingGames)
-        props.updateaddinggames(updated_addingGames)
+        // console.log('UPDATE adding_games:', updated_addingGames)
+        // props.updateaddinggames(updated_addingGames)
 
         // update the status of whether or not ambiguity still remains
         // let ambiguous_count = addingGames.ambiguous_title_count
@@ -198,6 +201,7 @@ export const AddGames = (props) => {
             ambiguous_title_count: Object.keys(result.ambiguous_cached).length + Object.keys(result.ambiguous_gamedata).length,
             selected_games_to_activate: [],
         }
+        setAddingGames(new_addingGames)
         // setGamesToActivate(result.cached_inactive)
         // setGamedataToActivate(result.unambiguous_gamedata)
         // setAmbiguousCached(result.ambiguous_cached)
@@ -590,6 +594,12 @@ export const AddGames = (props) => {
         }
     }
 
+    const doAddGames = () => {
+        console.log('ADDING:', addingGames)
+        props.updateaddinggames(addingGames)
+        return null
+    }
+
     return (
         <React.Fragment>
 
@@ -613,6 +623,9 @@ export const AddGames = (props) => {
                         }
                     </div>
                 </section>
+                { addingGames.hasOwnProperty('ambiguous_title_count') && addingGames.ambiguous_title_count > 0 &&
+                    <button className="default-primary-styles" onClick={doAddGames}>Apply</button>
+                }
         </div>
 
         </React.Fragment>

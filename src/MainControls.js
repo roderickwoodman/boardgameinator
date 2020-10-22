@@ -118,6 +118,7 @@ export const MainControls = (props) => {
     const updateAddingGames = (updated_addingGames) => {
         console.log('updating addingGames:',updated_addingGames)
         setAddingGames(updated_addingGames)
+        hideAddModal()
     }
 
     const updateAmbiguityRemains = (remains) => {
@@ -185,9 +186,6 @@ export const MainControls = (props) => {
                         </div>
                     </ModalBody>
                     <ModalFooter> 
-                        { !ambiguityRemains && 
-                        <button className="default-primary-styles" onClick={doAddGames}>Apply</button>
-                        }
                         <button className="default-primary-styles" onClick={hideAddModal}>Close</button>
                     </ModalFooter>
                 </Modal>

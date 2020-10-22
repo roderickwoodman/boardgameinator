@@ -109,8 +109,25 @@ export const MainControls = (props) => {
     }
 
     const updateAddingGames = (updated_addingGames) => {
-        console.log('updating addingGames:',updated_addingGames)
+
         hideAddModal()
+
+        let new_gamedata_to_activate = [ ...Object.values(updated_addingGames.gamedata_to_activate) ]
+        let new_gamedata_to_cache = []
+        Object.values(updated_addingGames.ambiguous_gamedata).forEach(possibilities => {
+            possibilities.forEach(possible_gamedata => {
+                if (updated_addingGames.selected_games_to_activate.includes(possible_gamedata.unambiguous_name)) {
+                    new_gamedata_to_activate.push(JSON.parse(JSON.stringify(possible_gamedata)))
+                } else {
+                    new_gamedata_to_cache.push(JSON.parse(JSON.stringify(possible_gamedata)))
+                }
+            })
+        })
+        console.log('new_gamedata_to_activate:',new_gamedata_to_activate)
+        props.onaddnewtitles(new_gamedata_to_activate)
+        console.log('new_gamedata_to_cache:',new_gamedata_to_cache)
+        props.oncachenewtitles(new_gamedata_to_cache)
+        
     }
 
     useEffect( () => {

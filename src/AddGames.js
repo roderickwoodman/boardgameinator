@@ -20,8 +20,8 @@ export const AddGames = (props) => {
     const [ addingGames, setAddingGames ] = useState({})
     const [ selectedGamesToActivate, setSelectedGamesToActivate ] = useState([])
 
-    const addMessages = (new_messages) => {
-        const newStatusMessages = [...statusMessages, ...new_messages]
+    const newMessages = (new_messages) => {
+        const newStatusMessages = [...new_messages]
         setStatusMessages(newStatusMessages)
     }
 
@@ -85,7 +85,9 @@ export const AddGames = (props) => {
                 title_names_to_add += unambiguous_new_title
             }
         }
-        new_messages.push({ message_str: 'Adding ' + title_count_to_add + ' other titles: ' + title_names_to_add })
+        if (title_count_to_add > 0) {
+            new_messages.push({ message_str: 'Adding ' + title_count_to_add + ' other titles: ' + title_names_to_add })
+        }
 
         // Inform the user of all other games that could not be added
         let title_count_already_active = 0, title_names_already_active = ''
@@ -97,7 +99,9 @@ export const AddGames = (props) => {
                 title_names_already_active += active_title
             }
         }
-        new_messages.push({ message_str: 'ERROR: ' + title_count_already_active + ' titles are already active: ' + title_names_already_active })
+        if (title_count_already_active > 0) {
+            new_messages.push({ message_str: 'ERROR: ' + title_count_already_active + ' titles are already active: ' + title_names_already_active })
+        }
         let title_count_does_not_exist = 0, title_names_does_not_exist = ''
         for (let nonexistent_title of result.does_not_exist) {
             title_count_does_not_exist += 1
@@ -107,10 +111,12 @@ export const AddGames = (props) => {
                 title_names_does_not_exist += nonexistent_title
             }
         }
-        new_messages.push({ message_str: 'ERROR: ' + title_count_does_not_exist + ' titles do not exist: ' + title_names_does_not_exist })
+        if (title_count_does_not_exist > 0) {
+            new_messages.push({ message_str: 'ERROR: ' + title_count_does_not_exist + ' titles do not exist: ' + title_names_does_not_exist })
+        }
 
         // Update the view
-        addMessages(new_messages)
+        newMessages(new_messages)
 
     }
 

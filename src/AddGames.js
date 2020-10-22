@@ -173,6 +173,9 @@ export const AddGames = (props) => {
         return null
     }
 
+    let apply_button = ( (addingGames.hasOwnProperty('ambiguous_title_count') && addingGames.ambiguous_title_count > 0)
+                       || (addingGames.hasOwnProperty('games_to_activate') && addingGames.games_to_activate.length > 0)
+                       || (addingGames.hasOwnProperty('gamedata_to_activate') && Object.keys(addingGames.gamedata_to_activate).length > 0) )
     return (
         <React.Fragment>
 
@@ -196,7 +199,7 @@ export const AddGames = (props) => {
                         }
                     </div>
                 </section>
-                { addingGames.hasOwnProperty('ambiguous_title_count') && addingGames.ambiguous_title_count > 0 &&
+                { apply_button &&
                     <button className="default-primary-styles" onClick={doAddGames}>Apply</button>
                 }
         </div>

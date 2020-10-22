@@ -167,9 +167,9 @@ export const MainControls = (props) => {
                                 activepoll={props.activepoll} 
                                 updateaddinggames={updateAddingGames}
                                 cachedgametitles={props.cachedgametitles}
-                                onaddcachedtitle={props.onaddcachedtitle}
-                                onaddnewtitle={props.onaddnewtitle}
-                                oncachenewtitle={props.oncachenewtitle} />
+                                onaddcachedtitles={props.onaddcachedtitles}
+                                onaddnewtitles={props.onaddnewtitles}
+                                oncachenewtitles={props.oncachenewtitles} />
                         </div>
                     </ModalBody>
                     <ModalFooter> 
@@ -331,9 +331,9 @@ MainControls.propTypes = {
     activegamedata: PropTypes.array.isRequired,
     activethumbs: PropTypes.object.isRequired,
     cachedgametitles: PropTypes.object.isRequired,
-    onaddcachedtitle: PropTypes.func.isRequired,
-    onaddnewtitle: PropTypes.func.isRequired,
-    oncachenewtitle: PropTypes.func.isRequired,
+    onaddcachedtitles: PropTypes.func.isRequired,
+    onaddnewtitles: PropTypes.func.isRequired,
+    oncachenewtitles: PropTypes.func.isRequired,
     ondeleteall: PropTypes.func.isRequired,
     onnewvote: PropTypes.func.isRequired,
     onclearsectionvotes: PropTypes.func.isRequired,

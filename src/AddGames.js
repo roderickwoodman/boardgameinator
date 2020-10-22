@@ -196,7 +196,7 @@ AddGames.propTypes = {
     activepoll: PropTypes.string.isRequired,
     updateaddinggames: PropTypes.func.isRequired,
     cachedgametitles: PropTypes.object.isRequired,
-    onaddcachedtitle: PropTypes.func.isRequired,
-    onaddnewtitle: PropTypes.func.isRequired,
-    oncachenewtitle: PropTypes.func.isRequired,
+    onaddcachedtitles: PropTypes.func.isRequired,
+    onaddnewtitles: PropTypes.func.isRequired,
+    oncachenewtitles: PropTypes.func.isRequired,
 }

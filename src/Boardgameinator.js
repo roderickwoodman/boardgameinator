@@ -58,9 +58,9 @@ export class Boardgameinator extends React.Component {
         this.clearMyTitleVotesInPoll = this.clearMyTitleVotesInPoll.bind(this)
         this.deleteTitleInPoll = this.deleteTitleInPoll.bind(this)
         this.addGameById = this.addGameById.bind(this)
-        this.onAddCachedTitle = this.onAddCachedTitle.bind(this)
-        this.onAddNewTitle = this.onAddNewTitle.bind(this)
-        this.onCacheNewTitle = this.onCacheNewTitle.bind(this)
+        this.onAddCachedTitles = this.onAddCachedTitles.bind(this)
+        this.onAddNewTitles = this.onAddNewTitles.bind(this)
+        this.onCacheNewTitles = this.onCacheNewTitles.bind(this)
         this.onNewVote = this.onNewVote.bind(this)
         this.onDeleteTitle = this.onDeleteTitle.bind(this)
         this.onDeleteAllTitles = this.onDeleteAllTitles.bind(this)
@@ -227,65 +227,79 @@ export class Boardgameinator extends React.Component {
         gamedataApi(game_id)
             .then(json => {
                 if (json.hasOwnProperty('id')) {
-                    this.onAddNewTitle(json)
+                    this.onAddNewTitles(json)
                 }})
     }
 
-    onAddCachedTitle(title) {
+    onAddCachedTitles(titles) {
 
-        this.setState(prevState => {
+        if (titles.length) {
 
-            // FIXME: Implement poll editing. May not want to update active list here if we are currently looking at a poll.
-            let activeGameList = prevState.activeGameList.slice()
-            activeGameList.push(prevState.allGameData.filter( game_data => game_data.unambiguous_name === title )[0].id)
-            localStorage.setItem('activeGameList', JSON.stringify(activeGameList))
+            this.setState(prevState => {
 
-            let localGameList = prevState.localGameList.slice()
-            localGameList.push(prevState.allGameData.filter( game_data => game_data.unambiguous_name === title )[0].id)
-            localStorage.setItem('localGameList', JSON.stringify(localGameList))
+                // FIXME: Implement poll editing. May not want to update active list here if we are currently looking at a poll.
+                let activeGameList = prevState.activeGameList.slice()
+                let localGameList = prevState.localGameList.slice()
+                titles.forEach(title => {
+                    activeGameList.push(prevState.allGameData.filter( game_data => game_data.unambiguous_name === title )[0].id)
+                    localGameList.push(prevState.allGameData.filter( game_data => game_data.unambiguous_name === title )[0].id)
+                })
+                localStorage.setItem('activeGameList', JSON.stringify(activeGameList))
+                localStorage.setItem('localGameList', JSON.stringify(localGameList))
 
-            return { activeGameList, localGameList }
-        })
+                return { activeGameList, localGameList }
+            })
+
+        }
     }
 
-    onAddNewTitle(newGameData) {
+    onAddNewTitles(newGameData_arr) {
 
-        let now = new Date()
-        newGameData["updated_at"] = now.getTime()
+        if (newGameData_arr.length) {
 
-        this.setState(prevState => {
+            let now = new Date()
 
-            // FIXME: Implement poll editing. May not want to update active list here if we are currently looking at a poll.
-            let activeGameList = prevState.activeGameList.slice()
-            activeGameList.push(newGameData.id)
-            localStorage.setItem('activeGameList', JSON.stringify(activeGameList))
+            this.setState(prevState => {
 
-            let localGameList = prevState.localGameList.slice()
-            localGameList.push(newGameData.id)
-            localStorage.setItem('localGameList', JSON.stringify(localGameList))
+                // FIXME: Implement poll editing. May not want to update active list here if we are currently looking at a poll.
+                let activeGameList = prevState.activeGameList.slice()
+                let localGameList = prevState.localGameList.slice()
+                let allGameData = JSON.parse(JSON.stringify(prevState.allGameData))
+                newGameData_arr.forEach(each_newGameData => {
+                    each_newGameData["updated_at"] = now.getTime()
+                    activeGameList.push(each_newGameData.id)
+                    localGameList.push(each_newGameData.id)
+                    allGameData.push(each_newGameData)
+                })
+                localStorage.setItem('activeGameList', JSON.stringify(activeGameList))
+                localStorage.setItem('localGameList', JSON.stringify(localGameList))
+                localStorage.setItem('allGameData', JSON.stringify(allGameData))
 
-            let allGameData = JSON.parse(JSON.stringify(prevState.allGameData))
-            allGameData.push(newGameData)
-            localStorage.setItem('allGameData', JSON.stringify(allGameData))
-
-            return { activeGameList, localGameList, allGameData }
-        })
+                return { activeGameList, localGameList, allGameData }
+            })
+        }
 
     }
 
-    onCacheNewTitle(newGameData) {
+    onCacheNewTitles(newGameData_arr) {
 
-        let now = new Date()
-        newGameData["updated_at"] = now.getTime()
+        if (newGameData_arr.length) {
 
-        this.setState(prevState => {
+            let now = new Date()
 
-            let allGameData = JSON.parse(JSON.stringify(prevState.allGameData))
-            allGameData.push(newGameData)
-            localStorage.setItem('allGameData', JSON.stringify(allGameData))
+            this.setState(prevState => {
 
-            return { allGameData }
-        })
+                let allGameData = JSON.parse(JSON.stringify(prevState.allGameData))
+                newGameData_arr.forEach(each_newGameData => {
+                    each_newGameData["updated_at"] = now.getTime()
+                    allGameData.push(each_newGameData)
+                })
+                localStorage.setItem('allGameData', JSON.stringify(allGameData))
+
+                return { allGameData }
+            })
+
+        }
 
     }
 
@@ -725,9 +739,9 @@ export class Boardgameinator extends React.Component {
                 <GameList
                     activegamedata={activeGameData} 
                     cachedgametitles={cachedGameTitles}
-                    onaddcachedtitle={this.onAddCachedTitle}
-                    onaddnewtitle={this.onAddNewTitle}
-                    oncachenewtitle={this.onCacheNewTitle}
+                    onaddcachedtitles={this.onAddCachedTitles}
+                    onaddnewtitles={this.onAddNewTitles}
+                    oncachenewtitles={this.onCacheNewTitles}
                     activethumbs={this.state.activeThumbs} 
                     sortby={this.state.sortOrder}
                     filtertitles={this.state.filterTitles}

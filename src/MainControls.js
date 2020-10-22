@@ -20,8 +20,6 @@ export const MainControls = (props) => {
     const [voteAttributesErrorIsOpen, setVoteAttributesErrorIsOpen] = useState(false)
     const [voteTitlesIsOpen, setVoteTitlesIsOpen] = useState(false)
     const [importPollIsOpen, setImportPollIsOpen] = useState(false)
-    const [addingGames, setAddingGames] = useState({})
-    const [ambiguityRemains, setAmbiguityRemains] = useState(false)
 
     const closeMyModal = () => {
         setAddIsOpen(false)
@@ -42,11 +40,6 @@ export const MainControls = (props) => {
     }
 
     const hideAddModal = () => {
-        setAddIsOpen(false)
-    }
-
-    const doAddGames = () => {
-        console.log('(WIP) add games!', /*addingGames*/)
         setAddIsOpen(false)
     }
 
@@ -117,13 +110,7 @@ export const MainControls = (props) => {
 
     const updateAddingGames = (updated_addingGames) => {
         console.log('updating addingGames:',updated_addingGames)
-        setAddingGames(updated_addingGames)
         hideAddModal()
-    }
-
-    const updateAmbiguityRemains = (remains) => {
-        console.log('updating ambiguityRemains:',remains)
-        setAmbiguityRemains(remains)
     }
 
     useEffect( () => {

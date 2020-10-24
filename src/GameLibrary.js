@@ -47,22 +47,25 @@ const getGamedataForIds = async function (game_ids) {
 export const makeGamesActive = async (cachedgametitles, game_titles) => {
 
     let status = {
-        does_not_exist: [],         // INPUT ERROR: bad title string
-        cached_active: [],          // INPUT ERROR: title is already active
-        cached_inactive: [],        // activate this game from already-cached data
-        ambiguous_cached: {},       // cannot activate the game yet
-        unambiguous_gamedata: {},   // add this new game data to cache and activate the game
-        ambiguous_gamedata: {},     // add this new game data to cache, but cannot activate the game yet
+        does_not_exist: [],               // INPUT ERROR: bad title string
+        cached_active: [],                // INPUT ERROR: title is already active
+        cached_inactive: [],              // activate this game from already-cached data
+        ambiguous_cached: {},             // cannot activate the game yet
+        unambiguous_gamedata: {},         // add this new game data to cache and activate the game
+        unambiguous_tocache: {},          // add this new game data to cache
+        ambiguous_gamedata: {},           // add this new game data to cache, but cannot activate the game yet
     }
     let titles_to_api_lookup = []
     let unambiguous_ids = []
     let ambiguous_ids = []
+    let given_game_ids = {}
 
     let game_titles_that_are_numbers = game_titles.filter(title => !isNaN(parseInt(title)))
     let gamedata_for_titles_that_are_numbers = await getGamedataForIds(game_titles_that_are_numbers)
     let game_titles_without_numbers = game_titles.map(function(title) {
         if (game_titles_that_are_numbers.includes(title)) {
             let title_from_id = gamedata_for_titles_that_are_numbers.filter(data => data.id===parseInt(title))[0].name
+            given_game_ids[title_from_id] = parseInt(title)
             return title_from_id
         } else {
             return title 
@@ -178,12 +181,30 @@ export const makeGamesActive = async (cachedgametitles, game_titles) => {
         // collect game data for ambiguous titles separately
         } else if (ambiguous_ids.includes(this_gamedata.id)) {
             new_gamedata['unambiguous_name'] = this_gamedata.name + ' (' + this_gamedata.year_published + ')'
-            if (status.ambiguous_gamedata.hasOwnProperty(this_gamedata.name)) {
-                status.ambiguous_gamedata[this_gamedata.name].push(new_gamedata)
+
+            // if user supplied a game ID originally, but its title was ambiguous, apply that disambiguation
+            if (given_game_ids.hasOwnProperty(this_gamedata.name)) {
+                if (given_game_ids[this_gamedata.name] === this_gamedata.id) {
+                    status.unambiguous_gamedata[this_gamedata.name] = new_gamedata
+                } else {
+                    if (status.unambiguous_tocache.hasOwnProperty(this_gamedata.name)) {
+                        status.unambiguous_tocache[this_gamedata.name].push(new_gamedata)
+                    } else {
+                        let new_unambiguous_tocache_bundle = []
+                        new_unambiguous_tocache_bundle.push(new_gamedata) 
+                        status.unambiguous_tocache[this_gamedata.name] = new_unambiguous_tocache_bundle
+                    }
+                }
+
+            // if user supplied an ambiguous title originally, game data remains ambiguous for now
             } else {
-                let new_ambiguous_gamedata_bundle = []
-                new_ambiguous_gamedata_bundle.push(new_gamedata) 
-                status.ambiguous_gamedata[this_gamedata.name] = new_ambiguous_gamedata_bundle
+                if (status.ambiguous_gamedata.hasOwnProperty(this_gamedata.name)) {
+                    status.ambiguous_gamedata[this_gamedata.name].push(new_gamedata)
+                } else {
+                    let new_ambiguous_gamedata_bundle = []
+                    new_ambiguous_gamedata_bundle.push(new_gamedata) 
+                    status.ambiguous_gamedata[this_gamedata.name] = new_ambiguous_gamedata_bundle
+                }
             }
         }
 

@@ -54,6 +54,7 @@ export const AddGames = (props) => {
 
         // Collect cache information and new game data if necessary
         let result = await makeGamesActive(props.cachedgametitles, user_titles)
+        console.log('result:',result)
 
         // store the user input results in state
         let new_addingGames = {
@@ -73,8 +74,7 @@ export const AddGames = (props) => {
             new_messages.push({ message_str: 'Which version of "'+ ambiguous_cached_title_info[0] + '"? ', ambiguous: ambiguous_cachedids_arr })
         })
         Object.entries(result.ambiguous_gamedata).forEach(function(ambiguous_title_info) {
-            let ambiguous_gamedata_arr = JSON.parse(JSON.stringify(ambiguous_title_info[1]))
-            new_messages.push({ message_str: 'Which version of "'+ ambiguous_title_info[0] + '"? ', ambiguous: ambiguous_gamedata_arr })
+
         })
 
         // Inform the user of all other games that could not be added

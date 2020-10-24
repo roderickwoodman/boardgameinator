@@ -26,6 +26,11 @@ const getGamedataResults = async function (game_ids) {
     return gamedata
 }
 
+// for gamedata requests by ID, get gamedata for all games with the same title
+const getGamedataForIds = async function (game_ids) {
+    return await getGamedataResults(game_ids)
+}
+
 // This is a helper function for the data collection needed to check and to add games to the 
 // library/cache. It will do the following:
 //
@@ -53,6 +58,17 @@ export const makeGamesActive = async (cachedgametitles, game_titles) => {
     let unambiguous_ids = []
     let ambiguous_ids = []
 
+    let game_titles_that_are_numbers = game_titles.filter(title => !isNaN(parseInt(title)))
+    let gamedata_for_titles_that_are_numbers = await getGamedataForIds(game_titles_that_are_numbers)
+    let game_titles_without_numbers = game_titles.map(function(title) {
+        if (game_titles_that_are_numbers.includes(title)) {
+            let title_from_id = gamedata_for_titles_that_are_numbers.filter(data => data.id===parseInt(title))[0].name
+            return title_from_id
+        } else {
+            return title 
+        }
+    })
+
     // CACHE LOOKUP (for all user titles)
     let all_cached_disambiguous_titles = Object.keys(cachedgametitles)
     let all_cached_ambiguous_titles_entries = Object.entries(cachedgametitles).filter(cached_title => cached_title[0] !== cached_title[1].name)
@@ -67,7 +83,7 @@ export const makeGamesActive = async (cachedgametitles, game_titles) => {
         }
     })
     let all_cached_ids = Object.entries(cachedgametitles).map( cachedgame => parseInt(cachedgame[1].id) )
-    game_titles.forEach(function(user_title) {
+    game_titles_without_numbers.forEach(function(user_title) {
 
         // user_title was found verbatim in the cache
         if (all_cached_disambiguous_titles.includes(user_title)) {

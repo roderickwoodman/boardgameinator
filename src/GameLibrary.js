@@ -49,6 +49,7 @@ export const makeGamesActive = async (cachedgametitles, game_titles) => {
     let status = {
         does_not_exist: [],               // INPUT ERROR: bad title string
         cached_active: [],                // INPUT ERROR: title is already active
+        given_game_ids: {},              // input title string is actually an ID
         cached_inactive: [],              // activate this game from already-cached data
         ambiguous_cached: {},             // cannot activate the game yet
         unambiguous_gamedata: {},         // add this new game data to cache and activate the game
@@ -65,7 +66,7 @@ export const makeGamesActive = async (cachedgametitles, game_titles) => {
     let game_titles_without_numbers = game_titles.map(function(title) {
         if (game_titles_that_are_numbers.includes(title)) {
             let title_from_id = gamedata_for_titles_that_are_numbers.filter(data => data.id===parseInt(title))[0].name
-            given_game_ids[title_from_id] = parseInt(title)
+            status.given_game_ids[title_from_id] = parseInt(title)
             return title_from_id
         } else {
             return title 

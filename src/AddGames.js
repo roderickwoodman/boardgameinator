@@ -54,7 +54,6 @@ export const AddGames = (props) => {
 
         // Collect cache information and new game data if necessary
         let result = await makeGamesActive(props.cachedgametitles, user_titles)
-        console.log('result:',result)
 
         // store the user input results in state
         let new_addingGames = {
@@ -65,7 +64,6 @@ export const AddGames = (props) => {
             ambiguous_title_count: Object.keys(result.ambiguous_cached).length + Object.keys(result.ambiguous_gamedata).length,
             selected_games_to_activate: [],
         }
-        setAddingGames(new_addingGames)
 
         // Prompt the user for disambiguation
         let new_messages = []
@@ -74,8 +72,18 @@ export const AddGames = (props) => {
             new_messages.push({ message_str: 'Which version of "'+ ambiguous_cached_title_info[0] + '"? ', ambiguous: ambiguous_cachedids_arr })
         })
         Object.entries(result.ambiguous_gamedata).forEach(function(ambiguous_title_info) {
-
+            // it was tagged as "ambiguous", but really this was the title corresponding to the user-supplied ID
+            if (result.given_game_ids.hasOwnProperty(ambiguous_title_info[0])) {
+                if (result.given_game_ids[ambiguous_title_info[0]] === ambiguous_title_info[1].id) {
+                    new_addingGames.selected_games_to_activate.push(ambiguous_title_info[1].unambiguous_name)
+                }
+            // this title was a user-supplied name string and still requires user disambiguation
+            } else {
+                let ambiguous_gamedata_arr = JSON.parse(JSON.stringify(ambiguous_title_info[1]))
+                new_messages.push({ message_str: 'Which version of "'+ ambiguous_title_info[0] + '"? ', ambiguous: ambiguous_gamedata_arr })
+            }
         })
+        setAddingGames(new_addingGames)
 
         // Inform the user of all other games that could not be added
         let title_count_already_active = 0, title_names_already_active = ''

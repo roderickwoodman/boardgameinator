@@ -159,6 +159,7 @@ export const AddGames = (props) => {
         async function addRoutedGames() {
             if (props.routedgames.length > 0) {
                 let validation_result = await validateUserTitles(props.cachedgametitles, props.routedgames)
+                console.log('ROUTED validation_result:',validation_result)
                 setAddingGames(validation_result.addingGames)
                 newMessages(validation_result.messages)
                 if (!validation_result.keep_modal_open) {
@@ -193,7 +194,7 @@ export const AddGames = (props) => {
         setUserTitlesInput(event.target.value)
     }
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault()
         let delimiter, num_nonblank_lines = userTitlesInput.split(/\r\n|\r|\n/).filter(line => line !== '').length
         if (num_nonblank_lines > 1) {
@@ -206,7 +207,7 @@ export const AddGames = (props) => {
             .map(str => str.trim())
             .map(str => str.replace(/[^0-9a-zA-Z:()&!–#' ]/g, ""))
             .filter( function(e){return e} )
-        let validation_result = validateUserTitles(props.cachedgametitles, Array.from(new Set(userTitles)))
+        let validation_result = await validateUserTitles(props.cachedgametitles, Array.from(new Set(userTitles)))
         setAddingGames(validation_result.addingGames)
         newMessages(validation_result.messages)
         if (!validation_result.keep_modal_open) {
@@ -234,6 +235,7 @@ export const AddGames = (props) => {
         }
     }
 
+    // console.log('state addingGames:',addingGames)
     let apply_button = ( (addingGames.hasOwnProperty('ambiguous_title_count') && addingGames.ambiguous_title_count > 0)
                        || (addingGames.hasOwnProperty('games_to_activate') && addingGames.games_to_activate.length > 0)
                        || (addingGames.hasOwnProperty('gamedata_to_activate') && Object.keys(addingGames.gamedata_to_activate).length > 0) )

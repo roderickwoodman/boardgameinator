@@ -26,11 +26,13 @@ export const VoteAttributes = (props) => {
         let countsObj = {}
         for (const game of props.activegamedata) {
             for (let playercount=game.attributes.min_players; playercount<=game.attributes.max_players; playercount++) {
-                let playerCountAttr = playercount + 'P'
-                if (countsObj.hasOwnProperty(playerCountAttr)) {
-                    countsObj[playerCountAttr] = countsObj[playerCountAttr] + 1
-                } else {
-                    countsObj[playerCountAttr] = 1
+                if (playercount <= 10) {
+                    let playerCountAttr = (playercount === 10) ? '10P+' : playercount + 'P'
+                    if (countsObj.hasOwnProperty(playerCountAttr)) {
+                        countsObj[playerCountAttr] = countsObj[playerCountAttr] + 1
+                    } else {
+                        countsObj[playerCountAttr] = 1
+                    }
                 }
             }
         }

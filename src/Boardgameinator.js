@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import purpleMeeple from './img/purple-meeple-64.png'
 import { ViewControls } from './ViewControls'
 import { GameList } from './GameList'
-import { gamedataApi, voteinpollApi, clearmyvotesApi, deletetitleinpollApi } from './Api.js'
+import { /*gamedataApi,*/ voteinpollApi, clearmyvotesApi, deletetitleinpollApi } from './Api.js'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBars } from '@fortawesome/free-solid-svg-icons'
 
@@ -44,6 +44,7 @@ export class Boardgameinator extends React.Component {
             filterPlayercount: true,
             filterWeight: true,
             localGameList: [],
+            routedGames: [],
             sortOrder: 'maxtitlevotes',
             user: '_me_', // FIXME: implement user auths
             windowWidth: 0,
@@ -57,7 +58,7 @@ export class Boardgameinator extends React.Component {
         this.voteTitleInPoll = this.voteTitleInPoll.bind(this)
         this.clearMyTitleVotesInPoll = this.clearMyTitleVotesInPoll.bind(this)
         this.deleteTitleInPoll = this.deleteTitleInPoll.bind(this)
-        this.addGameById = this.addGameById.bind(this)
+        // this.addGameById = this.addGameById.bind(this)
         this.onAddCachedTitles = this.onAddCachedTitles.bind(this)
         this.onAddNewTitles = this.onAddNewTitles.bind(this)
         this.onCacheNewTitles = this.onCacheNewTitles.bind(this)
@@ -112,7 +113,10 @@ export class Boardgameinator extends React.Component {
             this.setState({ activePoll: 'local' })
         }
 
-        let self = this
+        let update_routedGames = [ ...new_list, ...addto_list ]
+        this.setState({ routedGames: update_routedGames })
+
+        // let self = this
         if (new_list.length === 0) {
             const stored_gamedataVersion = JSON.parse(localStorage.getItem("gamedataVersion"))
             if (stored_gamedataVersion === this.gamedataVersion) {
@@ -121,18 +125,18 @@ export class Boardgameinator extends React.Component {
                 localStorage.setItem('gamedataVersion', JSON.stringify(this.gamedataVersion))
                 localStorage.setItem('allGameData', JSON.stringify(allGameData))
             }
-            addto_list.forEach( function(game_id) {
-                if (!self.gameHasBeenAdded(game_id, allGameData)) {
-                    self.addGameById(game_id)
-                }
-            })
+            // addto_list.forEach( function(game_id) {
+            //     if (!self.gameHasBeenAdded(game_id, allGameData)) {
+            //         self.addGameById(game_id)
+            //     }
+            // })
             this.setState({ allGameData })
         } else {
-            new_list.forEach( function(game_id) {
-                if (!self.gameHasBeenAdded(game_id, allGameData)) {
-                    self.addGameById(game_id)
-                }
-            })
+            // new_list.forEach( function(game_id) {
+            //     if (!self.gameHasBeenAdded(game_id, allGameData)) {
+            //         self.addGameById(game_id)
+            //     }
+            // })
             localStorage.setItem('gamedataVersion', JSON.stringify(this.gamedataVersion))
         }
 
@@ -223,13 +227,13 @@ export class Boardgameinator extends React.Component {
         return false
     }
 
-    async addGameById(game_id) {
-        gamedataApi(game_id)
-            .then(json => {
-                if (json.hasOwnProperty('id')) {
-                    this.onAddNewTitles(json)
-                }})
-    }
+    // async addGameById(game_id) {
+    //     gamedataApi(game_id)
+    //         .then(json => {
+    //             if (json.hasOwnProperty('id')) {
+    //                 this.onAddNewTitles(json)
+    //             }})
+    // }
 
     onAddCachedTitles(titles) {
 
@@ -745,6 +749,7 @@ export class Boardgameinator extends React.Component {
             </div>
             <div id="content-wrapper">
                 <GameList
+                    routedgames={this.state.routedGames}
                     activegamedata={activeGameData} 
                     cachedgametitles={cachedGameTitles}
                     onaddcachedtitles={this.onAddCachedTitles}

@@ -192,6 +192,7 @@ export const MainControls = (props) => {
                             <AddGames
                                 closemymodal={closeMyModal}
                                 activepoll={props.activepoll} 
+                                routedgames={props.routedgames}
                                 updateaddinggames={updateAddingGames}
                                 cachedgametitles={props.cachedgametitles}
                                 onaddcachedtitles={props.onaddcachedtitles}
@@ -355,6 +356,7 @@ export const MainControls = (props) => {
 }
 
 MainControls.propTypes = {
+    routedgames: PropTypes.array.isRequired,
     activegamedata: PropTypes.array.isRequired,
     activethumbs: PropTypes.object.isRequired,
     cachedgametitles: PropTypes.object.isRequired,

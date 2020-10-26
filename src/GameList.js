@@ -382,6 +382,7 @@ export const GameList = (props) => {
     return (
         <React.Fragment>
         <MainControls 
+            routedgames={props.routedgames}
             activegamedata={props.activegamedata}
             activethumbs={props.activethumbs}
             cachedgametitles={props.cachedgametitles}
@@ -431,6 +432,7 @@ export const GameList = (props) => {
 }
 
 GameList.propTypes = {
+    routedgames: PropTypes.array.isRequired,
     activegamedata: PropTypes.array.isRequired,
     sortby: PropTypes.string.isRequired,
     filtertitles: PropTypes.bool.isRequired,

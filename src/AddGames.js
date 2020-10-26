@@ -25,7 +25,7 @@ const validateUserTitles = async function (cached_titles, user_titles) {
         }
     }
 
-    let validation_result = {}
+    let validation_result = {}, keep_modal_open = false
 
     // Collect cache information and new game data if necessary
     let result = await makeGamesActive(cached_titles, user_titles)
@@ -56,6 +56,7 @@ const validateUserTitles = async function (cached_titles, user_titles) {
         } else {
             let ambiguous_gamedata_arr = JSON.parse(JSON.stringify(ambiguous_title_info[1]))
             new_messages.push({ message_str: 'Which version of "'+ ambiguous_title_info[0] + '"? ', ambiguous: ambiguous_gamedata_arr })
+            keep_modal_open = true
         }
     })
     validation_result['addingGames'] = new_addingGames
@@ -77,10 +78,12 @@ const validateUserTitles = async function (cached_titles, user_titles) {
         } else {
             title_names_already_active += game_id_txt + displayNameForMessages(active_title)
         }
+        keep_modal_open = true
     }
     if (title_count_already_active > 0) {
         let plural_txt = (title_count_already_active > 1) ? 's are' : ' is'
         new_messages.push({ message_str: 'ERROR: ' + title_count_already_active + ' title' + plural_txt + ' already active - ' + title_names_already_active })
+        keep_modal_open = true
     }
     let title_count_does_not_exist = 0, title_names_does_not_exist = ''
     for (let nonexistent_title of result.does_not_exist) {
@@ -90,6 +93,7 @@ const validateUserTitles = async function (cached_titles, user_titles) {
         } else {
             title_names_does_not_exist += nonexistent_title
         }
+        keep_modal_open = true
     }
     if (title_count_does_not_exist > 0) {
         let plural_txt = (title_count_does_not_exist > 1) ? 's do' : ' does'
@@ -111,7 +115,6 @@ const validateUserTitles = async function (cached_titles, user_titles) {
             title_names_to_add += game_id_txt + displayNameForMessages(inactive_title)
         }
     }
-
     for (let unambiguous_new_title of Object.keys(result.unambiguous_gamedata)) {
         title_count_to_add += 1
         if (result.given_game_ids.hasOwnProperty(unambiguous_new_title)) {
@@ -135,8 +138,14 @@ const validateUserTitles = async function (cached_titles, user_titles) {
         new_messages.push({ message_str: 'Adding ' + title_count_to_add + other_txt + ' title' + plural_txt + ' - ' + title_names_to_add })
     }
     validation_result['messages'] = new_messages
+    validation_result['keep_modal_open'] = keep_modal_open
 
     return validation_result
+}
+
+const doAddGames = (games, add_fn) => {
+    add_fn(games)
+    return null
 }
 
 export const AddGames = (props) => {
@@ -152,6 +161,9 @@ export const AddGames = (props) => {
                 let validation_result = await validateUserTitles(props.cachedgametitles, props.routedgames)
                 setAddingGames(validation_result.addingGames)
                 newMessages(validation_result.messages)
+                if (!validation_result.keep_modal_open) {
+                    doAddGames(validation_result.addingGames, props.updateaddinggames)
+                }
             }
         }
         addRoutedGames()
@@ -197,6 +209,9 @@ export const AddGames = (props) => {
         let validation_result = validateUserTitles(props.cachedgametitles, Array.from(new Set(userTitles)))
         setAddingGames(validation_result.addingGames)
         newMessages(validation_result.messages)
+        if (!validation_result.keep_modal_open) {
+            doAddGames(validation_result.addingGames, props.updateaddinggames)
+        }
     }
 
     const addButton = (message) => {
@@ -217,11 +232,6 @@ export const AddGames = (props) => {
         } else {
             return null
         }
-    }
-
-    const doAddGames = () => {
-        props.updateaddinggames(addingGames)
-        return null
     }
 
     let apply_button = ( (addingGames.hasOwnProperty('ambiguous_title_count') && addingGames.ambiguous_title_count > 0)

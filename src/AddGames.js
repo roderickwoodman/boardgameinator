@@ -235,7 +235,10 @@ export const AddGames = (props) => {
         }
     }
 
-    // console.log('state addingGames:',addingGames)
+    const clickApply = () => {
+        doAddGames(addingGames, props.updateaddinggames)
+    }
+
     let apply_button = ( (addingGames.hasOwnProperty('ambiguous_title_count') && addingGames.ambiguous_title_count > 0)
                        || (addingGames.hasOwnProperty('games_to_activate') && addingGames.games_to_activate.length > 0)
                        || (addingGames.hasOwnProperty('gamedata_to_activate') && Object.keys(addingGames.gamedata_to_activate).length > 0) )
@@ -263,7 +266,7 @@ export const AddGames = (props) => {
                     </div>
                 </section>
                 { apply_button &&
-                    <button className="default-primary-styles" onClick={doAddGames}>Apply</button>
+                    <button className="default-primary-styles" onClick={clickApply}>Apply</button>
                 }
         </div>
 

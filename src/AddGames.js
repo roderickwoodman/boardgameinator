@@ -85,14 +85,22 @@ export const AddGames = (props) => {
         })
         setAddingGames(new_addingGames)
 
+        // Prepend the game title with the game ID, when the ID was supplied by the user
+        let game_id_txt = ''
+
         // Inform the user of all other games that could not be added
         let title_count_already_active = 0, title_names_already_active = ''
         for (let active_title of result.cached_active) {
             title_count_already_active += 1
-            if (title_names_already_active !== '') {
-                title_names_already_active += ', ' + displayNameForMessages(active_title)
+            if (result.given_game_ids.hasOwnProperty(active_title)) {
+                game_id_txt = '[#' + result.given_game_ids[active_title] + '] '
             } else {
-                title_names_already_active += displayNameForMessages(active_title)
+                game_id_txt = ''
+            }
+            if (title_names_already_active !== '') {
+                title_names_already_active += ', ' + game_id_txt + displayNameForMessages(active_title)
+            } else {
+                title_names_already_active += game_id_txt + displayNameForMessages(active_title)
             }
         }
         if (title_count_already_active > 0) {
@@ -117,18 +125,29 @@ export const AddGames = (props) => {
         let title_count_to_add = 0, title_names_to_add = ''
         for (let inactive_title of result.cached_inactive) {
             title_count_to_add += 1
-            if (title_names_to_add !== '') {
-                title_names_to_add += ', ' + displayNameForMessages(inactive_title)
+            if (result.given_game_ids.hasOwnProperty(inactive_title)) {
+                game_id_txt = '[#' + result.given_game_ids[inactive_title] + '] '
             } else {
-                title_names_to_add += displayNameForMessages(inactive_title)
+                game_id_txt = ''
+            }
+            if (title_names_to_add !== '') {
+                title_names_to_add += ', ' + game_id_txt + displayNameForMessages(inactive_title)
+            } else {
+                title_names_to_add += game_id_txt + displayNameForMessages(inactive_title)
             }
         }
+
         for (let unambiguous_new_title of Object.keys(result.unambiguous_gamedata)) {
             title_count_to_add += 1
-            if (title_names_to_add !== '') {
-                title_names_to_add += ', ' + displayNameForMessages(unambiguous_new_title)
+            if (result.given_game_ids.hasOwnProperty(unambiguous_new_title)) {
+                game_id_txt = '[#' + result.given_game_ids[unambiguous_new_title] + '] '
             } else {
-                title_names_to_add += displayNameForMessages(unambiguous_new_title)
+                game_id_txt = ''
+            }
+            if (title_names_to_add !== '') {
+                title_names_to_add += ', ' + game_id_txt + displayNameForMessages(unambiguous_new_title)
+            } else {
+                title_names_to_add += game_id_txt + displayNameForMessages(unambiguous_new_title)
             }
         }
         if (title_count_to_add > 0) {

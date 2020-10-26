@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import purpleMeeple from './img/purple-meeple-64.png'
 import { ViewControls } from './ViewControls'
 import { GameList } from './GameList'
-import { /*gamedataApi,*/ voteinpollApi, clearmyvotesApi, deletetitleinpollApi } from './Api.js'
+import { voteinpollApi, clearmyvotesApi, deletetitleinpollApi } from './Api.js'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBars } from '@fortawesome/free-solid-svg-icons'
 
@@ -58,7 +58,6 @@ export class Boardgameinator extends React.Component {
         this.voteTitleInPoll = this.voteTitleInPoll.bind(this)
         this.clearMyTitleVotesInPoll = this.clearMyTitleVotesInPoll.bind(this)
         this.deleteTitleInPoll = this.deleteTitleInPoll.bind(this)
-        // this.addGameById = this.addGameById.bind(this)
         this.onAddCachedTitles = this.onAddCachedTitles.bind(this)
         this.onAddNewTitles = this.onAddNewTitles.bind(this)
         this.onCacheNewTitles = this.onCacheNewTitles.bind(this)
@@ -125,18 +124,8 @@ export class Boardgameinator extends React.Component {
                 localStorage.setItem('gamedataVersion', JSON.stringify(this.gamedataVersion))
                 localStorage.setItem('allGameData', JSON.stringify(allGameData))
             }
-            // addto_list.forEach( function(game_id) {
-            //     if (!self.gameHasBeenAdded(game_id, allGameData)) {
-            //         self.addGameById(game_id)
-            //     }
-            // })
             this.setState({ allGameData })
         } else {
-            // new_list.forEach( function(game_id) {
-            //     if (!self.gameHasBeenAdded(game_id, allGameData)) {
-            //         self.addGameById(game_id)
-            //     }
-            // })
             localStorage.setItem('gamedataVersion', JSON.stringify(this.gamedataVersion))
         }
 
@@ -226,14 +215,6 @@ export class Boardgameinator extends React.Component {
         }
         return false
     }
-
-    // async addGameById(game_id) {
-    //     gamedataApi(game_id)
-    //         .then(json => {
-    //             if (json.hasOwnProperty('id')) {
-    //                 this.onAddNewTitles(json)
-    //             }})
-    // }
 
     onAddCachedTitles(titles) {
 

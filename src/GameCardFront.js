@@ -161,6 +161,7 @@ export const GameCardFront = (props) => {
             )}
         </div>
         <ul className="gamecard-categories">
+            <div className="attribute-section-title">Categories</div>
             {(attributes.categories.length)
                 ? attributes.categories
                   .map(value => 
@@ -177,6 +178,7 @@ export const GameCardFront = (props) => {
             }
         </ul>
         <ul className="gamecard-mechanics">
+            <div className="attribute-section-title">Mechanics</div>
             {(attributes.mechanics.length)
                 ? attributes.mechanics
                   .map(value => 

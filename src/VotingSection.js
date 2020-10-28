@@ -14,6 +14,9 @@ const VotableElement = (props) => {
     if (props.attrcount > 1 || !props.suppresslowcounts) {
         votable_text += ' ('+props.attrcount+')'
     }
+    if (props.votingtype === 'category' || props.votingtype === 'mechanic') {
+        votable_text = votable_text.toLowerCase()
+    }
     return (
         <li 
             key={props.votingon} 

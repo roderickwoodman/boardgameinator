@@ -153,13 +153,13 @@ html, #root {
 #resulting-games.deemphasize-nonvoted-titles-games .game.no-title-votes .segmentedcontrol.lightbg,
 #resulting-games.deemphasize-nonvoted-titles-games .game.no-title-votes .segmentedcontrol.darkbg.selected {
   background-color: gray;
-  color: purple;
-  border: 1px solid purple;
+  color: #660066;
+  border: 1px solid #660066;
 }
 
 #resulting-games.deemphasize-nonvoted-titles .game.no-title-votes .segmentedcontrol.darkbg,
 #resulting-games.deemphasize-nonvoted-titles .game.no-title-votes .segmentedcontrol.lightbg.selected {
-  background-color: purple;
+  background-color: #660066;
   color: gray;
   border: 1px solid gray;
 }
@@ -167,13 +167,13 @@ html, #root {
 .segmentedcontrol.lightbg,
 .segmentedcontrol.darkbg.selected {
   background-color: white;
-  color: purple;
-  border: 1px solid purple;
+  color: #660066;
+  border: 1px solid #660066;
 }
 
 .segmentedcontrol.darkbg,
 .segmentedcontrol.lightbg.selected {
-  background-color: purple;
+  background-color: #660066;
   color: white;
   border: 1px solid white;
 }
@@ -444,7 +444,7 @@ html, #root {
   white-space: wrap;
   max-height: 850px;
   position: relative;
-  background-color: purple;
+  background-color: #660066;
   border-radius: 10px;
   color: white;
   text-align: center;
@@ -478,7 +478,7 @@ html, #root {
 }
 
 .gamecard-variable li b {
-  color: purple;
+  color: #660066;
   background-color: white;
   padding: 0 3px;
   margin-right: 2px;
@@ -659,12 +659,12 @@ button.fa.fa-button {
 
 #resulting-games.deemphasize-nonvoted-titles .game.no-title-votes.inspecting button.fa.fa-button.inspect {
   background: gray;
-  color: purple;
+  color: #660066;
 }
 
 .game.inspecting button.fa.fa-button.inspect {
   background: white;
-  color: purple;
+  color: #660066;
 }
 
 .gamecard-header button.fa.fa-button,
@@ -680,13 +680,13 @@ button.fa.fa-button {
 
 .game.inspecting .gamecard-header .fa-button.inspect:hover,
 .game.inspecting .gamecard-collapse-control .fa-button.inspect:hover {
-  background: purple;
+  background: #660066;
   color: white;
 }
 
 #resulting-games.deemphasize-nonvoted-titles .game.no-title-votes.inspecting .gamecard-header .fa-button.inspect:hover,
 #resulting-games.deemphasize-nonvoted-titles .game.no-title-votes.inspecting .gamecard-collapse-control .fa-button.inspect:hover {
-  background: purple;
+  background: #660066;
   color: gray;
 }
 

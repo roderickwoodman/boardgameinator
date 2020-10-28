@@ -156,7 +156,7 @@ export const GameCardFront = (props) => {
                   data-newvote='thumbsup'
                   onClick={props.onnewvote}
                   className="clickable attribute thumbsup">
-                      {value}
+                      {value.toLowerCase()}
                   </div>
             )}
         </div>
@@ -172,7 +172,7 @@ export const GameCardFront = (props) => {
                       data-newvote='thumbsup'
                       onClick={props.onnewvote}
                       className={getClasses('category', value)}>
-                          {value}
+                          {value.toLowerCase()}
                       </li>)
                 : <li>(no categories)</li>
             }
@@ -189,7 +189,7 @@ export const GameCardFront = (props) => {
                       data-newvote='thumbsup'
                       onClick={props.onnewvote}
                       className={getClasses('mechanic', value)}>
-                          {value}
+                          {value.toLowerCase()}
                       </li>)
                 : <li>(no mechanics)</li>
             }

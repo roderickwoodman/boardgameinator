@@ -275,12 +275,7 @@ export const AddGames = (props) => {
 }
 
 AddGames.propTypes = {
-    closemymodal: PropTypes.func.isRequired,
-    activepoll: PropTypes.string.isRequired,
     routedgames: PropTypes.array.isRequired,
     updateaddinggames: PropTypes.func.isRequired,
     cachedgametitles: PropTypes.object.isRequired,
-    onaddcachedtitles: PropTypes.func.isRequired,
-    onaddnewtitles: PropTypes.func.isRequired,
-    oncachenewtitles: PropTypes.func.isRequired,
 }

@@ -230,11 +230,15 @@ export class Boardgameinator extends React.Component {
                     // title is an unambiguous name
                     if (isNaN(parseInt(title))) {
                         activeGameList.push(prevState.allGameData.filter( game_data => game_data.unambiguous_name === title )[0].id)
-                        localGameList.push(prevState.allGameData.filter( game_data => game_data.unambiguous_name === title )[0].id)
+                        if (prevState.activePoll === 'local') {
+                            localGameList.push(prevState.allGameData.filter( game_data => game_data.unambiguous_name === title )[0].id)
+                        }
                     // title is a game ID
                     } else {
                         activeGameList.push(parseInt(title))
-                        localGameList.push(parseInt(title))
+                        if (prevState.activePoll === 'local') {
+                            localGameList.push(parseInt(title))
+                        }
                     }
 
                 })
@@ -262,7 +266,9 @@ export class Boardgameinator extends React.Component {
                 newGameData_arr.forEach(each_newGameData => {
                     each_newGameData["updated_at"] = now.getTime()
                     activeGameList.push(each_newGameData.id)
-                    localGameList.push(each_newGameData.id)
+                    if (prevState.activePoll === 'local') {
+                        localGameList.push(each_newGameData.id)
+                    }
                     allGameData.push(each_newGameData)
                 })
                 localStorage.setItem('activeGameList', JSON.stringify(activeGameList))

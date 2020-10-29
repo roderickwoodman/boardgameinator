@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLongArrowAltRight } from '@fortawesome/free-solid-svg-icons'
-import { makeGamesActive } from './GameLibrary.js'
+import { validateUserTitles } from './GameLibrary'
 
 
 const withoutYear = (title) => {
@@ -11,136 +11,6 @@ const withoutYear = (title) => {
     } else {
         return title
     }
-}
-
-const validateUserTitles = async function (cached_titles, user_titles) { 
-
-    const displayNameForMessages = function (title) {
-        let all_cached_ids = Object.entries(cached_titles).map( cachedgame => parseInt(cachedgame[1].id) )
-        if (all_cached_ids.includes(parseInt(title))) {
-            let unambiguous_name = Object.values(cached_titles).filter( cachedgame => cachedgame.id === parseInt(title) )[0].unambiguous_name
-            return '[#' + title + '] ' + unambiguous_name
-        } else {
-            return title
-        }
-    }
-
-    let validation_result = {}, keep_modal_open = false
-
-    // Collect cache information and new game data if necessary
-    let result = await makeGamesActive(cached_titles, user_titles)
-
-    // store the user input results in state
-    let new_addingGames = {
-        games_to_activate: JSON.parse(JSON.stringify(result.cached_inactive)),
-        gamedata_to_activate: JSON.parse(JSON.stringify(result.unambiguous_gamedata)),
-        ambiguous_cached: JSON.parse(JSON.stringify(result.ambiguous_cached)),
-        ambiguous_gamedata: JSON.parse(JSON.stringify(result.ambiguous_gamedata)),
-        ambiguous_title_count: Object.keys(result.ambiguous_cached).length + Object.keys(result.ambiguous_gamedata).length,
-        selected_games_to_activate: [],
-    }
-
-    // Prompt the user for disambiguation
-    let new_messages = []
-    Object.entries(result.ambiguous_cached).forEach(function(ambiguous_cached_title_info) {
-        let ambiguous_cachedids_arr = JSON.parse(JSON.stringify(ambiguous_cached_title_info[1]))
-        new_messages.push({ message_str: 'Which version of "'+ ambiguous_cached_title_info[0] + '"? ', ambiguous: ambiguous_cachedids_arr })
-    })
-    Object.entries(result.ambiguous_gamedata).forEach(function(ambiguous_title_info) {
-        // it was tagged as "ambiguous", but really this was the title corresponding to the user-supplied ID
-        if (result.given_game_ids.hasOwnProperty(ambiguous_title_info[0])) {
-            if (result.given_game_ids[ambiguous_title_info[0]] === ambiguous_title_info[1].id) {
-                new_addingGames.selected_games_to_activate.push(ambiguous_title_info[1].unambiguous_name)
-            }
-        // this title was a user-supplied name string and still requires user disambiguation
-        } else {
-            let ambiguous_gamedata_arr = JSON.parse(JSON.stringify(ambiguous_title_info[1]))
-            new_messages.push({ message_str: 'Which version of "'+ ambiguous_title_info[0] + '"? ', ambiguous: ambiguous_gamedata_arr })
-            keep_modal_open = true
-        }
-    })
-    validation_result['addingGames'] = new_addingGames
-
-    // Prepend the game title with the game ID, when the ID was supplied by the user
-    let game_id_txt = ''
-
-    // Inform the user of all other games that could not be added
-    let title_count_already_active = 0, title_names_already_active = ''
-    for (let active_title of result.cached_active) {
-        title_count_already_active += 1
-        if (result.given_game_ids.hasOwnProperty(active_title)) {
-            game_id_txt = '[#' + result.given_game_ids[active_title] + '] '
-        } else {
-            game_id_txt = ''
-        }
-        if (title_names_already_active !== '') {
-            title_names_already_active += ', ' + game_id_txt + displayNameForMessages(active_title)
-        } else {
-            title_names_already_active += game_id_txt + displayNameForMessages(active_title)
-        }
-        keep_modal_open = true
-    }
-    if (title_count_already_active > 0) {
-        let plural_txt = (title_count_already_active > 1) ? 's are' : ' is'
-        new_messages.push({ message_str: 'ERROR: ' + title_count_already_active + ' title' + plural_txt + ' already active - ' + title_names_already_active })
-        keep_modal_open = true
-    }
-    let title_count_does_not_exist = 0, title_names_does_not_exist = ''
-    for (let nonexistent_title of result.does_not_exist) {
-        title_count_does_not_exist += 1
-        if (title_names_does_not_exist !== '') {
-            title_names_does_not_exist += ', ' + nonexistent_title
-        } else {
-            title_names_does_not_exist += nonexistent_title
-        }
-        keep_modal_open = true
-    }
-    if (title_count_does_not_exist > 0) {
-        let plural_txt = (title_count_does_not_exist > 1) ? 's do' : ' does'
-        new_messages.push({ message_str: 'ERROR: ' + title_count_does_not_exist + ' title' + plural_txt + ' not exist - ' + title_names_does_not_exist })
-    }
-
-    // Inform the user of all other games that will be added
-    let title_count_to_add = 0, title_names_to_add = ''
-    for (let inactive_title of result.cached_inactive) {
-        title_count_to_add += 1
-        if (result.given_game_ids.hasOwnProperty(inactive_title)) {
-            game_id_txt = '[#' + result.given_game_ids[inactive_title] + '] '
-        } else {
-            game_id_txt = ''
-        }
-        if (title_names_to_add !== '') {
-            title_names_to_add += ', ' + game_id_txt + displayNameForMessages(inactive_title)
-        } else {
-            title_names_to_add += game_id_txt + displayNameForMessages(inactive_title)
-        }
-    }
-    for (let unambiguous_new_title of Object.keys(result.unambiguous_gamedata)) {
-        title_count_to_add += 1
-        if (result.given_game_ids.hasOwnProperty(unambiguous_new_title)) {
-            game_id_txt = '[#' + result.given_game_ids[unambiguous_new_title] + '] '
-        } else {
-            game_id_txt = ''
-        }
-        if (title_names_to_add !== '') {
-            title_names_to_add += ', ' + game_id_txt + displayNameForMessages(unambiguous_new_title)
-        } else {
-            title_names_to_add += game_id_txt + displayNameForMessages(unambiguous_new_title)
-        }
-    }
-    if (title_count_to_add > 0) {
-        let other_txt = ( (Object.keys(result.ambiguous_cached).length > 0) 
-                            || (Object.keys(result.ambiguous_gamedata).length > 0) 
-                            || (result.does_not_exist.length > 0)
-                            || (result.cached_active.length > 0) )
-                            ? ' other' : ''
-        let plural_txt = (title_count_to_add > 1) ? 's' : ''
-        new_messages.push({ message_str: 'Adding ' + title_count_to_add + other_txt + ' title' + plural_txt + ' - ' + title_names_to_add })
-    }
-    validation_result['messages'] = new_messages
-    validation_result['keep_modal_open'] = keep_modal_open
-
-    return validation_result
 }
 
 const doAddGames = (games, add_fn) => {

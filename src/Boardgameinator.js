@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import purpleMeeple from './img/purple-meeple-64.png'
 import { ViewControls } from './ViewControls'
 import { GameList } from './GameList'
+import { addValidatedGames, validateUserTitles } from './GameLibrary'
 import { voteinpollApi, clearmyvotesApi, deletetitleinpollApi } from './Api.js'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBars } from '@fortawesome/free-solid-svg-icons'
@@ -577,14 +578,15 @@ export class Boardgameinator extends React.Component {
         }
     }
 
-    onViewPoll(poll) {
+    async onViewPoll(poll) {
 
         if (poll.name !== 'local') {
             let poll_game_ids = Object.keys(poll.pollThumbs.titles).map( title => parseInt(title) )
             let cached_poll_games = this.state.allGameData.filter( game => poll_game_ids.includes(game.id) )
             if (poll_game_ids.length !== cached_poll_games.length) {
-                console.log('ERROR: poll has ' + poll_game_ids.length + ' games but cache has only ' + cached_poll_games.length)
-                return
+                let cachedGameTitles = this.getCachedGameTitles()
+                let validation_result = await validateUserTitles(cachedGameTitles, poll_game_ids)
+                addValidatedGames(validation_result.gameValidations, this.onAddCachedTitles, this.onAddNewTitles, this.onCacheNewTitles)
             }
         }
 

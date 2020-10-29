@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 const hardcoded_polls = [
     {
         id: '1',
-        name: 'Fake Poll A',
+        name: 'Fake Poll A, VOTING DISABLED',
         pollThumbs: {
             titles: {
                 5782: { // Coloretto (2003)
@@ -29,7 +29,7 @@ const hardcoded_polls = [
     },
     {
         id: '2',
-        name: 'Fake Poll B',
+        name: 'Fake Poll B, VOTING DISABLED',
         pollThumbs: {
             titles: {
                 175914: { // Food Chain Magnate
@@ -53,7 +53,7 @@ const hardcoded_polls = [
     },
     {
         id: '3',
-        name: 'Fake Poll C',
+        name: 'Fake Poll C, VOTING DISABLED',
         pollThumbs: {
             titles: {
                 141791: { // Pinata

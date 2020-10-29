@@ -219,7 +219,7 @@ export const collectGamedataForTitles = async (cachedgametitles, game_titles) =>
 
 }
 
-export const validateUserTitles = async function (cached_titles, user_titles) { 
+export const validateUserTitles = async (cached_titles, user_titles) => { 
 
     const displayNameForMessages = function (title) {
         let all_cached_ids = Object.entries(cached_titles).map( cachedgame => parseInt(cachedgame[1].id) )
@@ -347,4 +347,34 @@ export const validateUserTitles = async function (cached_titles, user_titles) {
     validation_result['keep_modal_open'] = keep_modal_open
 
     return validation_result
+}
+
+export const addValidatedGames = (validated_game_additions, addfromcache_fn, addnew_fn, cachenew_fn) => {
+
+    // add all newly-retrieved game data
+    let new_gamedata_to_activate = [ ...Object.values(validated_game_additions.gamedata_to_activate) ]
+    let new_gamedata_to_cache = []
+    Object.values(validated_game_additions.ambiguous_gamedata).forEach(possibilities => {
+        possibilities.forEach(possible_gamedata => {
+            if (validated_game_additions.selected_games_to_activate.includes(possible_gamedata.unambiguous_name)) {
+                new_gamedata_to_activate.push(JSON.parse(JSON.stringify(possible_gamedata)))
+            } else {
+                new_gamedata_to_cache.push(JSON.parse(JSON.stringify(possible_gamedata)))
+            }
+        })
+    })
+    addnew_fn(new_gamedata_to_activate)
+    cachenew_fn(new_gamedata_to_cache)
+
+    // activate titles that were already in the cache
+    let cached_games_to_activate = [ ...validated_game_additions.games_to_activate ]
+    Object.values(validated_game_additions.ambiguous_cached).forEach(possibilities => {
+        possibilities.forEach(possible_game => {
+            if (validated_game_additions.selected_games_to_activate.includes(possible_game.unambiguous_name)) {
+                cached_games_to_activate.push(possible_game.unambiguous_name)
+            }
+        })
+    })
+    addfromcache_fn(cached_games_to_activate)
+    
 }

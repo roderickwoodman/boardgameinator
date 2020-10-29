@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { AddGames } from './AddGames'
+import { addValidatedGames } from './GameLibrary'
 import { VoteAttributes } from './VoteAttributes'
 import { VoteTitles } from './VoteTitles'
 import { ImportPoll } from './ImportPoll'
@@ -20,15 +21,6 @@ export const MainControls = (props) => {
     const [voteAttributesErrorIsOpen, setVoteAttributesErrorIsOpen] = useState(false)
     const [voteTitlesIsOpen, setVoteTitlesIsOpen] = useState(false)
     const [importPollIsOpen, setImportPollIsOpen] = useState(false)
-
-    const closeMyModal = () => {
-        setAddIsOpen(false)
-        setAddErrorIsOpen(false)
-        setVoteAttributesIsOpen(false)
-        setVoteAttributesErrorIsOpen(false)
-        setVoteTitlesIsOpen(false)
-        setImportPollIsOpen(false)
-    }
 
     const showAddModal = () => {
         setVoteAttributesIsOpen(false)
@@ -108,36 +100,9 @@ export const MainControls = (props) => {
         setImportPollIsOpen(false)
     }
 
-    const updateAddingGames = (updated_addingGames) => {
-
+    const updateAddingGames = (validated_game_additions) => {
         hideAddModal()
-
-        // add all newly-retrieved game data
-        let new_gamedata_to_activate = [ ...Object.values(updated_addingGames.gamedata_to_activate) ]
-        let new_gamedata_to_cache = []
-        Object.values(updated_addingGames.ambiguous_gamedata).forEach(possibilities => {
-            possibilities.forEach(possible_gamedata => {
-                if (updated_addingGames.selected_games_to_activate.includes(possible_gamedata.unambiguous_name)) {
-                    new_gamedata_to_activate.push(JSON.parse(JSON.stringify(possible_gamedata)))
-                } else {
-                    new_gamedata_to_cache.push(JSON.parse(JSON.stringify(possible_gamedata)))
-                }
-            })
-        })
-        props.onaddnewtitles(new_gamedata_to_activate)
-        props.oncachenewtitles(new_gamedata_to_cache)
-
-        // activate titles that were already in the cache
-        let cached_games_to_activate = [ ...updated_addingGames.games_to_activate ]
-        Object.values(updated_addingGames.ambiguous_cached).forEach(possibilities => {
-            possibilities.forEach(possible_game => {
-                if (updated_addingGames.selected_games_to_activate.includes(possible_game.unambiguous_name)) {
-                    cached_games_to_activate.push(possible_game.unambiguous_name)
-                }
-            })
-        })
-        props.onaddcachedtitles(cached_games_to_activate)
-        
+        addValidatedGames(validated_game_additions, props.onaddcachedtitles, props.onaddnewtitles, props.oncachenewtitles)
     }
 
     useEffect( () => {
@@ -190,14 +155,9 @@ export const MainControls = (props) => {
                     <ModalBody>
                         <div id="gameinput-controls">
                             <AddGames
-                                closemymodal={closeMyModal}
-                                activepoll={props.activepoll} 
                                 routedgames={props.routedgames}
                                 updateaddinggames={updateAddingGames}
-                                cachedgametitles={props.cachedgametitles}
-                                onaddcachedtitles={props.onaddcachedtitles}
-                                onaddnewtitles={props.onaddnewtitles}
-                                oncachenewtitles={props.oncachenewtitles} />
+                                cachedgametitles={props.cachedgametitles} />
                         </div>
                     </ModalBody>
                     <ModalFooter> 

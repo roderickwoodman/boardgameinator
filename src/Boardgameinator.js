@@ -579,6 +579,15 @@ export class Boardgameinator extends React.Component {
 
     onViewPoll(poll) {
 
+        if (poll.name !== 'local') {
+            let poll_game_ids = Object.keys(poll.pollThumbs.titles).map( title => parseInt(title) )
+            let cached_poll_games = this.state.allGameData.filter( game => poll_game_ids.includes(game.id) )
+            if (poll_game_ids.length !== cached_poll_games.length) {
+                console.log('ERROR: poll has ' + poll_game_ids.length + ' games but cache has only ' + cached_poll_games.length)
+                return
+            }
+        }
+
         this.setState(prevState => {
 
             let new_pollName = poll.name

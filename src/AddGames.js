@@ -22,7 +22,7 @@ export const AddGames = (props) => {
 
     const [ userTitlesInput, setUserTitlesInput ] = useState('')
     const [ statusMessages, setStatusMessages ] = useState([])
-    const [ addingGames, setAddingGames ] = useState({})
+    const [ gameValidations, setGameValidations ] = useState({})
     const [ selectedGamesToActivate, setSelectedGamesToActivate ] = useState([])
 
     useEffect( () => {
@@ -30,10 +30,10 @@ export const AddGames = (props) => {
             if (props.routedgames.length > 0) {
                 let validation_result = await validateUserTitles(props.cachedgametitles, props.routedgames)
                 console.log('ROUTED validation_result:',validation_result)
-                setAddingGames(validation_result.addingGames)
+                setGameValidations(validation_result.gameValidations)
                 newMessages(validation_result.messages)
                 if (!validation_result.keep_modal_open) {
-                    doAddGames(validation_result.addingGames, props.updateaddinggames)
+                    doAddGames(validation_result.gameValidations, props.updategamevalidations)
                 }
             }
         }
@@ -54,9 +54,9 @@ export const AddGames = (props) => {
         setSelectedGamesToActivate(updated_selectedGamesToActivate)
 
         // merge the updated title selections in with the rest of the game data
-        let updated_addingGames = addingGames
-        updated_addingGames.selected_games_to_activate = JSON.parse(JSON.stringify(updated_selectedGamesToActivate))
-        setAddingGames(updated_addingGames)
+        let updated_gameValidations = gameValidations
+        updated_gameValidations.selected_games_to_activate = JSON.parse(JSON.stringify(updated_selectedGamesToActivate))
+        setGameValidations(updated_gameValidations)
 
     }
 
@@ -78,10 +78,10 @@ export const AddGames = (props) => {
             .map(str => str.replace(/[^0-9a-zA-Z:()&!–#' ]/g, ""))
             .filter( function(e){return e} )
         let validation_result = await validateUserTitles(props.cachedgametitles, Array.from(new Set(userTitles)))
-        setAddingGames(validation_result.addingGames)
+        setGameValidations(validation_result.gameValidations)
         newMessages(validation_result.messages)
         if (!validation_result.keep_modal_open) {
-            doAddGames(validation_result.addingGames, props.updateaddinggames)
+            doAddGames(validation_result.gameValidations, props.updategamevalidations)
         }
     }
 
@@ -106,12 +106,12 @@ export const AddGames = (props) => {
     }
 
     const clickApply = () => {
-        doAddGames(addingGames, props.updateaddinggames)
+        doAddGames(gameValidations, props.updategamevalidations)
     }
 
-    let apply_button = ( (addingGames.hasOwnProperty('ambiguous_title_count') && addingGames.ambiguous_title_count > 0)
-                       || (addingGames.hasOwnProperty('games_to_activate') && addingGames.games_to_activate.length > 0)
-                       || (addingGames.hasOwnProperty('gamedata_to_activate') && Object.keys(addingGames.gamedata_to_activate).length > 0) )
+    let apply_button = ( (gameValidations.hasOwnProperty('ambiguous_title_count') && gameValidations.ambiguous_title_count > 0)
+                       || (gameValidations.hasOwnProperty('games_to_activate') && gameValidations.games_to_activate.length > 0)
+                       || (gameValidations.hasOwnProperty('gamedata_to_activate') && Object.keys(gameValidations.gamedata_to_activate).length > 0) )
     return (
         <React.Fragment>
 
@@ -146,6 +146,6 @@ export const AddGames = (props) => {
 
 AddGames.propTypes = {
     routedgames: PropTypes.array.isRequired,
-    updateaddinggames: PropTypes.func.isRequired,
+    updategamevalidations: PropTypes.func.isRequired,
     cachedgametitles: PropTypes.object.isRequired,
 }

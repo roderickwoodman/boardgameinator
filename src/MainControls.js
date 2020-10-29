@@ -100,7 +100,7 @@ export const MainControls = (props) => {
         setImportPollIsOpen(false)
     }
 
-    const updateAddingGames = (validated_game_additions) => {
+    const updateGameValidations = (validated_game_additions) => {
         hideAddModal()
         addValidatedGames(validated_game_additions, props.onaddcachedtitles, props.onaddnewtitles, props.oncachenewtitles)
     }
@@ -156,7 +156,7 @@ export const MainControls = (props) => {
                         <div id="gameinput-controls">
                             <AddGames
                                 routedgames={props.routedgames}
-                                updateaddinggames={updateAddingGames}
+                                updategamevalidations={updateGameValidations}
                                 cachedgametitles={props.cachedgametitles} />
                         </div>
                     </ModalBody>

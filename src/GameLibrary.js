@@ -237,7 +237,7 @@ export const validateUserTitles = async (cached_titles, user_titles) => {
     let result = await collectGamedataForTitles(cached_titles, user_titles)
 
     // store the user input results in state
-    let new_addingGames = {
+    let new_gameValidations = {
         games_to_activate: JSON.parse(JSON.stringify(result.cached_inactive)),
         gamedata_to_activate: JSON.parse(JSON.stringify(result.unambiguous_gamedata)),
         ambiguous_cached: JSON.parse(JSON.stringify(result.ambiguous_cached)),
@@ -256,7 +256,7 @@ export const validateUserTitles = async (cached_titles, user_titles) => {
         // it was tagged as "ambiguous", but really this was the title corresponding to the user-supplied ID
         if (result.given_game_ids.hasOwnProperty(ambiguous_title_info[0])) {
             if (result.given_game_ids[ambiguous_title_info[0]] === ambiguous_title_info[1].id) {
-                new_addingGames.selected_games_to_activate.push(ambiguous_title_info[1].unambiguous_name)
+                new_gameValidations.selected_games_to_activate.push(ambiguous_title_info[1].unambiguous_name)
             }
         // this title was a user-supplied name string and still requires user disambiguation
         } else {
@@ -265,7 +265,7 @@ export const validateUserTitles = async (cached_titles, user_titles) => {
             keep_modal_open = true
         }
     })
-    validation_result['addingGames'] = new_addingGames
+    validation_result['gameValidations'] = new_gameValidations
 
     // Prepend the game title with the game ID, when the ID was supplied by the user
     let game_id_txt = ''

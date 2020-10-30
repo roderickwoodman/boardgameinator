@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import purpleMeeple from './img/purple-meeple-64.png'
 import { ViewControls } from './ViewControls'
 import { GameList } from './GameList'
-import { addValidatedGames, validateUserTitles } from './GameLibrary'
+import { validateUserTitles } from './GameLibrary'
 import { voteinpollApi, clearmyvotesApi, deletetitleinpollApi } from './Api.js'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBars } from '@fortawesome/free-solid-svg-icons'
@@ -51,19 +51,10 @@ export class Boardgameinator extends React.Component {
             windowWidth: 0,
             windowHeight: 0
         }
-        this.totalTitleVotes = this.totalTitleVotes.bind(this)
-        this.totalAttributeVotes = this.totalAttributeVotes.bind(this)
         this.getCachedGameTitles = this.getCachedGameTitles.bind(this)
-        this.addValidatedGames2 = this.addValidatedGames2.bind(this)
-        this.addValidatedGames2b = this.addValidatedGames2b.bind(this)
-        this.gameHasBeenAdded = this.gameHasBeenAdded.bind(this)
-        this.gameSupportsPlayercount = this.gameSupportsPlayercount.bind(this)
-        this.voteTitleInPoll = this.voteTitleInPoll.bind(this)
-        this.clearMyTitleVotesInPoll = this.clearMyTitleVotesInPoll.bind(this)
+        this.addValidatedGamesPollContext = this.addValidatedGamesPollContext.bind(this)
+        this.addValidatedGames = this.addValidatedGames.bind(this)
         this.deleteTitleInPoll = this.deleteTitleInPoll.bind(this)
-        this.onAddCachedTitles = this.onAddCachedTitles.bind(this)
-        this.onAddNewTitles = this.onAddNewTitles.bind(this)
-        this.onCacheNewTitles = this.onCacheNewTitles.bind(this)
         this.onNewVote = this.onNewVote.bind(this)
         this.onDeleteTitle = this.onDeleteTitle.bind(this)
         this.onDeleteAllTitles = this.onDeleteAllTitles.bind(this)
@@ -71,9 +62,7 @@ export class Boardgameinator extends React.Component {
         this.onViewPoll = this.onViewPoll.bind(this)
         this.handleSortChange = this.handleSortChange.bind(this)
         this.handleFilterChange = this.handleFilterChange.bind(this)
-        this.extractYearFromTitle = this.extractYearFromTitle.bind(this)
         this.updateDimensions = this.updateDimensions.bind(this)
-        this.onHamburger = this.onHamburger.bind(this)
     }
 
     gamedataVersion = 1
@@ -118,7 +107,6 @@ export class Boardgameinator extends React.Component {
         let update_routedGames = [ ...new_list, ...addto_list ]
         this.setState({ routedGames: update_routedGames })
 
-        // let self = this
         if (new_list.length === 0) {
             const stored_gamedataVersion = JSON.parse(localStorage.getItem("gamedataVersion"))
             if (stored_gamedataVersion === this.gamedataVersion) {
@@ -217,92 +205,6 @@ export class Boardgameinator extends React.Component {
             }
         }
         return false
-    }
-
-    onAddCachedTitles(titles) {
-
-        if (titles.length) {
-
-            this.setState(prevState => {
-
-                // FIXME: Implement poll editing. May not want to update active list here if we are currently looking at a poll.
-                let activeGameList = prevState.activeGameList.slice()
-                let localGameList = prevState.localGameList.slice()
-                titles.forEach(title => {
-                    // title is an unambiguous name
-                    if (isNaN(parseInt(title))) {
-                        activeGameList.push(prevState.allGameData.filter( game_data => game_data.unambiguous_name === title )[0].id)
-                        if (prevState.activePoll === 'local') {
-                            localGameList.push(prevState.allGameData.filter( game_data => game_data.unambiguous_name === title )[0].id)
-                        }
-                    // title is a game ID
-                    } else {
-                        activeGameList.push(parseInt(title))
-                        if (prevState.activePoll === 'local') {
-                            localGameList.push(parseInt(title))
-                        }
-                    }
-
-                })
-                localStorage.setItem('activeGameList', JSON.stringify(activeGameList))
-                localStorage.setItem('localGameList', JSON.stringify(localGameList))
-
-                return { activeGameList, localGameList }
-            })
-
-        }
-    }
-
-    onAddNewTitles(newGameData_arr) {
-
-        if (newGameData_arr.length) {
-
-            let now = new Date()
-
-            this.setState(prevState => {
-
-                // FIXME: Implement poll editing. May not want to update active list here if we are currently looking at a poll.
-                let activeGameList = prevState.activeGameList.slice()
-                let localGameList = prevState.localGameList.slice()
-                let allGameData = JSON.parse(JSON.stringify(prevState.allGameData))
-                newGameData_arr.forEach(each_newGameData => {
-                    each_newGameData["updated_at"] = now.getTime()
-                    activeGameList.push(each_newGameData.id)
-                    if (prevState.activePoll === 'local') {
-                        localGameList.push(each_newGameData.id)
-                    }
-                    allGameData.push(each_newGameData)
-                })
-                localStorage.setItem('activeGameList', JSON.stringify(activeGameList))
-                localStorage.setItem('localGameList', JSON.stringify(localGameList))
-                localStorage.setItem('allGameData', JSON.stringify(allGameData))
-
-                return { activeGameList, localGameList, allGameData }
-            })
-        }
-
-    }
-
-    onCacheNewTitles(newGameData_arr) {
-
-        if (newGameData_arr.length) {
-
-            let now = new Date()
-
-            this.setState(prevState => {
-
-                let allGameData = JSON.parse(JSON.stringify(prevState.allGameData))
-                newGameData_arr.forEach(each_newGameData => {
-                    each_newGameData["updated_at"] = now.getTime()
-                    allGameData.push(each_newGameData)
-                })
-                localStorage.setItem('allGameData', JSON.stringify(allGameData))
-
-                return { allGameData }
-            })
-
-        }
-
     }
 
     gameSupportsPlayercount(game, playercount) {
@@ -592,7 +494,7 @@ export class Boardgameinator extends React.Component {
         let cachedGameTitles = this.getCachedGameTitles()
         let validation_result = await validateUserTitles(cachedGameTitles, poll_game_ids)
         let poll_thumbs = JSON.parse(JSON.stringify(poll.pollThumbs))
-        this.addValidatedGames2(validation_result.gameValidations, poll.name, poll_thumbs)
+        this.addValidatedGamesPollContext(validation_result.gameValidations, poll.name, poll_thumbs)
 
     }
 
@@ -641,11 +543,11 @@ export class Boardgameinator extends React.Component {
         }
     }
 
-    addValidatedGames2b(validation_result) {
-        this.addValidatedGames2(validation_result, this.state.activePoll, this.state.allThumbs[this.state.activePoll])
+    addValidatedGames(validation_result) {
+        this.addValidatedGamesPollContext(validation_result, this.state.activePoll, this.state.allThumbs[this.state.activePoll])
     }
 
-    addValidatedGames2(validation_result, poll_name, poll_thumbs) {
+    addValidatedGamesPollContext(validation_result, poll_name, poll_thumbs) {
 
         this.setState(prevState => {
 
@@ -798,7 +700,7 @@ export class Boardgameinator extends React.Component {
                     routedgames={this.state.routedGames}
                     activegamedata={activeGameData} 
                     cachedgametitles={cachedGameTitles}
-                    addvalidatedgames={this.addValidatedGames2b}
+                    addvalidatedgames={this.addValidatedGames}
                     activethumbs={this.state.activeThumbs} 
                     sortby={this.state.sortOrder}
                     filtertitles={this.state.filterTitles}

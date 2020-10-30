@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { AddGames } from './AddGames'
-import { addValidatedGames } from './GameLibrary'
 import { VoteAttributes } from './VoteAttributes'
 import { VoteTitles } from './VoteTitles'
 import { ImportPoll } from './ImportPoll'

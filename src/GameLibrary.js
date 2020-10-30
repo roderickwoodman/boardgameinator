@@ -49,7 +49,7 @@ export const collectGamedataForTitles = async (cachedgametitles, game_titles) =>
     let status = {
         does_not_exist: [],               // INPUT ERROR: bad title string
         cached_active: [],                // INPUT ERROR: title is already active
-        given_game_ids: {},              // input title string is actually an ID
+        given_game_ids: {},               // input title string is actually an ID
         cached_inactive: [],              // activate this game from already-cached data
         ambiguous_cached: {},             // cannot activate the game yet
         unambiguous_gamedata: {},         // add this new game data to cache and activate the game
@@ -95,20 +95,6 @@ export const collectGamedataForTitles = async (cachedgametitles, game_titles) =>
         return title_from_id
     })
     game_titles_that_are_strings = [ ...game_titles_that_are_strings, ...uncached_game_titles_that_are_strings]
-
-
-    // let game_titles_that_are_numbers = game_titles.filter(title => !isNaN(parseInt(title)))
-    // let gamedata_for_titles_that_are_numbers = await getGamedataForIds(game_titles_that_are_numbers)
-    // let game_titles_without_numbers = game_titles.map(function(title) {
-    //     if (game_titles_that_are_numbers.includes(title)) {
-    //         let title_from_id = gamedata_for_titles_that_are_numbers.filter(data => data.id===parseInt(title))[0].name
-    //         status.given_game_ids[title_from_id] = parseInt(title)
-    //         return title_from_id
-    //     } else {
-    //         return title 
-    //     }
-    // })
-
 
     // CACHE LOOKUP (for all user titles)
     let all_cached_disambiguous_titles = Object.keys(cachedgametitles)

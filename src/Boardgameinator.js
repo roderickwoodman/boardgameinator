@@ -68,7 +68,6 @@ export class Boardgameinator extends React.Component {
         this.onDeleteAllTitles = this.onDeleteAllTitles.bind(this)
         this.onClearSectionVotes = this.onClearSectionVotes.bind(this)
         this.onViewPoll = this.onViewPoll.bind(this)
-        this.onViewPoll2 = this.onViewPoll2.bind(this)
         this.handleSortChange = this.handleSortChange.bind(this)
         this.handleFilterChange = this.handleFilterChange.bind(this)
         this.extractYearFromTitle = this.extractYearFromTitle.bind(this)
@@ -586,7 +585,7 @@ export class Boardgameinator extends React.Component {
         }
     }
 
-    async onViewPoll2(poll) {
+    async onViewPoll(poll) {
 
         let poll_game_ids = Object.keys(poll.pollThumbs.titles).map( title => parseInt(title) )
         let cachedGameTitles = this.getCachedGameTitles()
@@ -594,52 +593,6 @@ export class Boardgameinator extends React.Component {
         let poll_thumbs = JSON.parse(JSON.stringify(poll.pollThumbs))
         this.addValidatedGames2(validation_result.gameValidations, poll.name, poll_thumbs)
 
-    }
-
-    async onViewPoll(poll) {
-
-        if (poll.name !== 'local') {
-            let poll_game_ids = Object.keys(poll.pollThumbs.titles).map( title => parseInt(title) )
-            let cached_poll_games = this.state.allGameData.filter( game => poll_game_ids.includes(game.id) )
-            if (poll_game_ids.length !== cached_poll_games.length) {
-                let cachedGameTitles = this.getCachedGameTitles()
-                let validation_result = await validateUserTitles(cachedGameTitles, poll_game_ids)
-                addValidatedGames(validation_result.gameValidations, this.onAddCachedTitles, this.onAddNewTitles, this.onCacheNewTitles)
-            }
-        }
-
-        this.setState(prevState => {
-
-            let new_pollName = poll.name
-            localStorage.setItem('activePoll', JSON.stringify(new_pollName))
-
-            let new_activeGameList = [], new_activeThumbs = {}
-            if (poll.name === 'local') {
-                // disable poll: 
-                //   1) replace the active game list with the pre-existing list of local titles
-                //   2) replace all active votes with the saved local title and attribute votes
-                new_activeGameList = [...prevState.localGameList]
-                new_activeThumbs = JSON.parse(JSON.stringify(prevState.allThumbs.local))
-            } else {
-                // enable poll: 
-                //   1) replace the active game list with all of the titles from this poll
-                //   2) replace the active title votes with all of the title votes from this poll
-                //   3) refresh the active attribute votes with the saved local attribute votes
-                new_activeGameList = Object.keys(poll.pollThumbs.titles).map( title => parseInt(title) )
-                new_activeThumbs = JSON.parse(JSON.stringify(poll.pollThumbs))
-                new_activeThumbs.total_title_votes = poll.pollThumbs.total_title_votes
-                new_activeThumbs.attributes = JSON.parse(JSON.stringify(prevState.allThumbs.local.attributes))
-                new_activeThumbs.total_attribute_votes = prevState.allThumbs.local.total_attribute_votes
-            }
-            localStorage.setItem('activeGameList', JSON.stringify(new_activeGameList))
-            localStorage.setItem('activeThumbs', JSON.stringify(new_activeThumbs))
-
-            return { 
-                activePoll: new_pollName,
-                activeGameList: new_activeGameList,
-                activeThumbs: new_activeThumbs,
-            }
-        })
     }
 
     onClearSectionVotes(event) {
@@ -853,7 +806,7 @@ export class Boardgameinator extends React.Component {
                     onnewvote={this.onNewVote}
                     onclearsectionvotes={this.onClearSectionVotes}
                     activepoll={this.state.activePoll}
-                    onviewpoll={this.onViewPoll2}
+                    onviewpoll={this.onViewPoll}
                     reallynarrow={styles.reallyNarrow} 
                     user={this.state.user} />
             </div>

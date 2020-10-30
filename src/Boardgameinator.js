@@ -55,6 +55,7 @@ export class Boardgameinator extends React.Component {
         this.totalAttributeVotes = this.totalAttributeVotes.bind(this)
         this.getCachedGameTitles = this.getCachedGameTitles.bind(this)
         this.addValidatedGames2 = this.addValidatedGames2.bind(this)
+        this.addValidatedGames2b = this.addValidatedGames2b.bind(this)
         this.gameHasBeenAdded = this.gameHasBeenAdded.bind(this)
         this.gameSupportsPlayercount = this.gameSupportsPlayercount.bind(this)
         this.voteTitleInPoll = this.voteTitleInPoll.bind(this)
@@ -640,6 +641,10 @@ export class Boardgameinator extends React.Component {
         }
     }
 
+    addValidatedGames2b(validation_result) {
+        this.addValidatedGames2(validation_result, this.state.activePoll, this.state.allThumbs[this.state.activePoll])
+    }
+
     addValidatedGames2(validation_result, poll_name, poll_thumbs) {
 
         this.setState(prevState => {
@@ -793,9 +798,7 @@ export class Boardgameinator extends React.Component {
                     routedgames={this.state.routedGames}
                     activegamedata={activeGameData} 
                     cachedgametitles={cachedGameTitles}
-                    onaddcachedtitles={this.onAddCachedTitles}
-                    onaddnewtitles={this.onAddNewTitles}
-                    oncachenewtitles={this.onCacheNewTitles}
+                    addvalidatedgames={this.addValidatedGames2b}
                     activethumbs={this.state.activeThumbs} 
                     sortby={this.state.sortOrder}
                     filtertitles={this.state.filterTitles}

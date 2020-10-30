@@ -102,7 +102,7 @@ export const MainControls = (props) => {
 
     const updateGameValidations = (validated_game_additions) => {
         hideAddModal()
-        addValidatedGames(validated_game_additions, props.onaddcachedtitles, props.onaddnewtitles, props.oncachenewtitles)
+        props.addvalidatedgames(validated_game_additions)
     }
 
     useEffect( () => {
@@ -320,9 +320,7 @@ MainControls.propTypes = {
     activegamedata: PropTypes.array.isRequired,
     activethumbs: PropTypes.object.isRequired,
     cachedgametitles: PropTypes.object.isRequired,
-    onaddcachedtitles: PropTypes.func.isRequired,
-    onaddnewtitles: PropTypes.func.isRequired,
-    oncachenewtitles: PropTypes.func.isRequired,
+    addvalidatedgames: PropTypes.func.isRequired,
     ondeleteall: PropTypes.func.isRequired,
     onnewvote: PropTypes.func.isRequired,
     onclearsectionvotes: PropTypes.func.isRequired,

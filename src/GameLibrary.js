@@ -61,17 +61,54 @@ export const collectGamedataForTitles = async (cachedgametitles, game_titles) =>
     let ambiguous_ids = []
     let given_game_ids = {}
 
-    let game_titles_that_are_numbers = game_titles.filter(title => !isNaN(parseInt(title)))
-    let gamedata_for_titles_that_are_numbers = await getGamedataForIds(game_titles_that_are_numbers)
-    let game_titles_without_numbers = game_titles.map(function(title) {
-        if (game_titles_that_are_numbers.includes(title)) {
-            let title_from_id = gamedata_for_titles_that_are_numbers.filter(data => data.id===parseInt(title))[0].name
-            status.given_game_ids[title_from_id] = parseInt(title)
-            return title_from_id
+    // CHECK FOR TITLES THAT ARE IDS (for all user title strings)
+    let all_cached_ids = Object.entries(cachedgametitles).map( cachedgame => parseInt(cachedgame[1].id) )
+    let uncached_game_titles_that_are_numbers = [], game_titles_that_are_strings = []
+    game_titles.forEach(function(title) {
+
+        if (!isNaN(parseInt(title))) {
+
+            // user title is actually an ID that was found in the cache 
+            if (all_cached_ids.includes(parseInt(title))) {
+                let cache_entry = Object.entries(cachedgametitles).filter( game =>  game[1].id===parseInt(title))[0][1]
+                if (cache_entry.active) {
+                    status.cached_active.push(cache_entry.unambiguous_name)
+                } else { 
+                    status.cached_inactive.push(cache_entry.unambiguous_name)
+                }
+            }
+
+            // user title is an unknown number, need to convert it to a title string
+            else  {
+                uncached_game_titles_that_are_numbers.push(title)
+            }
         } else {
-            return title 
+            game_titles_that_are_strings.push(title)
         }
+
     })
+
+    let gamedata_for_uncached_titles_that_are_numbers = await getGamedataForIds(uncached_game_titles_that_are_numbers)
+    let uncached_game_titles_that_are_strings = uncached_game_titles_that_are_numbers.map(function(title) {
+        let title_from_id = gamedata_for_uncached_titles_that_are_numbers.filter(data => data.id===parseInt(title))[0].name
+        status.given_game_ids[title_from_id] = parseInt(title)
+        return title_from_id
+    })
+    game_titles_that_are_strings = [ ...game_titles_that_are_strings, ...uncached_game_titles_that_are_strings]
+
+
+    // let game_titles_that_are_numbers = game_titles.filter(title => !isNaN(parseInt(title)))
+    // let gamedata_for_titles_that_are_numbers = await getGamedataForIds(game_titles_that_are_numbers)
+    // let game_titles_without_numbers = game_titles.map(function(title) {
+    //     if (game_titles_that_are_numbers.includes(title)) {
+    //         let title_from_id = gamedata_for_titles_that_are_numbers.filter(data => data.id===parseInt(title))[0].name
+    //         status.given_game_ids[title_from_id] = parseInt(title)
+    //         return title_from_id
+    //     } else {
+    //         return title 
+    //     }
+    // })
+
 
     // CACHE LOOKUP (for all user titles)
     let all_cached_disambiguous_titles = Object.keys(cachedgametitles)
@@ -86,8 +123,7 @@ export const collectGamedataForTitles = async (cachedgametitles, game_titles) =>
             all_cached_ambiguous_titles[ambiguous_name] = [ title_info ]
         }
     })
-    let all_cached_ids = Object.entries(cachedgametitles).map( cachedgame => parseInt(cachedgame[1].id) )
-    game_titles_without_numbers.forEach(function(user_title) {
+    game_titles_that_are_strings.forEach(function(user_title) {
 
         // user_title was found verbatim in the cache
         if (all_cached_disambiguous_titles.includes(user_title)) {
@@ -108,14 +144,6 @@ export const collectGamedataForTitles = async (cachedgametitles, game_titles) =>
                 status.cached_active.push(withoutYear(user_title))
             } else { 
                 status.cached_inactive.push(withoutYear(user_title))
-            }
-
-        // user_title is actually an ID that was found in the cache 
-        } else if (all_cached_ids.includes(parseInt(user_title))) {
-            if (Object.entries(cachedgametitles).filter( cachedgame => cachedgame[1].id === parseInt(user_title) )[0][1].active) {
-                status.cached_active.push(user_title)
-            } else { 
-                status.cached_inactive.push(user_title)
             }
 
         // user_title is not immediately known, collect title info via API

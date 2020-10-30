@@ -265,6 +265,33 @@ export const validateUserTitles = async (cached_titles, user_titles) => {
             keep_modal_open = true
         }
     })
+
+    // apply selections to determine whether to cache or make active each set of game data
+    let new_gamedata_to_activate = [ ...Object.values(new_gameValidations.gamedata_to_activate) ]
+    let new_gamedata_to_cache = []
+    Object.values(new_gameValidations.ambiguous_gamedata).forEach(possibilities => {
+        possibilities.forEach(possible_gamedata => {
+            if (new_gameValidations.selected_games_to_activate.includes(possible_gamedata.unambiguous_name)) {
+                new_gamedata_to_activate.push(JSON.parse(JSON.stringify(possible_gamedata)))
+            } else {
+                new_gamedata_to_cache.push(JSON.parse(JSON.stringify(possible_gamedata)))
+            }
+        })
+    })
+    new_gameValidations['new_gamedata_to_activate'] = new_gamedata_to_activate
+    new_gameValidations['new_gamedata_to_cache'] = new_gamedata_to_cache
+
+    // apply selections to determine which cached games to make active
+    let cached_games_to_activate = [ ...new_gameValidations.games_to_activate ]
+    Object.values(new_gameValidations.ambiguous_cached).forEach(possibilities => {
+        possibilities.forEach(possible_game => {
+            if (new_gameValidations.selected_games_to_activate.includes(possible_game.unambiguous_name)) {
+                cached_games_to_activate.push(possible_game.unambiguous_name)
+            }
+        })
+    })
+    new_gameValidations['cached_games_to_activate'] = cached_games_to_activate
+
     validation_result['gameValidations'] = new_gameValidations
 
     // Prepend the game title with the game ID, when the ID was supplied by the user

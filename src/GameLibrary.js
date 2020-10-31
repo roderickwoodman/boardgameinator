@@ -57,9 +57,10 @@ export const collectGamedataForTitles = async (cachedgametitles, game_titles) =>
         ambiguous_gamedata: {},           // add this new game data to cache, but cannot activate the game yet
     }
     let titles_to_api_lookup = []
-    let unambiguous_ids = []
-    let ambiguous_ids = []
     let given_game_ids = {}
+    let games_byid_to_activate = []
+    // let games_byid_to_cache = []
+    let games_byid_still_tbd = []
 
     // CHECK FOR TITLES THAT ARE IDS (for all user title strings)
     let all_cached_ids = Object.entries(cachedgametitles).map( cachedgame => parseInt(cachedgame[1].id) )
@@ -169,9 +170,9 @@ export const collectGamedataForTitles = async (cachedgametitles, game_titles) =>
             all_potential_titles[idx].forEach(function (this_title_version) {
                 let game_id = parseInt(this_title_version.id)
                 if (all_potential_titles[idx].length === 1) {
-                    unambiguous_ids.push(game_id)
+                    games_byid_to_activate.push(game_id)
                 } else {
-                    ambiguous_ids.push(game_id)
+                    games_byid_still_tbd.push(game_id)
                 }
             })
 
@@ -183,18 +184,18 @@ export const collectGamedataForTitles = async (cachedgametitles, game_titles) =>
     })
 
     // API RETRIEVAL OF GAME DATA (for all uncached user titles)
-    let ids_for_gamedata_api = [ ...unambiguous_ids, ...ambiguous_ids ]
+    let ids_for_gamedata_api = [ ...games_byid_to_activate, ...games_byid_still_tbd ]
     let all_new_gamedata = await getGamedataResults(ids_for_gamedata_api)
     all_new_gamedata.forEach(function (this_gamedata) {
         let new_gamedata = JSON.parse(JSON.stringify(this_gamedata))
 
-        // collect game data for unambiguous titles separately
-        if (unambiguous_ids.includes(this_gamedata.id)) {
+        // collect game data for titles to activate
+        if (games_byid_to_activate.includes(this_gamedata.id)) {
             new_gamedata['unambiguous_name'] = this_gamedata.name
             status.unambiguous_gamedata[this_gamedata.name] = new_gamedata
 
-        // collect game data for ambiguous titles separately
-        } else if (ambiguous_ids.includes(this_gamedata.id)) {
+        // collect game data for other titles
+        } else if (games_byid_still_tbd.includes(this_gamedata.id)) {
             new_gamedata['unambiguous_name'] = this_gamedata.name + ' (' + this_gamedata.year_published + ')'
 
             // if user supplied a game ID originally, but its title was ambiguous, apply that disambiguation

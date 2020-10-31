@@ -26,7 +26,7 @@ const doAddGames = (raw_validated_games, add_fn) => {
             validated_games.new_gamedata_to_cache.push(gamedata)
         }
     })
-    validated_games['cached_games_to_activate'] = []
+    validated_games['cached_games_to_activate'] = [ ...raw_validated_games.games_to_activate ]
     Object.values(raw_validated_games.ambiguous_cached).forEach(function(possible_versions) {
         possible_versions.forEach(function(game_version) {
             if (raw_validated_games.selected_games_to_activate.includes(game_version.unambiguous_name)) {

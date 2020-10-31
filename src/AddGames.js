@@ -128,41 +128,7 @@ export const AddGames = (props) => {
     }
 
     const clickApply = () => {
-
-        let selected_gameValidations = JSON.parse(JSON.stringify(gameValidations))
-
-        // // apply selections to determine whether to cache or make active each set of game data
-        // let new_gamedata_to_activate = JSON.parse(JSON.stringify(gameValidations.unambiguous_gamedata))
-        // let new_gamedata_to_cache = []
-        // Object.values(selected_gameValidations.ambiguous_gamedata).forEach(possibilities => {
-        //     possibilities.forEach(possible_gamedata => {
-        //         let new_gamedata = JSON.parse(JSON.stringify(possible_gamedata))
-        //         if (selected_gameValidations.selected_games_to_activate.includes(possible_gamedata.unambiguous_name)) {
-        //             new_gamedata_to_activate.push(new_gamedata)
-        //         } else {
-        //             new_gamedata_to_cache.push(new_gamedata)
-        //         }
-        //     })
-        // })
-        // selected_gameValidations['new_gamedata_to_activate'] = new_gamedata_to_activate
-        // selected_gameValidations['new_gamedata_to_cache'] = new_gamedata_to_cache
-
-        // // apply selections to determine which cached games to make active
-        // let cached_games_to_activate = [ ...gameValidations.games_to_activate ]
-        // Object.values(selected_gameValidations.ambiguous_cached).forEach(possibilities => {
-        //     possibilities.forEach(possible_game => {
-        //         if (selected_gameValidations.selected_games_to_activate.includes(possible_game.unambiguous_name)) {
-        //             cached_games_to_activate.push(possible_game.unambiguous_name)
-        //         }
-        //     })
-        // })
-        // selected_gameValidations['cached_games_to_activate'] = cached_games_to_activate
-
-        // new_gamedata_to_cache
-        // new_gamedata_to_activate
-        // cached_games_to_activate
-
-        doAddGames(selected_gameValidations, props.updategamevalidations)
+        doAddGames(gameValidations, props.updategamevalidations)
         return null
     }
 

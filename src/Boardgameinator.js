@@ -52,7 +52,7 @@ export class Boardgameinator extends React.Component {
             windowHeight: 0
         }
         this.getCachedGameTitles = this.getCachedGameTitles.bind(this)
-        this.addValidatedGamesPollContext = this.addValidatedGamesPollContext.bind(this)
+        this.addValidatedGamesWithPollContext = this.addValidatedGamesWithPollContext.bind(this)
         this.addValidatedGames = this.addValidatedGames.bind(this)
         this.deleteTitleInPoll = this.deleteTitleInPoll.bind(this)
         this.onNewVote = this.onNewVote.bind(this)
@@ -494,7 +494,7 @@ export class Boardgameinator extends React.Component {
         let cachedGameTitles = this.getCachedGameTitles()
         let validation_result = await validateUserTitles(cachedGameTitles, poll_game_ids)
         let poll_thumbs = JSON.parse(JSON.stringify(poll.pollThumbs))
-        this.addValidatedGamesPollContext(validation_result.gameValidations, poll.name, poll_thumbs)
+        this.addValidatedGamesWithPollContext(validation_result.gameValidations, poll.name, poll_thumbs)
 
     }
 
@@ -544,10 +544,10 @@ export class Boardgameinator extends React.Component {
     }
 
     addValidatedGames(validation_result) {
-        this.addValidatedGamesPollContext(validation_result, this.state.activePoll, this.state.allThumbs[this.state.activePoll])
+        this.addValidatedGamesWithPollContext(validation_result, this.state.activePoll, this.state.allThumbs[this.state.activePoll])
     }
 
-    addValidatedGamesPollContext(validation_result, poll_name, poll_thumbs) {
+    addValidatedGamesWithPollContext(validation_result, poll_name, poll_thumbs) {
 
         let selected_gameValidations = JSON.parse(JSON.stringify(validation_result))
 

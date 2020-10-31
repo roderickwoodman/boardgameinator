@@ -17,14 +17,22 @@ const doAddGames = (raw_validated_games, add_fn) => {
 
     // apply selected games to the data to be cached
     let validated_games = JSON.parse(JSON.stringify(raw_validated_games))
-    validated_games.new_gamedata_to_activate = []
-    validated_games.new_gamedata_to_cache = []
+    validated_games['new_gamedata_to_activate'] = []
+    validated_games['new_gamedata_to_cache'] = []
     raw_validated_games.new_gamedata_to_cache.forEach(function(gamedata) {
         if (raw_validated_games.selected_games_to_activate.includes(gamedata.unambiguous_name)) {
             validated_games.new_gamedata_to_activate.push(gamedata)
         } else {
             validated_games.new_gamedata_to_cache.push(gamedata)
         }
+    })
+    validated_games['cached_games_to_activate'] = []
+    Object.values(raw_validated_games.ambiguous_cached).forEach(function(possible_versions) {
+        possible_versions.forEach(function(game_version) {
+            if (raw_validated_games.selected_games_to_activate.includes(game_version.unambiguous_name)) {
+                validated_games.cached_games_to_activate.push(game_version.unambiguous_name)
+            }
+        })
     })
     add_fn(validated_games)
     return null

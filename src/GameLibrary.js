@@ -265,6 +265,7 @@ export const validateUserTitles = async (cached_titles, user_titles) => {
     Object.entries(result.ambiguous_cached).forEach(function(ambiguous_cached_title_info) {
         let ambiguous_cachedids_arr = JSON.parse(JSON.stringify(ambiguous_cached_title_info[1]))
         new_messages.push({ message_str: 'Which version of "'+ ambiguous_cached_title_info[0] + '"? ', ambiguous: ambiguous_cachedids_arr })
+        keep_modal_open = true
     })
     Object.entries(result.ambiguous_gamedata).forEach(function(ambiguous_title_info) {
         // it was tagged as "ambiguous", but really this was the title corresponding to the user-supplied ID

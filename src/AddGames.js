@@ -26,8 +26,8 @@ const doAddGames = (raw_validated_games, add_fn) => {
             validated_games.new_gamedata_to_cache.push(gamedata)
         }
     })
-    validated_games['cached_games_to_activate'] = [ ...raw_validated_games.games_to_activate ]
-    Object.values(raw_validated_games.ambiguous_cached).forEach(function(possible_versions) {
+    validated_games['cached_games_to_activate'] = [ ...raw_validated_games.cached_games_to_activate ]
+    Object.values(raw_validated_games.ambiguous_cached_games).forEach(function(possible_versions) {
         possible_versions.forEach(function(game_version) {
             if (raw_validated_games.selected_games_to_activate.includes(game_version.unambiguous_name)) {
                 validated_games.cached_games_to_activate.push(game_version.unambiguous_name)
@@ -133,8 +133,8 @@ export const AddGames = (props) => {
     }
 
     let apply_button = ( (gameValidations.hasOwnProperty('ambiguous_title_count') && gameValidations.ambiguous_title_count > 0)
-                       || (gameValidations.hasOwnProperty('games_to_activate') && gameValidations.games_to_activate.length > 0)
-                       || (gameValidations.hasOwnProperty('gamedata_to_activate') && Object.keys(gameValidations.gamedata_to_activate).length > 0) )
+                       || (gameValidations.hasOwnProperty('cached_games_to_activate') && gameValidations.cached_games_to_activate.length > 0)
+                       || (gameValidations.hasOwnProperty('new_gamedata_to_activate') && Object.keys(gameValidations.new_gamedata_to_activate).length > 0) )
     return (
         <React.Fragment>
 

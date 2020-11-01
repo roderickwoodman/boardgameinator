@@ -8,6 +8,23 @@ const withoutYear = (title) => {
     }
 }
 
+// for disambiguation of titles, the game ID will be put in parentheses when the API does not provide yearpublished info
+const extractYearFromTitle = (title) => {
+    if (typeof title === 'string' && title.length) {
+        let matchesDate = title.match(/(( +)\((-?)\d{1,4}\))$/)
+        if (matchesDate !== null) {
+            return matchesDate[0].replace(/[^0-9-]/g, "")
+        } else {
+            let matchesId = title.match(/(( +)\(#\d{1,6}\))$/)
+            if (matchesId !== null) {
+                return matchesId[0].replace(/[^#0-9-]/g, "")
+            } else {
+                return null
+            }
+        }
+    }
+}
+
 const getNonexactSearchResults = async function (titles) {
     const titleData = await Promise.all(
         titles.map( function(gameTitle) {
@@ -52,6 +69,7 @@ export const collectGamedataForTitles = async (cachedgametitles, game_titles) =>
         does_not_exist: [],               // INPUT ERROR: bad title string
         already_active: [],               // INPUT ERROR: title is already active
         games_byid_not_in_cache: {},      // input title string is actually an ID
+        games_withdisambig_not_in_cache: {},  // input title string includes year disambiguation
         ambiguous_cached_games: {},       // cannot activate the game yet
         ambiguous_new_gamedata: {},       // add this new game data to cache, but cannot activate the game yet
 
@@ -65,7 +83,9 @@ export const collectGamedataForTitles = async (cachedgametitles, game_titles) =>
     let get_gamedata_byid_and_activate = []
     let get_gamedata_byid_still_ambiguous = []
 
+
     // CHECK FOR TITLES THAT ARE IDS (for all user title strings)
+
     let all_cached_ids = Object.entries(cachedgametitles).map( cachedgame => parseInt(cachedgame[1].id) )
     let uncached_game_titles_that_are_numbers = [], game_titles_that_are_strings = []
     game_titles.forEach(function(title) {
@@ -100,10 +120,12 @@ export const collectGamedataForTitles = async (cachedgametitles, game_titles) =>
     })
     game_titles_that_are_strings = [ ...game_titles_that_are_strings, ...uncached_game_titles_that_are_strings]
 
+
     // CACHE LOOKUP (for all user titles)
-    let all_cached_disambiguous_titles = Object.keys(cachedgametitles)
-    let all_cached_ambiguous_titles_entries = Object.entries(cachedgametitles).filter(cached_title => cached_title[0] !== cached_title[1].name)
+
+    // build the hashmap of cached base names
     let all_cached_ambiguous_titles = {}
+    let all_cached_ambiguous_titles_entries = Object.entries(cachedgametitles).filter(cached_title => cached_title[0] !== cached_title[1].name)
     all_cached_ambiguous_titles_entries.forEach(function(entry) {
         let ambiguous_name = withoutYear(entry[0])
         let title_info = JSON.parse(JSON.stringify(entry[1]))
@@ -113,6 +135,9 @@ export const collectGamedataForTitles = async (cachedgametitles, game_titles) =>
             all_cached_ambiguous_titles[ambiguous_name] = [ title_info ]
         }
     })
+
+    // lookup in the hashmap for each input name
+    let all_cached_disambiguous_titles = Object.keys(cachedgametitles)
     game_titles_that_are_strings.forEach(function(user_title) {
 
         // user_title was found verbatim in the cache
@@ -123,7 +148,7 @@ export const collectGamedataForTitles = async (cachedgametitles, game_titles) =>
                 status.cached_games_to_activate.push(user_title)
             }
 
-        // user_title with year disambiguation added was found in the cache
+        // user_title with the correct year disambiguation supplied was found in the cache
         } else if (all_cached_ambiguous_titles.hasOwnProperty(user_title)) {
             let disambiguation = JSON.parse(JSON.stringify(all_cached_ambiguous_titles[user_title]))
             status.ambiguous_cached_games[user_title] = disambiguation
@@ -138,13 +163,20 @@ export const collectGamedataForTitles = async (cachedgametitles, game_titles) =>
 
         // user_title is not immediately known, collect title info via API
         } else {
-            titles_to_api_lookup.push(user_title)
+
+            // disambiguation was supplied, but cannot validate it yet for uncached titles
+            if (withoutYear(user_title) !== user_title) {
+                status.games_withdisambig_not_in_cache[withoutYear(user_title)] = parseInt(extractYearFromTitle(user_title))
+            }
+
+            titles_to_api_lookup.push(withoutYear(user_title))
         }
     })
     // sort ambiguous cached titles by year published, for their eventual displaying
     Object.entries(status.ambiguous_cached_games).forEach(function(ambiguous_entry) {
         status.ambiguous_cached_games[ambiguous_entry[0]] = ambiguous_entry[1].sort( (a,b) => (a.year_published < b.year_published) ? -1 : 1 )
     })
+
 
     // API LOOKUP FOR TITLE INFO (for user titles that were not found in the cache)
     //   example disambiguation generated in "all_potential_titles" variable:
@@ -215,6 +247,20 @@ export const collectGamedataForTitles = async (cachedgametitles, game_titles) =>
                     }
                 }
 
+            // if user supplied year disambiguation originally, but its title was ambiguous, apply that disambiguation
+            } else if (status.games_withdisambig_not_in_cache.hasOwnProperty(this_gamedata.name)) {
+                if (status.games_withdisambig_not_in_cache[this_gamedata.name] === this_gamedata.year_published) {
+                    status.new_gamedata_to_activate[this_gamedata.name] = new_gamedata
+                } else {
+                    if (status.new_gamedata_to_cache.hasOwnProperty(this_gamedata.name)) {
+                        status.new_gamedata_to_cache[this_gamedata.name].push(new_gamedata)
+                    } else {
+                        let new_unambiguous_tocache_bundle = []
+                        new_unambiguous_tocache_bundle.push(new_gamedata) 
+                        status.new_gamedata_to_cache[this_gamedata.name] = new_unambiguous_tocache_bundle
+                    }
+                }
+
             // if user supplied an ambiguous title originally, game data remains ambiguous for now
             } else {
                 if (status.ambiguous_new_gamedata.hasOwnProperty(this_gamedata.name)) {
@@ -263,7 +309,6 @@ export const validateUserTitles = async (cached_titles, user_titles) => {
         ambiguous_title_count: Object.keys(result.ambiguous_cached_games).length + Object.keys(result.ambiguous_new_gamedata).length,
         selected_games_to_activate: [],
     }
-
     // Prompt the user for disambiguation
     let new_messages = []
     Object.entries(result.ambiguous_cached_games).forEach(function(ambiguous_cached_title_info) {
@@ -272,9 +317,14 @@ export const validateUserTitles = async (cached_titles, user_titles) => {
         keep_modal_open = true
     })
     Object.entries(result.ambiguous_new_gamedata).forEach(function(ambiguous_title_info) {
-        // it was tagged as "ambiguous", but really this was the title corresponding to the user-supplied ID
+        // it was tagged as "ambiguous", but this title has user-supplied ID for disambiguation
         if (result.games_byid_not_in_cache.hasOwnProperty(ambiguous_title_info[0])) {
             if (result.games_byid_not_in_cache[ambiguous_title_info[0]] === ambiguous_title_info[1].id) {
+                new_gameValidations.selected_games_to_activate.push(ambiguous_title_info[1].unambiguous_name)
+            }
+        // it was tagged as "ambiguous", but this title has user-supplied year for disambiguation
+        } else if (result.games_withdisambig_not_in_cache.hasOwnProperty(ambiguous_title_info[0])) {
+            if (result.games_withdisambig_not_in_cache[ambiguous_title_info[0]] === ambiguous_title_info[1].year_published) {
                 new_gameValidations.selected_games_to_activate.push(ambiguous_title_info[1].unambiguous_name)
             }
         // this title was a user-supplied name string and still requires user disambiguation

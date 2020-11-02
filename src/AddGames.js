@@ -15,18 +15,20 @@ const withoutYear = (title) => {
 
 const doAddGames = (raw_validated_games, add_fn) => {
 
-    // apply selected games to the data to be cached
+    console.log('raw_validated_games:',raw_validated_games)
     let validated_games = JSON.parse(JSON.stringify(raw_validated_games))
-    validated_games['new_gamedata_to_activate'] = []
-    validated_games['new_gamedata_to_cache'] = []
-    raw_validated_games.new_gamedata_to_cache.forEach(function(gamedata) {
+
+    // apply selected games to the ambiguous gamedata
+    Object.values(raw_validated_games.ambiguous_new_gamedata).forEach(function(gamedata) {
+        let new_gamedata = JSON.parse(JSON.stringify(gamedata))
         if (raw_validated_games.selected_games_to_activate.includes(gamedata.unambiguous_name)) {
-            validated_games.new_gamedata_to_activate.push(gamedata)
+            validated_games.new_gamedata_to_activate.push(new_gamedata)
         } else {
-            validated_games.new_gamedata_to_cache.push(gamedata)
+            validated_games.new_gamedata_to_cache.push(new_gamedata)
         }
     })
-    validated_games['cached_games_to_activate'] = [ ...raw_validated_games.cached_games_to_activate ]
+
+    // apply selected games to the ambiguous cached games
     Object.values(raw_validated_games.ambiguous_cached_games).forEach(function(possible_versions) {
         possible_versions.forEach(function(game_version) {
             if (raw_validated_games.selected_games_to_activate.includes(game_version.unambiguous_name)) {
@@ -34,6 +36,8 @@ const doAddGames = (raw_validated_games, add_fn) => {
             }
         })
     })
+
+    console.log('validated_games:',validated_games)
     add_fn(validated_games)
     return null
 }

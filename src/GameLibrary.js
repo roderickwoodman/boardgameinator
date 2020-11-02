@@ -74,8 +74,8 @@ export const collectGamedataForTitles = async (cachedgametitles, game_titles) =>
         ambiguous_new_gamedata: {},       // add this new game data to cache, but cannot activate the game yet
 
         // final data needed
-        new_gamedata_to_activate: {},     // add this new game data to cache and activate the game
-        new_gamedata_to_cache: {},        // add this new game data to cache
+        new_gamedata_to_activate: [],     // add this new game data to cache and activate the game
+        new_gamedata_to_cache: [],        // add this new game data to cache
         cached_games_to_activate: [],     // activate this game from already-cached data
 
     }
@@ -236,29 +236,17 @@ export const collectGamedataForTitles = async (cachedgametitles, game_titles) =>
             // if user supplied a game ID originally, but its title was ambiguous, apply that disambiguation
             if (status.games_byid_not_in_cache.hasOwnProperty(this_gamedata.name)) {
                 if (status.games_byid_not_in_cache[this_gamedata.name] === this_gamedata.id) {
-                    status.new_gamedata_to_activate[this_gamedata.name] = new_gamedata
+                    status.new_gamedata_to_activate.push(new_gamedata)
                 } else {
-                    if (status.new_gamedata_to_cache.hasOwnProperty(this_gamedata.name)) {
-                        status.new_gamedata_to_cache[this_gamedata.name].push(new_gamedata)
-                    } else {
-                        let new_unambiguous_tocache_bundle = []
-                        new_unambiguous_tocache_bundle.push(new_gamedata) 
-                        status.new_gamedata_to_cache[this_gamedata.name] = new_unambiguous_tocache_bundle
-                    }
+                    status.new_gamedata_to_cache.push(new_gamedata)
                 }
 
             // if user supplied year disambiguation originally, but its title was ambiguous, apply that disambiguation
             } else if (status.games_withdisambig_not_in_cache.hasOwnProperty(this_gamedata.name)) {
                 if (status.games_withdisambig_not_in_cache[this_gamedata.name] === this_gamedata.year_published) {
-                    status.new_gamedata_to_activate[this_gamedata.name] = new_gamedata
+                    status.new_gamedata_to_activate.push(new_gamedata)
                 } else {
-                    if (status.new_gamedata_to_cache.hasOwnProperty(this_gamedata.name)) {
-                        status.new_gamedata_to_cache[this_gamedata.name].push(new_gamedata)
-                    } else {
-                        let new_unambiguous_tocache_bundle = []
-                        new_unambiguous_tocache_bundle.push(new_gamedata) 
-                        status.new_gamedata_to_cache[this_gamedata.name] = new_unambiguous_tocache_bundle
-                    }
+                    status.new_gamedata_to_cache.push(new_gamedata)
                 }
 
             // if user supplied an ambiguous title originally, game data remains ambiguous for now
@@ -303,6 +291,7 @@ export const validateUserTitles = async (cached_titles, user_titles) => {
     // store the user input results in state
     let new_gameValidations = {
         new_gamedata_to_activate: JSON.parse(JSON.stringify(result.new_gamedata_to_activate)),
+        new_gamedata_to_cache: JSON.parse(JSON.stringify(result.new_gamedata_to_cache)),
         cached_games_to_activate: JSON.parse(JSON.stringify(result.cached_games_to_activate)),
         ambiguous_cached_games: JSON.parse(JSON.stringify(result.ambiguous_cached_games)),
         ambiguous_new_gamedata: JSON.parse(JSON.stringify(result.ambiguous_new_gamedata)),
@@ -336,19 +325,17 @@ export const validateUserTitles = async (cached_titles, user_titles) => {
     })
 
     // apply selections to determine whether to cache or make active each set of game data
-    let new_gamedata_to_activate = [ ...Object.values(new_gameValidations.new_gamedata_to_activate) ]
-    let new_gamedata_to_cache = []
+    // let new_gamedata_to_activate = [ ...Object.values(new_gameValidations.new_gamedata_to_activate) ]
     Object.values(new_gameValidations.ambiguous_new_gamedata).forEach(possibilities => {
         possibilities.forEach(possible_gamedata => {
+            let new_gamedata = JSON.parse(JSON.stringify(possible_gamedata))
             if (new_gameValidations.selected_games_to_activate.includes(possible_gamedata.unambiguous_name)) {
-                new_gamedata_to_activate.push(JSON.parse(JSON.stringify(possible_gamedata)))
+                new_gameValidations.new_gamedata_to_activate.push(new_gamedata)
             } else {
-                new_gamedata_to_cache.push(JSON.parse(JSON.stringify(possible_gamedata)))
+                new_gameValidations.new_gamedata_to_cache.push(new_gamedata)
             }
         })
     })
-    new_gameValidations['new_gamedata_to_activate'] = new_gamedata_to_activate
-    new_gameValidations['new_gamedata_to_cache'] = new_gamedata_to_cache
 
     // apply selections to determine which cached games to make active
     let cached_games_to_activate = [ ...new_gameValidations.cached_games_to_activate ]

@@ -128,15 +128,15 @@ export const collectGamedataForTitles = async (cachedgametitles, game_titles) =>
     // CACHE LOOKUP FOR ALL TITLES
 
     // build the hashmap of cached base names
-    let all_cached_ambiguous_titles = {}
-    let all_cached_ambiguous_titles_entries = Object.entries(cachedgametitles).filter(cached_title => cached_title[0] !== cached_title[1].name)
-    all_cached_ambiguous_titles_entries.forEach(function(entry) {
+    let cached_basetitle_hashmap = {}
+    let cached_basetitle_hashmap_entries = Object.entries(cachedgametitles).filter(cached_title => cached_title[0] !== cached_title[1].name)
+    cached_basetitle_hashmap_entries.forEach(function(entry) {
         let ambiguous_name = withoutYear(entry[0])
         let title_info = JSON.parse(JSON.stringify(entry[1]))
-        if (all_cached_ambiguous_titles.hasOwnProperty(ambiguous_name)) {
-            all_cached_ambiguous_titles[ambiguous_name].push(title_info)
+        if (cached_basetitle_hashmap.hasOwnProperty(ambiguous_name)) {
+            cached_basetitle_hashmap[ambiguous_name].push(title_info)
         } else {
-            all_cached_ambiguous_titles[ambiguous_name] = [ title_info ]
+            cached_basetitle_hashmap[ambiguous_name] = [ title_info ]
         }
     })
 
@@ -152,18 +152,18 @@ export const collectGamedataForTitles = async (cachedgametitles, game_titles) =>
                 status.cached_games_to_activate.push(user_title)
             }
 
-        // user_title with the correct year disambiguation supplied was found in the cache
-        } else if (all_cached_ambiguous_titles.hasOwnProperty(user_title)) {
-            let disambiguation = JSON.parse(JSON.stringify(all_cached_ambiguous_titles[user_title]))
-            status.ambiguous_cached_games[user_title] = disambiguation
-
-        // user_title with year disambiguation removed was found in the cache
+        // user_title with its year disambiguation removed was found in the cache
         } else if (all_cached_disambiguous_titles.includes(withoutYear(user_title))) {
             if (cachedgametitles[withoutYear(user_title)].active) {
                 status.already_active.push(withoutYear(user_title))
             } else { 
                 status.cached_games_to_activate.push(withoutYear(user_title))
             }
+
+        // user_title base name is in cache, may have incorrect disambiguation
+        } else if (Object.keys(cached_basetitle_hashmap).includes(withoutYear(user_title))) {
+            let disambiguation = JSON.parse(JSON.stringify(cached_basetitle_hashmap[withoutYear(user_title)]))
+            status.ambiguous_cached_games[withoutYear(user_title)] = disambiguation
 
         // user_title is not immediately known, collect title info via API
         } else {
@@ -285,6 +285,7 @@ export const collectGamedataForTitles = async (cachedgametitles, game_titles) =>
         status.ambiguous_new_gamedata[ambiguous_entry[0]] = ambiguous_entry[1].sort( (a,b) => (a.year_published < b.year_published) ? -1 : 1 )
     })
 
+    console.log('returning status:',status)
     return status
 
 }

@@ -116,11 +116,17 @@ export const collectGamedataForTitles = async (cachedgametitles, game_titles) =>
 
     // API LOOKUP TO CONVERT ALL REMAINING IDS TO TITLES
 
+    let uncached_game_titles_that_are_strings = []
     let gamedata_for_uncached_titles_that_are_numbers = await getGamedataForIds(uncached_game_titles_that_are_numbers)
-    let uncached_game_titles_that_are_strings = uncached_game_titles_that_are_numbers.map(function(title) {
-        let title_from_id = gamedata_for_uncached_titles_that_are_numbers.filter(data => data.id===parseInt(title))[0].name
-        status.games_byid_not_in_cache[title_from_id] = parseInt(title)
-        return title_from_id
+    gamedata_for_uncached_titles_that_are_numbers.forEach(function(gamedata, idx) {
+        if (gamedata.hasOwnProperty('name')) {
+            let game_id = parseInt(gamedata_for_uncached_titles_that_are_numbers[idx])
+            status.games_byid_not_in_cache[gamedata.name] = game_id
+            uncached_game_titles_that_are_strings.push(gamedata.name)
+        } else {
+            let game_title = uncached_game_titles_that_are_numbers[idx]
+            status.does_not_exist.push(game_title)
+        }
     })
     game_titles_that_are_strings = [ ...game_titles_that_are_strings, ...uncached_game_titles_that_are_strings]
 
@@ -285,7 +291,6 @@ export const collectGamedataForTitles = async (cachedgametitles, game_titles) =>
         status.ambiguous_new_gamedata[ambiguous_entry[0]] = ambiguous_entry[1].sort( (a,b) => (a.year_published < b.year_published) ? -1 : 1 )
     })
 
-    console.log('returning status:',status)
     return status
 
 }

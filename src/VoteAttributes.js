@@ -16,7 +16,7 @@ export const VoteAttributes = (props) => {
         return (
             <span className="message warning">
                 <p>No board games to compare yet</p>
-                <p>Please add game titles by clicking on "Add".</p>
+                <p>Please add game titles by clicking on "Add Games".</p>
             </span>
         )
     }

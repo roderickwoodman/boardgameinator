@@ -421,7 +421,7 @@ export const GameList = (props) => {
             {props.activegamedata.length === 0 && (
                 <span className="message warning">
                     <p>No board games to compare yet!</p>
-                    <p>Please add game titles by clicking "Add".</p>
+                    <p>Please add game titles by clicking "Add Games".</p>
                 </span>
             )}
         </div>

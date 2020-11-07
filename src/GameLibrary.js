@@ -120,7 +120,7 @@ export const collectGamedataForTitles = async (cachedgametitles, game_titles) =>
     let gamedata_for_uncached_titles_that_are_numbers = await getGamedataForIds(uncached_game_titles_that_are_numbers)
     gamedata_for_uncached_titles_that_are_numbers.forEach(function(gamedata, idx) {
         if (gamedata.hasOwnProperty('name')) {
-            let game_id = parseInt(gamedata_for_uncached_titles_that_are_numbers[idx])
+            let game_id = parseInt(gamedata.id)
             status.games_byid_not_in_cache[gamedata.name] = game_id
             uncached_game_titles_that_are_strings.push(gamedata.name)
         } else {

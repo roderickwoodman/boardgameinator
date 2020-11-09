@@ -40,10 +40,11 @@ const doAddGames = (raw_validated_games, add_fn) => {
         raw_validated_games.new_gamedata_to_cache = updated_new_gamedata_to_cache
 
         // apply selected games to the ambiguous cached games
-        Object.values(raw_validated_games.ambiguous_cached_games).forEach(function(possible_versions) {
-            possible_versions.forEach(function(game_version) {
+        Object.entries(raw_validated_games.ambiguous_cached_games).forEach(function(possible_versions) {
+            possible_versions[1].forEach(function(game_version) {
                 if (raw_validated_games.selected_games_to_activate.includes(game_version.unambiguous_name)) {
-                    validated_games.cached_games_to_activate.push(game_version.unambiguous_name)
+                    raw_validated_games.cached_games_to_activate.push(game_version.unambiguous_name)
+                    delete raw_validated_games.ambiguous_cached_games[possible_versions[0]]
                 }
             })
         })

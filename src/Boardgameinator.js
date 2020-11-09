@@ -549,8 +549,6 @@ export class Boardgameinator extends React.Component {
 
     addValidatedGamesWithPollContext(validation_result, poll_name, poll_thumbs) {
 
-        let selected_gameValidations = JSON.parse(JSON.stringify(validation_result))
-
         this.setState(prevState => {
 
             let new_activeGameList = [], new_activeThumbs = {}, new_localGameList = [...prevState.localGameList]
@@ -576,11 +574,12 @@ export class Boardgameinator extends React.Component {
             }
 
             let updated_allGameData = JSON.parse(JSON.stringify(prevState.allGameData))
-            if (selected_gameValidations.new_gamedata_to_activate.length || selected_gameValidations.new_gamedata_to_cache.length) {
+
+            if (validation_result.new_gamedata_to_activate.length || validation_result.new_gamedata_to_cache) {
 
                 let now = new Date()
 
-                selected_gameValidations.new_gamedata_to_activate.forEach(each_newGameData => {
+                Object.values(validation_result.new_gamedata_to_activate).forEach(each_newGameData => {
                     let new_gamedata = JSON.parse(JSON.stringify(each_newGameData))
                     new_gamedata["updated_at"] = now.getTime()
                     new_activeGameList.push(new_gamedata.id)
@@ -590,17 +589,16 @@ export class Boardgameinator extends React.Component {
                     updated_allGameData.push(new_gamedata)
                 })
 
-                selected_gameValidations.new_gamedata_to_cache.forEach(each_newGameData => {
+                Object.values(validation_result.new_gamedata_to_cache).forEach(each_newGameData => {
                     let new_gamedata = JSON.parse(JSON.stringify(each_newGameData))
                     new_gamedata["updated_at"] = now.getTime()
                     updated_allGameData.push(new_gamedata)
                 })
-
             }
 
-            if (selected_gameValidations.cached_games_to_activate.length) {
+            if (validation_result.cached_games_to_activate.length) {
 
-                selected_gameValidations.cached_games_to_activate.forEach(cached_game_name => {
+                validation_result.cached_games_to_activate.forEach(cached_game_name => {
                     let id_to_activate = prevState.allGameData.filter( game_data => game_data.unambiguous_name === cached_game_name )[0].id
                     new_activeGameList.push(id_to_activate)
                     if (prevState.activePoll === 'local') {

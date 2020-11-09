@@ -18,22 +18,26 @@ const doAddGames = (raw_validated_games, add_fn) => {
     // apply selected games to the ambiguous gamedata
     if (raw_validated_games.ambiguous_title_count !== 0) {
 
-        let validated_games = JSON.parse(JSON.stringify(raw_validated_games))
         let selected_base_names = raw_validated_games.selected_games_to_activate.map( unambiguous_name => withoutYear(unambiguous_name) )
-        Object.values(raw_validated_games.ambiguous_new_gamedata).forEach(function(possible_versions) {
-            possible_versions.forEach(function(game_version) {
-                // let new_gamedata = JSON.parse(JSON.stringify(game_version))
-                let new_gamedata = []
+        let validated_games = JSON.parse(JSON.stringify(raw_validated_games))
+        let updated_new_gamedata_to_activate = []
+        let updated_new_gamedata_to_cache = []
+        Object.entries(raw_validated_games.ambiguous_new_gamedata).forEach(function(possible_versions) {
+            possible_versions[1].forEach(function(game_version) {
+                let new_gamedata = JSON.parse(JSON.stringify(game_version))
                 if (selected_base_names.includes(game_version.name)) {
                     if (raw_validated_games.selected_games_to_activate.includes(game_version.unambiguous_name)) {
-                        validated_games.new_gamedata_to_activate.push(new_gamedata)
+                        updated_new_gamedata_to_activate.push(new_gamedata)
                     } else {
-                        validated_games.new_gamedata_to_cache.push(new_gamedata)
-
+                        updated_new_gamedata_to_cache.push(new_gamedata)
                     }
+                    delete raw_validated_games.ambiguous_new_gamedata[possible_versions[0]]
+                    raw_validated_games.selected_games_to_activate = raw_validated_games.selected_games_to_activate.filter( game => game.name !== possible_versions[0] )
                 }
             })
         })
+        raw_validated_games.new_gamedata_to_activate = updated_new_gamedata_to_activate
+        raw_validated_games.new_gamedata_to_cache = updated_new_gamedata_to_cache
 
         // apply selected games to the ambiguous cached games
         Object.values(raw_validated_games.ambiguous_cached_games).forEach(function(possible_versions) {
@@ -43,7 +47,11 @@ const doAddGames = (raw_validated_games, add_fn) => {
                 }
             })
         })
-        add_fn(validated_games)
+
+        raw_validated_games.ambiguous_title_count -= selected_base_names.length
+        raw_validated_games.selected_games_to_activate = []
+
+        add_fn(raw_validated_games)
 
     } else {
         add_fn(raw_validated_games)

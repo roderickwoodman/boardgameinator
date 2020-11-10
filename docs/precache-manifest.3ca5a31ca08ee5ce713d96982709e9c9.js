@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "97df1954c49761a46f8e4f6556fc0e4f",
+    "revision": "f1f86323b4e805a12785675ff419c6f5",
     "url": "/boardgameinator/index.html"
   },
   {
@@ -8,7 +8,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/boardgameinator/static/css/2.86aa6515.chunk.css"
   },
   {
-    "revision": "6bf4476c9fd4f2f31d2f",
+    "revision": "7455e7f1c98af83ca702",
     "url": "/boardgameinator/static/css/main.33569052.chunk.css"
   },
   {
@@ -16,8 +16,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/boardgameinator/static/js/2.a10029cb.chunk.js"
   },
   {
-    "revision": "6bf4476c9fd4f2f31d2f",
-    "url": "/boardgameinator/static/js/main.052d8455.chunk.js"
+    "revision": "7455e7f1c98af83ca702",
+    "url": "/boardgameinator/static/js/main.0e8300f1.chunk.js"
   },
   {
     "revision": "670d3fa99576bb756c63",

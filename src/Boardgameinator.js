@@ -557,12 +557,14 @@ export class Boardgameinator extends React.Component {
 
             let new_activeGameList = [], new_activeThumbs = {}, new_localGameList = [...prevState.localGameList]
             let updated_allGameData = JSON.parse(JSON.stringify(prevState.allGameData))
+            let updated_activePoll = prevState.activePoll
+            let poll_is_changing = (updated_activePoll !== poll_name) ? 1 : 0
 
             // when the poll is "local"...
             //   1) the incoming set of games to add will be combined with the local active list
             //   2) any subsequent title votes will be recorded to the local set of title votes
             //   3) any subsequent attribute votes will be recorded to the local set of attribute votes
-            if (poll_name === 'local') {
+            if (poll_is_changing && poll_name === 'local') {
                 new_activeGameList = [...prevState.localGameList]
                 new_activeThumbs = JSON.parse(JSON.stringify(prevState.allThumbs.local))
 
@@ -571,7 +573,11 @@ export class Boardgameinator extends React.Component {
             //   2) any subsequent title votes will be recorded to the remote/poll set of title votes
             //   3) any subsequent attribute votes will be recorded to the local set of attribute votes
             } else {
-                new_activeGameList = []
+                if (poll_is_changing) {
+                    new_activeGameList = []
+                } else {
+                    new_activeGameList = prevState.activeGameList
+                }
                 new_activeThumbs = JSON.parse(JSON.stringify(poll_thumbs))
                 new_activeThumbs.total_title_votes = poll_thumbs.total_title_votes
                 new_activeThumbs.attributes = JSON.parse(JSON.stringify(prevState.allThumbs.local.attributes))

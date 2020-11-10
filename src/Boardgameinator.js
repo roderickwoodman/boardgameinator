@@ -490,11 +490,15 @@ export class Boardgameinator extends React.Component {
 
     async onViewPoll(poll) {
 
-        let poll_game_ids = Object.keys(poll.pollThumbs.titles).map( title => parseInt(title) )
-        let cachedGameTitles = this.getCachedGameTitles()
-        let validation_result = await validateUserTitles(cachedGameTitles, poll_game_ids)
-        let poll_thumbs = JSON.parse(JSON.stringify(poll.pollThumbs))
-        this.addValidatedGamesWithPollContext(validation_result.gameValidations, poll.name, poll_thumbs)
+        if (poll.name === 'local') {
+            this.addValidatedGamesWithPollContext(null, poll.name, null)
+        } else {
+            let poll_game_ids = Object.keys(poll.pollThumbs.titles).map( title => parseInt(title) )
+            let cachedGameTitles = this.getCachedGameTitles()
+            let validation_result = await validateUserTitles(cachedGameTitles, poll_game_ids)
+            let poll_thumbs = JSON.parse(JSON.stringify(poll.pollThumbs))
+            this.addValidatedGamesWithPollContext(validation_result.gameValidations, poll.name, poll_thumbs)
+        }
 
     }
 
@@ -552,6 +556,7 @@ export class Boardgameinator extends React.Component {
         this.setState(prevState => {
 
             let new_activeGameList = [], new_activeThumbs = {}, new_localGameList = [...prevState.localGameList]
+            let updated_allGameData = JSON.parse(JSON.stringify(prevState.allGameData))
 
             // when the poll is "local"...
             //   1) the incoming set of games to add will be combined with the local active list
@@ -566,48 +571,46 @@ export class Boardgameinator extends React.Component {
             //   2) any subsequent title votes will be recorded to the remote/poll set of title votes
             //   3) any subsequent attribute votes will be recorded to the local set of attribute votes
             } else {
-                new_activeGameList = []//Object.keys(poll_thumbs.titles).map( title => parseInt(title) )
+                new_activeGameList = []
                 new_activeThumbs = JSON.parse(JSON.stringify(poll_thumbs))
                 new_activeThumbs.total_title_votes = poll_thumbs.total_title_votes
                 new_activeThumbs.attributes = JSON.parse(JSON.stringify(prevState.allThumbs.local.attributes))
                 new_activeThumbs.total_attribute_votes = prevState.allThumbs.local.total_attribute_votes
+
+                if (validation_result.new_gamedata_to_activate.length || validation_result.new_gamedata_to_cache) {
+
+                    let now = new Date()
+
+                    Object.values(validation_result.new_gamedata_to_activate).forEach(each_newGameData => {
+                        let new_gamedata = JSON.parse(JSON.stringify(each_newGameData))
+                        new_gamedata["updated_at"] = now.getTime()
+                        new_activeGameList.push(new_gamedata.id)
+                        if (poll_name === 'local') {
+                            new_localGameList.push(new_gamedata.id)
+                        }
+                        updated_allGameData.push(new_gamedata)
+                    })
+
+                    Object.values(validation_result.new_gamedata_to_cache).forEach(each_newGameData => {
+                        let new_gamedata = JSON.parse(JSON.stringify(each_newGameData))
+                        new_gamedata["updated_at"] = now.getTime()
+                        updated_allGameData.push(new_gamedata)
+                    })
+                }
+
+                if (validation_result.cached_games_to_activate.length) {
+
+                    validation_result.cached_games_to_activate.forEach(cached_game_name => {
+                        let id_to_activate = prevState.allGameData.filter( game_data => game_data.unambiguous_name === cached_game_name )[0].id
+                        new_activeGameList.push(id_to_activate)
+                        if (prevState.activePoll === 'local') {
+                            new_localGameList.push(id_to_activate)
+                        }
+                    })
+
+                }
+
             }
-
-            let updated_allGameData = JSON.parse(JSON.stringify(prevState.allGameData))
-
-            if (validation_result.new_gamedata_to_activate.length || validation_result.new_gamedata_to_cache) {
-
-                let now = new Date()
-
-                Object.values(validation_result.new_gamedata_to_activate).forEach(each_newGameData => {
-                    let new_gamedata = JSON.parse(JSON.stringify(each_newGameData))
-                    new_gamedata["updated_at"] = now.getTime()
-                    new_activeGameList.push(new_gamedata.id)
-                    if (prevState.activePoll === 'local') {
-                        new_localGameList.push(new_gamedata.id)
-                    }
-                    updated_allGameData.push(new_gamedata)
-                })
-
-                Object.values(validation_result.new_gamedata_to_cache).forEach(each_newGameData => {
-                    let new_gamedata = JSON.parse(JSON.stringify(each_newGameData))
-                    new_gamedata["updated_at"] = now.getTime()
-                    updated_allGameData.push(new_gamedata)
-                })
-            }
-
-            if (validation_result.cached_games_to_activate.length) {
-
-                validation_result.cached_games_to_activate.forEach(cached_game_name => {
-                    let id_to_activate = prevState.allGameData.filter( game_data => game_data.unambiguous_name === cached_game_name )[0].id
-                    new_activeGameList.push(id_to_activate)
-                    if (prevState.activePoll === 'local') {
-                        new_localGameList.push(id_to_activate)
-                    }
-                })
-
-            }
-
             localStorage.setItem('activeGameList', JSON.stringify(new_activeGameList))
             localStorage.setItem('localGameList', JSON.stringify(new_localGameList))
             localStorage.setItem('allGameData', JSON.stringify(updated_allGameData))
@@ -623,7 +626,6 @@ export class Boardgameinator extends React.Component {
             }
         })
     }
-
 
     handleSortChange(event, value) {
         this.setState(prevState => {

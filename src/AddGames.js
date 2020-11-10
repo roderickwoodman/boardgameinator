@@ -19,7 +19,6 @@ const doAddGames = (raw_validated_games, add_fn) => {
     if (raw_validated_games.ambiguous_title_count !== 0) {
 
         let selected_base_names = raw_validated_games.selected_games_to_activate.map( unambiguous_name => withoutYear(unambiguous_name) )
-        let validated_games = JSON.parse(JSON.stringify(raw_validated_games))
         let updated_new_gamedata_to_activate = []
         let updated_new_gamedata_to_cache = []
         Object.entries(raw_validated_games.ambiguous_new_gamedata).forEach(function(possible_versions) {

@@ -603,7 +603,7 @@ export class Boardgameinator extends React.Component {
                     validation_result.cached_games_to_activate.forEach(cached_game_name => {
                         let id_to_activate = prevState.allGameData.filter( game_data => game_data.unambiguous_name === cached_game_name )[0].id
                         new_activeGameList.push(id_to_activate)
-                        if (prevState.activePoll === 'local') {
+                        if (poll_name === 'local') {
                             new_localGameList.push(id_to_activate)
                         }
                     })

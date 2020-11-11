@@ -263,6 +263,12 @@ export const MainControls = (props) => {
     }
 
     const ImportPollModal = () => {
+
+        const onViewPoll = (poll) => {
+            hideImportPollModal()
+            props.onviewpoll(poll)
+        }
+
         return (
             <React.Fragment>
             <button className="default-primary-styles" onClick={showImportPollModal}>Import Poll</button>
@@ -271,7 +277,7 @@ export const MainControls = (props) => {
                     <div id="poll-import-controls">
                         <ImportPoll
                             activepoll={props.activepoll}
-                            onviewpoll={props.onviewpoll} />
+                            onviewpoll={onViewPoll} />
                     </div>
                 </ModalBody>
                 <ModalFooter> 

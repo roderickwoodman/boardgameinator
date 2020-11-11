@@ -579,7 +579,7 @@ export class Boardgameinator extends React.Component {
             if (routed_games_treatment === 'replace'
                 || (poll_is_changing && updated_poll_name === 'local') ) {
                 updated_poll_name = 'local'
-                updated_activeGameList = [...prevState.localGameList]
+                updated_activeGameList = (routed_games_treatment === 'replace') ? [] : [...prevState.localGameList]
                 updated_activeThumbs = JSON.parse(JSON.stringify(prevState.allThumbs.local))
 
             // for other poll switching, the active game list is cleared before the adds happen

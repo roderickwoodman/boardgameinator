@@ -591,6 +591,7 @@ export class Boardgameinator extends React.Component {
             // else, the poll remains the same and adds can happen
             } else {
                 new_activeGameList = [...prevState.localGameList]
+                new_activeThumbs = JSON.parse(JSON.stringify(prevState.allThumbs.local))
                 new_activeThumbs.total_title_votes = poll_thumbs.total_title_votes
             }
 

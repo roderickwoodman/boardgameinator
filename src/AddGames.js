@@ -126,6 +126,7 @@ export const AddGames = (props) => {
         newMessages(validation_result.messages)
         if (!validation_result.keep_modal_open) {
             doAddGames(validation_result.gameValidations, props.updategamevalidations)
+            return null
         }
     }
 

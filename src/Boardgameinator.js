@@ -551,76 +551,92 @@ export class Boardgameinator extends React.Component {
         this.addValidatedGamesWithPollContext(validation_result, this.state.activePoll, this.state.allThumbs[this.state.activePoll])
     }
 
+    // when the poll is "local"...
+    //   1) the incoming set of games to add will be combined with the local active list
+    //   2) any subsequent title votes will be recorded to the local set of title votes
+    //   3) any subsequent attribute votes will be recorded to the local set of attribute votes
+    //
+    // when the poll is not "local"...
+    //   1) the incoming set of games to add will replace the local active list
+    //   2) any subsequent title votes will be recorded to the remote/poll set of title votes
+    //   3) any subsequent attribute votes will be recorded to the local set of attribute votes
+    //
+    // when games are routed...
+    //   1) the incoming set of games to add will either replace or be combined with the local active list
+    //   2) the current active list will switch to the local set of games
+    //
     addValidatedGamesWithPollContext(validation_result, poll_name, poll_thumbs) {
 
         this.setState(prevState => {
 
             let new_activeGameList = [], new_activeThumbs = {}, new_localGameList = [...prevState.localGameList]
             let updated_allGameData = JSON.parse(JSON.stringify(prevState.allGameData))
-            let updated_activePoll = prevState.activePoll
-            let poll_is_changing = (updated_activePoll !== poll_name) ? 1 : 0
+            let routed_games_treatment = (validation_result !== null) ? validation_result.routed_games_treatment : 'none'
+            let updated_poll_name = poll_name
+            let poll_is_changing = (prevState.activePoll !== updated_poll_name) ? 1 : 0
 
-            // when the poll is "local"...
-            //   1) the incoming set of games to add will be combined with the local active list
-            //   2) any subsequent title votes will be recorded to the local set of title votes
-            //   3) any subsequent attribute votes will be recorded to the local set of attribute votes
-            if (poll_is_changing && poll_name === 'local') {
+            // for routed and switching to local, set the poll and active game list to local before the adds happen
+            if (routed_games_treatment === 'replace'
+                || (poll_is_changing && updated_poll_name === 'local') ) {
+                updated_poll_name = 'local'
                 new_activeGameList = [...prevState.localGameList]
                 new_activeThumbs = JSON.parse(JSON.stringify(prevState.allThumbs.local))
 
-            // when the poll is not "local"...
-            //   1) the incoming set of games to add will replace the local active list
-            //   2) any subsequent title votes will be recorded to the remote/poll set of title votes
-            //   3) any subsequent attribute votes will be recorded to the local set of attribute votes
-            } else {
-                if (poll_is_changing) {
-                    new_activeGameList = []
-                } else {
-                    new_activeGameList = prevState.activeGameList
-                }
+            // for other poll switching, the active game list is cleared before the adds happen
+            } else if (poll_is_changing) {
+                new_activeGameList = []
                 new_activeThumbs = JSON.parse(JSON.stringify(poll_thumbs))
                 new_activeThumbs.total_title_votes = poll_thumbs.total_title_votes
-                new_activeThumbs.attributes = JSON.parse(JSON.stringify(prevState.allThumbs.local.attributes))
-                new_activeThumbs.total_attribute_votes = prevState.allThumbs.local.total_attribute_votes
 
-                if (validation_result.new_gamedata_to_activate.length || validation_result.new_gamedata_to_cache) {
+            // else, the poll remains the same and adds can happen
+            } else {
+                new_activeGameList = [...prevState.localGameList]
+            }
 
-                    let now = new Date()
+            // now, add the new games
+            if (validation_result !== null && (validation_result.new_gamedata_to_activate.length || validation_result.new_gamedata_to_cache)) {
 
-                    Object.values(validation_result.new_gamedata_to_activate).forEach(each_newGameData => {
-                        let new_gamedata = JSON.parse(JSON.stringify(each_newGameData))
-                        new_gamedata["updated_at"] = now.getTime()
-                        new_activeGameList.push(new_gamedata.id)
-                        if (poll_name === 'local') {
-                            new_localGameList.push(new_gamedata.id)
-                        }
-                        updated_allGameData.push(new_gamedata)
-                    })
+                let now = new Date()
 
-                    Object.values(validation_result.new_gamedata_to_cache).forEach(each_newGameData => {
-                        let new_gamedata = JSON.parse(JSON.stringify(each_newGameData))
-                        new_gamedata["updated_at"] = now.getTime()
-                        updated_allGameData.push(new_gamedata)
-                    })
-                }
+                Object.values(validation_result.new_gamedata_to_activate).forEach(each_newGameData => {
+                    let new_gamedata = JSON.parse(JSON.stringify(each_newGameData))
+                    new_gamedata["updated_at"] = now.getTime()
+                    new_activeGameList.push(new_gamedata.id)
+                    if (updated_poll_name === 'local') {
+                        new_localGameList.push(new_gamedata.id)
+                    }
+                    updated_allGameData.push(new_gamedata)
+                })
 
-                if (validation_result.cached_games_to_activate.length) {
-
-                    validation_result.cached_games_to_activate.forEach(cached_game_name => {
-                        let id_to_activate = prevState.allGameData.filter( game_data => game_data.unambiguous_name === cached_game_name )[0].id
-                        new_activeGameList.push(id_to_activate)
-                        if (poll_name === 'local') {
-                            new_localGameList.push(id_to_activate)
-                        }
-                    })
-
-                }
+                Object.values(validation_result.new_gamedata_to_cache).forEach(each_newGameData => {
+                    let new_gamedata = JSON.parse(JSON.stringify(each_newGameData))
+                    new_gamedata["updated_at"] = now.getTime()
+                    updated_allGameData.push(new_gamedata)
+                })
 
             }
+
+            // for all polls, attribute votes are always kept locally
+            new_activeThumbs.attributes = JSON.parse(JSON.stringify(prevState.allThumbs.local.attributes))
+            new_activeThumbs.total_attribute_votes = prevState.allThumbs.local.total_attribute_votes
+
+            // now, add the cached games
+            if (validation_result !== null && validation_result.cached_games_to_activate.length) {
+
+                validation_result.cached_games_to_activate.forEach(cached_game_name => {
+                    let id_to_activate = prevState.allGameData.filter( game_data => game_data.unambiguous_name === cached_game_name )[0].id
+                    new_activeGameList.push(id_to_activate)
+                    if (updated_poll_name === 'local') {
+                        new_localGameList.push(id_to_activate)
+                    }
+                })
+
+            }
+
             localStorage.setItem('activeGameList', JSON.stringify(new_activeGameList))
             localStorage.setItem('localGameList', JSON.stringify(new_localGameList))
             localStorage.setItem('allGameData', JSON.stringify(updated_allGameData))
-            localStorage.setItem('activePoll', JSON.stringify(poll_name))
+            localStorage.setItem('activePoll', JSON.stringify(updated_poll_name))
             localStorage.setItem('activeThumbs', JSON.stringify(new_activeThumbs))
 
             return { 

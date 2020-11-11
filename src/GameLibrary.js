@@ -334,6 +334,7 @@ export const validateUserTitles = async (cached_titles, user_titles) => {
         }
     })
 
+    collection_result['routed_games_treatment'] = 'none'
     validation_result['gameValidations'] = collection_result
 
     // Prepend the game title with the game ID, when the ID was supplied by the user

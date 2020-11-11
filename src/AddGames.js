@@ -69,11 +69,13 @@ export const AddGames = (props) => {
         async function addRoutedGames() {
             if (props.routedgames.length > 0) {
                 let validation_result = await validateUserTitles(props.cachedgametitles, props.routedgames)
+                validation_result.gameValidations['routed_games_treatment'] = 'replace'
                 console.log('ROUTED validation_result:',validation_result)
                 setGameValidations(validation_result.gameValidations)
                 newMessages(validation_result.messages)
                 if (!validation_result.keep_modal_open) {
                     doAddGames(validation_result.gameValidations, props.updategamevalidations)
+                    return null
                 }
             }
         }

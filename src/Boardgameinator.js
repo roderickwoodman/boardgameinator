@@ -71,7 +71,7 @@ export class Boardgameinator extends React.Component {
 
         let allGameData = []
 
-        let query_strings, new_list = [], addto_list = []
+        let query_strings, routed_new_list = [], routed_addto_list = []
         let path = this.props.location.search.slice(1).split('?')
         if (path.length === 1) {
             query_strings = path[0]
@@ -81,9 +81,9 @@ export class Boardgameinator extends React.Component {
         query_strings.split('&').forEach( function(query_string) {
             let qs = query_string.split('=')
             if (qs[0] === 'newlist') {
-                qs[1].split('+').forEach( game_id => new_list.push(parseInt(game_id)) )
+                qs[1].split('+').forEach( game_id => routed_new_list.push(parseInt(game_id)) )
             } else if (qs[0] === 'addtolist') {
-                qs[1].split('+').forEach( game_id => addto_list.push(parseInt(game_id)) )
+                qs[1].split('+').forEach( game_id => routed_addto_list.push(parseInt(game_id)) )
             }
         })
 
@@ -93,8 +93,10 @@ export class Boardgameinator extends React.Component {
         }
 
         const stored_activeGameList = JSON.parse(localStorage.getItem("activeGameList"))
-        if (stored_activeGameList !== null) {
+        if (stored_activeGameList !== null && routed_new_list.length === 0) {
             this.setState({ activeGameList: stored_activeGameList })
+        } else {
+            this.setState({ activeGameList: [] })
         }
 
         const stored_activePoll = JSON.parse(localStorage.getItem("activePoll"))
@@ -104,21 +106,17 @@ export class Boardgameinator extends React.Component {
             this.setState({ activePoll: 'local' })
         }
 
-        let update_routedGames = [ ...new_list, ...addto_list ]
+        let update_routedGames = [ ...routed_new_list, ...routed_addto_list ]
         this.setState({ routedGames: update_routedGames })
 
-        if (new_list.length === 0) {
-            const stored_gamedataVersion = JSON.parse(localStorage.getItem("gamedataVersion"))
-            if (stored_gamedataVersion === this.gamedataVersion) {
-                allGameData = JSON.parse(localStorage.getItem("allGameData"))
-            } else {
-                localStorage.setItem('gamedataVersion', JSON.stringify(this.gamedataVersion))
-                localStorage.setItem('allGameData', JSON.stringify(allGameData))
-            }
-            this.setState({ allGameData })
+        const stored_gamedataVersion = JSON.parse(localStorage.getItem("gamedataVersion"))
+        if (stored_gamedataVersion === this.gamedataVersion) {
+            allGameData = JSON.parse(localStorage.getItem("allGameData"))
         } else {
             localStorage.setItem('gamedataVersion', JSON.stringify(this.gamedataVersion))
+            localStorage.setItem('allGameData', JSON.stringify(allGameData))
         }
+        this.setState({ allGameData })
 
         const stored_allThumbs = JSON.parse(localStorage.getItem("allThumbs"))
         if (stored_allThumbs !== null) {

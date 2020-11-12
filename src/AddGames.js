@@ -78,7 +78,6 @@ export const AddGames = (props) => {
             if (validation_list.length > 0) {
                 let validation_result = await validateUserTitles(props.cachedgametitles, validation_list)
                 validation_result.gameValidations['routed_games_treatment'] = routing_treatment
-                console.log('ROUTED validation_result:',validation_result)
                 setGameValidations(validation_result.gameValidations)
                 newMessages(validation_result.messages)
                 if (!validation_result.keep_modal_open) {
@@ -139,11 +138,10 @@ export const AddGames = (props) => {
     }
 
     const appendTitles = (message) => {
-        console.log('message:',message)
         if (message.hasOwnProperty('append_titles')) {
             return (
-                message.append_titles.map( title => 
-                    <em>{title}</em>
+                message.append_titles.map( (title, idx) => 
+                    <em key={idx}>{title}</em>
                 )
             )
         } else {

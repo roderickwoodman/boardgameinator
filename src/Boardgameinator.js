@@ -86,6 +86,9 @@ export class Boardgameinator extends React.Component {
                 qs[1].split('+').forEach( game_id => routed_addto_list.push(parseInt(game_id)) )
             }
         })
+        if (routed_new_list.length && routed_addto_list.length) {
+            routed_addto_list = [] // ignore addto_list if new_list exists
+        }
 
         const stored_localGameList = JSON.parse(localStorage.getItem("localGameList"))
         if (stored_localGameList !== null) {

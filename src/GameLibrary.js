@@ -341,7 +341,7 @@ export const validateUserTitles = async (cached_titles, user_titles) => {
     let game_id_txt = ''
 
     // Inform the user of all other games that could not be added
-    let title_count_already_active = 0, title_names_already_active = ''
+    let title_count_already_active = 0, title_names_already_active = '', append_titles_alreadyactive = []
     for (let active_title of collection_result.already_active) {
         title_count_already_active += 1
         if (collection_result.games_byid_not_in_cache.hasOwnProperty(active_title)) {
@@ -349,6 +349,7 @@ export const validateUserTitles = async (cached_titles, user_titles) => {
         } else {
             game_id_txt = ''
         }
+        append_titles_alreadyactive.push(game_id_txt + displayNameForMessages(active_title))
         if (title_names_already_active !== '') {
             title_names_already_active += ', ' + game_id_txt + displayNameForMessages(active_title)
         } else {
@@ -358,12 +359,16 @@ export const validateUserTitles = async (cached_titles, user_titles) => {
     }
     if (title_count_already_active > 0) {
         let plural_txt = (title_count_already_active > 1) ? 's are' : ' is'
-        new_messages.push({ message_str: 'ERROR: ' + title_count_already_active + ' title' + plural_txt + ' already active - ' + title_names_already_active })
+        new_messages.push({ 
+          message_str: 'ERROR: ' + title_count_already_active + ' title' + plural_txt + ' already active - ' + title_names_already_active,
+          append_titles: append_titles_alreadyactive
+        })
         keep_modal_open = true
     }
-    let title_count_does_not_exist = 0, title_names_does_not_exist = ''
+    let title_count_does_not_exist = 0, title_names_does_not_exist = '', append_titles_doesnotexist = []
     for (let nonexistent_title of collection_result.does_not_exist) {
         title_count_does_not_exist += 1
+        append_titles_doesnotexist.push(nonexistent_title)
         if (title_names_does_not_exist !== '') {
             title_names_does_not_exist += ', ' + nonexistent_title
         } else {
@@ -373,11 +378,14 @@ export const validateUserTitles = async (cached_titles, user_titles) => {
     }
     if (title_count_does_not_exist > 0) {
         let plural_txt = (title_count_does_not_exist > 1) ? 's do' : ' does'
-        new_messages.push({ message_str: 'ERROR: ' + title_count_does_not_exist + ' title' + plural_txt + ' not exist - ' + title_names_does_not_exist })
+        new_messages.push({ 
+          message_str: 'ERROR: ' + title_count_does_not_exist + ' title' + plural_txt + ' not exist - ' + title_names_does_not_exist,
+          append_titles: append_titles_doesnotexist
+        })
     }
 
     // Inform the user of all other games that will be added
-    let title_count_to_add = 0, title_names_to_add = ''
+    let title_count_to_add = 0, title_names_to_add = '', append_titles_toadd = []
     for (let inactive_title of collection_result.cached_games_to_activate) {
         title_count_to_add += 1
         if (collection_result.games_byid_not_in_cache.hasOwnProperty(inactive_title)) {
@@ -385,6 +393,7 @@ export const validateUserTitles = async (cached_titles, user_titles) => {
         } else {
             game_id_txt = ''
         }
+        append_titles_toadd.push(game_id_txt + displayNameForMessages(inactive_title))
         if (title_names_to_add !== '') {
             title_names_to_add += ', ' + game_id_txt + displayNameForMessages(inactive_title)
         } else {
@@ -398,6 +407,7 @@ export const validateUserTitles = async (cached_titles, user_titles) => {
         } else {
             game_id_txt = ''
         }
+        append_titles_toadd.push(game_id_txt + displayNameForMessages(unambiguous_new_title))
         if (title_names_to_add !== '') {
             title_names_to_add += ', ' + game_id_txt + displayNameForMessages(unambiguous_new_title)
         } else {
@@ -411,7 +421,10 @@ export const validateUserTitles = async (cached_titles, user_titles) => {
                             || (collection_result.already_active.length > 0) )
                             ? ' other' : ''
         let plural_txt = (title_count_to_add > 1) ? 's' : ''
-        new_messages.push({ message_str: 'Adding ' + title_count_to_add + other_txt + ' title' + plural_txt + ' - ' + title_names_to_add })
+        new_messages.push({ 
+          message_str: 'Adding ' + title_count_to_add + other_txt + ' title' + plural_txt + ' - ' + title_names_to_add,
+          append_titles: append_titles_toadd
+        })
     }
     validation_result['messages'] = new_messages
     validation_result['keep_modal_open'] = keep_modal_open

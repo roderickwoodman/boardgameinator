@@ -138,6 +138,19 @@ export const AddGames = (props) => {
         }
     }
 
+    const appendTitles = (message) => {
+        console.log('message:',message)
+        if (message.hasOwnProperty('append_titles')) {
+            return (
+                message.append_titles.map( title => 
+                    <em>{title}</em>
+                )
+            )
+        } else {
+            return null
+        }
+    }
+
     const addButton = (message) => {
         if (message.hasOwnProperty('ambiguous')) {
             let classes = {}
@@ -182,8 +195,8 @@ export const AddGames = (props) => {
                             .map(
                                 (message, i) => {
                                     return (message.message_str.toLowerCase().startsWith("error"))
-                                    ? <p key={i} className="message error">{message.message_str} {addButton(message)}</p>
-                                    : <p key={i} className="message"><FontAwesomeIcon icon={faLongArrowAltRight} /> {message.message_str} {addButton(message)}</p>
+                                    ? <p key={i} className="message error">{message.message_str}{appendTitles(message)} {addButton(message)}</p>
+                                    : <p key={i} className="message"><FontAwesomeIcon icon={faLongArrowAltRight} /> {message.message_str}{appendTitles(message)} {addButton(message)}</p>
                                 }
                             )
                         }

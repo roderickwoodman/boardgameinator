@@ -430,7 +430,7 @@ export const GameList = (props) => {
 }
 
 GameList.propTypes = {
-    routedgames: PropTypes.array.isRequired,
+    routedgames: PropTypes.object.isRequired,
     activegamedata: PropTypes.array.isRequired,
     sortby: PropTypes.string.isRequired,
     filtertitles: PropTypes.bool.isRequired,

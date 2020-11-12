@@ -321,7 +321,7 @@ export const MainControls = (props) => {
 }
 
 MainControls.propTypes = {
-    routedgames: PropTypes.array.isRequired,
+    routedgames: PropTypes.object.isRequired,
     activegamedata: PropTypes.array.isRequired,
     activethumbs: PropTypes.object.isRequired,
     cachedgametitles: PropTypes.object.isRequired,

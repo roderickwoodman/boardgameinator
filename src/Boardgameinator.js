@@ -45,7 +45,7 @@ export class Boardgameinator extends React.Component {
             filterPlayercount: true,
             filterWeight: true,
             localGameList: [],
-            routedGames: [],
+            routedGames: {},
             sortOrder: 'maxtitlevotes',
             user: '_me_', // FIXME: implement user auths
             windowWidth: 0,
@@ -89,6 +89,10 @@ export class Boardgameinator extends React.Component {
         if (routed_new_list.length && routed_addto_list.length) {
             routed_addto_list = [] // ignore addto_list if new_list exists
         }
+        let updated_routedGames = {}
+        updated_routedGames['new_list'] = [...routed_new_list]
+        updated_routedGames['addto_list'] = [...routed_addto_list]
+        this.setState({ routedGames: updated_routedGames })
 
         const stored_localGameList = JSON.parse(localStorage.getItem("localGameList"))
         if (stored_localGameList !== null) {
@@ -108,9 +112,6 @@ export class Boardgameinator extends React.Component {
         } else {
             this.setState({ activePoll: 'local' })
         }
-
-        let update_routedGames = [ ...routed_new_list, ...routed_addto_list ]
-        this.setState({ routedGames: update_routedGames })
 
         const stored_gamedataVersion = JSON.parse(localStorage.getItem("gamedataVersion"))
         if (stored_gamedataVersion === this.gamedataVersion) {

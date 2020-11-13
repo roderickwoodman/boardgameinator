@@ -588,6 +588,15 @@ html, #root {
   border-radius: 10px;
 }
 
+.message .title {
+  font-style: italic;
+}
+
+.message .title:before,
+.message .title:after {
+  content: '"';
+}
+
 .callout {
   font-weight: 800;
   text-decoration-line: underline;

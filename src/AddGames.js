@@ -141,7 +141,9 @@ export const AddGames = (props) => {
         if (message.hasOwnProperty('append_titles')) {
             return (
                 message.append_titles.map( (title, idx) => 
-                    <span key={idx} className="title">{title}</span>
+                    (idx === 0)
+                    ? <span key={idx} className="title">{title}</span>
+                    : <span>, <span key={idx} className="title">{title}</span></span>
                 )
             )
         } else {

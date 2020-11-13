@@ -156,7 +156,7 @@ export const AddGames = (props) => {
             return (
                 message.append_titles.map( (title, idx) => 
                     (idx === 0)
-                    ? <span>- <span key={idx} className="title">{title}</span></span>
+                    ? <span> - <span key={idx} className="title">{title}</span></span>
                     : <span>, <span key={idx} className="title">{title}</span></span>
                 )
             )

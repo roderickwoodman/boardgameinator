@@ -69,6 +69,7 @@ export const collectGamedataForTitles = async (cachedgametitles, game_titles) =>
         does_not_exist: [],               // INPUT ERROR: bad title string
         already_active: [],               // INPUT ERROR: title is already active
         games_byid_not_in_cache: {},      // input title string is actually an ID
+        games_byid_dict: {},              // mapping of all input IDs to titles
         games_withdisambig_not_in_cache: {},  // input title string includes year disambiguation
         ambiguous_cached_games: {},       // cannot activate the game yet
         ambiguous_new_gamedata: {},       // add this new game data to cache, but cannot activate the game yet
@@ -95,6 +96,7 @@ export const collectGamedataForTitles = async (cachedgametitles, game_titles) =>
             // user title is actually an ID that was found in the cache 
             if (all_cached_ids.includes(parseInt(title))) {
                 let cache_entry = Object.entries(cachedgametitles).filter( game =>  game[1].id===parseInt(title))[0][1]
+                status.games_byid_dict[cache_entry.unambiguous_name] = cache_entry.id
                 if (cache_entry.active) {
                     status.already_active.push(cache_entry.unambiguous_name)
                 } else { 
@@ -242,11 +244,13 @@ export const collectGamedataForTitles = async (cachedgametitles, game_titles) =>
 
         // collect game data for other titles
         } else if (get_gamedata_still_ambiguous.includes(this_gamedata.id)) {
-            new_gamedata['unambiguous_name'] = this_gamedata.name + ' (' + this_gamedata.year_published + ')'
+            let unambiguous_name = this_gamedata.name + ' (' + this_gamedata.year_published + ')'
+            new_gamedata['unambiguous_name'] = unambiguous_name
 
             // if user supplied a game ID originally, but its title was ambiguous, apply that disambiguation
             if (status.games_byid_not_in_cache.hasOwnProperty(this_gamedata.name)) {
                 if (status.games_byid_not_in_cache[this_gamedata.name] === this_gamedata.id) {
+                    status.games_byid_dict[unambiguous_name] = this_gamedata.id
                     status.new_gamedata_to_activate.push(new_gamedata)
                 } else {
                     status.new_gamedata_to_cache.push(new_gamedata)
@@ -344,12 +348,12 @@ export const validateUserTitles = async (cached_titles, user_titles) => {
     let title_count_already_active = 0, append_titles_alreadyactive = []
     for (let active_title of collection_result.already_active) {
         title_count_already_active += 1
-        if (collection_result.games_byid_not_in_cache.hasOwnProperty(active_title)) {
-            game_id_txt = '[#' + collection_result.games_byid_not_in_cache[active_title] + '] '
+        if (collection_result.games_byid_dict.hasOwnProperty(active_title)) {
+            game_id_txt = '[#' + collection_result.games_byid_dict[active_title] + '] '
         } else {
             game_id_txt = ''
         }
-        append_titles_alreadyactive.push(game_id_txt + displayNameForMessages(active_title))
+        append_titles_alreadyactive.push(game_id_txt + active_title)
         keep_modal_open = true
     }
     if (title_count_already_active > 0) {

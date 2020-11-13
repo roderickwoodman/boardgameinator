@@ -317,7 +317,7 @@ export const validateUserTitles = async (cached_titles, user_titles) => {
     let new_messages = []
     Object.entries(collection_result.ambiguous_cached_games).forEach(function(ambiguous_cached_title_info) {
         let ambiguous_cachedids_arr = JSON.parse(JSON.stringify(ambiguous_cached_title_info[1]))
-        new_messages.push({ message_str: 'Which version of "'+ ambiguous_cached_title_info[0] + '"? ', ambiguous: ambiguous_cachedids_arr })
+        new_messages.push({ message_str: 'Which version of "'+ ambiguous_cached_title_info[0] + '"? ', ambiguous: ambiguous_cachedids_arr, error_flag: false })
         keep_modal_open = true
     })
     Object.entries(collection_result.ambiguous_new_gamedata).forEach(function(ambiguous_title_info) {
@@ -329,7 +329,7 @@ export const validateUserTitles = async (cached_titles, user_titles) => {
         // this title was a user-supplied name string and still requires user disambiguation
         } else {
             let ambiguous_gamedata_arr = JSON.parse(JSON.stringify(ambiguous_title_info[1]))
-            new_messages.push({ message_str: 'Which version of "'+ ambiguous_title_info[0] + '"? ', ambiguous: ambiguous_gamedata_arr })
+            new_messages.push({ message_str: 'Which version of "'+ ambiguous_title_info[0] + '"? ', ambiguous: ambiguous_gamedata_arr, error_flag: false })
             keep_modal_open = true
         }
     })
@@ -362,12 +362,13 @@ export const validateUserTitles = async (cached_titles, user_titles) => {
         if (title_count_already_active === 1) {
             prepend_titles_alreadyactive = [...append_titles_alreadyactive]
             append_titles_alreadyactive = []
-            message_txt = 'ERROR: ' + title_count_already_active + ' title is already active'
+            message_txt = 'is already active'
         } else {
             prepend_titles_alreadyactive = []
-            message_txt = 'ERROR: ' + title_count_already_active + ' titles are already active'
+            message_txt = title_count_already_active + ' titles are already active'
         }
         new_messages.push({ 
+          error_flag: true,
           message_str: message_txt,
           prepend_titles: prepend_titles_alreadyactive,
           append_titles: append_titles_alreadyactive
@@ -390,12 +391,13 @@ export const validateUserTitles = async (cached_titles, user_titles) => {
         if (title_count_does_not_exist === 1) {
             prepend_titles_doesnotexist = [...append_titles_doesnotexist]
             append_titles_doesnotexist = []
-            message_txt = 'ERROR: ' + title_count_does_not_exist + ' title does not exist'
+            message_txt = 'does not exist'
         } else {
             prepend_titles_doesnotexist = []
-            message_txt = 'ERROR: ' + title_count_does_not_exist + ' titles do not exist'
+            message_txt = title_count_does_not_exist + ' titles do not exist'
         }
         new_messages.push({ 
+          error_flag: true,
           message_str: message_txt,
           prepend_titles: prepend_titles_doesnotexist,
           append_titles: append_titles_doesnotexist
@@ -442,13 +444,14 @@ export const validateUserTitles = async (cached_titles, user_titles) => {
         if (title_count_to_add === 1) {
             prepend_titles_toadd = [...append_titles_toadd]
             append_titles_toadd = []
-            message_txt = 'ERROR: ' + title_count_to_add + other_txt + ' title does not exist'
+            message_txt = 'Adding'
 
         } else {
             prepend_titles_toadd = []
-            message_txt = 'ERROR: ' + title_count_to_add + other_txt + ' titles do not exist'
+            message_txt = 'Adding ' + title_count_to_add + other_txt + ' titles'
         }
         new_messages.push({ 
+          error_flag: false,
           message_str: message_txt,
           prepend_titles: prepend_titles_toadd,
           append_titles: append_titles_toadd

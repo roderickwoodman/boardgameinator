@@ -137,6 +137,20 @@ export const AddGames = (props) => {
         }
     }
 
+    const prependTitles = (message) => {
+        if (message.hasOwnProperty('prepend_titles')) {
+            return (
+                message.prepend_titles.map( (title, idx) => 
+                    (idx === 0)
+                    ? <span key={idx} className="title">{title}</span>
+                    : <span>, <span key={idx} className="title">{title}</span></span>
+                )
+            )
+        } else {
+            return null
+        }
+    }
+
     const appendTitles = (message) => {
         if (message.hasOwnProperty('append_titles')) {
             return (
@@ -195,8 +209,8 @@ export const AddGames = (props) => {
                             .map(
                                 (message, i) => {
                                     return (message.message_str.toLowerCase().startsWith("error"))
-                                    ? <p key={i} className="message error">{message.message_str}{appendTitles(message)} {addButton(message)}</p>
-                                    : <p key={i} className="message"><FontAwesomeIcon icon={faLongArrowAltRight} /> {message.message_str}{appendTitles(message)} {addButton(message)}</p>
+                                    ? <p key={i} className="message error">{prependTitles(message)}{message.message_str}{appendTitles(message)} {addButton(message)}</p>
+                                    : <p key={i} className="message"><FontAwesomeIcon icon={faLongArrowAltRight} /> {prependTitles(message)}{message.message_str}{appendTitles(message)} {addButton(message)}</p>
                                 }
                             )
                         }

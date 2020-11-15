@@ -656,6 +656,10 @@ export class Boardgameinator extends React.Component {
                 allGameData: updated_allGameData,
             }
         })
+
+        if (validation_result !== null && validation_result.routed_games_treatment !== 'none') {
+            this.props.history.push('/')
+        }
     }
 
     handleSortChange(event, value) {

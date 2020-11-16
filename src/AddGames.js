@@ -68,10 +68,10 @@ export const AddGames = (props) => {
     useEffect( () => {
         async function addRoutedGames() {
             let validation_list = [], routing_treatment = 'none'
-            if (props.routedgames.new_list.length > 0) {
+            if (props.routedgames.hasOwnProperty('new_list') && props.routedgames.new_list.length > 0) {
                 validation_list = [...props.routedgames.new_list]
                 routing_treatment = 'replace'
-            } else if (props.routedgames.addto_list.length > 0) {
+            } else if (props.routedgames.hasOwnProperty('addto_list') && props.routedgames.addto_list.length > 0) {
                 validation_list = [...props.routedgames.addto_list]
                 routing_treatment = 'append'
             }

@@ -571,7 +571,7 @@ export class Boardgameinator extends React.Component {
 
         this.setState(prevState => {
 
-            let updated_activeGameList = [], updated_activeThumbs = {}, updated_localGameList = [...prevState.localGameList]
+            let updated_activeGameList = [], updated_activeThumbs = {}, updated_localGameList = [...prevState.localGameList], updated_routedGames = {}
             let updated_allGameData = JSON.parse(JSON.stringify(prevState.allGameData))
             let routed_games_treatment = (validation_result !== null) ? validation_result.routed_games_treatment : 'none'
             let updated_poll_name = poll_name
@@ -654,6 +654,7 @@ export class Boardgameinator extends React.Component {
                 activeThumbs: updated_activeThumbs,
                 localGameList: updated_localGameList,
                 allGameData: updated_allGameData,
+                routedGames: updated_routedGames
             }
         })
 

@@ -116,9 +116,9 @@ export const AddGames = (props) => {
         setUserTitlesInput(event.target.value)
     }
 
-    const handleSubmit5 = async (event) => {
+    const handleGetMeStarted = async (event) => {
         event.preventDefault()
-        processAddGamesRequest('11, 148228, 161936, 199478, 9209')
+        processAddGamesRequest('148228, 199478, 172081, 175914, 126163, 178900, 251678, 6830, 93, 73439, 132531, 194655')
     }
 
     const handleSubmit = async (event) => {
@@ -213,7 +213,7 @@ export const AddGames = (props) => {
                     <section className="buttonrow">
                         <input size="30" value={userTitlesInput} onChange={handleChange} placeholder="(exact game title or BGG ID)" required/>
                         <button onClick={handleSubmit} className="default-primary-styles">Add</button>
-                        <button onClick={handleSubmit5} className="default-primary-styles">Add5</button>
+                        <button onClick={handleGetMeStarted} className="default-primary-styles">Get Me Started!</button>
                     </section>
                     <div className="status-messages">
                         { statusMessages

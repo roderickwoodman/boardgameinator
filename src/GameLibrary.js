@@ -199,7 +199,7 @@ export const collectGamedataForTitles = async (cachedgametitles, game_titles) =>
         let all_versions_of_this_title = []
         all_results_for_title.forEach(function (one_similar_result) {
             let new_disambiguation
-            if (one_similar_result.name === titles_to_api_lookup[idx]) {
+            if (one_similar_result.name.toLowerCase() === titles_to_api_lookup[idx].toLowerCase()) {
                 new_disambiguation = JSON.parse(JSON.stringify(one_similar_result))
                 all_versions_of_this_title.push(new_disambiguation)
             }

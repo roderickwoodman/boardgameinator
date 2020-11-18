@@ -214,12 +214,17 @@ export const AddGames = (props) => {
                         <input size="30" value={userTitlesInput} onChange={handleChange} placeholder="(exact game title or BGG ID)" required/>
                         <button onClick={handleSubmit} className="default-primary-styles">Add</button>
                     </section>
-                    <section>
-                        OR
-                    </section>
-                    <section className="buttonrow">
-                        <button onClick={handleGetMeStarted} className="default-primary-styles">Show me 12 good games!</button>
-                    </section>
+                    { !statusMessages.length ?
+                    <div>
+                        <section>
+                            OR
+                        </section>
+                        <section className="buttonrow">
+                            <button onClick={handleGetMeStarted} className="default-primary-styles">Show me 12 good games!</button>
+                        </section>
+                    </div>
+                    : null
+                    }
                     <div className="status-messages">
                         { statusMessages
                             .map(

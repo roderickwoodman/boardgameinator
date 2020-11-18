@@ -112,18 +112,28 @@ export const AddGames = (props) => {
     }
 
     const handleChange = (event) => {
+        event.preventDefault()
         setUserTitlesInput(event.target.value)
+    }
+
+    const handleSubmit5 = async (event) => {
+        event.preventDefault()
+        processAddGamesRequest('11, 148228, 161936, 199478, 9209')
     }
 
     const handleSubmit = async (event) => {
         event.preventDefault()
-        let delimiter, num_nonblank_lines = userTitlesInput.split(/\r\n|\r|\n/).filter(line => line !== '').length
+        processAddGamesRequest(userTitlesInput)
+    }
+
+    const processAddGamesRequest = async (requested_games) => {
+        let delimiter, num_nonblank_lines = requested_games.split(/\r\n|\r|\n/).filter(line => line !== '').length
         if (num_nonblank_lines > 1) {
             delimiter = '\n'
         } else {
             delimiter = ','
         }
-        let userTitles = userTitlesInput
+        let userTitles = requested_games
             .split(delimiter)
             .map(str => str.trim())
             .map(str => str.replace(/[^0-9a-zA-Z:()&!–#' ]/g, ""))
@@ -203,6 +213,7 @@ export const AddGames = (props) => {
                     <section className="buttonrow">
                         <input size="30" value={userTitlesInput} onChange={handleChange} placeholder="(exact game title or BGG ID)" required/>
                         <button onClick={handleSubmit} className="default-primary-styles">Add</button>
+                        <button onClick={handleSubmit5} className="default-primary-styles">Add5</button>
                     </section>
                     <div className="status-messages">
                         { statusMessages

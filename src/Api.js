@@ -1,5 +1,5 @@
 export function exactSearchApi(title) {
-    let url = 'https://boardgamegeek.com/xmlapi2/search?type=boardgame&exact=1&query=' + title.replace(' ', '+').replace(':', '+')
+    let url = 'https://boardgamegeek.com/xmlapi2/search?type=boardgame&exact=1&query=' + title.replaceAll(' ', '+').replaceAll(':', '+')
     return (
         fetch(url)
         .then(exactSearchResponse => exactSearchResponse.text())
@@ -8,7 +8,7 @@ export function exactSearchApi(title) {
 }
 
 export function searchApi(title) {
-    let url = 'https://boardgamegeek.com/xmlapi2/search?type=boardgame&query='+ title.replace(' ', '+').replace(':', '+')
+    let url = 'https://boardgamegeek.com/xmlapi2/search?type=boardgame&query='+ title.replaceAll(' ', '+').replaceAll(':', '+')
     return (
         fetch(url)
         .then(searchResponse => searchResponse.text())

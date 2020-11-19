@@ -457,15 +457,19 @@ export class Boardgameinator extends React.Component {
                 } else {
                     if (updated_activeThumbs.attributes[votingtype].hasOwnProperty(votingon)) {
                         let updated_thisattribute = JSON.parse(JSON.stringify(updated_activeThumbs.attributes[votingtype][votingon]))
+                        // clear this user's previously vote on this attribute
                         if (updated_thisattribute.hasOwnProperty(newvote)
                             && updated_thisattribute[newvote].includes(prevState.user)) {
-                            updated_thisattribute[newvote] = updated_thisattribute[newvote].filter( user => user !== prevState.user )
+                            let updated_vote = updated_thisattribute[newvote].filter( user => user !== prevState.user )
+                            updated_thisattribute[newvote] = updated_vote
+                        // add this user's new vote to this attribute
                         } else {
                             let updated_vote = [prevState.user]
                             updated_thisattribute[newvote] = updated_vote
                         }
                         updated_activeThumbs.attributes[votingtype][votingon] = updated_thisattribute
                     } else {
+                        // add this user's new vote to this attribute
                         let updated_vote = {}
                         updated_vote[newvote] = [prevState.user]
                         updated_activeThumbs.attributes[votingtype][votingon] = updated_vote

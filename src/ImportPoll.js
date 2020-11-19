@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
+import Spinner from 'react-bootstrap/Spinner'
 
 const hardcoded_polls = [
     {
@@ -69,9 +70,11 @@ const hardcoded_polls = [
 export const ImportPoll = (props) => {
 
     const [ inputValue, setInputValue ] = useState(props.activepoll)
+    const [ loading, setLoading ] = useState(false)
 
     const handleChange = (event) => {
         setInputValue(event.target.value)
+        setLoading(true)
         if (event.target.value === 'local') {
             let no_poll = {
                 id: 'local',
@@ -114,7 +117,12 @@ export const ImportPoll = (props) => {
                                 value={poll.name}
                                 checked={inputValue === poll.name}
                                 onChange={handleChange} />
-                            &nbsp;{poll.name} ({gamecount}, {votecount})</label>
+                            &nbsp;{poll.name} ({gamecount}, {votecount})&nbsp;
+                            { loading && inputValue === poll.name &&
+                            <Spinner animation="border" size="sm" />
+                            }
+
+                            </label>
                     )})
             }
 

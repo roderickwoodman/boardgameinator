@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLongArrowAltRight } from '@fortawesome/free-solid-svg-icons'
 import { validateUserTitles } from './GameLibrary'
+import Spinner from 'react-bootstrap/Spinner'
 
 
 const withoutYear = (title) => {
@@ -64,6 +65,7 @@ export const AddGames = (props) => {
     const [ statusMessages, setStatusMessages ] = useState([])
     const [ gameValidations, setGameValidations ] = useState({})
     const [ selectedGamesToActivate, setSelectedGamesToActivate ] = useState([])
+    const [ loading, setLoading ] = useState(false)
 
     useEffect( () => {
         async function addRoutedGames() {
@@ -76,6 +78,7 @@ export const AddGames = (props) => {
                 routing_treatment = 'append'
             }
             if (validation_list.length > 0) {
+                setLoading(true)
                 let validation_result = await validateUserTitles(props.cachedgametitles, validation_list)
                 validation_result.gameValidations['routed_games_treatment'] = routing_treatment
                 setGameValidations(validation_result.gameValidations)
@@ -83,6 +86,8 @@ export const AddGames = (props) => {
                 if (!validation_result.keep_modal_open) {
                     doAddGames(validation_result.gameValidations, props.updategamevalidations)
                     return null
+                } else {
+                    setLoading(false)
                 }
             }
         }
@@ -138,12 +143,15 @@ export const AddGames = (props) => {
             .map(str => str.trim())
             .map(str => str.replace(/[^0-9a-zA-Z:()&!–#' ]/g, ""))
             .filter( function(e){return e} )
+        setLoading(true)
         let validation_result = await validateUserTitles(props.cachedgametitles, Array.from(new Set(userTitles)))
         setGameValidations(validation_result.gameValidations)
         newMessages(validation_result.messages)
         if (!validation_result.keep_modal_open) {
             doAddGames(validation_result.gameValidations, props.updategamevalidations)
             return null
+        } else {
+            setLoading(true)
         }
     }
 
@@ -213,6 +221,9 @@ export const AddGames = (props) => {
                     <section className="buttonrow">
                         <input size="30" value={userTitlesInput} onChange={handleChange} placeholder="(exact game title or BGG ID)" required/>
                         <button onClick={handleSubmit} className="default-primary-styles">Add</button>
+                        { loading && !statusMessages.length &&
+                            <Spinner animation="border" size="sm" />
+                        }
                     </section>
                     { !statusMessages.length ?
                     <div>

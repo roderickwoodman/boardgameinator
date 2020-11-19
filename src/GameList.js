@@ -127,7 +127,10 @@ export const GameList = (props) => {
         let playercounts = []
         if (props.activethumbs.attributes.hasOwnProperty('players')) {
             for (let playercount in props.activethumbs.attributes.players) {
-                playercounts.push(parseInt(playercount.slice(0, -1)))
+                if (props.activethumbs.attributes.players[playercount].hasOwnProperty('thumbsup') 
+                  && props.activethumbs.attributes.players[playercount].thumbsup.length) {
+                    playercounts.push(parseInt(playercount.slice(0, -1)))
+                }
             }
         }
         return playercounts
@@ -138,7 +141,10 @@ export const GameList = (props) => {
         let weights = []
         if (props.activethumbs.attributes.hasOwnProperty('weight')) {
             for (let weight in props.activethumbs.attributes.weight) {
-                weights.push(weight)
+                if (props.activethumbs.attributes.weight[weight].hasOwnProperty('thumbsup') 
+                  && props.activethumbs.attributes.weight[weight].thumbsup.length) {
+                    weights.push(weight)
+                }
             }
         }
         return weights

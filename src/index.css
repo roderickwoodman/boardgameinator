@@ -316,7 +316,6 @@ html, #root {
 
 .attribute.weight {
   height: 1.5rem;
-  flex: 0 0 100%;
 }
 
 .gamecard-weight .supported-playercount,

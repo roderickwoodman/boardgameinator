@@ -8,8 +8,8 @@ const hardcoded_polls = [
         name: 'Fake Poll A, VOTING DISABLED',
         pollThumbs: {
             titles: {
-                5782: { // Coloretto (2003)
-                    'thumbsup': ['Charles', 'Cassidy', 'Carlos']
+                126163: { // Tzolk'in
+                    'thumbsup': ['Terry', 'Tina', 'Thomas']
                 },
                 266192: { // Wingspan
                     'thumbsup': ['Wendy']
@@ -24,7 +24,7 @@ const hardcoded_polls = [
                     'thumbsup': ['Harry', '_me_']
                 },
             },
-            winners: [5782, 218603],
+            winners: [126163, 218603],
             total_title_votes: 10,
         }
     },
@@ -37,19 +37,23 @@ const hardcoded_polls = [
                     'thumbsup': ['Fran', 'Filipe', 'Fiona', '_me_']
                 },
                 266192: { // Wingspan
-                    'thumbsup': ['Wesley']
+                    'thumbsup': ['Wesley', 'Will']
                 },
                 31481: { // Galaxy Trucker
-                    'thumbsup': ['Gary', 'Gianna']
+                    'thumbsup': ['Gary']
                 },
                 199478: { // Flamme Rouge
+                    'thumbsup': ['Fred']
+                },
+                169786: { // Scythe
+                    'thumbsup': ['Sue']
                 },
                 9209: { // Ticket To Ride
-                    'thumbsup': ['Tina', 'Timothy', 'Trent']
+                    'thumbsup': ['Tina', 'Timothy']
                 },
             },
             winners: [175914],
-            total_title_votes: 10,
+            total_title_votes: 11,
         }
     },
     {
@@ -60,9 +64,12 @@ const hardcoded_polls = [
                 141791: { // Pinata
                     'thumbsup': ['Peggy']
                 },
+                162886: { // Spirit Island
+                    'thumbsup': ['Sue']
+                },
             },
-            winners: [175914],
-            total_title_votes: 1,
+            winners: [],
+            total_title_votes: 2,
         }
     }
 ]

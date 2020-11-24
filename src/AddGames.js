@@ -219,7 +219,7 @@ export const AddGames = (props) => {
         <div id="input-section">
                 <section id="input-by-title">
                     <section className="buttonrow">
-                        <input size="30" value={userTitlesInput} onChange={handleChange} placeholder="(exact game title or BGG ID)" required/>
+                        <input size="30" value={userTitlesInput} onChange={handleChange} placeholder="(exact game titles or BGG IDs)" required/>
                         <button onClick={handleSubmit} className="default-primary-styles">Add</button>
                         { loading && !statusMessages.length &&
                             <Spinner animation="border" size="sm" />
@@ -231,7 +231,7 @@ export const AddGames = (props) => {
                             OR
                         </section>
                         <section className="buttonrow">
-                            <button onClick={handleGetMeStarted} className="default-primary-styles">Show me 12 good games!</button>
+                            <button onClick={handleGetMeStarted} className="default-primary-styles">Show me some good games!</button>
                         </section>
                     </div>
                     : null

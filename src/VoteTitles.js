@@ -15,7 +15,7 @@ export const VoteTitles = (props) => {
         <VotingSection 
             type='title'
             elementid='game-titles'
-            title='TITLES:'
+            title={'TITLES ('+countsArray.length+'):'}
             counts={countsArray}
             sectionthumbs={props.titlethumbs}
             onnewvote={props.onnewvote}

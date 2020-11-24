@@ -711,8 +711,8 @@ export class Boardgameinator extends React.Component {
     }
 
     onHamburger(event) {
-        // FIXME: (WIP) add nav functionality
-        alert('(FIXME/WIP) Add nav functionality here.')
+        // FIXME: (WIP) add modal functionality
+        // alert('(FIXME/WIP) Make this a slide out menu of what are now buttons.')
     }
 
     render() {

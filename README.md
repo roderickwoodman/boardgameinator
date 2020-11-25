@@ -13,17 +13,18 @@ Any board game that has been added to this site can be upvoted. And any characte
 
 ### Who is it for?
 
-First of all, **Boardgameinator** IS NOT FOR geeks to manage their huge collections. 
+First of all, **Boardgameinator** *is not for* geeks to manage their huge collections. 
 
-Instead, this app IS FOR regular people who need help in selecting a board game. There are so many titles and so much hype in the industry these days, that selecting a board game can be overwhelming.
+Instead, this app *is for* regular people who need help in selecting a board game. There is so much hype in the industry these days, that this task can be overwhelming for some people.
 
 ### What do I do with it?
 
 It is easy to build and upvote a list of board games.
-1. **Add.** Click the "Add" button to add a board game by its title. 
-2. **Learn.** Click the info button on a game card to get a brief description about a game.
-3. **Upvote Attributes.** Click the "Vote Attributes" button to upvote an attribute across all games.
-4. **Upvote Games.** Click its thumbnail or the "Vote Titles" button to upvote the game itself.
+1. **Add a Game.** Click the "Add" button to add a board game by its title. 
+2. **Upvote Attributes.** Click the "Vote Attributes" button to upvote an attribute across all games.
+3. **Upvote Games.** Click its thumbnail or the "Vote Titles" button to upvote the game itself.
+
+If you need more information about any game before you make a decision to upvote, click the info button on a game card and you will get a brief description.
 
 ### Why is it so awesome?
 
@@ -31,17 +32,17 @@ The likability of any board game is so subjective and multifactorial, in the sam
 
 **Boardgameinator**, however, is a user-driven comparison tool similar to an e-commerce shopping experience. It displays information side-by-side, allowing you to converge on the right game for you based on your preferences.
 
-### What is it doing under the hood?
-
-Game data is pulled from [the BoardGameGeek API](https://boardgamegeek.com/wiki/page/BGG_XML_API2). All data is stored locally within the user's browser (aka: "local storage"). There are no user sessions or sensitive data for this application.
-
 ### DISCLAIMER
 
 This app has been designed for the author's needs only, in the author's spare time. By using this app, you are accepting it as-is.
 
-For most people, [the link above](https://roderickwoodman.github.io/boardgameinator/) will take you to the live, production version of the app on the Internet. But for developers who would like to run this app in development mode...
+For most people, [the link above](https://roderickwoodman.github.io/boardgameinator/) will take you to the live, production version of the app on the Internet. But for developers who would like more...
 
-### Running This App Locally
+### (For Developers) What is it doing under the hood?
+
+Game data is pulled from [the BoardGameGeek API](https://boardgamegeek.com/wiki/page/BGG_XML_API2). All data is stored locally within the user's browser (aka: "local storage"). There are no user sessions or sensitive data for this application.
+
+### (For Developers) Running this app locally
 
 As a one-time setup, copy the code for this app to your local machine. 
 ```

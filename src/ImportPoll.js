@@ -95,7 +95,7 @@ export const ImportPoll = (props) => {
 
     return (
         <React.Fragment>
-        <h4>Import poll:</h4>
+        <h4>Select a group poll:</h4>
         <div id="import-poll">
 
             <label 

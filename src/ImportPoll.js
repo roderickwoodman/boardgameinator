@@ -62,14 +62,14 @@ const hardcoded_polls = [
         pollThumbs: {
             titles: {
                 141791: { // Pinata
-                    'thumbsup': ['Peggy']
+                    'thumbsup': []
                 },
                 162886: { // Spirit Island
                     'thumbsup': ['Sue']
                 },
             },
             winners: [],
-            total_title_votes: 2,
+            total_title_votes: 1,
         }
     }
 ]

@@ -109,13 +109,13 @@ export const GameList = (props) => {
         }
     }, [])
 
-    const getThumbedTitles = (props) => {
+    const getThumbedTitleIds = (props) => {
         // collect all of the voted titles
         let titles = []
         if (props.activethumbs.hasOwnProperty('titles')) {
             for (let entry of Object.entries(props.activethumbs.titles)) {
-                if (entry[1] === 'thumbsup') {
-                    titles.push(entry[0])
+                if (entry[1].hasOwnProperty('thumbsup') && entry[1].thumbsup.length) {
+                    titles.push(parseInt(entry[0]))
                 }
             }
         }
@@ -234,11 +234,11 @@ export const GameList = (props) => {
 
     // apply a title filter, if configured and if title votes exist
     const filterTitles = (games) => {
-        let favoredTitles = getThumbedTitles(props)
+        let favoredTitleIds = getThumbedTitleIds(props)
         let filtered = games.filter(function(game) {
-            if (!props.filtertitles || !favoredTitles.length) {
+            if (!props.filtertitles || !favoredTitleIds.length) {
                 return true
-            } else if (favoredTitles.includes(game.name)) {
+            } else if (favoredTitleIds.includes(game.id)) {
                 return true
             } else {
                 return false

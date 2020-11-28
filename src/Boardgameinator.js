@@ -426,6 +426,8 @@ export class Boardgameinator extends React.Component {
     onNewVote(event) {
         const { votingtype, votingon, newvote } = Object.assign({}, event.currentTarget.dataset)
 
+        console.log('votingtype:',votingtype,' votingon:',votingon, ' newvote:',newvote)
+
         // title votes for polls are managed by the server
         if (votingtype === 'title' && this.state.activePoll !== 'local') {
 

@@ -40,7 +40,11 @@ For most people, [the link above](https://roderickwoodman.github.io/boardgameina
 
 ### (For Developers) What is it doing under the hood?
 
-Game data is pulled from [the BoardGameGeek API](https://boardgamegeek.com/wiki/page/BGG_XML_API2). All data is stored locally within the user's browser (aka: "local storage"). There are no user sessions or sensitive data for this application.
+Game data is pulled from [the BoardGameGeek API](https://boardgamegeek.com/wiki/page/BGG_XML_API2). All data is stored locally within the user's browser (aka: "local storage"). 
+
+API calls are minimized because when games are deleted, their data is kept so that subsequent calls for the same game ID are directed to cache. 
+
+There are no user sessions or sensitive data for this application. All personalization is kept in local storage and retrieved on browser refresh.
 
 ### (For Developers) Running this app locally
 
@@ -57,5 +61,3 @@ npm start
 ```
 
 Doing this will open a browser tab for viewing the app at [http://localhost:3000](http://localhost:3000). The page will reload if you make edits to your local code copies. You will also see any lint errors in the browser console. 
-
-FYI, this project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).  You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).

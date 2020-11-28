@@ -291,7 +291,7 @@ export const MainControls = (props) => {
     const CopyToClipboard = () => {
         return (
             <React.Fragment>
-            <button className="default-primary-styles"><FontAwesomeIcon icon={faClipboard} onClick={handleCopyToClipboard} disabled={!props.activegamedata.length} /></button>
+            <button className="default-primary-styles">Copy List <FontAwesomeIcon icon={faClipboard} onClick={handleCopyToClipboard} disabled={!props.activegamedata.length} /></button>
             <section>
                 <form>
                     <textarea id="games-clipboard" style={inlineStyle} defaultValue={clipboardValue}></textarea>

@@ -426,8 +426,6 @@ export class Boardgameinator extends React.Component {
     onNewVote(event) {
         const { votingtype, votingon, newvote } = Object.assign({}, event.currentTarget.dataset)
 
-        console.log('votingtype:',votingtype,' votingon:',votingon, ' newvote:',newvote)
-
         // title votes for polls are managed by the server
         if (votingtype === 'title' && this.state.activePoll !== 'local') {
 
@@ -727,7 +725,7 @@ export class Boardgameinator extends React.Component {
         return (
             <React.Fragment>
             <div id="page-header">
-                <button className="fa fa-button" onClick={ (e) => this.onHamburger(e) }><FontAwesomeIcon icon={faBars}/>
+                <button className="fa fa-button"><FontAwesomeIcon icon={faBars}/>
                     <img src={purpleMeeple} alt="Boardgameinator logo" />
                     <h1>{(this.state.activePoll === 'local') ? 'Boardgameinator' : this.state.activePoll}</h1>
                 </button>

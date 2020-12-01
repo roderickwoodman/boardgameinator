@@ -55,6 +55,7 @@ export const ViewControls = (props) => {
             <Modal size="md" show={filterIsOpen} onHide={hideFilterModal}>
                 <ModalBody>
                     <div id="gamefiltering-controls">
+                        <p className="warning">INFO: Filtering is disabled while a poll is selected.</p>
                         <h4>Show me only the board games matching an...</h4>
                         <button className={`default-secondary-styles ${(props.filtertitles) ? 'active-button' : ''}`} onClick={ (e) => props.onfilterchange(e, "titles") }>upvoted title</button>
                         <button className={`default-secondary-styles ${(props.filterplayercount) ? 'active-button' : ''}`} onClick={ (e) => props.onfilterchange(e, "playercount") }>upvoted player count</button>

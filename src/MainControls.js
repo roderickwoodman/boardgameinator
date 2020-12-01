@@ -172,7 +172,7 @@ export const MainControls = (props) => {
                 <Modal size="md" show={addErrorIsOpen} onHide={hideAddErrorModal}>
                     <ModalBody>
                         <div id="gameinput-controls">
-                            <p>INFO: Adding of games is disabled while "{props.activepoll}" is selected.</p>
+                            <p className="warning">INFO: Adding of games is disabled while a poll is selected. Use "Import Poll" button to deselect it.</p>
                         </div>
                     </ModalBody>
                     <ModalFooter> 

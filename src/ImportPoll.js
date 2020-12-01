@@ -9,22 +9,22 @@ const hardcoded_polls = [
         pollThumbs: {
             titles: {
                 126163: { // Tzolk'in
-                    'thumbsup': ['Terry', 'Tina', 'Thomas']
+                    'thumbsup': ['Terry', 'Tina', '_me_']
                 },
                 266192: { // Wingspan
-                    'thumbsup': ['Wendy']
+                    'thumbsup': ['Wendy', 'Wally', 'Wade']
                 },
                 28023: { // Jamaica
-                    'thumbsup': ['_me_']
+                    'thumbsup': ['Jerry']
                 },
                 218603: { // Photosynthesis
-                    'thumbsup': ['Patty', 'Peter', 'Paula']
+                    'thumbsup': ['Patty']
                 },
-                194626: { // Happy Salmon
-                    'thumbsup': ['Harry', '_me_']
+                237182: { // Root
+                    'thumbsup': ['Randy', '_me_']
                 },
             },
-            winners: [126163, 218603],
+            winners: [126163, 266192],
             total_title_votes: 10,
         }
     },

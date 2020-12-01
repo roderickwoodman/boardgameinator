@@ -646,6 +646,18 @@ export class Boardgameinator extends React.Component {
 
             }
 
+            // handle the disabling of filtering while a poll is active
+            let updated_filterPlayercount, updated_filterTitles, updated_filterWeight
+            if (poll_is_changing && updated_poll_name !== 'local') {
+                updated_filterPlayercount = false
+                updated_filterTitles = false
+                updated_filterWeight = false
+            } else {
+                updated_filterPlayercount = JSON.parse(localStorage.getItem("filterPlayercount"))
+                updated_filterTitles = JSON.parse(localStorage.getItem("filterTitles"))
+                updated_filterWeight = JSON.parse(localStorage.getItem("filterWeight"))
+            }
+
             localStorage.setItem('activeGameList', JSON.stringify(updated_activeGameList))
             localStorage.setItem('localGameList', JSON.stringify(updated_localGameList))
             localStorage.setItem('allGameData', JSON.stringify(updated_allGameData))
@@ -658,7 +670,10 @@ export class Boardgameinator extends React.Component {
                 activeThumbs: updated_activeThumbs,
                 localGameList: updated_localGameList,
                 allGameData: updated_allGameData,
-                routedGames: updated_routedGames
+                routedGames: updated_routedGames,
+                filterPlayercount: updated_filterPlayercount,
+                filterTitles: updated_filterTitles,
+                filterWeight: updated_filterWeight,
             }
         })
 
@@ -677,36 +692,38 @@ export class Boardgameinator extends React.Component {
     }
 
     handleFilterChange(event, value) {
-        switch (value) {
-            case 'titles':
-                this.setState(prevState => {
-                    let filterTitles = !prevState.filterTitles
-                    localStorage.setItem('filterTitles', JSON.stringify(filterTitles))
-                    return { 
-                        filterTitles: !this.state.filterTitles,
-                    }
-                })
-                break
-            case 'playercount':
-                this.setState(prevState => {
-                    let filterPlayercount = !prevState.filterPlayercount
-                    localStorage.setItem('filterPlayercount', JSON.stringify(filterPlayercount))
-                    return { 
-                        filterPlayercount: !this.state.filterPlayercount,
-                    }
-                })
-                break
-            case 'weight':
-                this.setState(prevState => {
-                    let filterWeight = !prevState.filterWeight
-                    localStorage.setItem('filterWeight', JSON.stringify(filterWeight))
-                    return { 
-                        filterWeight: !this.state.filterWeight,
-                    }
-                })
-                break
-            default:
-                break
+        if (this.state.activePoll === 'local') {
+            switch (value) {
+                case 'titles':
+                    this.setState(prevState => {
+                        let filterTitles = !prevState.filterTitles
+                        localStorage.setItem('filterTitles', JSON.stringify(filterTitles))
+                        return { 
+                            filterTitles: !this.state.filterTitles,
+                        }
+                    })
+                    break
+                case 'playercount':
+                    this.setState(prevState => {
+                        let filterPlayercount = !prevState.filterPlayercount
+                        localStorage.setItem('filterPlayercount', JSON.stringify(filterPlayercount))
+                        return { 
+                            filterPlayercount: !this.state.filterPlayercount,
+                        }
+                    })
+                    break
+                case 'weight':
+                    this.setState(prevState => {
+                        let filterWeight = !prevState.filterWeight
+                        localStorage.setItem('filterWeight', JSON.stringify(filterWeight))
+                        return { 
+                            filterWeight: !this.state.filterWeight,
+                        }
+                    })
+                    break
+                default:
+                    break
+            }
         }
     }
 

@@ -356,6 +356,10 @@ html, #root {
   border: 0.5rem solid black;
 }
 
+.game:not(.winner) {
+  border: 0.5rem solid #660066;
+}
+
 .game.inspecting .gamecard-overlay {
   top: 30px;
   left: -210px;

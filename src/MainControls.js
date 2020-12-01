@@ -245,7 +245,7 @@ export const MainControls = (props) => {
                 <Modal size="md" show={voteAttributesErrorIsOpen} onHide={hideVoteAttributesErrorModal}>
                     <ModalBody>
                         <div id="attribute-voting-controls">
-                            <p>INFO: Voting on attributes is for personal use only. Votes will not be not saved to "{props.activepoll}".</p>
+                            <p className="warning">INFO: Voting on attributes is for personal use only. Only title votes will be counted for games in a poll.</p>
                             <VoteAttributes 
                                 activegamedata={props.activegamedata}
                                 attrthumbs={props.activethumbs.attributes} 

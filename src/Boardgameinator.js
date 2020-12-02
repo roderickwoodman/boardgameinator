@@ -739,6 +739,9 @@ export class Boardgameinator extends React.Component {
         }
         const activeGameData = this.state.allGameData.filter( gameData => this.state.activeGameList.includes(gameData.id) )
         const cachedGameTitles = this.getCachedGameTitles()
+        let filterTitles = (this.state.filterTitles !== null && this.state.activePoll === 'local') ? this.state.filterTitles : false
+        let filterPlayercount = (this.state.filterPlayercount !== null && this.state.activePoll === 'local') ? this.state.filterPlayercount : false
+        let filterWeight = (this.state.filterWeight !== null && this.state.activePoll === 'local') ? this.state.filterWeight : false
         return (
             <React.Fragment>
             <div id="page-header">
@@ -749,9 +752,9 @@ export class Boardgameinator extends React.Component {
                 <ViewControls 
                 sortby={this.state.sortOrder}
                 onsortchange={this.handleSortChange}
-                filtertitles={this.state.filterTitles}
-                filterplayercount={this.state.filterPlayercount}
-                filterweight={this.state.filterWeight}
+                filtertitles={filterTitles}
+                filterplayercount={filterPlayercount}
+                filterweight={filterWeight}
                 onfilterchange={this.handleFilterChange} />
             </div>
             <div id="content-wrapper">
@@ -762,9 +765,9 @@ export class Boardgameinator extends React.Component {
                     addvalidatedgames={this.addValidatedGames}
                     activethumbs={this.state.activeThumbs} 
                     sortby={this.state.sortOrder}
-                    filtertitles={this.state.filterTitles}
-                    filterplayercount={this.state.filterPlayercount}
-                    filterweight={this.state.filterWeight}
+                    filtertitles={filterTitles}
+                    filterplayercount={filterPlayercount}
+                    filterweight={filterWeight}
                     ondelete={this.onDeleteTitle}
                     ondeleteall={this.onDeleteAllTitles}
                     onnewvote={this.onNewVote}

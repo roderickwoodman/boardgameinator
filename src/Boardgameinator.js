@@ -750,6 +750,7 @@ export class Boardgameinator extends React.Component {
                     <h1>{(this.state.activePoll === 'local') ? 'Boardgameinator' : this.state.activePoll}</h1>
                 </button>
                 <ViewControls 
+                activepoll={this.state.activePoll}
                 sortby={this.state.sortOrder}
                 onsortchange={this.handleSortChange}
                 filtertitles={filterTitles}

@@ -231,7 +231,7 @@ export const AddGames = (props) => {
                             OR
                         </section>
                         <section className="buttonrow">
-                            <button onClick={handleGetMeStarted} className="default-primary-styles">Show me some good games!</button>
+                            <button onClick={handleGetMeStarted} className="default-primary-styles">Show me some games!</button>
                         </section>
                     </div>
                     : null

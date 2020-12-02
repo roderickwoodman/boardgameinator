@@ -191,7 +191,9 @@ export const MainControls = (props) => {
             <Modal size="md" show={voteTitlesIsOpen} onHide={hideVoteTitlesModal}>
                 <ModalBody>
                     <div id="title-voting-controls">
-                    <p className="warning">INFO: Voting on titles in a poll is not yet supported.</p>
+                        { (props.activepoll !== 'local') &&
+                        <p className="warning">INFO: Voting on titles in a poll is not yet supported.</p>
+                        }
                         <VoteTitles
                             activegamedata={props.activegamedata} 
                             titlethumbs={props.activethumbs.titles} 

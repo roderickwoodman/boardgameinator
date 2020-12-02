@@ -211,6 +211,8 @@ export const AddGames = (props) => {
     let apply_button = ( (gameValidations.hasOwnProperty('ambiguous_title_count') && gameValidations.ambiguous_title_count > 0)
                        || (gameValidations.hasOwnProperty('cached_games_to_activate') && gameValidations.cached_games_to_activate.length > 0)
                        || (gameValidations.hasOwnProperty('new_gamedata_to_activate') && Object.keys(gameValidations.new_gamedata_to_activate).length > 0) )
+
+    let active_title_count = Object.values(props.cachedgametitles).filter( cachedata => cachedata.active ).length
     return (
         <React.Fragment>
 
@@ -225,7 +227,7 @@ export const AddGames = (props) => {
                             <Spinner animation="border" size="sm" />
                         }
                     </section>
-                    { !statusMessages.length ?
+                    { !statusMessages.length && !active_title_count ?
                     <div>
                         <section>
                             OR

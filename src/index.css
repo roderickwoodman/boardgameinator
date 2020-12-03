@@ -652,7 +652,7 @@ button.default-secondary-styles.active-button {
 }
 
 button.default-danger-styles {
-  background: red;
+  background: #d90000;
   color: white;
 }
 

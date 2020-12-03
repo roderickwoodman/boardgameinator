@@ -15,22 +15,22 @@ Any board game that has been added to this site can be upvoted. And any characte
 
 First of all, **Boardgameinator** *is not for* geeks to manage their huge collections. 
 
-Instead, this app *is for* regular people who need help in selecting a board game. There is so much hype in the industry these days, that this task can be overwhelming for some people.
+Instead, this app *is for* regular people who need help in selecting a board game. It can be overwhelming these days with so many titles being published every year.
 
 ### What do I do with it?
 
 It is easy to build and upvote a list of board games.
 1. **Add a Game.** Click the "Add" button to add a board game by its title. 
 2. **Upvote Attributes.** Click the "Vote Attributes" button to upvote an attribute across all games.
-3. **Upvote Games.** Click its thumbnail or the "Vote Titles" button to upvote the game itself.
+3. **Upvote Games.** Either click the "Vote Titles" button or click on a thumbnail to upvote the game itself.
 
 If you need more information about any game before you make a decision to upvote, click the info button on a game card and you will get a brief description.
 
 ### Why is it so awesome?
 
-The likability of any board game is so subjective and multifactorial, in the same way that a novel is. But the primary online resource for the board game industry, [BoardGameGeek](https://boardgamegeek.com) (BGG), is not great as a recommendation engine because it is organized like an encyclopedia.
+The likability of any board game is so subjective and multifactorial, in the same way that a novel is. And the primary online resource for the board game industry, [BoardGameGeek](https://boardgamegeek.com) (BGG), breaks down all of these factors very scientifically. However, it is organized like an encyclopedia and so it is not great at making the arbitrary comparisons that are needed to filter *out* information.
 
-**Boardgameinator**, however, is a user-driven comparison tool similar to an e-commerce shopping experience. It displays information side-by-side, allowing you to converge on the right game for you based on your preferences.
+**Boardgameinator**, however, is a user-driven comparison tool similar to an e-commerce shopping experience. It displays information side-by-side with sorting and filtering knobs, allowing you to converge on the right game for you based on your preferences.
 
 ### DISCLAIMER
 

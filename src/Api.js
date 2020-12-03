@@ -181,6 +181,8 @@ function parseIntoParagraphs(str) {
       .replace(/&amp;/g, '&')
       .replace(/&rsquo;/g, "'")
       .replace(/&quot;/g, '"')
+      .replace(/&ldquo;/g, '“')
+      .replace(/&rdquo;/g, '”')
       .replace(/&ndash;/g, '–')
       .replace(/&mdash;/g, '–')
       .replace(/&bull;/g, '∙')

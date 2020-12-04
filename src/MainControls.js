@@ -125,26 +125,32 @@ export const MainControls = (props) => {
     + Object.keys(props.activethumbs.attributes.mechanic).length
 
     const handleCopyToClipboard = () => {
-        let games = ""
-        props.activegamedata.forEach((game) => {
-            if (games === "") {
-                games += game.id
-            } else {
-                games = games + "+" + game.id
-            }
-        })
-        games = window.location.href + "?newlist=" + games
+        let games = "?newlist="
+        if (props.activegamedata.length) {
+            props.activegamedata.forEach((game) => {
+                if (games === "?newlist=") {
+                    games += game.id
+                } else {
+                    games = games + "+" + game.id
+                }
+            })
+        } else {
+            games = ""
+        }
+        games = window.location.href + games
         let clipboardElement = document.getElementById("games-clipboard")
         clipboardElement.value = games
         clipboardElement.select()
         document.execCommand("copy")
     }
+
     let clipboardValue = ""
     let inlineStyle = {
         position: "absolute",
         left: "-1000px",
         top: "-1000px"
     }
+
     const AddModal = () => {
         if (props.activepoll === 'local') {
             return (
@@ -294,7 +300,7 @@ export const MainControls = (props) => {
     const CopyToClipboard = () => {
         return (
             <React.Fragment>
-            <button className="default-primary-styles" onClick={handleCopyToClipboard} disabled={!props.activegamedata.length}>Copy List <FontAwesomeIcon icon={faClipboard} /></button>
+            <button className="default-primary-styles" onClick={handleCopyToClipboard} >Copy List <FontAwesomeIcon icon={faClipboard} /></button>
             <section>
                 <form>
                     <textarea id="games-clipboard" style={inlineStyle} defaultValue={clipboardValue}></textarea>

@@ -81,9 +81,17 @@ export class Boardgameinator extends React.Component {
         query_strings.split('&').forEach( function(query_string) {
             let qs = query_string.split('=')
             if (qs[0] === 'newlist') {
-                qs[1].split('+').forEach( game_id => routed_new_list.push(parseInt(game_id)) )
+                qs[1].split('+').forEach( function(game_id) {
+                  if (!routed_new_list.includes(parseInt(game_id))) {
+                    routed_new_list.push(parseInt(game_id))
+                  }
+                })
             } else if (qs[0] === 'addtolist') {
-                qs[1].split('+').forEach( game_id => routed_addto_list.push(parseInt(game_id)) )
+                qs[1].split('+').forEach( function(game_id) {
+                  if (!routed_addto_list.includes(parseInt(game_id))) {
+                    routed_addto_list.push(parseInt(game_id))
+                  }
+                })
             }
         })
         if (routed_new_list.length && routed_addto_list.length) {

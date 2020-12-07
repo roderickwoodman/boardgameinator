@@ -69,17 +69,12 @@ export class Boardgameinator extends React.Component {
 
     componentDidMount() {
 
-        let allGameData = []
-
-        let query_strings, routed_new_list = [], routed_addto_list = []
+        let allGameData = [], routed_new_list = [], routed_addto_list = []
         let path = this.props.location.search.slice(1).split('?')
-        if (path.length === 1) {
-            query_strings = path[0]
-        } else {
-            query_strings = path[1]
-        }
+
+        const query_strings = (path.length === 1) ? path[0] : path[1] 
         query_strings.split('&').forEach( function(query_string) {
-            let qs = query_string.split('=')
+            const qs = query_string.split('=')
             if (qs[0] === 'newlist') {
                 qs[1].split('+').forEach( function(game_id) {
                   if (!routed_new_list.includes(parseInt(game_id))) {
@@ -169,19 +164,19 @@ export class Boardgameinator extends React.Component {
     }
 
     updateDimensions() {
-        let windowWidth = typeof window !== 'undefined' ? window.innerWidth : 0
-        let windowHeight = typeof window !== 'undefined' ? window.innerHeight : 0
+        const windowWidth = typeof window !== 'undefined' ? window.innerWidth : 0
+        const windowHeight = typeof window !== 'undefined' ? window.innerHeight : 0
         this.setState({ windowWidth, windowHeight })
     }
 
     // for disambiguation of titles, the game ID will be put in parentheses when the API does not provide yearpublished info
     extractYearFromTitle(title) {
         if (typeof title === 'string' && title.length) {
-            let matchesDate = title.match(/(( +)\((-?)\d{1,4}\))$/)
+            const matchesDate = title.match(/(( +)\((-?)\d{1,4}\))$/)
             if (matchesDate !== null) {
                 return matchesDate[0].replace(/[^0-9-]/g, "")
             } else {
-                let matchesId = title.match(/(( +)\(#\d{1,6}\))$/)
+                const matchesId = title.match(/(( +)\(#\d{1,6}\))$/)
                 if (matchesId !== null) {
                     return matchesId[0].replace(/[^#0-9-]/g, "")
                 } else {
@@ -192,10 +187,10 @@ export class Boardgameinator extends React.Component {
     }
 
     getCachedGameTitles() {
-        let titles = {}, self = this
+        const titles = {}, self = this
         this.state.allGameData.forEach(function(gamedata) {
             if (gamedata.hasOwnProperty('unambiguous_name')) {
-                let new_cache_info = {
+                const new_cache_info = {
                     id: gamedata.id,
                     name: gamedata.name,
                     unambiguous_name: gamedata.unambiguous_name,
@@ -218,7 +213,7 @@ export class Boardgameinator extends React.Component {
     }
 
     gameSupportsPlayercount(game, playercount) {
-        let number = playercount.slice(0, -1)
+        const number = playercount.slice(0, -1)
         if (number <= game.attributes.max_players && number >= game.min_players) {
             return true
         } else {

@@ -15,7 +15,7 @@ export const GameCardFront = (props) => {
             let weight_vote = getWeightVote(attrName)
             classes += ' weight ' + weight_vote
         } else if (section === 'supported-playercount') {
-            let supported_players_vote = getPlayersVote(props.attributes.min_players, props.attributes.max_players)
+            const supported_players_vote = getPlayersVote(props.attributes.min_players, props.attributes.max_players)
             classes += ' supported-playercount ' + supported_players_vote
         } else {
             classes += (props.activethumbs.attributes[section].hasOwnProperty(attrName) 
@@ -45,7 +45,7 @@ export const GameCardFront = (props) => {
     const getPlayersVote = (myminplayers, mymaxplayers) => {
         let vote = "novote"
         Object.entries(props.activethumbs.attributes.players).forEach( (votedPlayercount) => {
-            let voted = parseInt(votedPlayercount[0].slice(0, -1))
+            const voted = parseInt(votedPlayercount[0].slice(0, -1))
             if (voted >= myminplayers
                 && voted <= mymaxplayers
                 && votedPlayercount[1].hasOwnProperty('thumbsup')
@@ -85,8 +85,8 @@ export const GameCardFront = (props) => {
     }
 
     const { id, thumbnail, activepoll, name, yearpublished, attributes, activethumbs, mythumbcounts, ontoggleinspection, onnewvote, ondelete, reallynarrow } = props
-    let upvoted_categories = getUpvotedCategories()
-    let upvoted_mechanics = getUpvotedMechanics()
+    const upvoted_categories = getUpvotedCategories()
+    const upvoted_mechanics = getUpvotedMechanics()
     let upvoted_attributes = [ ...upvoted_categories, ...upvoted_mechanics ].sort()
     return (
         <React.Fragment>

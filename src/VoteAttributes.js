@@ -8,7 +8,7 @@ export const VoteAttributes = (props) => {
     const [ votingOn, setVotingOn ] = useState('players')
 
     const handleSectionChange = (event) => {
-        let newSelection = event.target.id.replace(/select-/g, '')
+        const newSelection = event.target.id.replace(/select-/g, '')
         setVotingOn(newSelection)
     }
 
@@ -27,7 +27,7 @@ export const VoteAttributes = (props) => {
         for (const game of props.activegamedata) {
             for (let playercount=game.attributes.min_players; playercount<=game.attributes.max_players; playercount++) {
                 if (playercount <= 10) {
-                    let playerCountAttr = (playercount === 10) ? '10P+' : playercount + 'P'
+                    const playerCountAttr = (playercount === 10) ? '10P+' : playercount + 'P'
                     if (countsObj.hasOwnProperty(playerCountAttr)) {
                         countsObj[playerCountAttr] = countsObj[playerCountAttr] + 1
                     } else {
@@ -39,7 +39,7 @@ export const VoteAttributes = (props) => {
         // sort each attribute according to total occurrences
         let countsArray = []
         Object.keys(countsObj).forEach((elementTag) => {
-            let newCount = {'attrId': elementTag, 'attrName': elementTag, 'attrCount': countsObj[elementTag]}
+            const newCount = {'attrId': elementTag, 'attrName': elementTag, 'attrCount': countsObj[elementTag]}
             countsArray.push(newCount)
         })
         countsArray.sort((a, b) => (parseInt(a.attrName.slice(0, -1)) < parseInt(b.attrName.slice(0, -1))) ? 1 : -1)
@@ -57,9 +57,9 @@ export const VoteAttributes = (props) => {
             }
         }
         // sort weights into a predefined order
-        let weights = ["light", "medium light", "medium", "medium heavy", "heavy"]
+        const weights = ["light", "medium light", "medium", "medium heavy", "heavy"]
         let countsArray = []
-        for (let weight of weights) {
+        for (const weight of weights) {
             if (countsObj.hasOwnProperty(weight)) {
                 countsArray.push({'attrId': weight, 'attrName': weight, 'attrCount': countsObj[weight]})
             } else {
@@ -111,7 +111,7 @@ export const VoteAttributes = (props) => {
         return countsArray
     }
 
-    let attributestally = {
+    const attributestally = {
         playercounts: tallyPlayerCounts(props),
         weightcounts: tallyWeightCounts(props),
         categorycounts: tallyCategoryCounts(props),

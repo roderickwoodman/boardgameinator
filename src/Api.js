@@ -63,7 +63,6 @@ function parseGamedataApiXml(str) {
     }
     const responseDoc = new DOMParser().parseFromString(str, "application/xml")
     const gamesHtmlCollection = responseDoc.getElementsByTagName("item")
-    const makeReadable = parseIntoParagraphs
     if (gamesHtmlCollection.length) {
         game["id"] = parseInt(gamesHtmlCollection[0].id)
         gamesHtmlCollection[0].childNodes.forEach(
@@ -176,7 +175,7 @@ function parseGamedataApiXml(str) {
     return game
 }
 
-function parseIntoParagraphs(str) {
+function makeReadable(str) {
     const paragraphs = str
       .replace(/&amp;/g, '&')
       .replace(/&rsquo;/g, "'")

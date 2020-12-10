@@ -1,5 +1,5 @@
 export function exactSearchApi(title) {
-    let url = 'https://boardgamegeek.com/xmlapi2/search?type=boardgame&exact=1&query=' + title.replaceAll(' ', '+').replaceAll(':', '+')
+    const url = 'https://boardgamegeek.com/xmlapi2/search?type=boardgame&exact=1&query=' + title.replaceAll(' ', '+').replaceAll(':', '+')
     return (
         fetch(url)
         .then(exactSearchResponse => exactSearchResponse.text())
@@ -8,7 +8,7 @@ export function exactSearchApi(title) {
 }
 
 export function searchApi(title) {
-    let url = 'https://boardgamegeek.com/xmlapi2/search?type=boardgame&query='+ title.replaceAll(' ', '+').replaceAll(':', '+')
+    const url = 'https://boardgamegeek.com/xmlapi2/search?type=boardgame&query='+ title.replaceAll(' ', '+').replaceAll(':', '+')
     return (
         fetch(url)
         .then(searchResponse => searchResponse.text())
@@ -17,7 +17,7 @@ export function searchApi(title) {
 }
 
 export function gamedataApi(gameId) {
-    let url =  'https://boardgamegeek.com/xmlapi2/thing?type=boardgame&stats=1&ratingcomments=1&videos=1&id=' + gameId
+    const url =  'https://boardgamegeek.com/xmlapi2/thing?type=boardgame&stats=1&ratingcomments=1&videos=1&id=' + gameId
     return (
         fetch(url)
         .then(gamedataResponse => gamedataResponse.text())
@@ -27,9 +27,9 @@ export function gamedataApi(gameId) {
 
 function parseSearchApiXml(resp_str) {
     let games = []
-    let responseDoc = new DOMParser().parseFromString(resp_str, 'application/xml')
-    let gamesHtmlCollection = responseDoc.getElementsByTagName("item")
-    for (let matchedGame of gamesHtmlCollection) {
+    const responseDoc = new DOMParser().parseFromString(resp_str, 'application/xml')
+    const gamesHtmlCollection = responseDoc.getElementsByTagName("item")
+    for (const matchedGame of gamesHtmlCollection) {
         let game = {}
         game['id'] = parseInt(matchedGame.id)
         matchedGame.childNodes.forEach(
@@ -61,9 +61,9 @@ function parseGamedataApiXml(str) {
             "mechanics": []
         }
     }
-    let responseDoc = new DOMParser().parseFromString(str, "application/xml")
-    let gamesHtmlCollection = responseDoc.getElementsByTagName("item")
-    let makeReadable = parseIntoParagraphs
+    const responseDoc = new DOMParser().parseFromString(str, "application/xml")
+    const gamesHtmlCollection = responseDoc.getElementsByTagName("item")
+    const makeReadable = parseIntoParagraphs
     if (gamesHtmlCollection.length) {
         game["id"] = parseInt(gamesHtmlCollection[0].id)
         gamesHtmlCollection[0].childNodes.forEach(
@@ -112,7 +112,7 @@ function parseGamedataApiXml(str) {
                                             }
                                             if (grandchildNode.tagName === "averageweight") {
                                                 game.attributes["average_weight"] = grandchildNode.getAttribute("value")
-                                                let weight = parseFloat(game.attributes.average_weight)
+                                                const weight = parseFloat(game.attributes.average_weight)
                                                 let weightname = null
                                                 if (weight < 1.5) {
                                                     weightname = "light"
@@ -137,10 +137,10 @@ function parseGamedataApiXml(str) {
                         node.childNodes.forEach(
                             function (childNode) {
                                 if (childNode.tagName === "comment") {
-                                    let comment = childNode.getAttribute("value")
+                                    const comment = childNode.getAttribute("value")
                                     if (comment.length > 30 && comment.length < 800) {
-                                        let author = childNode.getAttribute("username")
-                                        let newComment = {"comment": comment, "author": author}
+                                        const author = childNode.getAttribute("username")
+                                        const newComment = {"comment": comment, "author": author}
                                         if (game.hasOwnProperty("comments")) {
                                             game["comments"].push(newComment)
                                         } else {
@@ -155,10 +155,10 @@ function parseGamedataApiXml(str) {
                                 if ((childNode.tagName === "video") 
                                     && (childNode.getAttribute("language") === "English")
                                     && (childNode.getAttribute("category") === "review")) {
-                                    let title = childNode.getAttribute("title")
-                                    let link = childNode.getAttribute("link")
-                                    let author = childNode.getAttribute("username")
-                                    let newVideo = {"title": title, "link": link, "author": author}
+                                    const title = childNode.getAttribute("title")
+                                    const link = childNode.getAttribute("link")
+                                    const author = childNode.getAttribute("username")
+                                    const newVideo = {"title": title, "link": link, "author": author}
                                     if (game.hasOwnProperty("videos")) {
                                         game["videos"].push(newVideo)
                                     } else {
@@ -177,7 +177,7 @@ function parseGamedataApiXml(str) {
 }
 
 function parseIntoParagraphs(str) {
-    let paragraphs = str
+    const paragraphs = str
       .replace(/&amp;/g, '&')
       .replace(/&rsquo;/g, "'")
       .replace(/&quot;/g, '"')

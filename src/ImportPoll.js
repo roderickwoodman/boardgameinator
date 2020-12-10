@@ -83,7 +83,7 @@ export const ImportPoll = (props) => {
         setInputValue(event.target.value)
         setLoading(true)
         if (event.target.value === 'local') {
-            let no_poll = {
+            const no_poll = {
                 id: 'local',
                 name: 'local',
             }
@@ -112,8 +112,8 @@ export const ImportPoll = (props) => {
 
             { hardcoded_polls
                 .map( (poll,i) => {
-                    let gamecount = Object.keys(poll.pollThumbs.titles).length + ' ' + ((Object.keys(poll.pollThumbs.titles).length === 1) ? 'game' : 'games')
-                    let votecount = poll.pollThumbs.total_title_votes + ' ' + ((poll.pollThumbs.total_title_votes === 1) ? 'vote' : 'votes')
+                    const gamecount = Object.keys(poll.pollThumbs.titles).length + ' ' + ((Object.keys(poll.pollThumbs.titles).length === 1) ? 'game' : 'games')
+                    const votecount = poll.pollThumbs.total_title_votes + ' ' + ((poll.pollThumbs.total_title_votes === 1) ? 'vote' : 'votes')
                     return (
                         <label 
                             key={i}

@@ -19,12 +19,12 @@ const doAddGames = (raw_validated_games, add_fn) => {
     // apply selected games to the ambiguous gamedata
     if (raw_validated_games.ambiguous_title_count !== 0) {
 
-        let selected_base_names = raw_validated_games.selected_games_to_activate.map( unambiguous_name => withoutYear(unambiguous_name) )
+        const selected_base_names = raw_validated_games.selected_games_to_activate.map( unambiguous_name => withoutYear(unambiguous_name) )
         let updated_new_gamedata_to_activate = []
         let updated_new_gamedata_to_cache = []
         Object.entries(raw_validated_games.ambiguous_new_gamedata).forEach(function(possible_versions) {
             possible_versions[1].forEach(function(game_version) {
-                let new_gamedata = JSON.parse(JSON.stringify(game_version))
+                const new_gamedata = JSON.parse(JSON.stringify(game_version))
                 if (selected_base_names.includes(game_version.name)) {
                     if (raw_validated_games.selected_games_to_activate.includes(game_version.unambiguous_name)) {
                         updated_new_gamedata_to_activate.push(new_gamedata)
@@ -138,13 +138,13 @@ export const AddGames = (props) => {
         } else {
             delimiter = ','
         }
-        let userTitles = requested_games
+        const userTitles = requested_games
             .split(delimiter)
             .map(str => str.trim())
             .map(str => str.replace(/[^0-9a-zA-Z:()&!–#' ]/g, ""))
             .filter( function(e){return e} )
         setLoading(true)
-        let validation_result = await validateUserTitles(props.cachedgametitles, Array.from(new Set(userTitles)))
+        const validation_result = await validateUserTitles(props.cachedgametitles, Array.from(new Set(userTitles)))
         setGameValidations(validation_result.gameValidations)
         newMessages(validation_result.messages)
         if (!validation_result.keep_modal_open) {
@@ -208,11 +208,11 @@ export const AddGames = (props) => {
         return null
     }
 
-    let apply_button = ( (gameValidations.hasOwnProperty('ambiguous_title_count') && gameValidations.ambiguous_title_count > 0)
+    const apply_button = ( (gameValidations.hasOwnProperty('ambiguous_title_count') && gameValidations.ambiguous_title_count > 0)
                        || (gameValidations.hasOwnProperty('cached_games_to_activate') && gameValidations.cached_games_to_activate.length > 0)
                        || (gameValidations.hasOwnProperty('new_gamedata_to_activate') && Object.keys(gameValidations.new_gamedata_to_activate).length > 0) )
 
-    let active_title_count = Object.values(props.cachedgametitles).filter( cachedata => cachedata.active ).length
+    const active_title_count = Object.values(props.cachedgametitles).filter( cachedata => cachedata.active ).length
     return (
         <React.Fragment>
 

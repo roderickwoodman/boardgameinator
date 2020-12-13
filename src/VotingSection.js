@@ -42,7 +42,7 @@ const VotableElement = (props) => {
 
 export const VotingSection = (props) => {
 
-    let origVotables = JSON.parse(JSON.stringify(props.counts))
+    const origVotables = JSON.parse(JSON.stringify(props.counts))
     let orderedVotables = JSON.parse(JSON.stringify(props.counts))
     // alphabetization is a 2nd-level sort, after the 1st sorting is by count 
     if (props.alphabetize) {

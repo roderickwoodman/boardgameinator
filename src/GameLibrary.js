@@ -91,7 +91,7 @@ export const collectGamedataForTitles = async (cachedgametitles, game_titles) =>
     let uncached_game_titles_that_are_numbers = [], game_titles_that_are_strings = []
     game_titles.forEach(function(title) {
 
-        if (!isNaN(parseInt(title))) {
+        if (!isNaN(Number(title))) {
 
             // user title is actually an ID that was found in the cache 
             if (all_cached_ids.includes(parseInt(title))) {

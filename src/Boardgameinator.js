@@ -681,7 +681,7 @@ export class Boardgameinator extends React.Component {
         })
 
         if (validation_result !== null && validation_result.routed_games_treatment !== 'none') {
-            this.props.history.push('/')
+            this.props.history.push('/boardgameinator')
         }
     }
 

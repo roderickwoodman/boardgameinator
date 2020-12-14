@@ -141,7 +141,7 @@ export const AddGames = (props) => {
         const userTitles = requested_games
             .split(delimiter)
             .map(str => str.trim())
-            .map(str => str.replace(/[^0-9a-zA-Z:()&!–#' ]/g, ""))
+            .map(str => str.replace(/[^0-9a-zA-Z:.()&!–#' ]/g, ""))
             .filter( function(e){return e} )
         setLoading(true)
         const validation_result = await validateUserTitles(props.cachedgametitles, Array.from(new Set(userTitles)))

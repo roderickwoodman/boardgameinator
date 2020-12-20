@@ -433,6 +433,8 @@ export class Boardgameinator extends React.Component {
         this.setState(prevState => {
             let updated_activeThumbs = JSON.parse(JSON.stringify(prevState.activeThumbs))
             updated_activeThumbs.attributes = voteupdates
+            updated_activeThumbs.total_title_votes = this.totalTitleVotes(updated_activeThumbs.titles)
+            updated_activeThumbs.total_attribute_votes = this.totalAttributeVotes(updated_activeThumbs.attributes)
             localStorage.setItem('activeThumbs', JSON.stringify(updated_activeThumbs))
 
             // update the master list of all preferences

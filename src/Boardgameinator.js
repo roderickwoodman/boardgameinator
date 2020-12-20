@@ -427,9 +427,25 @@ export class Boardgameinator extends React.Component {
             //     }})
     }
 
+    // FIXME: for now, only attributes can be batch-updated using this function
     // voteupdates:{title:{} players:{5P:thumbsup|novote} weight:{light:thumbsup} category:{Economic:thumbsup|novote}
     onNewVotes(voteupdates) {
-        console.log('voteupdates:',voteupdates)
+        this.setState(prevState => {
+            let updated_activeThumbs = JSON.parse(JSON.stringify(prevState.activeThumbs))
+            updated_activeThumbs.attributes = voteupdates
+            localStorage.setItem('activeThumbs', JSON.stringify(updated_activeThumbs))
+
+            // update the master list of all preferences
+            let updated_allThumbs = JSON.parse(JSON.stringify(prevState.allThumbs))
+            let updated_pollThumbs = JSON.parse(JSON.stringify(updated_activeThumbs))
+            updated_allThumbs['local'] = updated_pollThumbs
+            localStorage.setItem('allThumbs', JSON.stringify(updated_allThumbs))
+
+            return { 
+                activeThumbs: updated_activeThumbs,
+                allThumbs: updated_allThumbs,
+            }
+        })
     }
 
     // votingtype:title|players|weight|category|mechanic votingon:5P newvote:thumbsup
@@ -782,7 +798,8 @@ export class Boardgameinator extends React.Component {
                     filterweight={filterWeight}
                     ondelete={this.onDeleteTitle}
                     ondeleteall={this.onDeleteAllTitles}
-                    onnewvote={this.onNewVotes}
+                    onnewvote={this.onNewVote}
+                    onnewvotes={this.onNewVotes}
                     onclearsectionvotes={this.onClearSectionVotes}
                     activepoll={this.state.activePoll}
                     onviewpoll={this.onViewPoll}

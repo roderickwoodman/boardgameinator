@@ -237,7 +237,7 @@ export const MainControls = (props) => {
                             <VoteAttributes 
                                 activegamedata={props.activegamedata}
                                 attrthumbs={props.activethumbs.attributes} 
-                                onnewvote={props.onnewvote} />
+                                onnewvotes={props.onnewvotes} />
                         </div>
                     </ModalBody>
                     <ModalFooter> 
@@ -258,7 +258,7 @@ export const MainControls = (props) => {
                             <VoteAttributes 
                                 activegamedata={props.activegamedata}
                                 attrthumbs={props.activethumbs.attributes} 
-                                onnewvote={props.onnewvote} />
+                                onnewvotes={props.onnewvotes} />
                         </div>
                     </ModalBody>
                     <ModalFooter> 
@@ -337,6 +337,7 @@ MainControls.propTypes = {
     addvalidatedgames: PropTypes.func.isRequired,
     ondeleteall: PropTypes.func.isRequired,
     onnewvote: PropTypes.func.isRequired,
+    onnewvotes: PropTypes.func.isRequired,
     onclearsectionvotes: PropTypes.func.isRequired,
     activepoll: PropTypes.string.isRequired,
     onviewpoll: PropTypes.func.isRequired,

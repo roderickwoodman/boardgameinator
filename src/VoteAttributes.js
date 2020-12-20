@@ -55,10 +55,6 @@ export const VoteAttributes = (props) => {
         setUpdatedAttrthumbs(newThumbs)
     }
 
-    const clickApply = () => {
-        props.onnewvotes(updatedAttrthumbs)
-    }
-
     const tallyPlayerCounts = (props) => {
         // tally each allowable player count occurrence across all games
         let countsObj = {}
@@ -259,7 +255,7 @@ export const VoteAttributes = (props) => {
                 emptyMessage()
             }
         </div>
-        <button className="default-primary-styles" onClick={clickApply}>Apply</button>
+
         </React.Fragment>
     )
 }
@@ -267,5 +263,5 @@ export const VoteAttributes = (props) => {
 VoteAttributes.propTypes = {
     activegamedata: PropTypes.array.isRequired,
     attrthumbs: PropTypes.object.isRequired,
-    onnewvotes: PropTypes.func.isRequired,
+    onnewvote: PropTypes.func.isRequired,
 }

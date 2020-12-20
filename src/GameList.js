@@ -395,7 +395,6 @@ export const GameList = (props) => {
             addvalidatedgames={props.addvalidatedgames}
             ondeleteall={props.ondeleteall}
             onnewvote={props.onnewvote}
-            onnewvotes={props.onnewvotes}
             onclearsectionvotes={props.onclearsectionvotes}
             activepoll={props.activepoll}
             onviewpoll={props.onviewpoll} />
@@ -449,7 +448,6 @@ GameList.propTypes = {
     ondeleteall: PropTypes.func.isRequired,
     activethumbs: PropTypes.object.isRequired,
     onnewvote: PropTypes.func.isRequired,
-    onnewvotes: PropTypes.func.isRequired,
     onclearsectionvotes: PropTypes.func.isRequired,
     activepoll: PropTypes.string.isRequired,
     onviewpoll: PropTypes.func.isRequired,

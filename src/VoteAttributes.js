@@ -6,7 +6,6 @@ import { TransitionGroup, CSSTransition } from 'react-transition-group';
 export const VoteAttributes = (props) => {
 
     const [ votingOn, setVotingOn ] = useState('players')
-    const [ updatedAttrthumbs, setUpdatedAttrthumbs ] = useState(props.attrthumbs)
 
     const handleSectionChange = (event) => {
         const newSelection = event.target.id.replace(/select-/g, '')
@@ -20,39 +19,6 @@ export const VoteAttributes = (props) => {
                 <p>Please add game titles by clicking on "Add Games".</p>
             </span>
         )
-    }
-
-    const onNewVote = (event) => {
-
-        const { votingtype, votingon, newvote } = Object.assign({}, event.currentTarget.dataset)
-
-        let newThumbs = JSON.parse(JSON.stringify(updatedAttrthumbs));
-        let initNewvote = ['_me_'], initVotingon = {}, initVotingtype = {}
-        initVotingon[newvote] = initNewvote
-        initVotingtype[votingon] = initVotingon
-
-        // no votes have been recorded for this type
-        if ( !updatedAttrthumbs.hasOwnProperty(votingtype) ) {
-            newThumbs[votingtype] = initVotingtype
-
-        // no votes have been recorded for this attribute
-        } else if ( !updatedAttrthumbs[votingtype].hasOwnProperty(votingon) ) {
-            newThumbs[votingtype][votingon] = initVotingon
-
-        // no votes have been recorded for this vote value
-        } else if ( !updatedAttrthumbs[votingtype][votingon].hasOwnProperty(newvote) ) {
-            newThumbs[votingtype][votingon][newvote] = initNewvote
-
-        // this vote value for this attribute has been recorded previously, so update it
-        } else {
-            if (updatedAttrthumbs[votingtype][votingon][newvote].includes('_me_')) { 
-                newThumbs[votingtype][votingon][newvote] = updatedAttrthumbs[votingtype][votingon][newvote].filter( user => user !== '_me_' )
-            } else {
-                newThumbs[votingtype][votingon][newvote].push('_me_')
-            }
-        }
-
-        setUpdatedAttrthumbs(newThumbs)
     }
 
     const tallyPlayerCounts = (props) => {
@@ -179,8 +145,8 @@ export const VoteAttributes = (props) => {
                         elementid='supported-players'
                         title='PLAYERS:'
                         counts={attributestally.playercounts}
-                        sectionthumbs={updatedAttrthumbs['players']}
-                        onnewvote={onNewVote}
+                        sectionthumbs={props.attrthumbs['players']}
+                        onnewvote={props.onnewvote}
                         alphabetize={false}
                         suppresslowcounts={false}
                     />
@@ -199,8 +165,8 @@ export const VoteAttributes = (props) => {
                         elementid='weight-counts'
                         title='WEIGHT:'
                         counts={attributestally.weightcounts}
-                        sectionthumbs={updatedAttrthumbs['weight']}
-                        onnewvote={onNewVote}
+                        sectionthumbs={props.attrthumbs['weight']}
+                        onnewvote={props.onnewvote}
                         alphabetize={false}
                         suppresslowcounts={false}
                     />
@@ -219,8 +185,8 @@ export const VoteAttributes = (props) => {
                         elementid='category-counts'
                         title='CATEGORY:'
                         counts={attributestally.categorycounts}
-                        sectionthumbs={updatedAttrthumbs['category']}
-                        onnewvote={onNewVote}
+                        sectionthumbs={props.attrthumbs['category']}
+                        onnewvote={props.onnewvote}
                         alphabetize={true}
                         suppresslowcounts={true}
                     />
@@ -239,8 +205,8 @@ export const VoteAttributes = (props) => {
                         elementid='mechanic-counts'
                         title='MECHANIC:'
                         counts={attributestally.mechaniccounts}
-                        sectionthumbs={updatedAttrthumbs['mechanic']}
-                        onnewvote={onNewVote}
+                        sectionthumbs={props.attrthumbs['mechanic']}
+                        onnewvote={props.onnewvote}
                         alphabetize={true}
                         suppresslowcounts={true}
                     />

@@ -56,7 +56,6 @@ export class Boardgameinator extends React.Component {
         this.addValidatedGames = this.addValidatedGames.bind(this)
         this.deleteTitleInPoll = this.deleteTitleInPoll.bind(this)
         this.onNewVote = this.onNewVote.bind(this)
-        this.onNewVotes = this.onNewVotes.bind(this)
         this.onDeleteTitle = this.onDeleteTitle.bind(this)
         this.onDeleteAllTitles = this.onDeleteAllTitles.bind(this)
         this.onClearSectionVotes = this.onClearSectionVotes.bind(this)
@@ -427,15 +426,8 @@ export class Boardgameinator extends React.Component {
             //     }})
     }
 
-    // voteupdates:{title:{} players:{5P:thumbsup|novote} weight:{light:thumbsup} category:{Economic:thumbsup|novote}
-    onNewVotes(voteupdates) {
-        console.log('voteupdates:',voteupdates)
-    }
-
-    // votingtype:title|players|weight|category|mechanic votingon:5P newvote:thumbsup
     onNewVote(event) {
         const { votingtype, votingon, newvote } = Object.assign({}, event.currentTarget.dataset)
-        console.log('votingtype:'+votingtype+' votingon:'+votingon+' newvote:'+newvote);
 
         // title votes for polls are managed by the server
         if (votingtype === 'title' && this.state.activePoll !== 'local') {
@@ -782,7 +774,7 @@ export class Boardgameinator extends React.Component {
                     filterweight={filterWeight}
                     ondelete={this.onDeleteTitle}
                     ondeleteall={this.onDeleteAllTitles}
-                    onnewvote={this.onNewVotes}
+                    onnewvote={this.onNewVote}
                     onclearsectionvotes={this.onClearSectionVotes}
                     activepoll={this.state.activePoll}
                     onviewpoll={this.onViewPoll}

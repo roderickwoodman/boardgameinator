@@ -13,10 +13,10 @@ export const GameCardFront = (props) => {
         let classes = 'clickable attribute'
         if (section === 'weight') {
             let weight_vote = getWeightVote(attrName)
-            classes += ' weight ' + weight_vote
+            classes += ` weight ${weight_vote}`
         } else if (section === 'supported-playercount') {
             const supported_players_vote = getPlayersVote(props.attributes.min_players, props.attributes.max_players)
-            classes += ' supported-playercount ' + supported_players_vote
+            classes += ` supported-playercount ${supported_players_vote}`
         } else {
             classes += (props.activethumbs.attributes[section].hasOwnProperty(attrName) 
                         && props.activethumbs.attributes[section][attrName].hasOwnProperty('thumbsup')

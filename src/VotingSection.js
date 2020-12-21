@@ -9,10 +9,10 @@ const VotableElement = (props) => {
     const vote = (props.preferences.hasOwnProperty(props.votingon)
       && props.preferences[props.votingon].hasOwnProperty('thumbsup')
       && props.preferences[props.votingon].thumbsup.includes('_me_')) ? 'thumbsup' : 'novote'
-    elementStyle += ' ' + vote
+    elementStyle += ` ${vote}`
     let votable_text = props.votingonlabel
     if (props.attrcount > 1 || !props.suppresslowcounts) {
-        votable_text += ' ('+props.attrcount+')'
+        votable_text += ` (${props.attrcount})`
     }
     if (props.votingtype === 'category' || props.votingtype === 'mechanic') {
         votable_text = votable_text.toLowerCase()

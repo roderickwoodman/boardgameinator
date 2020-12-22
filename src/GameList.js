@@ -283,12 +283,21 @@ export const GameList = (props) => {
     // order the games
     const sortGames = (games, votecounts) => {
         // SORTING OPTIONS:
+        //   sort by alphabetical...  FIRST: alphabetical
         //   sort by maxtitlevotes... FIRST: most title votes,  SECOND: most attr votes
         //   sort by maxattrvotes...  FIRST: most attr votes,   SECOND: most title votes
         //   sort by minplaytime...   FIRST: shortest playtime, SECOND: most title votes, THIRD: most attr votes
         //   sort by maxplayers...    FIRST: most players,      SECOND: most title votes, THIRD: most attr votes
         const sorted = games.sort(function(a, b) {
-            if (props.sortby === 'maxtitlevotes') {
+            if (props.sortby === 'alphabetical') {
+                if (a.unambiguous_name < b.unambiguous_name) {
+                    return -1
+                } else if (a.unambiguous_name < b.unambiguous_name) {
+                    return 1
+                } else {
+                    return 0
+                }
+            } else if (props.sortby === 'maxtitlevotes') {
                 if (votecounts[a.id].titles < votecounts[b.id].titles) {
                     return 1
                 } else if (votecounts[a.id].titles > votecounts[b.id].titles) {

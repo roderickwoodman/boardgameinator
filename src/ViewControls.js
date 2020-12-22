@@ -40,6 +40,7 @@ export const ViewControls = (props) => {
                 <ModalBody>
                     <div id="gamesorting-controls">
                         <h4>Order the board games by the...</h4>
+                        <button className={`default-secondary-styles ${(props.sortby === 'alphabetical') ? 'active-button' : ''}`} onClick={ (e) => props.onsortchange(e, "alphabetical") }>alphabetical</button>
                         <button className={`default-secondary-styles ${(props.sortby === 'maxtitlevotes') ? 'active-button' : ''}`} onClick={ (e) => props.onsortchange(e, "maxtitlevotes") }>most title votes</button>
                         <button className={`default-secondary-styles ${(props.sortby === 'maxattrvotes') ? 'active-button' : ''}`} onClick={ (e) => props.onsortchange(e, "maxattrvotes") }>most attribute votes</button>
                         <button className={`default-secondary-styles ${(props.sortby === 'minplaytime') ? 'active-button' : ''}`} onClick={ (e) => props.onsortchange(e, "minplaytime") }>shortest playtime</button>

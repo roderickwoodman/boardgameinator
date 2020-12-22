@@ -46,7 +46,7 @@ export class Boardgameinator extends React.Component {
             filterWeight: true,
             localGameList: [],
             routedGames: {},
-            sortOrder: 'maxtitlevotes',
+            sortOrder: 'alphabetical',
             user: '_me_', // FIXME: implement user auths
             windowWidth: 0,
             windowHeight: 0

@@ -4,7 +4,7 @@ import Spinner from 'react-bootstrap/Spinner'
 
 const hardcoded_polls = [
     {
-        id: '1',
+        id: 1,
         name: 'Fake Poll A, VOTING DISABLED',
         pollThumbs: {
             titles: {
@@ -29,7 +29,7 @@ const hardcoded_polls = [
         }
     },
     {
-        id: '2',
+        id: 2,
         name: 'Fake Poll B, VOTING DISABLED',
         pollThumbs: {
             titles: {
@@ -57,7 +57,7 @@ const hardcoded_polls = [
         }
     },
     {
-        id: '3',
+        id: 3,
         name: 'Fake Poll C, VOTING DISABLED',
         pollThumbs: {
             titles: {

@@ -204,7 +204,7 @@ export const GameList = (props) => {
                 }
 
                 // poll winner
-                if (props.activepoll !== 'local'
+                if (props.activepoll.id !== 'local'
                   && props.activethumbs.hasOwnProperty('winners')
                   && props.activethumbs.winners.includes(game.id)) {
                     new_vote_counts.poll_rank = 1
@@ -458,7 +458,7 @@ GameList.propTypes = {
     activethumbs: PropTypes.object.isRequired,
     onnewvote: PropTypes.func.isRequired,
     onclearsectionvotes: PropTypes.func.isRequired,
-    activepoll: PropTypes.string.isRequired,
+    activepoll: PropTypes.object.isRequired,
     onviewpoll: PropTypes.func.isRequired,
     reallynarrow: PropTypes.bool.isRequired,
     user: PropTypes.string.isRequired,

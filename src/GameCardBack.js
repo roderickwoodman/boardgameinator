@@ -136,7 +136,7 @@ export const GameCardBack = (props) => {
 GameCardBack.propTypes = {
     id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
-    activepoll: PropTypes.string.isRequired,
+    activepoll: PropTypes.object.isRequired,
     activethumbs: PropTypes.object.isRequired,
     mythumbcounts: PropTypes.object,
     yearpublished: PropTypes.number,

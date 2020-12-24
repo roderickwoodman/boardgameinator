@@ -201,7 +201,7 @@ export const GameCardFront = (props) => {
 GameCardFront.propTypes = {
     id: PropTypes.number.isRequired,
     attributes: PropTypes.object.isRequired,
-    activepoll: PropTypes.string.isRequired,
+    activepoll: PropTypes.object.isRequired,
     activethumbs: PropTypes.object.isRequired,
     mythumbcounts: PropTypes.object,
     name: PropTypes.string.isRequired,

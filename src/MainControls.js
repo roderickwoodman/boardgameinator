@@ -152,7 +152,7 @@ export const MainControls = (props) => {
     }
 
     const AddModal = () => {
-        if (props.activepoll === 'local') {
+        if (props.activepoll.id === 'local') {
             return (
                 <React.Fragment>
                 <button className="default-primary-styles" onClick={showAddModal}>Add Games</button>
@@ -197,7 +197,7 @@ export const MainControls = (props) => {
             <Modal size="md" show={voteTitlesIsOpen} onHide={hideVoteTitlesModal}>
                 <ModalBody>
                     <div id="title-voting-controls">
-                        { (props.activepoll !== 'local') &&
+                        { (props.activepoll.id !== 'local') &&
                         <p className="warning">INFO: Voting on titles in a poll is not yet supported.</p>
                         }
                         <VoteTitles
@@ -208,13 +208,13 @@ export const MainControls = (props) => {
                     </div>
                 </ModalBody>
                 <ModalFooter> 
-                    { props.activepoll === 'local' && 
+                    { props.activepoll.id === 'local' && 
                         <React.Fragment>
                             <button className="default-danger-styles" onClick={props.ondeleteall} disabled={props.activegamedata.length===0}>Remove All Games</button>
                             <button className="default-danger-styles" data-votingtype="all_titles" onClick={props.onclearsectionvotes} disabled={num_title_votes===0}>Remove All Title Votes</button>
                         </React.Fragment>
                     }
-                    { props.activepoll !== 'local' && 
+                    { props.activepoll.id !== 'local' && 
                         <React.Fragment>
                             <button className="default-danger-styles" data-votingtype="all_titles" onClick={props.onclearsectionvotes}>Remove All Title Votes</button>
                         </React.Fragment>
@@ -227,7 +227,7 @@ export const MainControls = (props) => {
     }
 
     const VoteAttributesModal = () => {
-        if (props.activepoll === 'local') {
+        if (props.activepoll.id === 'local') {
             return (
                 <React.Fragment>
                 <button className="default-primary-styles" onClick={showVoteAttributesModal}>Vote Attributes</button>
@@ -338,6 +338,6 @@ MainControls.propTypes = {
     ondeleteall: PropTypes.func.isRequired,
     onnewvote: PropTypes.func.isRequired,
     onclearsectionvotes: PropTypes.func.isRequired,
-    activepoll: PropTypes.string.isRequired,
+    activepoll: PropTypes.object.isRequired,
     onviewpoll: PropTypes.func.isRequired,
 }

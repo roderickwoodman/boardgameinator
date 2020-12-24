@@ -76,7 +76,7 @@ const hardcoded_polls = [
 
 export const ImportPoll = (props) => {
 
-    const [ inputValue, setInputValue ] = useState(props.activepoll)
+    const [ inputValue, setInputValue ] = useState(props.activepoll.id)
     const [ loading, setLoading ] = useState(false)
 
     const handleChange = (event) => {
@@ -140,6 +140,6 @@ export const ImportPoll = (props) => {
 }
 
 ImportPoll.propTypes = {
-    activepoll: PropTypes.string.isRequired,
+    activepoll: PropTypes.object.isRequired,
     onviewpoll: PropTypes.func.isRequired,
 }

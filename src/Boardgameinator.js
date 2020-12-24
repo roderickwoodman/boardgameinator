@@ -15,7 +15,10 @@ export class Boardgameinator extends React.Component {
         super(props)
         this.state = { 
             activeGameList: [],
-            activePoll: 'local',
+            activePoll: { 
+                id: 'local',
+                name: 'local',
+            },
             allGameData: [],
             activeThumbs: {
                 attributes: {
@@ -113,7 +116,11 @@ export class Boardgameinator extends React.Component {
         if (stored_activePoll !== null) {
             this.setState({ activePoll: stored_activePoll })
         } else {
-            this.setState({ activePoll: 'local' })
+            const default_poll = {
+                id: 'local',
+                name: 'local',
+            }
+            this.setState({ activePoll: default_poll })
         }
 
         const stored_gamedataVersion = JSON.parse(localStorage.getItem("gamedataVersion"))
@@ -224,9 +231,9 @@ export class Boardgameinator extends React.Component {
     onDeleteTitle(event, id) {
 
         // title removals for polls are managed by the server
-        if (this.state.activePoll !== 'local') {
+        if (this.state.activePoll.id !== 'local') {
 
-            this.deleteTitleInPoll(this.state.activePoll, id, this.state.user)
+            this.deleteTitleInPoll(this.state.activePoll.id, id, this.state.user)
 
         // title removals for non-polls are kept on the client (state & local storage)
         } else {
@@ -333,7 +340,7 @@ export class Boardgameinator extends React.Component {
                 // update the master list of all preferences
                 let updated_allThumbs = JSON.parse(JSON.stringify(prevState.allThumbs))
                 let updated_pollThumbs = JSON.parse(JSON.stringify(activeThumbs))
-                updated_allThumbs[prevState.activePoll] = updated_pollThumbs
+                updated_allThumbs[prevState.activePoll.id] = updated_pollThumbs
                 localStorage.setItem('allThumbs', JSON.stringify(updated_allThumbs))
 
                 return { 
@@ -378,7 +385,7 @@ export class Boardgameinator extends React.Component {
             // update the master list of all preferences
             let updated_allThumbs = JSON.parse(JSON.stringify(prevState.allThumbs))
             let updated_pollThumbs = JSON.parse(JSON.stringify(activeThumbs))
-            updated_allThumbs[prevState.activePoll] = updated_pollThumbs
+            updated_allThumbs[prevState.activePoll.id] = updated_pollThumbs
             localStorage.setItem('allThumbs', JSON.stringify(updated_allThumbs))
 
             return { 
@@ -430,9 +437,9 @@ export class Boardgameinator extends React.Component {
         const { votingtype, votingon, newvote } = Object.assign({}, event.currentTarget.dataset)
 
         // title votes for polls are managed by the server
-        if (votingtype === 'title' && this.state.activePoll !== 'local') {
+        if (votingtype === 'title' && this.state.activePoll.id !== 'local') {
 
-            this.voteTitleInPoll(this.state.activePoll, votingon, newvote, this.state.user)
+            this.voteTitleInPoll(this.state.activePoll.id, votingon, newvote, this.state.user)
 
         // attribute votes and all non-poll votes are kept on the client (state & local storage)
         } else {
@@ -500,13 +507,13 @@ export class Boardgameinator extends React.Component {
     async onViewPoll(poll) {
 
         if (poll.name === 'local') {
-            this.addValidatedGamesWithPollContext(null, poll.name, null)
+            this.addValidatedGamesWithPollContext(null, poll, null)
         } else {
             let poll_game_ids = Object.keys(poll.pollThumbs.titles).map( title => parseInt(title) )
             let cachedGameTitles = this.getCachedGameTitles()
             let validation_result = await validateUserTitles(cachedGameTitles, poll_game_ids)
             let poll_thumbs = JSON.parse(JSON.stringify(poll.pollThumbs))
-            this.addValidatedGamesWithPollContext(validation_result.gameValidations, poll.name, poll_thumbs)
+            this.addValidatedGamesWithPollContext(validation_result.gameValidations, poll, poll_thumbs)
         }
 
     }
@@ -515,9 +522,9 @@ export class Boardgameinator extends React.Component {
         const { votingtype } = Object.assign({}, event.target.dataset)
 
         // title votes for polls are managed by the server
-        if (votingtype === 'all_titles' && this.state.activePoll !== 'local') {
+        if (votingtype === 'all_titles' && this.state.activePoll.id !== 'local') {
 
-            this.clearMyTitleVotesInPoll(this.state.activePoll, this.state.user)
+            this.clearMyTitleVotesInPoll(this.state.activePoll.id, this.state.user)
 
         // attribute votes and all non-poll votes are kept on the client (state & local storage)
         } else {
@@ -544,7 +551,7 @@ export class Boardgameinator extends React.Component {
                 // update the master list of all preferences
                 let updated_allThumbs = JSON.parse(JSON.stringify(updated_activeThumbs))
                 let updated_pollThumbs = JSON.parse(JSON.stringify(updated_activeThumbs))
-                updated_allThumbs[prevState.activePoll] = updated_pollThumbs
+                updated_allThumbs[prevState.activePoll.id] = updated_pollThumbs
                 localStorage.setItem('allThumbs', JSON.stringify(updated_allThumbs))
 
                 return { 
@@ -557,7 +564,7 @@ export class Boardgameinator extends React.Component {
     }
 
     addValidatedGames(validation_result) {
-        this.addValidatedGamesWithPollContext(validation_result, this.state.activePoll, this.state.allThumbs[this.state.activePoll])
+        this.addValidatedGamesWithPollContext(validation_result, this.state.activePoll, this.state.allThumbs[this.state.activePoll.id])
     }
 
     // when the poll is "local"...
@@ -574,21 +581,21 @@ export class Boardgameinator extends React.Component {
     //   1) the incoming set of games to add will either replace or be combined with the local active list
     //   2) the current active list will switch to the local set of games
     //
-    addValidatedGamesWithPollContext(validation_result, poll_name, poll_thumbs) {
+    addValidatedGamesWithPollContext(validation_result, active_poll, poll_thumbs) {
 
         this.setState(prevState => {
 
             let updated_activeGameList = [], updated_activeThumbs = {}, updated_localGameList = [...prevState.localGameList], updated_routedGames = {}
             let updated_allGameData = JSON.parse(JSON.stringify(prevState.allGameData))
             let routed_games_treatment = (validation_result !== null) ? validation_result.routed_games_treatment : 'none'
-            let updated_poll_name = poll_name
-            let poll_is_changing = (prevState.activePoll !== updated_poll_name) ? 1 : 0
+            let updated_active_poll = JSON.parse(JSON.stringify(active_poll))
+            let poll_is_changing = (prevState.activePoll.id !== updated_active_poll.id) ? 1 : 0
 
             // for routed and switching to local, set the poll and active game list to local before the adds happen
             if (routed_games_treatment === 'replace'
               || routed_games_treatment === 'append'
-              || (poll_is_changing && updated_poll_name === 'local') ) {
-                updated_poll_name = 'local'
+              || (poll_is_changing && updated_active_poll.id === 'local') ) {
+                updated_active_poll.id = 'local'
                 if (routed_games_treatment === 'replace') {
                     updated_activeGameList = []
                 } else {
@@ -618,7 +625,7 @@ export class Boardgameinator extends React.Component {
                     let new_gamedata = JSON.parse(JSON.stringify(each_newGameData))
                     new_gamedata["updated_at"] = now.getTime()
                     updated_activeGameList.push(new_gamedata.id)
-                    if (updated_poll_name === 'local') {
+                    if (updated_active_poll.id === 'local') {
                         updated_localGameList.push(new_gamedata.id)
                     }
                     updated_allGameData.push(new_gamedata)
@@ -642,7 +649,7 @@ export class Boardgameinator extends React.Component {
                 validation_result.cached_games_to_activate.forEach(cached_game_name => {
                     let id_to_activate = prevState.allGameData.filter( game_data => game_data.unambiguous_name === cached_game_name )[0].id
                     updated_activeGameList.push(id_to_activate)
-                    if (updated_poll_name === 'local') {
+                    if (updated_active_poll.id === 'local') {
                         updated_localGameList.push(id_to_activate)
                     }
                 })
@@ -651,7 +658,7 @@ export class Boardgameinator extends React.Component {
 
             // handle the disabling of filtering while a poll is active
             let updated_filterPlayercount, updated_filterTitles, updated_filterWeight
-            if (poll_is_changing && updated_poll_name !== 'local') {
+            if (poll_is_changing && updated_active_poll.id !== 'local') {
                 updated_filterPlayercount = false
                 updated_filterTitles = false
                 updated_filterWeight = false
@@ -664,11 +671,11 @@ export class Boardgameinator extends React.Component {
             localStorage.setItem('activeGameList', JSON.stringify(updated_activeGameList))
             localStorage.setItem('localGameList', JSON.stringify(updated_localGameList))
             localStorage.setItem('allGameData', JSON.stringify(updated_allGameData))
-            localStorage.setItem('activePoll', JSON.stringify(updated_poll_name))
+            localStorage.setItem('activePoll', JSON.stringify(updated_active_poll))
             localStorage.setItem('activeThumbs', JSON.stringify(updated_activeThumbs))
 
             return { 
-                activePoll: poll_name,
+                activePoll: updated_active_poll,
                 activeGameList: updated_activeGameList,
                 activeThumbs: updated_activeThumbs,
                 localGameList: updated_localGameList,
@@ -695,7 +702,7 @@ export class Boardgameinator extends React.Component {
     }
 
     handleFilterChange(event, value) {
-        if (this.state.activePoll === 'local') {
+        if (this.state.activePoll.id === 'local') {
             switch (value) {
                 case 'titles':
                     this.setState(prevState => {
@@ -742,15 +749,15 @@ export class Boardgameinator extends React.Component {
         }
         const activeGameData = this.state.allGameData.filter( gameData => this.state.activeGameList.includes(gameData.id) )
         const cachedGameTitles = this.getCachedGameTitles()
-        let filterTitles = (this.state.filterTitles !== null && this.state.activePoll === 'local') ? this.state.filterTitles : false
-        let filterPlayercount = (this.state.filterPlayercount !== null && this.state.activePoll === 'local') ? this.state.filterPlayercount : false
-        let filterWeight = (this.state.filterWeight !== null && this.state.activePoll === 'local') ? this.state.filterWeight : false
+        let filterTitles = (this.state.filterTitles !== null && this.state.activePoll.id === 'local') ? this.state.filterTitles : false
+        let filterPlayercount = (this.state.filterPlayercount !== null && this.state.activePoll.id === 'local') ? this.state.filterPlayercount : false
+        let filterWeight = (this.state.filterWeight !== null && this.state.activePoll.id === 'local') ? this.state.filterWeight : false
         return (
             <React.Fragment>
             <div id="page-header">
                 <button className="fa fa-button"><FontAwesomeIcon icon={faBars}/>
                     <img src={purpleMeeple} alt="Boardgameinator logo" />
-                    <h1>{(this.state.activePoll === 'local') ? 'Boardgameinator' : this.state.activePoll}</h1>
+                    <h1>{(this.state.activePoll.id === 'local') ? 'Boardgameinator' : this.state.activePoll.name}</h1>
                 </button>
                 <ViewControls 
                 activepoll={this.state.activePoll}

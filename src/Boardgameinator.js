@@ -122,14 +122,17 @@ export class Boardgameinator extends React.Component {
         // the games for the desired poll ID are not already known
         if ( (routed_pollid !== null && stored_activePoll === null)
           || (routed_pollid !== null && stored_activePoll !== null && stored_activePoll.id !== routed_pollid) ){
+              console.log('A: new poll')
             const routed_poll = importpollApi(routed_pollid);
             localStorage.setItem('activePoll', JSON.stringify(routed_poll))
         // the games for the desired poll ID are already known
         } else if ( (routed_pollid !== null && stored_activePoll !== null && stored_activePoll.id === routed_pollid) 
           || (routed_pollid === null && stored_activePoll !== null) ) {
-            this.setState({ activePoll: stored_activePoll })
+              console.log('B: same poll')
+            // this.setState({ activePoll: stored_activePoll })
         // no poll to load, so view the local active list
         } else {
+              console.log('C: no poll')
             const default_poll = {
                 id: 'local',
                 name: 'local',
@@ -519,8 +522,9 @@ export class Boardgameinator extends React.Component {
     }
 
     async onViewPoll(poll) {
+        console.log('===== VIEW POLL =====',poll)
 
-        if (poll.name === 'local') {
+        if (poll.id === 'local') {
             this.addValidatedGamesWithPollContext(null, poll, null)
         } else {
             let poll_game_ids = Object.keys(poll.pollThumbs.titles).map( title => parseInt(title) )
@@ -599,7 +603,8 @@ export class Boardgameinator extends React.Component {
 
         this.setState(prevState => {
 
-            let updated_activeGameList = [], updated_activeThumbs = {}, updated_localGameList = [...prevState.localGameList], updated_routedGames = {}
+            let updated_activeGameList = [], updated_activeThumbs = {}, updated_localGameList = [...prevState.localGameList]
+            let updated_routedGames = { new_list: [], addto_list: [], pollid: null }
             let updated_allGameData = JSON.parse(JSON.stringify(prevState.allGameData))
             let routed_games_treatment = (validation_result !== null) ? validation_result.routed_games_treatment : 'none'
             let updated_active_poll = JSON.parse(JSON.stringify(active_poll))
@@ -612,26 +617,31 @@ export class Boardgameinator extends React.Component {
                 updated_active_poll.id = 'local'
                 if (routed_games_treatment === 'replace') {
                     updated_activeGameList = []
+                    console.log('active A:',updated_activeGameList)
                 } else {
                     updated_activeGameList = [...prevState.localGameList]
+                    console.log('active B:',updated_activeGameList)
                 }
                 updated_activeThumbs = JSON.parse(JSON.stringify(prevState.allThumbs.local))
 
             // for other poll switching, the active game list is cleared before the adds happen
             } else if (poll_is_changing) {
                 updated_activeGameList = []
+                console.log('active C:',updated_activeGameList)
                 updated_activeThumbs = JSON.parse(JSON.stringify(poll_thumbs))
                 updated_activeThumbs.total_title_votes = poll_thumbs.total_title_votes
 
             // else, the poll remains the same and adds can happen
             } else {
                 updated_activeGameList = [...prevState.localGameList]
+                console.log('active D:',updated_activeGameList)
                 updated_activeThumbs = JSON.parse(JSON.stringify(prevState.allThumbs.local))
                 updated_activeThumbs.total_title_votes = poll_thumbs.total_title_votes
             }
 
             // now, add the new games
             if (validation_result !== null && (validation_result.new_gamedata_to_activate.length || validation_result.new_gamedata_to_cache)) {
+                console.log('NEW GAMEDATA TO ACTIVATE:',validation_result.new_gamedata_to_activate)
 
                 let now = new Date()
 
@@ -644,6 +654,7 @@ export class Boardgameinator extends React.Component {
                     }
                     updated_allGameData.push(new_gamedata)
                 })
+                console.log('active E:',updated_activeGameList)
 
                 Object.values(validation_result.new_gamedata_to_cache).forEach(each_newGameData => {
                     let new_gamedata = JSON.parse(JSON.stringify(each_newGameData))
@@ -659,12 +670,15 @@ export class Boardgameinator extends React.Component {
 
             // now, add the cached games
             if (validation_result !== null && validation_result.cached_games_to_activate.length) {
+                console.log('CACHED GAMES TO ACTIVATE:',validation_result.cached_games_to_activate)
 
                 validation_result.cached_games_to_activate.forEach(cached_game_name => {
                     let id_to_activate = prevState.allGameData.filter( game_data => game_data.unambiguous_name === cached_game_name )[0].id
                     updated_activeGameList.push(id_to_activate)
+                    // console.log('active F:',updated_activeGameList)
                     if (active_poll.id === 'local') {
                         updated_localGameList.push(id_to_activate)
+                        // console.log('active G:',updated_activeGameList)
                     }
                 })
 
@@ -682,6 +696,7 @@ export class Boardgameinator extends React.Component {
                 updated_filterWeight = JSON.parse(localStorage.getItem("filterWeight"))
             }
 
+            console.log('FINAL ACTIVE G:',updated_activeGameList)
             localStorage.setItem('activeGameList', JSON.stringify(updated_activeGameList))
             localStorage.setItem('localGameList', JSON.stringify(updated_localGameList))
             localStorage.setItem('allGameData', JSON.stringify(updated_allGameData))

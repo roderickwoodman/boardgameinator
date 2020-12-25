@@ -15,7 +15,6 @@ import { faClipboard } from '@fortawesome/free-solid-svg-icons'
 export const MainControls = (props) => {
 
     const [addIsOpen, setAddIsOpen] = useState(false)
-    const [addErrorIsOpen, setAddErrorIsOpen] = useState(false)
     const [voteAttributesIsOpen, setVoteAttributesIsOpen] = useState(false)
     const [voteAttributesErrorIsOpen, setVoteAttributesErrorIsOpen] = useState(false)
     const [voteTitlesIsOpen, setVoteTitlesIsOpen] = useState(false)
@@ -26,7 +25,6 @@ export const MainControls = (props) => {
         setVoteAttributesErrorIsOpen(false)
         setVoteTitlesIsOpen(false)
         setImportPollIsOpen(false)
-        setAddErrorIsOpen(false)
         setAddIsOpen(true)
     }
 
@@ -34,22 +32,8 @@ export const MainControls = (props) => {
         setAddIsOpen(false)
     }
 
-    const showAddErrorModal = () => {
-        setVoteAttributesIsOpen(false)
-        setVoteAttributesErrorIsOpen(false)
-        setVoteTitlesIsOpen(false)
-        setImportPollIsOpen(false)
-        setAddIsOpen(false)
-        setAddErrorIsOpen(true)
-    }
-
-    const hideAddErrorModal = () => {
-        setAddErrorIsOpen(false)
-    }
-
     const showVoteAttributesModal = () => {
         setAddIsOpen(false)
-        setAddErrorIsOpen(false)
         setVoteTitlesIsOpen(false)
         setImportPollIsOpen(false)
         setVoteAttributesErrorIsOpen(false)
@@ -62,7 +46,6 @@ export const MainControls = (props) => {
 
     const showVoteAttributesErrorModal = () => {
         setAddIsOpen(false)
-        setAddErrorIsOpen(false)
         setVoteTitlesIsOpen(false)
         setImportPollIsOpen(false)
         setVoteAttributesIsOpen(false)
@@ -75,7 +58,6 @@ export const MainControls = (props) => {
 
     const showVoteTitlesModal = () => {
         setAddIsOpen(false)
-        setAddErrorIsOpen(false)
         setVoteAttributesIsOpen(false)
         setVoteAttributesErrorIsOpen(false)
         setImportPollIsOpen(false)
@@ -88,7 +70,6 @@ export const MainControls = (props) => {
 
     const showImportPollModal = () => {
         setAddIsOpen(false)
-        setAddErrorIsOpen(false)
         setVoteAttributesIsOpen(false)
         setVoteAttributesErrorIsOpen(false)
         setVoteTitlesIsOpen(false)
@@ -152,42 +133,25 @@ export const MainControls = (props) => {
     }
 
     const AddModal = () => {
-        if (props.activepoll.id === 'local') {
-            return (
-                <React.Fragment>
-                <button className="default-primary-styles" onClick={showAddModal}>Add Games</button>
-                <Modal size="md" backdrop="static" show={addIsOpen} onHide={hideAddModal}>
-                    <ModalBody>
-                        <div id="gameinput-controls">
-                            <AddGames
-                                routedgames={props.routedgames}
-                                updategamevalidations={updateGameValidations}
-                                cachedgametitles={props.cachedgametitles} />
-                        </div>
-                    </ModalBody>
-                    <ModalFooter> 
-                        <button className="default-primary-styles" onClick={hideAddModal}>Close</button>
-                    </ModalFooter>
-                </Modal>
-                </React.Fragment>
-            )
-        } else {
-            return (
-                <React.Fragment>
-                <button className="default-primary-styles" onClick={showAddErrorModal}>Add Games</button>
-                <Modal size="md" show={addErrorIsOpen} onHide={hideAddErrorModal}>
-                    <ModalBody>
-                        <div id="gameinput-controls">
-                            <p className="warning">INFO: Adding of games is disabled while a poll is selected. Use "Import Poll" button to deselect it.</p>
-                        </div>
-                    </ModalBody>
-                    <ModalFooter> 
-                        <button className="default-primary-styles" onClick={hideAddErrorModal}>Close</button>
-                    </ModalFooter>
-                </Modal>
-                </React.Fragment>
-            )
-        }
+        return (
+            <React.Fragment>
+            <button className="default-primary-styles" onClick={showAddModal}>Add Games</button>
+            <Modal size="md" backdrop="static" show={addIsOpen} onHide={hideAddModal}>
+                <ModalBody>
+                    <div id="gameinput-controls">
+                        <AddGames
+                            activepoll={props.activepoll}
+                            routedgames={props.routedgames}
+                            updategamevalidations={updateGameValidations}
+                            cachedgametitles={props.cachedgametitles} />
+                    </div>
+                </ModalBody>
+                <ModalFooter> 
+                    <button className="default-primary-styles" onClick={hideAddModal}>Close</button>
+                </ModalFooter>
+            </Modal>
+            </React.Fragment>
+        )
     }
 
     const VoteTitlesModal = () => {

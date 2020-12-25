@@ -218,53 +218,64 @@ export const AddGames = (props) => {
                        || (gameValidations.hasOwnProperty('new_gamedata_to_activate') && Object.keys(gameValidations.new_gamedata_to_activate).length > 0) )
 
     const active_title_count = Object.values(props.cachedgametitles).filter( cachedata => cachedata.active ).length
-    return (
-        <React.Fragment>
 
-        <h4>Add board game by title:</h4>
+    const show_error = props.activepoll.id !== 'local'
 
-        <div id="input-section">
-                <section id="input-by-title">
-                    <section className="buttonrow">
-                        <input size="30" value={userTitlesInput} onChange={handleChange} placeholder="(exact game titles or BGG IDs)" required/>
-                        <button onClick={handleSubmit} className="default-primary-styles">Add</button>
-                        { loading && !statusMessages.length &&
-                            <Spinner animation="border" size="sm" />
-                        }
-                    </section>
-                    { !statusMessages.length && !active_title_count ?
-                    <div>
-                        <section>
-                            OR
-                        </section>
+    if (show_error) {
+        return (
+                <div id="input-section">
+                    <p className="warning">INFO: Adding of games is disabled while a poll is selected. Use "Import Poll" button to deselect it.</p>
+                </div>
+        )
+    } else {
+        return (
+            <React.Fragment>
+            <h4>Add board game by title:</h4>
+
+            <div id="input-section">
+                    <section id="input-by-title">
                         <section className="buttonrow">
-                            <button onClick={handleGetMeStarted} className="default-primary-styles">Show me some games!</button>
+                            <input size="30" value={userTitlesInput} onChange={handleChange} placeholder="(exact game titles or BGG IDs)" required/>
+                            <button onClick={handleSubmit} className="default-primary-styles">Add</button>
+                            { loading && !statusMessages.length &&
+                                <Spinner animation="border" size="sm" />
+                            }
                         </section>
-                    </div>
-                    : null
-                    }
-                    <div className="status-messages">
-                        { statusMessages
-                            .map(
-                                (message, i) => {
-                                    return (message.hasOwnProperty('error_flag') && message.error_flag)
-                                    ? <p key={i} className="message error">ERROR: {prependTitles(message)} {message.message_str}{appendTitles(message)} {addButton(message)}</p>
-                                    : <p key={i} className="message"><FontAwesomeIcon icon={faLongArrowAltRight} /> {prependTitles(message)} {message.message_str}{appendTitles(message)} {addButton(message)}</p>
-                                }
-                            )
+                        { !statusMessages.length && !active_title_count ?
+                        <div>
+                            <section>
+                                OR
+                            </section>
+                            <section className="buttonrow">
+                                <button onClick={handleGetMeStarted} className="default-primary-styles">Show me some games!</button>
+                            </section>
+                        </div>
+                        : null
                         }
-                    </div>
-                </section>
-                { apply_button &&
-                    <button className="default-primary-styles" onClick={clickApply}>Apply</button>
-                }
-        </div>
+                        <div className="status-messages">
+                            { statusMessages
+                                .map(
+                                    (message, i) => {
+                                        return (message.hasOwnProperty('error_flag') && message.error_flag)
+                                        ? <p key={i} className="message error">ERROR: {prependTitles(message)} {message.message_str}{appendTitles(message)} {addButton(message)}</p>
+                                        : <p key={i} className="message"><FontAwesomeIcon icon={faLongArrowAltRight} /> {prependTitles(message)} {message.message_str}{appendTitles(message)} {addButton(message)}</p>
+                                    }
+                                )
+                            }
+                        </div>
+                    </section>
+                    { apply_button &&
+                        <button className="default-primary-styles" onClick={clickApply}>Apply</button>
+                    }
+            </div>
+            </React.Fragment>
+        )
+    }
 
-        </React.Fragment>
-    )
 }
 
 AddGames.propTypes = {
+    activepoll: PropTypes.object.isRequired,
     routedgames: PropTypes.object.isRequired,
     updategamevalidations: PropTypes.func.isRequired,
     cachedgametitles: PropTypes.object.isRequired,

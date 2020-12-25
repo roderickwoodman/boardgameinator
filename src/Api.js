@@ -1,3 +1,5 @@
+import { hardcoded_polls } from './ImportPoll'
+
 export function exactSearchApi(title) {
     const url = 'https://boardgamegeek.com/xmlapi2/search?type=boardgame&exact=1&query=' + title.replaceAll(' ', '+').replaceAll(':', '+')
     return (
@@ -188,6 +190,11 @@ function makeReadable(str) {
       .replace(/&nbsp;/g, ' ')
       .split('&#10;');
     return paragraphs;
+}
+
+export function importpollApi(poll_id) {
+    console.log(`FIXME (WIP): implement the fetching of poll #${poll_id}.`)
+    return hardcoded_polls.filter( poll => poll.id === poll_id )[0]
 }
 
 export function voteinpollApi(poll_id, game_id, newvote, user) {

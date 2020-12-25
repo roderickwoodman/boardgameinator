@@ -4,7 +4,7 @@ import purpleMeeple from './img/purple-meeple-64.png'
 import { ViewControls } from './ViewControls'
 import { GameList } from './GameList'
 import { validateUserTitles } from './GameLibrary'
-import { voteinpollApi, clearmyvotesApi, deletetitleinpollApi } from './Api.js'
+import { importpollApi, voteinpollApi, clearmyvotesApi, deletetitleinpollApi } from './Api.js'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBars } from '@fortawesome/free-solid-svg-icons'
 
@@ -122,10 +122,7 @@ export class Boardgameinator extends React.Component {
         // the games for the desired poll ID are not already known
         if ( (routed_pollid !== null && stored_activePoll === null)
           || (routed_pollid !== null && stored_activePoll !== null && stored_activePoll.id !== routed_pollid) ){
-            const routed_poll = {
-                id: routed_pollid,
-                name: routed_pollid.toString(),
-            }
+            const routed_poll = importpollApi(routed_pollid);
             localStorage.setItem('activePoll', JSON.stringify(routed_poll))
             this.setState({ activePoll: routed_poll })
         // the games for the desired poll ID are already known

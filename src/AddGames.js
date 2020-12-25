@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLongArrowAltRight } from '@fortawesome/free-solid-svg-icons'
 import { validateUserTitles } from './GameLibrary'
+import { hardcoded_polls } from './ImportPoll'
 import Spinner from 'react-bootstrap/Spinner'
 
 
@@ -70,7 +71,11 @@ export const AddGames = (props) => {
     useEffect( () => {
         async function addRoutedGames() {
             let validation_list = [], routing_treatment = 'none'
-            if (props.routedgames.hasOwnProperty('new_list') && props.routedgames.new_list.length > 0) {
+            if (props.routedgames.hasOwnProperty('pollid') && props.routedgames.pollid !== null) {
+                const poll_games = Object.keys(hardcoded_polls.filter( poll => poll.id === props.routedgames.pollid )[0].pollThumbs.titles)
+                validation_list = [...poll_games]
+                routing_treatment = 'none'
+            } else if (props.routedgames.hasOwnProperty('new_list') && props.routedgames.new_list.length > 0) {
                 validation_list = [...props.routedgames.new_list]
                 routing_treatment = 'replace'
             } else if (props.routedgames.hasOwnProperty('addto_list') && props.routedgames.addto_list.length > 0) {

@@ -72,7 +72,7 @@ export class Boardgameinator extends React.Component {
 
     componentDidMount() {
 
-        let allGameData = [], routed_new_list = [], routed_addto_list = []
+        let allGameData = [], routed_new_list = [], routed_addto_list = [], routed_pollid = null
         let path = this.props.location.search.slice(1).split('?')
 
         const query_strings = (path.length === 1) ? path[0] : path[1] 
@@ -90,14 +90,20 @@ export class Boardgameinator extends React.Component {
                     routed_addto_list.push(parseInt(game_id))
                   }
                 })
+            } else if (qs[0] === 'poll' && !isNaN(parseInt(qs[1]))) {
+                routed_pollid = parseInt(qs[1])
             }
         })
-        if (routed_new_list.length && routed_addto_list.length) {
+        if (routed_pollid !== null) {
+            routed_addto_list = [] // ignore addto_list and new_list if poll ID exists
+            routed_new_list = []
+        } else if (routed_new_list.length && routed_addto_list.length) {
             routed_addto_list = [] // ignore addto_list if new_list exists
         }
         let updated_routedGames = {}
         updated_routedGames['new_list'] = [...routed_new_list]
         updated_routedGames['addto_list'] = [...routed_addto_list]
+        updated_routedGames['pollid'] = routed_pollid
         this.setState({ routedGames: updated_routedGames })
 
         const stored_localGameList = JSON.parse(localStorage.getItem("localGameList"))
@@ -113,8 +119,20 @@ export class Boardgameinator extends React.Component {
         }
 
         const stored_activePoll = JSON.parse(localStorage.getItem("activePoll"))
-        if (stored_activePoll !== null) {
+        // the games for the desired poll ID are not already known
+        if ( (routed_pollid !== null && stored_activePoll === null)
+          || (routed_pollid !== null && stored_activePoll !== null && stored_activePoll.id !== routed_pollid) ){
+            const routed_poll = {
+                id: routed_pollid,
+                name: routed_pollid.toString(),
+            }
+            localStorage.setItem('activePoll', JSON.stringify(routed_poll))
+            this.setState({ activePoll: routed_poll })
+        // the games for the desired poll ID are already known
+        } else if ( (routed_pollid !== null && stored_activePoll !== null && stored_activePoll.id === routed_pollid) 
+          || (routed_pollid === null && stored_activePoll !== null) ) {
             this.setState({ activePoll: stored_activePoll })
+        // no poll to load, so view the local active list
         } else {
             const default_poll = {
                 id: 'local',
@@ -589,7 +607,7 @@ export class Boardgameinator extends React.Component {
             let updated_allGameData = JSON.parse(JSON.stringify(prevState.allGameData))
             let routed_games_treatment = (validation_result !== null) ? validation_result.routed_games_treatment : 'none'
             let updated_active_poll = JSON.parse(JSON.stringify(active_poll))
-            let poll_is_changing = (prevState.activePoll.id !== updated_active_poll.id) ? 1 : 0
+            let poll_is_changing = (prevState.activePoll.id !== updated_active_poll.id) ? true : false
 
             // for routed and switching to local, set the poll and active game list to local before the adds happen
             if (routed_games_treatment === 'replace'

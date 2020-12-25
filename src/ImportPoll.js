@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import Spinner from 'react-bootstrap/Spinner'
 
-const hardcoded_polls = [
+export const hardcoded_polls = [
     {
         id: 1,
         name: 'Fake Poll A, VOTING DISABLED',

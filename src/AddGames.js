@@ -223,9 +223,9 @@ export const AddGames = (props) => {
 
     if (show_error) {
         return (
-                <div id="input-section">
-                    <p className="warning">INFO: Adding of games is disabled while a poll is selected. Use "Import Poll" button to deselect it.</p>
-                </div>
+            <div id="input-section">
+                <p className="warning">INFO: Adding of games is disabled while a poll is selected. Use "Import Poll" button to deselect it.</p>
+            </div>
         )
     } else {
         return (

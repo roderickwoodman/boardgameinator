@@ -124,7 +124,6 @@ export class Boardgameinator extends React.Component {
           || (routed_pollid !== null && stored_activePoll !== null && stored_activePoll.id !== routed_pollid) ){
             const routed_poll = importpollApi(routed_pollid);
             localStorage.setItem('activePoll', JSON.stringify(routed_poll))
-            this.setState({ activePoll: routed_poll })
         // the games for the desired poll ID are already known
         } else if ( (routed_pollid !== null && stored_activePoll !== null && stored_activePoll.id === routed_pollid) 
           || (routed_pollid === null && stored_activePoll !== null) ) {
@@ -604,12 +603,12 @@ export class Boardgameinator extends React.Component {
             let updated_allGameData = JSON.parse(JSON.stringify(prevState.allGameData))
             let routed_games_treatment = (validation_result !== null) ? validation_result.routed_games_treatment : 'none'
             let updated_active_poll = JSON.parse(JSON.stringify(active_poll))
-            let poll_is_changing = (prevState.activePoll.id !== updated_active_poll.id) ? true : false
+            let poll_is_changing = (prevState.activePoll.id !== active_poll.id) ? true : false
 
             // for routed and switching to local, set the poll and active game list to local before the adds happen
             if (routed_games_treatment === 'replace'
               || routed_games_treatment === 'append'
-              || (poll_is_changing && updated_active_poll.id === 'local') ) {
+              || (poll_is_changing && active_poll.id === 'local') ) {
                 updated_active_poll.id = 'local'
                 if (routed_games_treatment === 'replace') {
                     updated_activeGameList = []
@@ -640,7 +639,7 @@ export class Boardgameinator extends React.Component {
                     let new_gamedata = JSON.parse(JSON.stringify(each_newGameData))
                     new_gamedata["updated_at"] = now.getTime()
                     updated_activeGameList.push(new_gamedata.id)
-                    if (updated_active_poll.id === 'local') {
+                    if (active_poll.id === 'local') {
                         updated_localGameList.push(new_gamedata.id)
                     }
                     updated_allGameData.push(new_gamedata)
@@ -664,7 +663,7 @@ export class Boardgameinator extends React.Component {
                 validation_result.cached_games_to_activate.forEach(cached_game_name => {
                     let id_to_activate = prevState.allGameData.filter( game_data => game_data.unambiguous_name === cached_game_name )[0].id
                     updated_activeGameList.push(id_to_activate)
-                    if (updated_active_poll.id === 'local') {
+                    if (active_poll.id === 'local') {
                         updated_localGameList.push(id_to_activate)
                     }
                 })
@@ -673,7 +672,7 @@ export class Boardgameinator extends React.Component {
 
             // handle the disabling of filtering while a poll is active
             let updated_filterPlayercount, updated_filterTitles, updated_filterWeight
-            if (poll_is_changing && updated_active_poll.id !== 'local') {
+            if (poll_is_changing && active_poll.id !== 'local') {
                 updated_filterPlayercount = false
                 updated_filterTitles = false
                 updated_filterWeight = false

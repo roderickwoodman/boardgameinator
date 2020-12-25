@@ -76,7 +76,7 @@ export const hardcoded_polls = [
 
 export const ImportPoll = (props) => {
 
-    const [ inputValue, setInputValue ] = useState(props.activepoll.id)
+    const [ inputValue, setInputValue ] = useState(props.activepoll.id.toString())
     const [ loading, setLoading ] = useState(false)
 
     const handleChange = (event) => {
@@ -123,10 +123,10 @@ export const ImportPoll = (props) => {
                                 id={"poll-" + i} 
                                 name="gamelist" 
                                 value={poll.id}
-                                checked={inputValue === poll.name}
+                                checked={inputValue === poll.id.toString()}
                                 onChange={handleChange} />
                             &nbsp;{poll.name} ({gamecount}, {votecount})&nbsp;
-                            { loading && inputValue === poll.name &&
+                            { loading && inputValue === poll.id.toString() &&
                             <Spinner animation="border" size="sm" />
                             }
 

@@ -89,7 +89,7 @@ export const ImportPoll = (props) => {
             }
             props.onviewpoll(no_poll)
         } else {
-            props.onviewpoll(hardcoded_polls.filter( polls => polls.name === event.target.value )[0])
+            props.onviewpoll(hardcoded_polls.filter( poll => poll.id === parseInt(event.target.value) )[0])
         }
     }
 
@@ -122,7 +122,7 @@ export const ImportPoll = (props) => {
                                 type="radio" 
                                 id={"poll-" + i} 
                                 name="gamelist" 
-                                value={poll.name}
+                                value={poll.id}
                                 checked={inputValue === poll.name}
                                 onChange={handleChange} />
                             &nbsp;{poll.name} ({gamecount}, {votecount})&nbsp;

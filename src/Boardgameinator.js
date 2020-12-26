@@ -125,6 +125,7 @@ export class Boardgameinator extends React.Component {
               console.log('A: new poll')
             const routed_poll = importpollApi(routed_pollid);
             localStorage.setItem('activePoll', JSON.stringify(routed_poll))
+            this.setState({ activePoll: routed_poll })
         // the games for the desired poll ID are already known
         } else if ( (routed_pollid !== null && stored_activePoll !== null && stored_activePoll.id === routed_pollid) 
           || (routed_pollid === null && stored_activePoll !== null) ) {

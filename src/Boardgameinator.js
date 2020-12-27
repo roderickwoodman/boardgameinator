@@ -517,14 +517,17 @@ export class Boardgameinator extends React.Component {
         if (poll.id === 'local') {
             this.addValidatedGamesWithPollContext(null, poll, null, wasRouted)
         } else {
-            if ( (this.state.routedGames.hasOwnProperty('addto_list') && this.state.routedGames.addto_list.length)
-              || (this.state.routedGames.hasOwnProperty('new_list') && this.state.routedGames.new_list.length)
-              || (this.state.routedGames.hasOwnProperty('pollid') && this.state.routedGames.pollid !== null) ) {
-                  wasRouted = true
-            }
             let poll_game_ids = Object.keys(poll.pollThumbs.titles).map( title => parseInt(title) )
             let cachedGameTitles = this.getCachedGameTitles()
             let validation_result = await validateUserTitles(cachedGameTitles, poll_game_ids, )
+            if ( (this.state.routedGames.hasOwnProperty('new_list') && this.state.routedGames.new_list.length)
+              || (this.state.routedGames.hasOwnProperty('pollid') && this.state.routedGames.pollid !== null) ) {
+                wasRouted = true
+                validation_result['routed_games_treatment'] = 'replace'
+            } else if (this.state.routedGames.hasOwnProperty('addto_list') && this.state.routedGames.addto_list.length) {
+                wasRouted = true
+                validation_result['routed_games_treatment'] = 'append'
+            }
             let poll_thumbs = JSON.parse(JSON.stringify(poll.pollThumbs))
             this.addValidatedGamesWithPollContext(validation_result.gameValidations, poll, poll_thumbs, wasRouted)
         }

@@ -69,12 +69,10 @@ export const AddGames = (props) => {
     const [ loading, setLoading ] = useState(false)
 
     useEffect( () => {
-        console.log('[AddGames] props.routedgames:',props.routedgames)
         async function addRoutedGames() {
 
             // routing by poll ID
             if (props.routedgames.hasOwnProperty('pollid') && props.routedgames.pollid !== null) {
-                console.log(`[AddGames ${props.activepoll.id}] POLL`)
                 const imported_poll = importpollApi(props.routedgames.pollid)
                 props.onviewpoll(imported_poll)
 
@@ -82,19 +80,14 @@ export const AddGames = (props) => {
             } else {
                 let validation_list = [], routing_treatment = 'none'
                 if (props.routedgames.hasOwnProperty('new_list') && props.routedgames.new_list.length > 0) {
-                    console.log(`[AddGames ${props.activepoll.id}] REPLACE`)
                     validation_list = [...props.routedgames.new_list]
                     routing_treatment = 'replace'
                 } else if (props.routedgames.hasOwnProperty('addto_list') && props.routedgames.addto_list.length > 0) {
-                    console.log(`[AddGames ${props.activepoll.id}] APPEND`)
                     validation_list = [...props.routedgames.addto_list]
                     routing_treatment = 'append'
-                } else {
-                    console.log(`[AddGames ${props.activepoll.id}] NO ROUTED GAMES`)
                 }
                 if (validation_list.length > 0) {
                     setLoading(true)
-                    console.log(`[AddGames ${props.activepoll.id}] validating:`,validation_list)
                     let validation_result = await validateUserTitles(props.cachedgametitles, validation_list)
                     validation_result.gameValidations['routed_games_treatment'] = routing_treatment
                     setGameValidations(validation_result.gameValidations)

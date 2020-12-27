@@ -511,7 +511,6 @@ export class Boardgameinator extends React.Component {
     }
 
     async onViewPoll(poll) {
-        console.log('===== CHANGING POLL =====',poll)
 
         let wasRouted = false
         if (poll.id === 'local') {
@@ -599,7 +598,6 @@ export class Boardgameinator extends React.Component {
     //
     addValidatedGamesWithPollContext(validation_result, active_poll, poll_thumbs, wasRouted) {
 
-        console.log('ADDING GAMES:', validation_result)
         this.setState(prevState => {
 
             let updated_activeGameList = [], updated_activeThumbs = {}, updated_localGameList = [...prevState.localGameList]
@@ -636,7 +634,6 @@ export class Boardgameinator extends React.Component {
 
             // now, add the new games
             if (validation_result !== null && (validation_result.new_gamedata_to_activate.length || validation_result.new_gamedata_to_cache)) {
-                // console.log('NEW GAMEDATA TO ACTIVATE:',validation_result.new_gamedata_to_activate)
 
                 let now = new Date()
 
@@ -664,7 +661,6 @@ export class Boardgameinator extends React.Component {
 
             // now, add the cached games
             if (validation_result !== null && validation_result.cached_games_to_activate.length) {
-                // console.log('CACHED GAMES TO ACTIVATE:',validation_result.cached_games_to_activate)
 
                 validation_result.cached_games_to_activate.forEach(cached_game_name => {
                     let id_to_activate = prevState.allGameData.filter( game_data => game_data.unambiguous_name === cached_game_name )[0].id
@@ -688,7 +684,6 @@ export class Boardgameinator extends React.Component {
                 updated_filterWeight = JSON.parse(localStorage.getItem("filterWeight"))
             }
 
-            console.log('FINAL ACTIVE:',updated_activeGameList)
             localStorage.setItem('activeGameList', JSON.stringify(updated_activeGameList))
             localStorage.setItem('localGameList', JSON.stringify(updated_localGameList))
             localStorage.setItem('allGameData', JSON.stringify(updated_allGameData))

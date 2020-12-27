@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLongArrowAltRight } from '@fortawesome/free-solid-svg-icons'
+import { importpollApi } from './Api.js'
 import { validateUserTitles } from './GameLibrary'
-import { hardcoded_polls } from './ImportPoll'
 import Spinner from 'react-bootstrap/Spinner'
 
 
@@ -74,7 +74,8 @@ export const AddGames = (props) => {
             let validation_list = [], routing_treatment = 'none'
             if (props.routedgames.hasOwnProperty('pollid') && props.routedgames.pollid !== null) {
                 console.log(`[AddGames ${props.activepoll.id}] POLL`)
-                const poll_games = Object.keys(hardcoded_polls.filter( poll => poll.id === props.routedgames.pollid )[0].pollThumbs.titles)
+                const imported_poll = importpollApi(props.routedgames.pollid)
+                const poll_games = Object.keys(imported_poll.pollThumbs.titles)
                 validation_list = [...poll_games]
                 routing_treatment = 'replace'
             } else if (props.routedgames.hasOwnProperty('new_list') && props.routedgames.new_list.length > 0) {

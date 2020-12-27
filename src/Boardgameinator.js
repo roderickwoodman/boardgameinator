@@ -112,7 +112,7 @@ export class Boardgameinator extends React.Component {
         }
 
         const stored_activeGameList = JSON.parse(localStorage.getItem("activeGameList"))
-        if (stored_activeGameList !== null && routed_new_list.length === 0) {
+        if (stored_activeGameList !== null && routed_new_list.length === 0 && routed_pollid === null) {
             this.setState({ activeGameList: stored_activeGameList })
         } else {
             this.setState({ activeGameList: [] })

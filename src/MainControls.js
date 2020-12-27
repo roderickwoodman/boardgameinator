@@ -141,6 +141,7 @@ export const MainControls = (props) => {
                     <div id="gameinput-controls">
                         <AddGames
                             activepoll={props.activepoll}
+                            onviewpoll={props.onviewpoll}
                             routedgames={props.routedgames}
                             updategamevalidations={updateGameValidations}
                             cachedgametitles={props.cachedgametitles} />

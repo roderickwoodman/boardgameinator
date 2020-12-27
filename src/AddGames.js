@@ -69,28 +69,28 @@ export const AddGames = (props) => {
     const [ loading, setLoading ] = useState(false)
 
     useEffect( () => {
-        console.log('props.routedgames:',props.routedgames)
+        console.log('[AddGames] props.routedgames:',props.routedgames)
         async function addRoutedGames() {
             let validation_list = [], routing_treatment = 'none'
             if (props.routedgames.hasOwnProperty('pollid') && props.routedgames.pollid !== null) {
-                console.log('POLL')
+                console.log(`[AddGames ${props.activepoll.id}] POLL`)
                 const poll_games = Object.keys(hardcoded_polls.filter( poll => poll.id === props.routedgames.pollid )[0].pollThumbs.titles)
                 validation_list = [...poll_games]
-                routing_treatment = 'none'
+                routing_treatment = 'replace'
             } else if (props.routedgames.hasOwnProperty('new_list') && props.routedgames.new_list.length > 0) {
-                console.log('REPLACE')
+                console.log(`[AddGames ${props.activepoll.id}] REPLACE`)
                 validation_list = [...props.routedgames.new_list]
                 routing_treatment = 'replace'
             } else if (props.routedgames.hasOwnProperty('addto_list') && props.routedgames.addto_list.length > 0) {
-                console.log('APPEND')
+                console.log(`[AddGames ${props.activepoll.id}] APPEND`)
                 validation_list = [...props.routedgames.addto_list]
                 routing_treatment = 'append'
             } else {
-                console.log('ELSE')
+                console.log(`[AddGames ${props.activepoll.id}] NO ROUTED GAMES`)
             }
             if (validation_list.length > 0) {
                 setLoading(true)
-                console.log('validating:',validation_list)
+                console.log(`[AddGames ${props.activepoll.id}] validating:`,validation_list)
                 let validation_result = await validateUserTitles(props.cachedgametitles, validation_list)
                 validation_result.gameValidations['routed_games_treatment'] = routing_treatment
                 setGameValidations(validation_result.gameValidations)

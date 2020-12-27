@@ -513,14 +513,20 @@ export class Boardgameinator extends React.Component {
     async onViewPoll(poll) {
         console.log('===== CHANGING POLL =====',poll)
 
+        let wasRouted = false
         if (poll.id === 'local') {
-            this.addValidatedGamesWithPollContext(null, poll, null)
+            this.addValidatedGamesWithPollContext(null, poll, null, wasRouted)
         } else {
+            if ( (this.state.routedGames.hasOwnProperty('addto_list') && this.state.routedGames.addto_list.length)
+              || (this.state.routedGames.hasOwnProperty('new_list') && this.state.routedGames.new_list.length)
+              || (this.state.routedGames.hasOwnProperty('pollid') && this.state.routedGames.pollid !== null) ) {
+                  wasRouted = true
+            }
             let poll_game_ids = Object.keys(poll.pollThumbs.titles).map( title => parseInt(title) )
             let cachedGameTitles = this.getCachedGameTitles()
-            let validation_result = await validateUserTitles(cachedGameTitles, poll_game_ids)
+            let validation_result = await validateUserTitles(cachedGameTitles, poll_game_ids, )
             let poll_thumbs = JSON.parse(JSON.stringify(poll.pollThumbs))
-            this.addValidatedGamesWithPollContext(validation_result.gameValidations, poll, poll_thumbs)
+            this.addValidatedGamesWithPollContext(validation_result.gameValidations, poll, poll_thumbs, wasRouted)
         }
 
     }
@@ -571,7 +577,7 @@ export class Boardgameinator extends React.Component {
     }
 
     addValidatedGames(validation_result) {
-        this.addValidatedGamesWithPollContext(validation_result, this.state.activePoll, this.state.allThumbs[this.state.activePoll.id])
+        this.addValidatedGamesWithPollContext(validation_result, this.state.activePoll, this.state.allThumbs[this.state.activePoll.id], false)
     }
 
     // when the poll is "local"...
@@ -588,7 +594,7 @@ export class Boardgameinator extends React.Component {
     //   1) the incoming set of games to add will either replace or be combined with the local active list
     //   2) the current active list will switch to the local set of games
     //
-    addValidatedGamesWithPollContext(validation_result, active_poll, poll_thumbs) {
+    addValidatedGamesWithPollContext(validation_result, active_poll, poll_thumbs, wasRouted) {
 
         console.log('ADDING GAMES:', validation_result)
         this.setState(prevState => {
@@ -699,7 +705,7 @@ export class Boardgameinator extends React.Component {
             }
         })
 
-        if (validation_result !== null && validation_result.routed_games_treatment !== 'none') {
+        if (validation_result !== null && wasRouted) {
             this.props.history.push('/boardgameinator')
         }
     }

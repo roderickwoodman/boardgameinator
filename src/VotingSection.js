@@ -8,7 +8,7 @@ const VotableElement = (props) => {
     let elementStyle = "voteable"
     const vote = (props.preferences.hasOwnProperty(props.votingon)
       && props.preferences[props.votingon].hasOwnProperty('thumbsup')
-      && props.preferences[props.votingon].thumbsup.includes('_me_')) ? 'thumbsup' : 'novote'
+      && props.preferences[props.votingon].thumbsup.filter( vote => vote.user === '_me_' ).length) ? 'thumbsup' : 'novote'
     elementStyle += ` ${vote}`
     let votable_text = props.votingonlabel
     if (props.attrcount > 1 || !props.suppresslowcounts) {

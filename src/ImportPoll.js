@@ -10,19 +10,19 @@ export const hardcoded_polls = [
         pollThumbs: {
             titles: {
                 126163: { // Tzolk'in
-                    'thumbsup': ['Terry', 'Tina', '_me_']
+                    'thumbsup': [{user:'Terry', rank:1}, {user:'Tina', rank:1}, {user:'_me_', rank:1}]
                 },
                 266192: { // Wingspan
-                    'thumbsup': ['Wendy', 'Wally', 'Wade']
+                    'thumbsup': [{user:'Wendy', rank:1}, {user:'Wally', rank:1}, {user:'Wade', rank:1}]
                 },
                 28023: { // Jamaica
-                    'thumbsup': ['Jerry']
+                    'thumbsup': [{user:'Jerry', rank:1}]
                 },
                 218603: { // Photosynthesis
-                    'thumbsup': ['Patty']
+                    'thumbsup': [{user:'Patty', rank:1}]
                 },
                 237182: { // Root
-                    'thumbsup': ['Randy', '_me_']
+                    'thumbsup': [{user:'Randy', rank:1}, {user:'_me_', rank:1}]
                 },
             },
             winners: [126163, 266192],
@@ -35,22 +35,22 @@ export const hardcoded_polls = [
         pollThumbs: {
             titles: {
                 175914: { // Food Chain Magnate
-                    'thumbsup': ['Fran', 'Filipe', 'Fiona', '_me_']
+                    'thumbsup': [{user:'Fran', rank:1}, {user:'Filipe', rank:1}, {user:'Fiona', rank:1}, {user:'_me_', rank:1}]
                 },
                 266192: { // Wingspan
-                    'thumbsup': ['Wesley', 'Will']
+                    'thumbsup': [{user:'Wesley', rank:1}, {user:'Will', rank:1}]
                 },
                 31481: { // Galaxy Trucker
-                    'thumbsup': ['Gary']
+                    'thumbsup': [{user:'Gary', rank:1}]
                 },
                 199478: { // Flamme Rouge
-                    'thumbsup': ['Fred']
+                    'thumbsup': [{user:'Fred', rank:1}]
                 },
                 169786: { // Scythe
-                    'thumbsup': ['Sue']
+                    'thumbsup': [{user:'Sue', rank:1}]
                 },
                 9209: { // Ticket To Ride
-                    'thumbsup': ['Tina', 'Timothy']
+                    'thumbsup': [{user:'Tina', rank:1}, {user:'Timothy', rank:1}]
                 },
             },
             winners: [175914],
@@ -66,7 +66,7 @@ export const hardcoded_polls = [
                     'thumbsup': []
                 },
                 162886: { // Spirit Island
-                    'thumbsup': ['Sue']
+                    'thumbsup': [{user:'Sue', rank:1}]
                 },
             },
             winners: [],

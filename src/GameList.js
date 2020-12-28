@@ -201,7 +201,7 @@ export const GameList = (props) => {
                     const thumbsup_data = JSON.parse(JSON.stringify(props.activethumbs.titles[game.id.toString()].thumbsup))
                     new_vote_counts.titles += thumbsup_data.length
                     const my_vote = thumbsup_data.filter(vote => vote.user === props.user)
-                    new_vote_counts.my_rank = (my_vote.length === 1) ? my_vote.rank : 0
+                    new_vote_counts.my_rank = (my_vote.length === 1) ? my_vote[0].rank : 0
                 }
 
                 // poll winner

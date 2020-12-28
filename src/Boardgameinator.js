@@ -76,6 +76,11 @@ export class Boardgameinator extends React.Component {
         let allGameData = [], routed_new_list = [], routed_addto_list = [], routed_pollid = null
         let path = this.props.location.search.slice(1).split('?')
 
+        const stored_user = JSON.parse(localStorage.getItem("user"))
+        if (stored_user !== null) {
+            this.setState({ user: stored_user })
+        }
+
         const query_strings = (path.length === 1) ? path[0] : path[1] 
         query_strings.split('&').forEach( function(query_string) {
             const qs = query_string.split('=')

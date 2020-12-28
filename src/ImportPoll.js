@@ -81,17 +81,20 @@ export const ImportPoll = (props) => {
     const [ loading, setLoading ] = useState(false)
 
     const handleChange = (event) => {
-        setInputValue(event.target.value)
-        setLoading(true)
-        if (event.target.value === 'local') {
-            const no_poll = {
-                id: 'local',
-                name: 'local',
+        if (!loading) {
+            setInputValue(event.target.value)
+            if (event.target.value === 'local') {
+                const no_poll = {
+                    id: 'local',
+                    name: 'local',
+                }
+                props.onviewpoll(no_poll)
+            } else {
+                setLoading(true)
+                const imported_poll = importpollApi(parseInt(event.target.value))
+                props.onviewpoll(imported_poll)
+                setLoading(false)
             }
-            props.onviewpoll(no_poll)
-        } else {
-            const imported_poll = importpollApi(parseInt(event.target.value))
-            props.onviewpoll(imported_poll)
         }
     }
 

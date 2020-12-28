@@ -32,6 +32,12 @@ The likability of any board game is so subjective and multifactorial, in the sam
 
 **Boardgameinator**, however, is a user-driven comparison tool similar to an e-commerce shopping experience. It displays information side-by-side with sorting and filtering knobs, allowing you to converge on the right game for you based on your preferences.
 
+### Sharing your game lists (URL shortcuts)
+Using the BoardGameGeek IDs or the poll IDs from this app, you can share lists of games with others...
+* Share a whole new list of games: https://roderickwoodman.github.io/boardgameinator/**?newlist=194789+148228+11**
+* Share a set of additional games: https://roderickwoodman.github.io/boardgameinator/**?addtolist=194789+148228+11**
+* Share a poll: https://roderickwoodman.github.io/boardgameinator/**?poll=1**
+
 ### DISCLAIMER
 
 This app has been designed for the author's needs only, in the author's spare time. By using this app, you are accepting it as-is.

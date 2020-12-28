@@ -7,14 +7,18 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSortAmountDown } from '@fortawesome/free-solid-svg-icons'
 import { faFilter } from '@fortawesome/free-solid-svg-icons'
+import { faUser } from '@fortawesome/free-solid-svg-icons'
 
 export const ViewControls = (props) => {
 
     const [sortIsOpen, setSortIsOpen] = useState(false)
     const [filterIsOpen, setFilterIsOpen] = useState(false)
+    const [userIsOpen, setUserIsOpen] = useState(false)
+    const [usernameInput, setUsernameInput ] = useState('')
 
     const showSortModal = () => {
         setFilterIsOpen(false)
+        setUserIsOpen(false)
         setSortIsOpen(true)
     }
 
@@ -24,11 +28,31 @@ export const ViewControls = (props) => {
 
     const showFilterModal = () => {
         setSortIsOpen(false)
+        setUserIsOpen(false)
         setFilterIsOpen(true)
     }
 
     const hideFilterModal = () => {
         setFilterIsOpen(false)
+    }
+
+    const showUserModal = () => {
+        setSortIsOpen(false)
+        setFilterIsOpen(false)
+        setUserIsOpen(true)
+    }
+
+    const hideUserModal = () => {
+        setUserIsOpen(false)
+    }
+
+    const handleChange = (event) => {
+        event.preventDefault()
+        setUsernameInput(event.target.value)
+    }
+
+    const handleSubmit = (event) => {
+        props.onuserchange(usernameInput)
     }
 
     return (
@@ -70,6 +94,22 @@ export const ViewControls = (props) => {
                 </ModalFooter>
             </Modal>
 
+            <button className="fa fa-button" onClick={showUserModal}><FontAwesomeIcon icon={faUser}/></button>
+            <Modal size="md" show={userIsOpen} onHide={hideUserModal}>
+                <ModalBody>
+                    <h4>Enter a username for yourself:</h4>
+                    <section id="input-username">
+                        <section className="buttonrow">
+                            <input size="30" value={usernameInput} onChange={handleChange} placeholder="(your username)" required/>
+                            <button onClick={handleSubmit} className="default-primary-styles">OK</button>
+                        </section>
+                    </section>
+                </ModalBody>
+                <ModalFooter> 
+                    <button className="default-primary-styles" onClick={hideUserModal}>Close</button>
+                </ModalFooter>
+            </Modal>
+
         </div>
         </React.Fragment>
     )
@@ -83,4 +123,5 @@ ViewControls.propTypes = {
     filterplayercount: PropTypes.bool.isRequired,
     filterweight: PropTypes.bool.isRequired,
     onfilterchange: PropTypes.func.isRequired,
+    onuserchange: PropTypes.func.isRequired,
 }

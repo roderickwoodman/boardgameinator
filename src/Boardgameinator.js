@@ -65,6 +65,7 @@ export class Boardgameinator extends React.Component {
         this.onViewPoll = this.onViewPoll.bind(this)
         this.handleSortChange = this.handleSortChange.bind(this)
         this.handleFilterChange = this.handleFilterChange.bind(this)
+        this.handleUserChange = this.handleUserChange.bind(this)
         this.updateDimensions = this.updateDimensions.bind(this)
     }
 
@@ -753,6 +754,15 @@ export class Boardgameinator extends React.Component {
         }
     }
 
+    handleUserChange(new_username) {
+        this.setState(prevState => {
+            localStorage.setItem('user', JSON.stringify(new_username))
+            return {
+                user: new_username,
+            }
+        })
+    }
+
     onHamburger(event) {
         // FIXME: (WIP) add modal functionality
         // alert('(FIXME/WIP) Make this a slide out menu of what are now buttons.')
@@ -782,7 +792,8 @@ export class Boardgameinator extends React.Component {
                 filtertitles={filterTitles}
                 filterplayercount={filterPlayercount}
                 filterweight={filterWeight}
-                onfilterchange={this.handleFilterChange} />
+                onfilterchange={this.handleFilterChange}
+                onuserchange={this.handleUserChange} />
             </div>
             <div id="content-wrapper">
                 <GameList

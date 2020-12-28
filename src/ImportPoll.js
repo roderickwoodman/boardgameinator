@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { importpollApi } from './Api.js'
 import PropTypes from 'prop-types'
 import Spinner from 'react-bootstrap/Spinner'
 
@@ -89,7 +90,8 @@ export const ImportPoll = (props) => {
             }
             props.onviewpoll(no_poll)
         } else {
-            props.onviewpoll(hardcoded_polls.filter( poll => poll.id === parseInt(event.target.value) )[0])
+            const imported_poll = importpollApi(parseInt(event.target.value))
+            props.onviewpoll(imported_poll)
         }
     }
 

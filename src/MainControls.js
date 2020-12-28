@@ -166,6 +166,7 @@ export const MainControls = (props) => {
                         <p className="warning">INFO: Voting on titles in a poll is not yet supported.</p>
                         }
                         <VoteTitles
+                            user={props.user}
                             activegamedata={props.activegamedata} 
                             titlethumbs={props.activethumbs.titles} 
                             onnewvote={props.onnewvote}

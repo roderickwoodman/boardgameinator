@@ -200,6 +200,7 @@ export const MainControls = (props) => {
                     <ModalBody>
                         <div id="attribute-voting-controls">
                             <VoteAttributes 
+                                user={props.user}
                                 activegamedata={props.activegamedata}
                                 attrthumbs={props.activethumbs.attributes} 
                                 onnewvote={props.onnewvote} />
@@ -221,6 +222,7 @@ export const MainControls = (props) => {
                         <div id="attribute-voting-controls">
                             <p className="warning">INFO: Voting on attributes is for personal use only. Only title votes will be counted for games in a poll.</p>
                             <VoteAttributes 
+                                user={props.user}
                                 activegamedata={props.activegamedata}
                                 attrthumbs={props.activethumbs.attributes} 
                                 onnewvote={props.onnewvote} />
@@ -295,6 +297,7 @@ export const MainControls = (props) => {
 }
 
 MainControls.propTypes = {
+    user: PropTypes.string.isRequired,
     routedgames: PropTypes.object.isRequired,
     activegamedata: PropTypes.array.isRequired,
     activethumbs: PropTypes.object.isRequired,

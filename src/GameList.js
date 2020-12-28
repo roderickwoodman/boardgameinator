@@ -398,6 +398,7 @@ export const GameList = (props) => {
     return (
         <React.Fragment>
         <MainControls 
+            user={props.user}
             routedgames={props.routedgames}
             activegamedata={props.activegamedata}
             activethumbs={props.activethumbs}
@@ -446,6 +447,7 @@ export const GameList = (props) => {
 }
 
 GameList.propTypes = {
+    user: PropTypes.string.isRequired,
     routedgames: PropTypes.object.isRequired,
     activegamedata: PropTypes.array.isRequired,
     sortby: PropTypes.string.isRequired,
@@ -462,5 +464,4 @@ GameList.propTypes = {
     activepoll: PropTypes.object.isRequired,
     onviewpoll: PropTypes.func.isRequired,
     reallynarrow: PropTypes.bool.isRequired,
-    user: PropTypes.string.isRequired,
 }

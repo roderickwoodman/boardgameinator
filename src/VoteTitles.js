@@ -13,6 +13,7 @@ export const VoteTitles = (props) => {
         <React.Fragment>
         <h4>Upvote board game titles:</h4>
         <VotingSection 
+            user={props.user}
             type='title'
             elementid='game-titles'
             title={'TITLES ('+countsArray.length+'):'}
@@ -27,6 +28,7 @@ export const VoteTitles = (props) => {
 }
 
 VoteTitles.propTypes = {
+    user: PropTypes.string.isRequired,
     activegamedata: PropTypes.array.isRequired,
     titlethumbs: PropTypes.object,
     onnewvote: PropTypes.func.isRequired,

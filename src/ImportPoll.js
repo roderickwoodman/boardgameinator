@@ -22,7 +22,7 @@ export const hardcoded_polls = [
                     'thumbsup': [{user:'Patty', rank:1}]
                 },
                 237182: { // Root
-                    'thumbsup': [{user:'Randy', rank:1}, {user:'_me_', rank:1}]
+                    'thumbsup': [{user:'Randy', rank:1}, {user:'_me_', rank:2}]
                 },
             },
             winners: [126163, 266192],

@@ -141,6 +141,7 @@ export const VoteAttributes = (props) => {
                     classNames={"showsegment"}
                 >
                     <VotingSection 
+                        user={props.user}
                         type='players'
                         elementid='supported-players'
                         title='PLAYERS:'
@@ -161,6 +162,7 @@ export const VoteAttributes = (props) => {
                     classNames={"showsegment"}
                 >
                     <VotingSection 
+                        user={props.user}
                         type='weight'
                         elementid='weight-counts'
                         title='WEIGHT:'
@@ -181,6 +183,7 @@ export const VoteAttributes = (props) => {
                     classNames={"showsegment"}
                 >
                     <VotingSection 
+                        user={props.user}
                         type='category'
                         elementid='category-counts'
                         title='CATEGORY:'
@@ -201,6 +204,7 @@ export const VoteAttributes = (props) => {
                     classNames={"showsegment"}
                 >
                     <VotingSection 
+                        user={props.user}
                         type='mechanic'
                         elementid='mechanic-counts'
                         title='MECHANIC:'
@@ -227,6 +231,7 @@ export const VoteAttributes = (props) => {
 }
 
 VoteAttributes.propTypes = {
+    user: PropTypes.string.isRequired,
     activegamedata: PropTypes.array.isRequired,
     attrthumbs: PropTypes.object.isRequired,
     onnewvote: PropTypes.func.isRequired,

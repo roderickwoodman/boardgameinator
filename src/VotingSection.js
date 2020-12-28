@@ -8,7 +8,7 @@ const VotableElement = (props) => {
     let elementStyle = "voteable"
     const vote = (props.preferences.hasOwnProperty(props.votingon)
       && props.preferences[props.votingon].hasOwnProperty('thumbsup')
-      && props.preferences[props.votingon].thumbsup.filter( vote => vote.user === '_me_' ).length) ? 'thumbsup' : 'novote'
+      && props.preferences[props.votingon].thumbsup.filter( vote => vote.user === props.user ).length) ? 'thumbsup' : 'novote'
     elementStyle += ` ${vote}`
     let votable_text = props.votingonlabel
     if (props.attrcount > 1 || !props.suppresslowcounts) {
@@ -76,6 +76,7 @@ export const VotingSection = (props) => {
             {orderedVotables.map((key, index) => {
                 return <VotableElement 
                     key={key.attrName}
+                    user={props.user}
                     preferences={props.sectionthumbs}
                     votingtype={props.type}
                     votingon={key.attrId} 
@@ -89,6 +90,7 @@ export const VotingSection = (props) => {
 }
 
 VotingSection.propTypes = {
+    user: PropTypes.string.isRequired,
     counts: PropTypes.array.isRequired,
     elementid: PropTypes.string.isRequired,
     onnewvote: PropTypes.func.isRequired,

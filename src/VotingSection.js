@@ -6,7 +6,8 @@ import { faThumbsUp } from '@fortawesome/free-solid-svg-icons'
 const VotableElement = (props) => {
 
     let elementStyle = "voteable"
-    const vote = (props.preferences.hasOwnProperty(props.votingon)
+    const vote = (props.user !== null
+      && props.preferences.hasOwnProperty(props.votingon)
       && props.preferences[props.votingon].hasOwnProperty('thumbsup')
       && props.preferences[props.votingon].thumbsup.filter( vote => vote.user === props.user ).length) ? 'thumbsup' : 'novote'
     elementStyle += ` ${vote}`

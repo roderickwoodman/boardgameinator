@@ -231,7 +231,7 @@ export const VoteAttributes = (props) => {
 }
 
 VoteAttributes.propTypes = {
-    user: PropTypes.string.isRequired,
+    user: PropTypes.string,
     activegamedata: PropTypes.array.isRequired,
     attrthumbs: PropTypes.object.isRequired,
     onnewvote: PropTypes.func.isRequired,

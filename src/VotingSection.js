@@ -90,7 +90,7 @@ export const VotingSection = (props) => {
 }
 
 VotingSection.propTypes = {
-    user: PropTypes.string.isRequired,
+    user: PropTypes.string,
     counts: PropTypes.array.isRequired,
     elementid: PropTypes.string.isRequired,
     onnewvote: PropTypes.func.isRequired,

@@ -50,7 +50,7 @@ export class Boardgameinator extends React.Component {
             localGameList: [],
             routedGames: {},
             sortOrder: 'alphabetical',
-            user: '_me_', // FIXME: implement user auths
+            user: null,
             windowWidth: 0,
             windowHeight: 0
         }

@@ -447,7 +447,7 @@ export const GameList = (props) => {
 }
 
 GameList.propTypes = {
-    user: PropTypes.string.isRequired,
+    user: PropTypes.string,
     routedgames: PropTypes.object.isRequired,
     activegamedata: PropTypes.array.isRequired,
     sortby: PropTypes.string.isRequired,

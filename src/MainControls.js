@@ -298,7 +298,7 @@ export const MainControls = (props) => {
 }
 
 MainControls.propTypes = {
-    user: PropTypes.string.isRequired,
+    user: PropTypes.string,
     routedgames: PropTypes.object.isRequired,
     activegamedata: PropTypes.array.isRequired,
     activethumbs: PropTypes.object.isRequired,

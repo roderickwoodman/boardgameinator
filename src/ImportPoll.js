@@ -10,10 +10,10 @@ export const hardcoded_polls = [
         pollThumbs: {
             titles: {
                 126163: { // Tzolk'in
-                    'thumbsup': [{user:'Terry', rank:1}, {user:'Tina', rank:1}, {user:'_me_', rank:1}]
+                    'thumbsup': [{user:'Terry', rank:1}, {user:'Tina', rank:1}, {user:'Mendy', rank:1}]
                 },
                 266192: { // Wingspan
-                    'thumbsup': [{user:'Wendy', rank:1}, {user:'Wally', rank:1}, {user:'Wade', rank:1}]
+                    'thumbsup': [{user:'Wendy', rank:1}, {user:'Wally', rank:1}, {user:'Mendy', rank:1}]
                 },
                 28023: { // Jamaica
                     'thumbsup': [{user:'Jerry', rank:1}]
@@ -22,7 +22,7 @@ export const hardcoded_polls = [
                     'thumbsup': [{user:'Patty', rank:1}]
                 },
                 237182: { // Root
-                    'thumbsup': [{user:'Randy', rank:1}, {user:'_me_', rank:2}]
+                    'thumbsup': [{user:'Randy', rank:1}, {user:'Mendy', rank:2}]
                 },
             },
             winners: [126163, 266192],
@@ -35,7 +35,7 @@ export const hardcoded_polls = [
         pollThumbs: {
             titles: {
                 175914: { // Food Chain Magnate
-                    'thumbsup': [{user:'Fran', rank:1}, {user:'Filipe', rank:1}, {user:'Fiona', rank:1}, {user:'_me_', rank:1}]
+                    'thumbsup': [{user:'Fran', rank:1}, {user:'Filipe', rank:1}, {user:'Fiona', rank:1}, {user:'Mendy', rank:1}]
                 },
                 266192: { // Wingspan
                     'thumbsup': [{user:'Wesley', rank:1}, {user:'Will', rank:1}]

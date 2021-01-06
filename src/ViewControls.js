@@ -59,7 +59,7 @@ export const ViewControls = (props) => {
         <React.Fragment>
         <div id="view-controls">
 
-            <button className="fa fa-button" onClick={showUserModal}><FontAwesomeIcon icon={faUser}/></button>
+            <button className="fa fa-button user" onClick={showUserModal}><span>{props.user} <FontAwesomeIcon icon={faUser}/></span></button>
             <Modal size="md" show={userIsOpen} onHide={hideUserModal}>
                 <ModalBody>
                     <h4>Enter a username for yourself:</h4>
@@ -116,6 +116,7 @@ export const ViewControls = (props) => {
 }
 
 ViewControls.propTypes = {
+    user: PropTypes.string,
     activepoll: PropTypes.object.isRequired,
     sortby: PropTypes.string.isRequired,
     onsortchange: PropTypes.func.isRequired,

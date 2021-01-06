@@ -791,6 +791,7 @@ export class Boardgameinator extends React.Component {
                     <h1>{(this.state.activePoll.id === 'local') ? 'Boardgameinator' : this.state.activePoll.name}</h1>
                 </button>
                 <ViewControls 
+                user={this.state.user}
                 activepoll={this.state.activePoll}
                 sortby={this.state.sortOrder}
                 onsortchange={this.handleSortChange}

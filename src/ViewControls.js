@@ -59,6 +59,22 @@ export const ViewControls = (props) => {
         <React.Fragment>
         <div id="view-controls">
 
+            <button className="fa fa-button" onClick={showUserModal}><FontAwesomeIcon icon={faUser}/></button>
+            <Modal size="md" show={userIsOpen} onHide={hideUserModal}>
+                <ModalBody>
+                    <h4>Enter a username for yourself:</h4>
+                    <section id="input-username">
+                        <section className="buttonrow">
+                            <input size="30" value={usernameInput} onChange={handleChange} placeholder="(your username)" required/>
+                            <button onClick={handleSubmit} className="default-primary-styles">OK</button>
+                        </section>
+                    </section>
+                </ModalBody>
+                <ModalFooter> 
+                    <button className="default-primary-styles" onClick={hideUserModal}>Close</button>
+                </ModalFooter>
+            </Modal>
+
             <button className="fa fa-button" onClick={showSortModal}><FontAwesomeIcon icon={faSortAmountDown}/></button>
             <Modal size="md" show={sortIsOpen} onHide={hideSortModal}>
                 <ModalBody>
@@ -91,22 +107,6 @@ export const ViewControls = (props) => {
                 </ModalBody>
                 <ModalFooter> 
                     <button className="default-primary-styles" onClick={hideFilterModal}>Close</button>
-                </ModalFooter>
-            </Modal>
-
-            <button className="fa fa-button" onClick={showUserModal}><FontAwesomeIcon icon={faUser}/></button>
-            <Modal size="md" show={userIsOpen} onHide={hideUserModal}>
-                <ModalBody>
-                    <h4>Enter a username for yourself:</h4>
-                    <section id="input-username">
-                        <section className="buttonrow">
-                            <input size="30" value={usernameInput} onChange={handleChange} placeholder="(your username)" required/>
-                            <button onClick={handleSubmit} className="default-primary-styles">OK</button>
-                        </section>
-                    </section>
-                </ModalBody>
-                <ModalFooter> 
-                    <button className="default-primary-styles" onClick={hideUserModal}>Close</button>
                 </ModalFooter>
             </Modal>
 

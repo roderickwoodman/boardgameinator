@@ -5,11 +5,21 @@ import { faThumbsUp } from '@fortawesome/free-solid-svg-icons'
 
 const VotableElement = (props) => {
 
+    // props.votingtype === title : votingon:63888, votinglabel:Innovation, preferences: {63888: {thumbsup: [{rank:1, user:Nobody}]}}
+    // props.votingtype !== title : votingon:Card Game, votinglabel:Card Game, preferences: {Nobody}
+
+    let vote
+    if (props.votingtype === 'title') {
+        vote = (props.preferences.hasOwnProperty(props.votingon)
+        && props.preferences[props.votingon].hasOwnProperty('thumbsup')
+        && props.preferences[props.votingon].thumbsup.filter( vote => vote.user === props.user ).length) ? 'thumbsup' : 'novote'
+    } else {
+        vote = (props.preferences.hasOwnProperty(props.votingon)
+        && props.preferences[props.votingon].hasOwnProperty('thumbsup')
+        && props.preferences[props.votingon].thumbsup.includes(props.user)) ? 'thumbsup' : 'novote'
+
+    }
     let elementStyle = "voteable"
-    const vote = (props.user !== null
-      && props.preferences.hasOwnProperty(props.votingon)
-      && props.preferences[props.votingon].hasOwnProperty('thumbsup')
-      && props.preferences[props.votingon].thumbsup.filter( vote => vote.user === props.user ).length) ? 'thumbsup' : 'novote'
     elementStyle += ` ${vote}`
     let votable_text = props.votingonlabel
     if (props.attrcount > 1 || !props.suppresslowcounts) {

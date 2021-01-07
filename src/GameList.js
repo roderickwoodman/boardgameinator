@@ -196,12 +196,14 @@ export const GameList = (props) => {
                 // title votes
                 if (props.activethumbs.hasOwnProperty('titles') 
                   && props.activethumbs.titles.hasOwnProperty(game.id.toString())
-                  && props.activethumbs.titles[game.id].hasOwnProperty('thumbsup')
-                  && props.activethumbs.titles[game.id]['thumbsup'].length) {
-                    const thumbsup_data = JSON.parse(JSON.stringify(props.activethumbs.titles[game.id.toString()].thumbsup))
-                    new_vote_counts.titles += thumbsup_data.length
-                    const my_vote = thumbsup_data.filter(vote => vote.user === props.user)
-                    new_vote_counts.my_rank = (my_vote.length === 1) ? my_vote[0].rank : 0
+                  && props.activethumbs.titles[game.id].hasOwnProperty('thumbsup')) {
+                    new_vote_counts.titles = props.activethumbs.titles[game.id.toString()].thumbsup.length
+                    const myVote = JSON.parse(JSON.stringify(props.activethumbs.titles[game.id.toString()].thumbsup)).filter( vote => vote.user === props.user )
+                    if (myVote.length === 1) {
+                        new_vote_counts.my_rank = myVote.rank
+                    } else {
+                        new_vote_counts.my_rank = null
+                    }
                 }
 
                 // poll winner

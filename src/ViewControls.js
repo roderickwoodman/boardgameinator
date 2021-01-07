@@ -71,11 +71,21 @@ export const ViewControls = (props) => {
         }
     }
 
+    const handleUserClick = (event) => {
+        if (props.user === null) {
+            showUserModal()
+        } else {
+            setUsernameInput('')
+            props.onuserchange(null)
+        }
+
+    }
+
     return (
         <React.Fragment>
         <div id="view-controls">
 
-            <button className={(props.user === null) ? "fa fa-button user loggedout" : "fa fa-button user"} onClick={showUserModal}>{userIcon(props.user)}</button>
+            <button className={(props.user === null) ? "fa fa-button user loggedout" : "fa fa-button user"} onClick={handleUserClick}>{userIcon(props.user)}</button>
             <Modal size="md" show={userIsOpen} onHide={hideUserModal}>
                 <ModalBody>
                     <h4>Enter a username for yourself:</h4>

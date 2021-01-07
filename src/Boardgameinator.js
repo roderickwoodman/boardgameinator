@@ -458,28 +458,51 @@ export class Boardgameinator extends React.Component {
 
             this.setState(prevState => {
                 let updated_activeThumbs = JSON.parse(JSON.stringify(prevState.activeThumbs))
-                // record a new title vote
+                // record a title vote
+                //   ex: votingtype:title votingon:63888 newvote:thumbsup
                 if (votingtype === 'title') {
-                    if (updated_activeThumbs.titles.hasOwnProperty(votingon.toString())) {
-                        let updated_thistitle = JSON.parse(JSON.stringify(updated_activeThumbs.titles[votingon.toString()]))
-                        if (updated_thistitle.hasOwnProperty(newvote)
-                            && updated_thistitle[newvote].includes(prevState.user)) {
-                            updated_thistitle[newvote] = updated_thistitle[newvote].filter( user => user !== prevState.user )
+                    // update voting info for this title (...behaves as a toggle: incoming newvote cancels out a previously recorded newvote)
+                    if (prevState.activeThumbs.titles.hasOwnProperty(votingon.toString())) {
+                        if (prevState.activeThumbs.titles[votingon.toString()].hasOwnProperty(newvote)) {
+                            let prevMyTitleVote = JSON.parse(JSON.stringify(prevState.activeThumbs.titles[votingon.toString()][newvote])).filter( vote => vote.user === prevState.user )
+                            // toggle the vote off
+                            if (prevMyTitleVote.length > 0) {
+                                let updatedMyTitleVote = JSON.parse(JSON.stringify(prevState.activeThumbs.titles[votingon.toString()][newvote])).filter( vote => vote.user !== prevState.user )
+                                updated_activeThumbs.titles[votingon.toString()][newvote] = updatedMyTitleVote
+                            // toggle the vote on
+                            } else {
+                                let newUserVote = {
+                                    user: prevState.user,
+                                    rank: null,
+                                }
+                                let updatedMyTitleVote = JSON.parse(JSON.stringify(prevState.activeThumbs.titles[votingon.toString()][newvote]))
+                                updatedMyTitleVote.push(newUserVote)
+                                updated_activeThumbs.titles[votingon.toString()][newvote] = updatedMyTitleVote
+                            }
+                        // add the first vote as on
                         } else {
-                            let updated_vote = [prevState.user]
-                            updated_thistitle[newvote] = updated_vote
+                            let newUserVote = {
+                                user: prevState.user,
+                                rank: null,
+                            }
+                            updated_activeThumbs.titles[votingon.toString()][newvote] = [newUserVote]
                         }
-                        updated_activeThumbs.titles[votingon.toString()] = updated_thistitle
+                    // no voting exists for this title, create it
                     } else {
-                        let updated_vote = {}
-                        updated_vote[newvote] = [prevState.user]
-                        updated_activeThumbs.titles[votingon] = updated_vote
+                        let newVotingOn = {}
+                        let newUserVote = {
+                            user: prevState.user,
+                            rank: 1,
+                        }
+                        newVotingOn[newvote] = [newUserVote]
+                        updated_activeThumbs.titles[votingon.toString()] = newVotingOn
                     }
-                // record a new attribute vote
+                // record an attribute vote
+                //   ex: votingtype:category votingon:Card Game newvote:thumbsup
                 } else {
                     if (updated_activeThumbs.attributes[votingtype].hasOwnProperty(votingon)) {
                         let updated_thisattribute = JSON.parse(JSON.stringify(updated_activeThumbs.attributes[votingtype][votingon]))
-                        // clear this user's previously vote on this attribute
+                        // clear this user's previous vote on this attribute
                         if (updated_thisattribute.hasOwnProperty(newvote)
                             && updated_thisattribute[newvote].includes(prevState.user)) {
                             let updated_vote = updated_thisattribute[newvote].filter( user => user !== prevState.user )

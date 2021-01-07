@@ -409,12 +409,21 @@ export class Boardgameinator extends React.Component {
         })
     }
 
-    totalTitleVotes(all_title_thumbs) {
+    totalTitleVotes(all_title_thumbs, mineOnly) {
         let count = 0
         Object.entries(all_title_thumbs)
             .forEach( function(title) {
-                if (Object.keys(title[1]).includes('thumbsup')) {
-                    count += title[1]['thumbsup'].length
+                // title[0]: 27588
+                // title[1]: {thumbsup:[{rank:null, user:Bob}]}
+                if (title[1].hasOwnProperty('thumbsup')) {
+                    if (mineOnly) {
+                        let myVote = title[1].thumbsup.filter( vote => vote.user === this.state.user )
+                        if (myVote.length) {
+                            count += 1
+                        }
+                    } else {
+                        count += title[1]['thumbsup'].length
+                    }
                 }
             })
         return  count

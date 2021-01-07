@@ -198,7 +198,21 @@ export const GameList = (props) => {
                   && props.activethumbs.titles.hasOwnProperty(game.id.toString())
                   && props.activethumbs.titles[game.id].hasOwnProperty('thumbsup')) {
                     new_vote_counts.titles = props.activethumbs.titles[game.id.toString()].thumbsup.length
-                    const myVote = JSON.parse(JSON.stringify(props.activethumbs.titles[game.id.toString()].thumbsup)).filter( vote => vote.user === props.user )
+                    const myVote = JSON.parse(JSON.stringify(props.activethumbs.titles[game.id.toString()].thumbsup)).filter( (vote) => {
+                        if (props.user !== null) {
+                            if (vote.user === props.user) {
+                                return true
+                            } else {
+                                return false
+                            }
+                        } else {
+                            if (vote.user === null) {
+                                return true
+                            } else {
+                                return false
+                            }
+                        }
+                    })
                     if (myVote.length === 1) {
                         new_vote_counts.my_rank = myVote.rank
                     } else {

@@ -409,7 +409,7 @@ export class Boardgameinator extends React.Component {
         })
     }
 
-    totalTitleVotes(all_title_thumbs, mineOnly) {
+    totalTitleVotes(all_title_thumbs, mineOnly, whoAmI) {
         let count = 0
         Object.entries(all_title_thumbs)
             .forEach( function(title) {
@@ -417,7 +417,7 @@ export class Boardgameinator extends React.Component {
                 // title[1]: {thumbsup:[{rank:null, user:Bob}]}
                 if (title[1].hasOwnProperty('thumbsup')) {
                     if (mineOnly) {
-                        let myVote = title[1].thumbsup.filter( vote => vote.user === this.state.user )
+                        let myVote = title[1].thumbsup.filter( vote => vote.user === whoAmI )
                         if (myVote.length) {
                             count += 1
                         }
@@ -530,7 +530,7 @@ export class Boardgameinator extends React.Component {
                     }
                 }
                 const myCountsOnly = (this.state.activePoll.id === 'local') ? true : false;
-                updated_activeThumbs.total_title_votes = this.totalTitleVotes(updated_activeThumbs.titles, myCountsOnly)
+                updated_activeThumbs.total_title_votes = this.totalTitleVotes(updated_activeThumbs.titles, myCountsOnly, this.state.user)
                 updated_activeThumbs.total_attribute_votes = this.totalAttributeVotes(updated_activeThumbs.attributes)
                 localStorage.setItem('activeThumbs', JSON.stringify(updated_activeThumbs))
 
@@ -589,7 +589,7 @@ export class Boardgameinator extends React.Component {
                 if (votingtype === 'all_titles') {
                     const myCountsOnly = (this.state.activePoll.id === 'local') ? true : false;
                     updated_activeThumbs.titles = clearVotes
-                    updated_activeThumbs.total_title_votes = this.totalTitleVotes(updated_activeThumbs.titles, myCountsOnly)
+                    updated_activeThumbs.total_title_votes = this.totalTitleVotes(updated_activeThumbs.titles, myCountsOnly, this.state.user)
                 } else {
                     if (votingtype === 'all_attributes') {
                         updated_activeThumbs.attributes['players'] = clearVotes
@@ -795,9 +795,14 @@ export class Boardgameinator extends React.Component {
 
     handleUserChange(new_username) {
         this.setState(prevState => {
+            const myCountsOnly = (this.state.activePoll.id === 'local') ? true : false;
+            let updated_activeThumbs = JSON.parse(JSON.stringify(prevState.activeThumbs))
+            let updatedTitleCount = this.totalTitleVotes(prevState.activeThumbs.titles, myCountsOnly, new_username)
+            updated_activeThumbs.total_title_votes = updatedTitleCount
             localStorage.setItem('user', JSON.stringify(new_username))
             return {
                 user: new_username,
+                activeThumbs: updated_activeThumbs,
             }
         })
     }

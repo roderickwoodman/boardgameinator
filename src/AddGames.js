@@ -240,7 +240,7 @@ export const AddGames = (props) => {
             <div id="input-section">
                     <section id="input-by-title">
                         <section className="buttonrow">
-                            <input size="30" value={userTitlesInput} onChange={handleChange} placeholder="(exact game titles or BGG IDs)" required/>
+                            <input size="30" value={userTitlesInput} onChange={handleChange} placeholder="(exact game titles or BGG IDs)" autoFocus required/>
                             <button onClick={handleSubmit} className="default-primary-styles">Add</button>
                             { loading && !statusMessages.length &&
                                 <Spinner animation="border" size="sm" />

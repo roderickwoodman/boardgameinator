@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import PropTypes from 'prop-types'
 import Modal from 'react-bootstrap/Modal'
 import ModalBody from 'react-bootstrap/ModalBody'
@@ -15,6 +15,14 @@ export const ViewControls = (props) => {
     const [filterIsOpen, setFilterIsOpen] = useState(false)
     const [userIsOpen, setUserIsOpen] = useState(false)
     const [usernameInput, setUsernameInput ] = useState('')
+
+    const inputEl = useRef(null)
+
+    useEffect(() => {
+        if (userIsOpen) {
+            inputEl.current.focus()
+        }
+    })
 
     const showSortModal = () => {
         setFilterIsOpen(false)
@@ -91,7 +99,7 @@ export const ViewControls = (props) => {
                     <h4>Enter a username for yourself:</h4>
                     <section id="input-username">
                         <section className="buttonrow">
-                            <input size="30" value={usernameInput} onChange={handleChange} placeholder="(your username)" required/>
+                            <input ref={inputEl} size="30" value={usernameInput} onChange={handleChange} placeholder="(your username)" required/>
                             <button onClick={handleSubmit} className="default-primary-styles">OK</button>
                         </section>
                     </section>

@@ -7,7 +7,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSortAmountDown } from '@fortawesome/free-solid-svg-icons'
 import { faFilter } from '@fortawesome/free-solid-svg-icons'
-import { faUser } from '@fortawesome/free-solid-svg-icons'
+import { faUser, faUserSlash } from '@fortawesome/free-solid-svg-icons'
 
 export const ViewControls = (props) => {
 
@@ -55,11 +55,27 @@ export const ViewControls = (props) => {
         props.onuserchange(usernameInput)
     }
 
+    const userIcon = (user) => {
+        if (user === null) {
+            return (
+                <span>
+                    <FontAwesomeIcon icon={faUserSlash} />
+                </span>
+            )
+        } else {
+            return (
+                <span>
+                    {props.user} <FontAwesomeIcon icon={faUser} />
+                </span>
+            )
+        }
+    }
+
     return (
         <React.Fragment>
         <div id="view-controls">
 
-            <button className="fa fa-button user" onClick={showUserModal}><span>{props.user} <FontAwesomeIcon icon={faUser}/></span></button>
+            <button className="fa fa-button user" onClick={showUserModal}>{userIcon(props.user)}</button>
             <Modal size="md" show={userIsOpen} onHide={hideUserModal}>
                 <ModalBody>
                     <h4>Enter a username for yourself:</h4>

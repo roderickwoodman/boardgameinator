@@ -62,7 +62,9 @@ export const ViewControls = (props) => {
         setUsernameInput(userInput)
         const sanitizedInput = userInput.replace(/[^A-Za-z.-]/g," ")
         let validated = null
-        if (userInput.length < 3 && userInput.length > 0) {
+        if (userInput.match(/[ ]{2}/g,)) {
+            setErrorMessage('ERROR: repeated spaces are not allowed')
+        } else if (userInput.length < 3 && userInput.length > 0) {
             setErrorMessage('ERROR: username must be at least 3 characters')
         } else if (sanitizedInput !== userInput) {
             setErrorMessage('ERROR: invalid characters were detected')

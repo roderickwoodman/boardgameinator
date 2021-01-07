@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import PropTypes from 'prop-types'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLongArrowAltRight } from '@fortawesome/free-solid-svg-icons'
@@ -68,7 +68,12 @@ export const AddGames = (props) => {
     const [ selectedGamesToActivate, setSelectedGamesToActivate ] = useState([])
     const [ loading, setLoading ] = useState(false)
 
+    const inputEl = useRef(null)
+
     useEffect( () => {
+
+        inputEl.current.focus()
+
         async function addRoutedGames() {
 
             // routing by poll ID
@@ -240,7 +245,7 @@ export const AddGames = (props) => {
             <div id="input-section">
                     <section id="input-by-title">
                         <section className="buttonrow">
-                            <input size="30" value={userTitlesInput} onChange={handleChange} placeholder="(exact game titles or BGG IDs)" autoFocus required/>
+                            <input ref={inputEl} size="30" value={userTitlesInput} onChange={handleChange} placeholder="(exact game titles or BGG IDs)" required/>
                             <button onClick={handleSubmit} className="default-primary-styles">Add</button>
                             { loading && !statusMessages.length &&
                                 <Spinner animation="border" size="sm" />

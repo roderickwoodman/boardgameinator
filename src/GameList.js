@@ -214,7 +214,7 @@ export const GameList = (props) => {
                         }
                     })
                     if (myVote.length === 1) {
-                        new_vote_counts.my_rank = myVote.rank
+                        new_vote_counts.my_rank = myVote[0].rank
                     } else {
                         new_vote_counts.my_rank = null
                     }

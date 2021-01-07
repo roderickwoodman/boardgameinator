@@ -118,8 +118,8 @@ export const ViewControls = (props) => {
                         <section className="buttonrow">
                             <input ref={inputEl} size="30" value={usernameInput} onChange={handleChange} placeholder="(your username)" required/>
                             <button onClick={handleSubmit} className="default-primary-styles">OK</button>
-                            <p>{errorMessage}</p>
                         </section>
+                        <p className="error">{errorMessage}</p>
                     </section>
                 </ModalBody>
                 <ModalFooter> 

@@ -588,6 +588,10 @@ html, #root {
   font-weight: 800;
 }
 
+#input-username p {
+  min-height: 2rem;
+}
+
 .addedgame, .message {
   margin: 0;
 }

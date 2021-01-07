@@ -81,6 +81,10 @@ html, #root {
   text-align: right;
 }
 
+#page-header > #view-controls > button.user :not(.loggedout) {
+  color: palegreen;
+}
+
 #page-header button img {
   margin: 0 1rem;
 }

@@ -72,7 +72,7 @@ export const ViewControls = (props) => {
             setErrorMessage('ERROR: username cannot be more than 16 characters')
         } else if (userInput.length !== 0) {
             setErrorMessage('')
-            validated = userInput
+            validated = userInput.trim()
         }
         setValidatedUsername(validated)
     }

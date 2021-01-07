@@ -14,7 +14,9 @@ export const ViewControls = (props) => {
     const [sortIsOpen, setSortIsOpen] = useState(false)
     const [filterIsOpen, setFilterIsOpen] = useState(false)
     const [userIsOpen, setUserIsOpen] = useState(false)
-    const [usernameInput, setUsernameInput ] = useState('')
+    const [usernameInput, setUsernameInput] = useState('')
+    const [validatedUsername, setValidatedUsername] = useState(null)
+    const [errorMessage, setErrorMessage] = useState('')
 
     const inputEl = useRef(null)
 
@@ -56,11 +58,27 @@ export const ViewControls = (props) => {
 
     const handleChange = (event) => {
         event.preventDefault()
-        setUsernameInput(event.target.value)
+        const userInput = event.target.value
+        setUsernameInput(userInput)
+        const sanitizedInput = userInput.replace(/[^A-Za-z.-]/g," ")
+        let validated = null
+        if (userInput.length < 3 && userInput.length > 0) {
+            setErrorMessage('ERROR: username must be at least 3 characters')
+        } else if (sanitizedInput !== userInput) {
+            setErrorMessage('ERROR: invalid characters were detected')
+        } else if (userInput.length > 16) {
+            setErrorMessage('ERROR: username cannot be more than 16 characters')
+        } else if (userInput.length !== 0) {
+            setErrorMessage('')
+            validated = userInput
+        }
+        setValidatedUsername(validated)
     }
 
     const handleSubmit = (event) => {
-        props.onuserchange(usernameInput)
+        if (validatedUsername !== null) {
+            props.onuserchange(usernameInput)
+        }
     }
 
     const userIcon = (user) => {
@@ -86,7 +104,6 @@ export const ViewControls = (props) => {
             setUsernameInput('')
             props.onuserchange(null)
         }
-
     }
 
     return (
@@ -101,6 +118,7 @@ export const ViewControls = (props) => {
                         <section className="buttonrow">
                             <input ref={inputEl} size="30" value={usernameInput} onChange={handleChange} placeholder="(your username)" required/>
                             <button onClick={handleSubmit} className="default-primary-styles">OK</button>
+                            <p>{errorMessage}</p>
                         </section>
                     </section>
                 </ModalBody>

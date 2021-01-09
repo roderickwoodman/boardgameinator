@@ -669,7 +669,9 @@ export class Boardgameinator extends React.Component {
             } else {
                 updated_activeGameList = [...prevState.localGameList]
                 updated_activeThumbs = JSON.parse(JSON.stringify(prevState.allThumbs.local))
-                updated_activeThumbs.total_title_votes = poll_thumbs.total_title_votes
+                const myCountsOnly = (active_poll === 'local') ? true : false;
+                let updatedTitleCount = this.totalTitleVotes(prevState.allThumbs.local, myCountsOnly, this.state.user)
+                updated_activeThumbs.total_title_votes = updatedTitleCount
             }
 
             // now, add the new games

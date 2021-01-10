@@ -5,8 +5,8 @@ import Spinner from 'react-bootstrap/Spinner'
 
 export const hardcoded_polls = [
     {
-        id: 1,
-        createdAt: 1610263478000,
+        id: 1610263478000, // createdAt
+        updatedAt: 1610263478000,
         closesAt: 1610263498000,
         name: 'Fake Poll A, VOTING DISABLED',
         pollThumbs: {
@@ -32,8 +32,8 @@ export const hardcoded_polls = [
         }
     },
     {
-        id: 2,
-        createdAt: 1610263515000,
+        id: 1610263515000, // createdAt
+        updatedAt: 1610263515000,
         closesAt: 1610263615000,
         name: 'Fake Poll B, VOTING DISABLED',
         pollThumbs: {
@@ -62,8 +62,8 @@ export const hardcoded_polls = [
         }
     },
     {
-        id: 3,
-        createdAt: 1610263992000,
+        id: 1610263992000, // createdAt
+        updatedAt: 1610263992000,
         closesAt: 1612941797000,
         name: 'Fake Poll C, VOTING DISABLED',
         pollThumbs: {

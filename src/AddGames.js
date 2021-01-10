@@ -72,7 +72,9 @@ export const AddGames = (props) => {
 
     useEffect( () => {
 
-        inputEl.current.focus()
+        if (inputEl.current !== null) {
+            inputEl.current.focus()
+        }
 
         async function addRoutedGames() {
 

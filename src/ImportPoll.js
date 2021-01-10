@@ -6,6 +6,8 @@ import Spinner from 'react-bootstrap/Spinner'
 export const hardcoded_polls = [
     {
         id: 1,
+        createdAt: 1610263478000,
+        closesAt: 1610263498000,
         name: 'Fake Poll A, VOTING DISABLED',
         pollThumbs: {
             titles: {
@@ -31,6 +33,8 @@ export const hardcoded_polls = [
     },
     {
         id: 2,
+        createdAt: 1610263515000,
+        closesAt: 1610263615000,
         name: 'Fake Poll B, VOTING DISABLED',
         pollThumbs: {
             titles: {
@@ -59,18 +63,29 @@ export const hardcoded_polls = [
     },
     {
         id: 3,
+        createdAt: 1610263992000,
+        closesAt: 1612941797000,
         name: 'Fake Poll C, VOTING DISABLED',
         pollThumbs: {
             titles: {
+                298065: { // Santa Monica
+                    'thumbsup': [{user:'Santa', rank:1}, {user:'Mendy', rank:1}]
+                },
+                73761: { // K2
+                    'thumbsup': [{user:'Santa', rank:2}, {user:'Mendy', rank:1}, {user:'Keith', rank:1}, {user:'Karl', rank:1}]
+                },
                 141791: { // Pinata
                     'thumbsup': []
+                },
+                169786: { // Scythe
+                    'thumbsup': [{user:'Santa', rank:3}]
                 },
                 162886: { // Spirit Island
                     'thumbsup': [{user:'Sue', rank:1}]
                 },
             },
             winners: [],
-            total_title_votes: 1,
+            total_title_votes: 8,
         }
     }
 ]

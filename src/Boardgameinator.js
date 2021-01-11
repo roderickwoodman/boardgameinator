@@ -64,22 +64,27 @@ const Clock = (props) => {
         )
     } else {
         return (
-            <div id="countdown">voting closes in:
-                <div className="delta">
-                    <div className="value">{deltaDays}</div>
-                    <div className="units">days</div>
-                </div>
-                <div className="delta">
-                    <div className="value">{deltaHours}</div>
-                    <div className="units">hours</div>
-                </div>
-                <div className="delta">
-                    <div className="value">{deltaMins}</div>
-                    <div className="units">mins</div>
-                </div>
-                <div className="delta">
-                    <div className="value">{deltaSecs}</div>
-                    <div className="units">secs</div>
+            <div id="clock">
+                <p id="countdown-label">
+                    voting closes:
+                </p>
+                <div id="countdown">
+                    <div className="delta">
+                        <div className="value">{deltaDays}</div>
+                        <div className="units">days</div>
+                    </div>
+                    <div className="delta">
+                        <div className="value">{deltaHours}</div>
+                        <div className="units">hours</div>
+                    </div>
+                    <div className="delta">
+                        <div className="value">{deltaMins}</div>
+                        <div className="units">mins</div>
+                    </div>
+                    <div className="delta">
+                        <div className="value">{deltaSecs}</div>
+                        <div className="units">secs</div>
+                    </div>
                 </div>
             </div>
         )

@@ -827,10 +827,11 @@ export class Boardgameinator extends React.Component {
         return (
             <React.Fragment>
             <div id="page-header">
-                <button className="fa fa-button"><FontAwesomeIcon icon={faBars}/>
+                <div id="buttonrow-left">
+                    <button className="fa fa-button"><FontAwesomeIcon icon={faBars}/></button>
                     <img src={purpleMeeple} alt="Boardgameinator logo" />
                     <h1>{(this.state.activePoll.id === 'local') ? 'Boardgameinator' : this.state.activePoll.name}</h1>
-                </button>
+                </div>
                 <ViewControls 
                 user={this.state.user}
                 activepoll={this.state.activePoll}

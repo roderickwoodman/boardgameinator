@@ -11,27 +11,24 @@ import { faBars } from '@fortawesome/free-solid-svg-icons'
 
 const Clock = (props) => {
 
-    const [outputMessage, setOutputMessage] = useState('');
+    const [delta, setDelta] = useState(0);
+    const [deltaDays, setDeltaDays] = useState(0);
+    const [deltaHours, setDeltaHours] = useState(0);
+    const [deltaMins, setDeltaMins] = useState(0);
+    const [deltaSecs, setDeltaSecs] = useState(0);
 
     useEffect( () => {
 
-        if (props.poll.id === 'local') {
-
-            setOutputMessage('')
-
-        } else {
+        if (props.poll.id !== 'local') {
 
             // Begin the countdown timer for the current poll
             const timerId = setInterval( () => {
 
                 const now = new Date().getTime();
                 let deltaDays = 0, deltaHours = 0, deltaMins = 0
-                let deltaSecs = Math.floor((parseInt(props.poll.closesAt) - now) / (1000));
-                let countdown = ''
-                if (deltaSecs <= 0) {
-                    countdown += `results final`
-                } else {
-                    countdown = `voting closes:`
+                let delta = parseInt(props.poll.closesAt) - now
+                let deltaSecs = Math.floor(delta / 1000)
+                if (delta > 0) {
                     if (deltaSecs > 59) {
                         deltaMins = Math.floor(deltaSecs / 60)
                         deltaSecs -= deltaMins * 60
@@ -44,21 +41,12 @@ const Clock = (props) => {
                             }
                         }
                     }
-                    if (deltaDays > 0) {
-                        countdown += `${deltaDays} days `
-                    } 
-                    if (deltaDays > 0 || deltaHours > 0) {
-                        countdown += `${deltaHours} hours `
-                    }
-                    if (deltaDays > 0 || deltaHours > 0 || deltaMins > 0) {
-                        if (!deltaDays && !deltaHours && !deltaMins) {
-                            countdown += `< 1 min `
-                        } else {
-                            countdown += `${deltaMins} mins `
-                        }
-                    }
                 }
-                setOutputMessage(countdown)
+                setDelta(delta)
+                setDeltaDays(deltaDays)
+                setDeltaHours(deltaHours)
+                setDeltaMins(deltaMins)
+                setDeltaSecs(deltaSecs)
             }, 1000);
 
             return () => clearInterval(timerId);
@@ -66,7 +54,24 @@ const Clock = (props) => {
 
     }, [props.poll.closesAt, props.poll.id]);
 
-    return outputMessage
+    if (props.poll.id === 'local') {
+        return (
+            <p></p>
+        )
+    } else if (delta < 0) {
+        return (
+            <p>results final</p>
+        )
+    } else {
+        return (
+            <p>voting closes in:
+                <span>{deltaDays}d </span>
+                <span>{deltaHours}h </span>
+                <span>{deltaMins}m </span>
+                <span>{deltaSecs}s </span>
+            </p>
+        )
+    }
 }
 export class Boardgameinator extends React.Component {
 
@@ -890,7 +895,7 @@ export class Boardgameinator extends React.Component {
                     <button className="fa fa-button"><FontAwesomeIcon icon={faBars}/></button>
                     <img src={purpleMeeple} alt="Boardgameinator logo" />
                     <h1>{(this.state.activePoll.id === 'local') ? 'Boardgameinator' : this.state.activePoll.name}</h1>
-                    <p><Clock poll={this.state.activePoll} /></p>
+                    <Clock poll={this.state.activePoll} />
                 </div>
                 <ViewControls 
                 user={this.state.user}

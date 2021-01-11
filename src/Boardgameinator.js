@@ -60,16 +60,28 @@ const Clock = (props) => {
         )
     } else if (delta < 0) {
         return (
-            <p>results final</p>
+            <p id="countdown">results final</p>
         )
     } else {
         return (
-            <p>voting closes in:
-                <span>{deltaDays}d </span>
-                <span>{deltaHours}h </span>
-                <span>{deltaMins}m </span>
-                <span>{deltaSecs}s </span>
-            </p>
+            <div id="countdown">voting closes in:
+                <div className="delta">
+                    <div className="value">{deltaDays}</div>
+                    <div className="units">days</div>
+                </div>
+                <div className="delta">
+                    <div className="value">{deltaHours}</div>
+                    <div className="units">hours</div>
+                </div>
+                <div className="delta">
+                    <div className="value">{deltaMins}</div>
+                    <div className="units">mins</div>
+                </div>
+                <div className="delta">
+                    <div className="value">{deltaSecs}</div>
+                    <div className="units">secs</div>
+                </div>
+            </div>
         )
     }
 }

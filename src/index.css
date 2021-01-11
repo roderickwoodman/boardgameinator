@@ -65,9 +65,43 @@ html, #root {
 }
 
 #page-header #buttonrow-left {
+  height: 100%;
   display: flex;
   flex-direction: row;                                                                          
+  justify-content: flex-start;
   align-items: center;
+}
+
+#countdown { 
+  margin: 0;
+  padding: 0;
+  max-width: 20rem;
+  height: 100%;
+  font-size: 1rem;
+  line-height: 1rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+#countdown .delta {
+  flex: 1 1 25%;
+  padding: 0 0.25rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+
+#countdown .delta .value {
+  font-size: 1.25rem;
+  line-height: 1.25rem;
+}
+
+#countdown .delta .units {
+  font-size: 1rem;
+  line-height: 1rem;
 }
 
 #page-header > #view-controls > button {

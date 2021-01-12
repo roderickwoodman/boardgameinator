@@ -12,6 +12,55 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBars, faInfoCircle } from '@fortawesome/free-solid-svg-icons'
 
 
+const TitleString = (props) => {
+    if (props.poll.id === 'local') {
+        return (
+            <h1>Boardgameinator</h1>
+        )
+    }  else {
+        return (
+            <h1>{props.poll.name}</h1>
+        )
+    }
+}
+
+const PollInfo = (props) => {
+
+    const [pollInfoIsOpen, setPollInfoIsOpen] = useState(false)
+
+    const showPollInfoModal = () => {
+        setPollInfoIsOpen(true)
+    }
+
+    const hidePollInfoModal = () => {
+        setPollInfoIsOpen(false)
+    }
+
+    if (props.poll.id === 'local') {
+        return (
+            <p></p>
+        )
+    }  else {
+        return (
+            <div id="poll-info">
+                <button className={(props.poll.id !== 'local') ? "fa fa-button poll-info" : null} onClick={showPollInfoModal}><FontAwesomeIcon icon={faInfoCircle}/></button>
+                <Modal size="md" show={pollInfoIsOpen} onHide={hidePollInfoModal}>
+                    <ModalBody>
+                        <h4>{props.poll.name}</h4>
+                        <section id="input-username">
+                            ID:{props.poll.id}
+                        </section>
+                    </ModalBody>
+                    <ModalFooter> 
+                        <button className="default-primary-styles" onClick={hidePollInfoModal}>Close</button>
+                    </ModalFooter>
+                </Modal>
+            </div>
+        )
+    }
+
+}
+
 const Clock = (props) => {
 
     const [delta, setDelta] = useState(0);
@@ -93,44 +142,6 @@ const Clock = (props) => {
         )
     }
 }
-
-const PollInfo = (props) => {
-
-    const [pollInfoIsOpen, setPollInfoIsOpen] = useState(false)
-
-    const showPollInfoModal = () => {
-        setPollInfoIsOpen(true)
-    }
-
-    const hidePollInfoModal = () => {
-        setPollInfoIsOpen(false)
-    }
-
-    if (props.poll.id === 'local') {
-        return (
-            <p></p>
-        )
-    }  else {
-        return (
-            <div id="poll-info">
-                <button className={(props.poll.id !== 'local') ? "fa fa-button poll-info" : null} onClick={showPollInfoModal}><FontAwesomeIcon icon={faInfoCircle}/></button>
-                <Modal size="md" show={pollInfoIsOpen} onHide={hidePollInfoModal}>
-                    <ModalBody>
-                        <h4>{props.poll.name}</h4>
-                        <section id="input-username">
-                            ID:{props.poll.id}
-                        </section>
-                    </ModalBody>
-                    <ModalFooter> 
-                        <button className="default-primary-styles" onClick={hidePollInfoModal}>Close</button>
-                    </ModalFooter>
-                </Modal>
-            </div>
-        )
-    }
-
-}
-
 
 export class Boardgameinator extends React.Component {
 
@@ -954,7 +965,7 @@ export class Boardgameinator extends React.Component {
                 <div id="buttonrow-left">
                     <button className="fa fa-button"><FontAwesomeIcon icon={faBars}/></button>
                     <img src={purpleMeeple} alt="Boardgameinator logo" />
-                    <h1>{(this.state.activePoll.id === 'local') ? 'Boardgameinator' : this.state.activePoll.name}</h1>
+                    <TitleString poll={this.state.activePoll} />
                     <PollInfo poll={this.state.activePoll} />
                     <Clock poll={this.state.activePoll} />
                 </div>

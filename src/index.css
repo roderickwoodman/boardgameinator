@@ -110,6 +110,10 @@ html, #root {
   align-items: center;
 }
 
+p#countdown {
+  margin: 0;
+}
+
 #countdown .delta .value {
   font-size: 1.25rem;
   line-height: 1.25rem;

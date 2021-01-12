@@ -1121,7 +1121,7 @@ button:enabled,
   }
 
   #page-header h1 {
-    visibility: hidden;
+    display: none;
   }
   
   #content-wrapper {

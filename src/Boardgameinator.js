@@ -38,8 +38,12 @@ const PollInfo = (props) => {
 
     const epochToLocal = (epoch) => {
         let d = new Date(epoch)
-        // return d.toString()
-        return d.toLocaleDateString('en-US')
+        const dayName = d.toString().split(' ')[0]
+        return dayName + ' ' + d.toLocaleDateString('en-US', { 
+            day: '2-digit',
+            month: '2-digit',
+            year:'numeric'
+        })
     }
 
     if (props.poll.id === 'local') {

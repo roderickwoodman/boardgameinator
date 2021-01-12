@@ -5,10 +5,40 @@ import Spinner from 'react-bootstrap/Spinner'
 
 export const hardcoded_polls = [
     {
-        id: 1610263478000, // createdAt
-        updatedAt: 1610263478000,
-        closesAt: 1610263498000,
+        id: 1610263515000, // createdAt
+        updatedAt: 1610263515000,
+        closesAt: 1619301600000,
         name: 'Fake Poll A, VOTING DISABLED',
+        pollThumbs: {
+            titles: {
+                175914: { // Food Chain Magnate
+                    'thumbsup': [{user:'Fran', rank:1}, {user:'Filipe', rank:1}, {user:'Fiona', rank:1}, {user:'Mendy', rank:1}]
+                },
+                266192: { // Wingspan
+                    'thumbsup': [{user:'Wesley', rank:1}, {user:'Will', rank:1}]
+                },
+                31481: { // Galaxy Trucker
+                    'thumbsup': [{user:'Gary', rank:1}]
+                },
+                199478: { // Flamme Rouge
+                    'thumbsup': [{user:'Fred', rank:1}]
+                },
+                169786: { // Scythe
+                    'thumbsup': [{user:'Sue', rank:1}]
+                },
+                9209: { // Ticket To Ride
+                    'thumbsup': [{user:'Tina', rank:1}, {user:'Timothy', rank:1}]
+                },
+            },
+            winners: [],
+            total_title_votes: 11,
+        }
+    },
+    {
+        id: 1608456120000, // createdAt
+        updatedAt: 1608456120000,
+        closesAt: 1610263498000,
+        name: 'Fake Poll B, VOTING DISABLED',
         pollThumbs: {
             titles: {
                 126163: { // Tzolk'in
@@ -31,36 +61,7 @@ export const hardcoded_polls = [
             total_title_votes: 10,
         }
     },
-    {
-        id: 1610263515000, // createdAt
-        updatedAt: 1610263515000,
-        closesAt: 1610263615000,
-        name: 'Fake Poll B, VOTING DISABLED',
-        pollThumbs: {
-            titles: {
-                175914: { // Food Chain Magnate
-                    'thumbsup': [{user:'Fran', rank:1}, {user:'Filipe', rank:1}, {user:'Fiona', rank:1}, {user:'Mendy', rank:1}]
-                },
-                266192: { // Wingspan
-                    'thumbsup': [{user:'Wesley', rank:1}, {user:'Will', rank:1}]
-                },
-                31481: { // Galaxy Trucker
-                    'thumbsup': [{user:'Gary', rank:1}]
-                },
-                199478: { // Flamme Rouge
-                    'thumbsup': [{user:'Fred', rank:1}]
-                },
-                169786: { // Scythe
-                    'thumbsup': [{user:'Sue', rank:1}]
-                },
-                9209: { // Ticket To Ride
-                    'thumbsup': [{user:'Tina', rank:1}, {user:'Timothy', rank:1}]
-                },
-            },
-            winners: [175914],
-            total_title_votes: 11,
-        }
-    },
+
     {
         id: 1610263992000, // createdAt
         updatedAt: 1610263992000,

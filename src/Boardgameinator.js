@@ -5,8 +5,11 @@ import { ViewControls } from './ViewControls'
 import { GameList } from './GameList'
 import { validateUserTitles } from './GameLibrary'
 import { voteinpollApi, clearmyvotesApi, deletetitleinpollApi } from './Api.js'
+import Modal from 'react-bootstrap/Modal'
+import ModalBody from 'react-bootstrap/ModalBody'
+import ModalFooter from 'react-bootstrap/ModalFooter'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBars } from '@fortawesome/free-solid-svg-icons'
+import { faBars, faInfoCircle } from '@fortawesome/free-solid-svg-icons'
 
 
 const Clock = (props) => {
@@ -90,6 +93,39 @@ const Clock = (props) => {
         )
     }
 }
+
+const PollInfo = (props) => {
+
+    const [pollInfoIsOpen, setPollInfoIsOpen] = useState(false)
+
+    const showPollInfoModal = () => {
+        setPollInfoIsOpen(true)
+    }
+
+    const hidePollInfoModal = () => {
+        setPollInfoIsOpen(false)
+    }
+
+    return (
+        <div id="poll-info">
+            <button className={(props.poll.id !== 'local') ? "fa fa-button poll-info" : null} onClick={showPollInfoModal}><FontAwesomeIcon icon={faInfoCircle}/></button>
+            <Modal size="md" show={pollInfoIsOpen} onHide={hidePollInfoModal}>
+                <ModalBody>
+                    <h4>{props.poll.name}</h4>
+                    <section id="input-username">
+                        ID:{props.poll.id}
+                    </section>
+                </ModalBody>
+                <ModalFooter> 
+                    <button className="default-primary-styles" onClick={hidePollInfoModal}>Close</button>
+                </ModalFooter>
+            </Modal>
+        </div>
+    )
+
+}
+
+
 export class Boardgameinator extends React.Component {
 
     constructor(props) {
@@ -913,6 +949,7 @@ export class Boardgameinator extends React.Component {
                     <img src={purpleMeeple} alt="Boardgameinator logo" />
                     <h1>{(this.state.activePoll.id === 'local') ? 'Boardgameinator' : this.state.activePoll.name}</h1>
                     <Clock poll={this.state.activePoll} />
+                    <PollInfo poll={this.state.activePoll} />
                 </div>
                 <ViewControls 
                 user={this.state.user}

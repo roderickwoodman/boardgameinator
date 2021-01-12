@@ -15,7 +15,7 @@ import { faBars, faInfoCircle } from '@fortawesome/free-solid-svg-icons'
 const TitleString = (props) => {
     if (props.poll.id === 'local') {
         return (
-            <h1>Boardgameinator</h1>
+            <h1 className="big">Boardgameinator</h1>
         )
     }  else {
         return (

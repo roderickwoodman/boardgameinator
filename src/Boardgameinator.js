@@ -948,8 +948,8 @@ export class Boardgameinator extends React.Component {
                     <button className="fa fa-button"><FontAwesomeIcon icon={faBars}/></button>
                     <img src={purpleMeeple} alt="Boardgameinator logo" />
                     <h1>{(this.state.activePoll.id === 'local') ? 'Boardgameinator' : this.state.activePoll.name}</h1>
-                    <Clock poll={this.state.activePoll} />
                     <PollInfo poll={this.state.activePoll} />
+                    <Clock poll={this.state.activePoll} />
                 </div>
                 <ViewControls 
                 user={this.state.user}

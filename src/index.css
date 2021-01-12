@@ -35,6 +35,15 @@ ul {
   list-style: none;
 }
 
+#poll-metadata th {
+  text-align: right;
+}
+
+#poll-metadata th, 
+#poll-metadata td {
+  padding: 0 0.5rem;
+}
+
 hr {
   width:70%;
 }

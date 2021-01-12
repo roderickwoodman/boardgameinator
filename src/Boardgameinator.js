@@ -58,18 +58,20 @@ const PollInfo = (props) => {
                     <ModalBody>
                         <h4>{props.poll.name}</h4>
                         <table id="poll-metadata">
-                            <tr>
-                                <th>ID:</th><td>{props.poll.id}</td>
-                            </tr>
-                            <tr>
-                                <th>created:</th><td>{epochToLocal(props.poll.id)}</td>
-                            </tr>
-                            <tr>
-                                <th>updated:</th><td>{epochToLocal(props.poll.updatedAt)}</td>
-                            </tr>
-                            <tr>
-                                <th>closes:</th><td>{epochToLocal(props.poll.closesAt)}</td>
-                            </tr>
+                            <tbody>
+                                <tr>
+                                    <th>ID:</th><td>{props.poll.id}</td>
+                                </tr>
+                                <tr>
+                                    <th>created:</th><td>{epochToLocal(props.poll.id)}</td>
+                                </tr>
+                                <tr>
+                                    <th>updated:</th><td>{epochToLocal(props.poll.updatedAt)}</td>
+                                </tr>
+                                <tr>
+                                    <th>closes:</th><td>{epochToLocal(props.poll.closesAt)}</td>
+                                </tr>
+                            </tbody>
                         </table>
                     </ModalBody>
                     <ModalFooter> 

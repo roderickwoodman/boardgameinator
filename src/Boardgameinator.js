@@ -106,22 +106,28 @@ const PollInfo = (props) => {
         setPollInfoIsOpen(false)
     }
 
-    return (
-        <div id="poll-info">
-            <button className={(props.poll.id !== 'local') ? "fa fa-button poll-info" : null} onClick={showPollInfoModal}><FontAwesomeIcon icon={faInfoCircle}/></button>
-            <Modal size="md" show={pollInfoIsOpen} onHide={hidePollInfoModal}>
-                <ModalBody>
-                    <h4>{props.poll.name}</h4>
-                    <section id="input-username">
-                        ID:{props.poll.id}
-                    </section>
-                </ModalBody>
-                <ModalFooter> 
-                    <button className="default-primary-styles" onClick={hidePollInfoModal}>Close</button>
-                </ModalFooter>
-            </Modal>
-        </div>
-    )
+    if (props.poll.id === 'local') {
+        return (
+            <p></p>
+        )
+    }  else {
+        return (
+            <div id="poll-info">
+                <button className={(props.poll.id !== 'local') ? "fa fa-button poll-info" : null} onClick={showPollInfoModal}><FontAwesomeIcon icon={faInfoCircle}/></button>
+                <Modal size="md" show={pollInfoIsOpen} onHide={hidePollInfoModal}>
+                    <ModalBody>
+                        <h4>{props.poll.name}</h4>
+                        <section id="input-username">
+                            ID:{props.poll.id}
+                        </section>
+                    </ModalBody>
+                    <ModalFooter> 
+                        <button className="default-primary-styles" onClick={hidePollInfoModal}>Close</button>
+                    </ModalFooter>
+                </Modal>
+            </div>
+        )
+    }
 
 }
 
@@ -941,6 +947,7 @@ export class Boardgameinator extends React.Component {
         let filterTitles = (this.state.filterTitles !== null && this.state.activePoll.id === 'local') ? this.state.filterTitles : false
         let filterPlayercount = (this.state.filterPlayercount !== null && this.state.activePoll.id === 'local') ? this.state.filterPlayercount : false
         let filterWeight = (this.state.filterWeight !== null && this.state.activePoll.id === 'local') ? this.state.filterWeight : false
+
         return (
             <React.Fragment>
             <div id="page-header">

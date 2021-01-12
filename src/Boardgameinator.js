@@ -36,6 +36,12 @@ const PollInfo = (props) => {
         setPollInfoIsOpen(false)
     }
 
+    const epochToLocal = (epoch) => {
+        let d = new Date(epoch)
+        // return d.toString()
+        return d.toLocaleDateString('en-US')
+    }
+
     if (props.poll.id === 'local') {
         return (
             <p></p>
@@ -47,9 +53,20 @@ const PollInfo = (props) => {
                 <Modal size="md" show={pollInfoIsOpen} onHide={hidePollInfoModal}>
                     <ModalBody>
                         <h4>{props.poll.name}</h4>
-                        <section id="input-username">
-                            ID:{props.poll.id}
-                        </section>
+                        <table id="poll-metadata">
+                            <tr>
+                                <th>ID:</th><td>{props.poll.id}</td>
+                            </tr>
+                            <tr>
+                                <th>created:</th><td>{epochToLocal(props.poll.id)}</td>
+                            </tr>
+                            <tr>
+                                <th>updated:</th><td>{epochToLocal(props.poll.updatedAt)}</td>
+                            </tr>
+                            <tr>
+                                <th>closes:</th><td>{epochToLocal(props.poll.closesAt)}</td>
+                            </tr>
+                        </table>
                     </ModalBody>
                     <ModalFooter> 
                         <button className="default-primary-styles" onClick={hidePollInfoModal}>Close</button>

@@ -150,6 +150,7 @@ html, #root {
   line-height: 1.5rem;
   width: max-content;
   padding-right: 0.5rem;
+  white-space: nowrap;
 }
 
 #page-header button {

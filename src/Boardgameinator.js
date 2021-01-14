@@ -55,9 +55,10 @@ const PollInfo = (props) => {
         // tally the votes
         let voteTally = {}
         Object.entries(props.poll.pollThumbs.titles).forEach( entry => {
+            let name = props.gamedata.filter( gamedata => gamedata.id === parseInt(entry[0]) )[0].unambiguous_name
             if (entry[1].hasOwnProperty('thumbsup')) {
                 let thumbsupVotes = JSON.parse(JSON.stringify(entry[1].thumbsup)).map( vote => vote.user )
-                voteTally[entry[0]] = thumbsupVotes 
+                voteTally[name] = thumbsupVotes 
             }
         })
 
@@ -71,7 +72,6 @@ const PollInfo = (props) => {
                 return 0
             }
         })
-        // console.log('sortedVoteTally:',sortedVoteTally)
 
         return (
             <div id="poll-info">
@@ -1025,7 +1025,7 @@ export class Boardgameinator extends React.Component {
                     <button className="fa fa-button"><FontAwesomeIcon icon={faBars}/></button>
                     <img src={purpleMeeple} alt="Boardgameinator logo" />
                     <TitleString poll={this.state.activePoll} />
-                    <PollInfo poll={this.state.activePoll} />
+                    <PollInfo poll={this.state.activePoll} gamedata={this.state.allGameData} />
                     <Clock poll={this.state.activePoll} />
                 </div>
                 <ViewControls 

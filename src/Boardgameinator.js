@@ -51,6 +51,28 @@ const PollInfo = (props) => {
             <p></p>
         )
     }  else {
+
+        // tally the votes
+        let voteTally = {}
+        Object.entries(props.poll.pollThumbs.titles).forEach( entry => {
+            if (entry[1].hasOwnProperty('thumbsup')) {
+                let thumbsupVotes = JSON.parse(JSON.stringify(entry[1].thumbsup)).map( vote => vote.user )
+                voteTally[entry[0]] = thumbsupVotes 
+            }
+        })
+
+        // sort the tallied votes
+        let sortedVoteTally = Object.entries(voteTally).sort( (a,b) => {
+            if (a[1].length > b[1].length) {
+                return -1
+            } else if (a[1].length < b[1].length) {
+                return 1
+            } else {
+                return 0
+            }
+        })
+        // console.log('sortedVoteTally:',sortedVoteTally)
+
         return (
             <div id="poll-info">
                 <button className={(props.poll.id !== 'local') ? "fa fa-button poll-info" : null} onClick={showPollInfoModal}><FontAwesomeIcon icon={faInfoCircle}/></button>
@@ -73,6 +95,11 @@ const PollInfo = (props) => {
                                 </tr>
                             </tbody>
                         </table>
+                        <ul>
+                            { sortedVoteTally.map( (game, i) =>
+                                <li key={i}>{game[0]}</li>
+                            )}
+                        </ul>
                     </ModalBody>
                     <ModalFooter> 
                         <button className="default-primary-styles" onClick={hidePollInfoModal}>Close</button>

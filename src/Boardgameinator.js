@@ -95,11 +95,20 @@ const PollInfo = (props) => {
                                 </tr>
                             </tbody>
                         </table>
-                        <ul>
-                            { sortedVoteTally.map( (game, i) =>
-                                <li key={i}>{game[0]}</li>
-                            )}
-                        </ul>
+                        <table>
+                            <tbody>
+                                { sortedVoteTally.map( (game, i) =>
+                                    <tr key={i}>
+                                        <td>{game[0]}</td>
+                                        <td>
+                                            { game[1].map( (vote, j) =>
+                                                <span key={j}>{vote}, </span>
+                                            )}
+                                        </td>
+                                    </tr>
+                                )}
+                            </tbody>
+                        </table>
                     </ModalBody>
                     <ModalFooter> 
                         <button className="default-primary-styles" onClick={hidePollInfoModal}>Close</button>

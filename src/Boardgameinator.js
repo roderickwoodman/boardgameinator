@@ -87,10 +87,10 @@ const PollInfo = (props) => {
 const Clock = (props) => {
 
     const [delta, setDelta] = useState(0);
-    const [deltaDays, setDeltaDays] = useState(0);
-    const [deltaHours, setDeltaHours] = useState(0);
-    const [deltaMins, setDeltaMins] = useState(0);
-    const [deltaSecs, setDeltaSecs] = useState(0);
+    const [deltaDays, setDeltaDays] = useState('-');
+    const [deltaHours, setDeltaHours] = useState('-');
+    const [deltaMins, setDeltaMins] = useState('-');
+    const [deltaSecs, setDeltaSecs] = useState('-');
 
     useEffect( () => {
 

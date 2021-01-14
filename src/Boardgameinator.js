@@ -73,6 +73,25 @@ const PollInfo = (props) => {
             }
         })
 
+        // tag each game with a ranking string
+        for (let [idx,votes] of sortedVoteTally.entries()) {
+            let rankStr = ''
+            if (idx === 0) {
+                rankStr = '1'
+            } else {
+                // if the previous vote count equals this one, use the previous rankStr
+                if (sortedVoteTally[idx][1].length === sortedVoteTally[idx-1][1].length) {
+                    if (!sortedVoteTally[idx-1][2].endsWith('T')) {
+                        sortedVoteTally[idx-1][2] += 'T'
+                    }
+                    rankStr = sortedVoteTally[idx-1][2]
+                } else {
+                    rankStr = (idx + 1).toString()
+                }
+            }
+            sortedVoteTally[idx].push(rankStr)
+        }
+
         return (
             <div id="poll-info">
                 <button className={(props.poll.id !== 'local') ? "fa fa-button poll-info" : null} onClick={showPollInfoModal}><FontAwesomeIcon icon={faInfoCircle}/></button>
@@ -99,6 +118,7 @@ const PollInfo = (props) => {
                             <tbody>
                                 { sortedVoteTally.map( (game, i) =>
                                     <tr key={i}>
+                                        <td>{game[2]}</td>
                                         <td>{game[0]}</td>
                                         <td>
                                             { game[1].map( (vote, j) =>

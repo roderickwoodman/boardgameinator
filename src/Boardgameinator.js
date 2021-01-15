@@ -80,7 +80,7 @@ const PollInfo = (props) => {
                 rankStr = '1'
             } else {
                 // if the previous vote count equals this one, use the previous rankStr
-                if (sortedVoteTally[idx][1].length === sortedVoteTally[idx-1][1].length) {
+                if (votes.length === sortedVoteTally[idx-1][1].length) {
                     if (!sortedVoteTally[idx-1][2].endsWith('T')) {
                         sortedVoteTally[idx-1][2] += 'T'
                     }

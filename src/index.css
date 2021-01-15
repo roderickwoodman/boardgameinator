@@ -40,8 +40,14 @@ ul {
 }
 
 #poll-metadata th, 
-#poll-metadata td {
+#poll-metadata td,
+#poll-results th,
+#poll-results td {
   padding: 0 0.5rem;
+}
+
+#poll-results th {
+  text-align: center;
 }
 
 hr {

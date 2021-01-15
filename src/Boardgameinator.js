@@ -114,11 +114,11 @@ const PollInfo = (props) => {
                                 </tr>
                             </tbody>
                         </table>
-                        <table>
+                        <table id="poll-results">
                             <tbody>
                                 { sortedVoteTally.map( (game, i) =>
                                     <tr key={i}>
-                                        <td>{game[2]}</td>
+                                        <th>{game[2]}.</th>
                                         <td>{game[0]}</td>
                                         <td>
                                             { game[1].map( (vote, j) =>

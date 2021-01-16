@@ -57,10 +57,11 @@ const PollInfo = (props) => {
         Object.entries(props.poll.pollThumbs.titles).forEach( entry => {
             let name = props.gamedata.filter( gamedata => gamedata.id === parseInt(entry[0]) )[0].unambiguous_name
             if (entry[1].hasOwnProperty('thumbsup')) {
-                let thumbsupVotes = JSON.parse(JSON.stringify(entry[1].thumbsup)).map( vote => vote.user )
+                let thumbsupVotes = JSON.parse(JSON.stringify(entry[1].thumbsup)).map( vote => vote.user ).sort()
                 voteTally[name] = thumbsupVotes 
             }
         })
+
 
         // sort the tallied votes
         let sortedVoteTally = Object.entries(voteTally).sort( (a,b) => {

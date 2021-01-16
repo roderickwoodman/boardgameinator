@@ -117,9 +117,17 @@ export const PollInfo = (props) => {
                                         <th>{game[2]}.</th>
                                         <td>{game[0]}</td>
                                         <td>
-                                            { game[1].map( (vote, j) =>
-                                                <span key={j}>{vote}, </span>
-                                            )}
+                                            { game[1].map( (vote, j) => {
+                                                if (vote === props.user) {
+                                                    return(
+                                                        <span key={j} className={'you'}>You, </span>
+                                                    )
+                                                } else {
+                                                    return(
+                                                        <span key={j}>{vote}, </span>
+                                                    )
+                                                }
+                                            })}
                                         </td>
                                     </tr>
                                 )}

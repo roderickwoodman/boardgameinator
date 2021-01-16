@@ -50,6 +50,11 @@ ul {
   text-align: center;
 }
 
+#poll-results .you {
+  font-weight: 800;
+  color: darkgreen;
+}
+
 hr {
   width:70%;
 }

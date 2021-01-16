@@ -118,13 +118,14 @@ export const PollInfo = (props) => {
                                         <td>{game[0]}</td>
                                         <td>
                                             { game[1].map( (vote, j) => {
+                                                let comma = (j !== game[1].length - 1) ? ', ' : ''
                                                 if (vote === props.user) {
                                                     return(
-                                                        <span key={j} className={'you'}>You, </span>
+                                                        <span key={j} className={'you'}>You{comma}</span>
                                                     )
                                                 } else {
                                                     return(
-                                                        <span key={j}>{vote}, </span>
+                                                        <span key={j}>{vote}{comma}</span>
                                                     )
                                                 }
                                             })}

@@ -40,7 +40,19 @@ export const PollInfo = (props) => {
         Object.entries(props.poll.pollThumbs.titles).forEach( entry => {
             let name = props.gamedata.filter( gamedata => gamedata.id === parseInt(entry[0]) )[0].unambiguous_name
             if (entry[1].hasOwnProperty('thumbsup')) {
-                let thumbsupVotes = JSON.parse(JSON.stringify(entry[1].thumbsup)).map( vote => vote.user ).sort()
+                let thumbsupVotes = JSON.parse(JSON.stringify(entry[1].thumbsup)).map( vote => vote.user ).sort( (a,b) => {
+                    if (a === props.user) {
+                        return -1
+                    } else if (b === props.user) {
+                        return 1
+                    } else if (a < b) {
+                        return - 1
+                    } else if (a > b) {
+                        return 1
+                    } else {
+                        return 0
+                    }
+                })
                 voteTally[name] = thumbsupVotes 
             }
         })
@@ -127,4 +139,5 @@ export const PollInfo = (props) => {
 PollInfo.propTypes = {
     poll: PropTypes.object.isRequired,
     gamedata: PropTypes.array.isRequired,
+    user: PropTypes.string,
 }

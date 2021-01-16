@@ -927,7 +927,7 @@ export class Boardgameinator extends React.Component {
                     <button className="fa fa-button"><FontAwesomeIcon icon={faBars}/></button>
                     <img src={purpleMeeple} alt="Boardgameinator logo" />
                     <TitleString poll={this.state.activePoll} />
-                    <PollInfo poll={this.state.activePoll} gamedata={this.state.allGameData} />
+                    <PollInfo poll={this.state.activePoll} gamedata={this.state.allGameData} user={this.state.user} />
                     <Clock poll={this.state.activePoll} />
                 </div>
                 <ViewControls 

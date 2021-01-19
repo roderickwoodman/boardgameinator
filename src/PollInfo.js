@@ -88,6 +88,15 @@ export const PollInfo = (props) => {
             sortedVoteTally[idx].push(rankStr)
         }
 
+        const ClosesInfo = (props) => {
+            const now = new Date().getTime()
+            if (props.closesAt > now) {
+                return 'still open'
+            } else {
+                return 'results final'
+            }
+        }
+
         return (
             <div id="poll-info">
                 <button className={(props.poll.id !== 'local') ? "fa fa-button poll-info" : null} onClick={showPollInfoModal}><FontAwesomeIcon icon={faInfoCircle}/></button>
@@ -106,7 +115,7 @@ export const PollInfo = (props) => {
                                     <th>updated:</th><td>{epochToLocal(props.poll.updatedAt)}</td>
                                 </tr>
                                 <tr>
-                                    <th>closes:</th><td>{epochToLocal(props.poll.closesAt)}</td>
+                                    <th>closes:</th><td>{epochToLocal(props.poll.closesAt)}</td><td><ClosesInfo closesAt={props.poll.closesAt} /></td>
                                 </tr>
                             </tbody>
                         </table>

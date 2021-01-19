@@ -760,13 +760,16 @@ button.default-primary-styles {
   color: white;
 }
 
+.poll-status-closed,
 button.default-secondary-styles {
   background: rgb(89, 97, 105);
   color: white;
 }
 
+.poll-status-open,
 button.default-secondary-styles.active-button {
   background: green;
+  color: white;
 }
 
 button.default-danger-styles {

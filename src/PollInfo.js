@@ -91,9 +91,9 @@ export const PollInfo = (props) => {
         const ClosesInfo = (props) => {
             const now = new Date().getTime()
             if (props.closesAt > now) {
-                return 'still open'
+                return <td className="poll-status-open">still open</td>
             } else {
-                return 'results final'
+                return <td className="poll-status-closed">results final</td>
             }
         }
 
@@ -115,7 +115,7 @@ export const PollInfo = (props) => {
                                     <th>updated:</th><td>{epochToLocal(props.poll.updatedAt)}</td>
                                 </tr>
                                 <tr>
-                                    <th>closes:</th><td>{epochToLocal(props.poll.closesAt)}</td><td><ClosesInfo closesAt={props.poll.closesAt} /></td>
+                                    <th>closes:</th><td>{epochToLocal(props.poll.closesAt)}</td><ClosesInfo closesAt={props.poll.closesAt}/>
                                 </tr>
                             </tbody>
                         </table>

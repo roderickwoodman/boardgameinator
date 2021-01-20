@@ -38,7 +38,6 @@ export const PollInfo = (props) => {
         // tally the votes
         let voteTally = {}
         Object.entries(props.poll.pollThumbs.titles).forEach( entry => {
-            let name = props.gamedata.filter( gamedata => gamedata.id === parseInt(entry[0]) )[0].unambiguous_name
             if (entry[1].hasOwnProperty('thumbsup')) {
                 let thumbsupVotes = JSON.parse(JSON.stringify(entry[1].thumbsup)).map( vote => vote.user ).sort( (a,b) => {
                     if (a === props.user) {
@@ -53,7 +52,7 @@ export const PollInfo = (props) => {
                         return 0
                     }
                 })
-                voteTally[name] = thumbsupVotes 
+                voteTally[entry[0]] = thumbsupVotes 
             }
         })
 
@@ -86,6 +85,8 @@ export const PollInfo = (props) => {
                 }
             }
             sortedVoteTally[idx].push(rankStr)
+            let name = props.gamedata.filter( gamedata => gamedata.id === parseInt(sortedVoteTally[idx][0]) )[0].unambiguous_name
+            sortedVoteTally[idx].push(name)
         }
 
         const ClosesInfo = (props) => {
@@ -122,9 +123,9 @@ export const PollInfo = (props) => {
                         <table id="poll-results">
                             <tbody>
                                 { sortedVoteTally.map( (game, i) =>
-                                    <tr key={i}>
+                                    <tr key={i} className={(props.poll.pollThumbs.winners.includes(parseInt(game[0]))) ? 'winner' : null }>
                                         <th>{game[2]}.</th>
-                                        <td>{game[0]}</td>
+                                        <td>{game[3]}</td>
                                         <td>
                                             { game[1].map( (vote, j) => {
                                                 let comma = (j !== game[1].length - 1) ? ', ' : ''

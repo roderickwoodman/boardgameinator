@@ -49,7 +49,7 @@ ul {
   margin-top: 1.5rem;
 }
 
-#poll-results tr:nth-child(even) {
+#poll-results tr:nth-child(even):not(.winner) {
   background-color: #f2f2f2;
 }
 
@@ -58,6 +58,10 @@ ul {
 #poll-results th,
 #poll-results td {
   padding: 0 0.5rem;
+}
+
+#poll-results .winner {
+  background-color: lightyellow;
 }
 
 #poll-results th {

@@ -138,6 +138,7 @@ export const PollInfo = (props) => {
                                                     )
                                                 }
                                             })}
+                                            { !game[1].length && '-' }
                                         </td>
                                     </tr>
                                 )}

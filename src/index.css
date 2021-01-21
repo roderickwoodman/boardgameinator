@@ -60,8 +60,13 @@ ul {
   padding: 0 0.5rem;
 }
 
-#poll-results .winner {
+#poll-results tr {
+  border: 1px solid transparent;
+}
+
+#poll-results tr.winner {
   background-color: lightyellow;
+  border: 1px solid #660066;
 }
 
 #poll-results th {

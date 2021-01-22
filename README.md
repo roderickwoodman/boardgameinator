@@ -3,6 +3,10 @@
 ## Boardgameinator
 *A board game comparison site*
 
+<p align="center">
+  <img width="800" height="420" src="public/og-image.png">
+</p>
+
 ### What is this thing?
 
 Behold, the **BOARDGAMEINATOR**!  (...said in my best [Dr. Doofenshmirtz](https://www.youtube.com/watch?v=Sj7yxI-r_ag) accent)

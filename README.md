@@ -43,7 +43,7 @@ Using the BoardGameGeek IDs or the poll IDs from this app, you can share lists o
 * Share a poll: https://roderickwoodman.github.io/boardgameinator/?poll=1
 
 <p align="center">
-  <img width="800" height="420" src="public/ss-poll.png">
+  <img width="800" height="540" src="public/ss-poll.png">
 </p
 ### [under development] Creating a poll
 Users who are logged in can create polls and vote on them with other users.

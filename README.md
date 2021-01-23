@@ -44,7 +44,8 @@ Using the BoardGameGeek IDs or the poll IDs from this app, you can share lists o
 
 <p align="center">
   <img width="800" height="540" src="public/ss-poll.png">
-</p
+</p>
+
 ### [under development] Creating a poll
 Users who are logged in can create polls and vote on them with other users.
 

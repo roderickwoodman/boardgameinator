@@ -67,6 +67,7 @@ ul {
 #poll-results tr.winner {
   background-color: lightyellow;
   border: 1px solid #660066;
+  font-weight: 800;
 }
 
 #poll-results th {

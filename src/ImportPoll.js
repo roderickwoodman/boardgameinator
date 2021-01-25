@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import { importpollApi } from './Api.js'
 import PropTypes from 'prop-types'
 import Spinner from 'react-bootstrap/Spinner'
@@ -94,7 +94,10 @@ export const hardcoded_polls = [
 export const ImportPoll = (props) => {
 
     const [ inputValue, setInputValue ] = useState(props.activepoll.id.toString())
+    const [ userPollIdInput, setUserPollIdInput ] = useState('')
     const [ loading, setLoading ] = useState(false)
+
+    const inputEl = useRef(null)
 
     const handleChange = (event) => {
         if (!loading) {
@@ -112,6 +115,19 @@ export const ImportPoll = (props) => {
                 setLoading(false)
             }
         }
+    }
+
+    const handleIdChange = (event) => {
+        event.preventDefault()
+        setUserPollIdInput(parseInt(event.target.value))
+    }
+
+    const handleSubmit = async (event) => {
+        event.preventDefault()
+        setLoading(true)
+        const imported_poll = importpollApi(userPollIdInput)
+        props.onviewpoll(imported_poll)
+        setLoading(false)
     }
 
     return (
@@ -154,7 +170,12 @@ export const ImportPoll = (props) => {
                             </label>
                     )})
             }
-
+            <section id="input-by-poll-id">
+                <section className="buttonrow">
+                    <input ref={inputEl} size="30" value={userPollIdInput} onChange={handleIdChange} placeholder="(poll ID)" />
+                    <button onClick={handleSubmit} className="default-primary-styles">Import</button>
+                </section>
+            </section>
         </div>
         </React.Fragment>
     )

@@ -81,7 +81,9 @@ export const AddGames = (props) => {
             // routing by poll ID
             if (props.routedgames.hasOwnProperty('pollid') && props.routedgames.pollid !== null) {
                 const imported_poll = importpollApi(props.routedgames.pollid)
-                props.onviewpoll(imported_poll)
+                if (imported_poll !== null) {
+                    props.onviewpoll(imported_poll)
+                }
 
             // routing by game ID(s)
             } else {

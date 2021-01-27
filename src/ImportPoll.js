@@ -111,7 +111,9 @@ export const ImportPoll = (props) => {
             } else {
                 setLoading(true)
                 const imported_poll = importpollApi(parseInt(event.target.value))
-                props.onviewpoll(imported_poll)
+                if (imported_poll !== null) {
+                    props.onviewpoll(imported_poll)
+                }
                 setLoading(false)
             }
         }
@@ -119,14 +121,16 @@ export const ImportPoll = (props) => {
 
     const handleIdChange = (event) => {
         event.preventDefault()
-        setUserPollIdInput(parseInt(event.target.value))
+        setUserPollIdInput(event.target.value)
     }
 
     const handleSubmit = async (event) => {
         event.preventDefault()
         setLoading(true)
-        const imported_poll = importpollApi(userPollIdInput)
-        props.onviewpoll(imported_poll)
+        const imported_poll = importpollApi(parseInt(userPollIdInput))
+        if (imported_poll !== null) {
+            props.onviewpoll(imported_poll)
+        }
         setLoading(false)
     }
 

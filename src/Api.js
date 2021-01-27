@@ -194,7 +194,8 @@ function makeReadable(str) {
 
 export function importpollApi(poll_id) {
     console.log(`FIXME (WIP): implement the fetching of poll #${poll_id}.`)
-    return hardcoded_polls.filter( poll => poll.id === poll_id )[0]
+    const matchingPolls = hardcoded_polls.filter( poll => poll.id === poll_id )
+    return (matchingPolls.length === 1) ? matchingPolls[0] : null
 }
 
 export function voteinpollApi(poll_id, game_id, newvote, user) {

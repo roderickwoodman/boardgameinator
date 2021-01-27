@@ -173,7 +173,7 @@ export const ImportPoll = (props) => {
                     value="local"
                     checked={inputValue === 'local'}
                     onChange={handleChange} />
-                &nbsp;No poll</label>
+                &nbsp;No poll. Edit my own game list.</label>
 
             { hardcoded_polls
                 .map( (poll,i) => {

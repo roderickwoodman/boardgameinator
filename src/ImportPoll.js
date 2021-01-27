@@ -95,6 +95,8 @@ export const ImportPoll = (props) => {
 
     const [ inputValue, setInputValue ] = useState(props.activepoll.id.toString())
     const [ userPollIdInput, setUserPollIdInput ] = useState('')
+    const [ validPollId, setValidPollId ] = useState(null)
+    const [ errorMessage, setErrorMessage ] = useState(null)
     const [ loading, setLoading ] = useState(false)
 
     const inputEl = useRef(null)
@@ -121,17 +123,38 @@ export const ImportPoll = (props) => {
 
     const handleIdChange = (event) => {
         event.preventDefault()
-        setUserPollIdInput(event.target.value)
+        const potentialPollId = event.target.value
+        setUserPollIdInput(potentialPollId)
+        const validationErrors = validate(potentialPollId)
+        if (Object.keys(validationErrors).length) {
+            if (validationErrors.hasOwnProperty('chars')) {
+                setValidPollId(null)
+                setErrorMessage(validationErrors.chars)
+            }
+        } else {
+            setValidPollId(potentialPollId)
+        }
+    }
+
+    const validate = (value) => {
+        let errors = {}
+        const legalCharacters = value.replace(/[^0-9]/g, '')
+        if (legalCharacters !== value) {
+            errors['chars'] = `Invalid. Please use only digits.`
+        }
+        return errors
     }
 
     const handleSubmit = async (event) => {
         event.preventDefault()
-        setLoading(true)
-        const imported_poll = importpollApi(parseInt(userPollIdInput))
-        if (imported_poll !== null) {
-            props.onviewpoll(imported_poll)
+        if (validPollId !== null) {
+            setLoading(true)
+            const imported_poll = importpollApi(parseInt(userPollIdInput))
+            if (imported_poll !== null) {
+                props.onviewpoll(imported_poll)
+            }
+            setLoading(false)
         }
-        setLoading(false)
     }
 
     return (

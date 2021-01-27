@@ -96,7 +96,7 @@ export const ImportPoll = (props) => {
     const [ inputValue, setInputValue ] = useState(props.activepoll.id.toString())
     const [ userPollIdInput, setUserPollIdInput ] = useState('')
     const [ validPollId, setValidPollId ] = useState(null)
-    const [ errorMessage, setErrorMessage ] = useState(null)
+    const [ statusMessage, setStatusMessage ] = useState(null)
     const [ loading, setLoading ] = useState(false)
 
     const inputEl = useRef(null)
@@ -129,10 +129,11 @@ export const ImportPoll = (props) => {
         if (Object.keys(validationErrors).length) {
             if (validationErrors.hasOwnProperty('chars')) {
                 setValidPollId(null)
-                setErrorMessage(validationErrors.chars)
+                setStatusMessage(validationErrors.chars)
             }
         } else {
             setValidPollId(potentialPollId)
+            setStatusMessage(null)
         }
     }
 
@@ -203,6 +204,11 @@ export const ImportPoll = (props) => {
                     <button onClick={handleSubmit} className="default-primary-styles">Import</button>
                 </section>
             </section>
+            <div className="status-messages">
+                { statusMessage &&
+                    <p className="message error">ERROR: {statusMessage}</p>
+                }
+            </div>
         </div>
         </React.Fragment>
     )

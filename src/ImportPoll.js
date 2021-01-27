@@ -160,7 +160,7 @@ export const ImportPoll = (props) => {
 
     return (
         <React.Fragment>
-        <h4>Select a group poll</h4>
+        <h4>Import and select group polls</h4>
         <h6 className="warning">(UNDER CONSTRUCTION)</h6>
         <div id="import-poll">
 
@@ -174,6 +174,18 @@ export const ImportPoll = (props) => {
                     checked={inputValue === 'local'}
                     onChange={handleChange} />
                 &nbsp;No poll. Edit my own game list.</label>
+
+            <section id="input-by-poll-id">
+                <section className="buttonrow">
+                    <input ref={inputEl} size="30" value={userPollIdInput} onChange={handleIdChange} placeholder="(poll ID)" />
+                    <button onClick={handleSubmit} className="default-primary-styles">Import</button>
+                </section>
+                <div className="status-messages">
+                    { statusMessage &&
+                        <p className="message error">ERROR: {statusMessage}</p>
+                    }
+                </div>
+            </section>
 
             { hardcoded_polls
                 .map( (poll,i) => {
@@ -198,17 +210,6 @@ export const ImportPoll = (props) => {
                             </label>
                     )})
             }
-            <section id="input-by-poll-id">
-                <section className="buttonrow">
-                    <input ref={inputEl} size="30" value={userPollIdInput} onChange={handleIdChange} placeholder="(poll ID)" />
-                    <button onClick={handleSubmit} className="default-primary-styles">Import</button>
-                </section>
-            </section>
-            <div className="status-messages">
-                { statusMessage &&
-                    <p className="message error">ERROR: {statusMessage}</p>
-                }
-            </div>
         </div>
         </React.Fragment>
     )

@@ -239,6 +239,10 @@ p#countdown {
   display: block;
 }
 
+#import-poll #input-by-poll-id {
+  margin: 1.25rem 0.5rem 0;
+}
+
 #gamesorting-controls,
 #gamefiltering-controls {
   margin: 10px 10px 20px 10px;

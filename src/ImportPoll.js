@@ -97,6 +97,7 @@ export const ImportPoll = (props) => {
     const [ userPollIdInput, setUserPollIdInput ] = useState('')
     const [ validPollId, setValidPollId ] = useState(null)
     const [ statusMessage, setStatusMessage ] = useState(null)
+    const [ hiddenPollIds, setHiddenPollIds ] = useState([1610263515000])
     const [ loading, setLoading ] = useState(false)
 
     const inputEl = useRef(null)
@@ -158,6 +159,13 @@ export const ImportPoll = (props) => {
         }
     }
 
+    const handleHidePoll = (event) => {
+        const poll = parseInt(event.target.id.replace('poll-hide-',''))
+        let updatedHiddenPollIds = [...hiddenPollIds]
+        updatedHiddenPollIds.push(poll)
+        setHiddenPollIds(updatedHiddenPollIds)
+    }
+
     return (
         <React.Fragment>
         <h4>Import and select group polls</h4>
@@ -191,24 +199,34 @@ export const ImportPoll = (props) => {
                 .map( (poll,i) => {
                     const gamecount = Object.keys(poll.pollThumbs.titles).length + ' ' + ((Object.keys(poll.pollThumbs.titles).length === 1) ? 'game' : 'games')
                     const votecount = poll.pollThumbs.total_title_votes + ' ' + ((poll.pollThumbs.total_title_votes === 1) ? 'vote' : 'votes')
-                    return (
-                        <label 
-                            key={i}
-                            htmlFor={"poll-" + i}>
-                            <input 
-                                type="radio" 
-                                id={"poll-" + i} 
-                                name="gamelist" 
-                                value={poll.id}
-                                checked={inputValue === poll.id.toString()}
-                                onChange={handleChange} />
-                            &nbsp;{poll.name} ({gamecount}, {votecount})&nbsp;
-                            { loading && inputValue === poll.id.toString() &&
-                            <Spinner animation="border" size="sm" />
-                            }
-
+                    if (!hiddenPollIds.includes(poll.id)) {
+                        return (
+                            <label 
+                                key={i}
+                                htmlFor={"poll-" + i}>
+                                <button 
+                                    id={"poll-hide-" + poll.id}
+                                    onClick={handleHidePoll}>
+                                    foo</button>
+                                <input 
+                                    type="radio" 
+                                    id={"poll-" + i} 
+                                    name="gamelist" 
+                                    value={poll.id}
+                                    checked={inputValue === poll.id.toString()}
+                                    onChange={handleChange} />
+                                &nbsp;{poll.name} ({gamecount}, {votecount})&nbsp;
+                                { loading && inputValue === poll.id.toString() &&
+                                <Spinner animation="border" size="sm" />
+                                }
                             </label>
-                    )})
+                        )
+                    } else {
+                        return (
+                            null
+                        )
+                    }
+                })
             }
         </div>
         </React.Fragment>

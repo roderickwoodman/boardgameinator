@@ -97,7 +97,7 @@ export const ImportPoll = (props) => {
     const [ userPollIdInput, setUserPollIdInput ] = useState('')
     const [ validPollId, setValidPollId ] = useState(null)
     const [ statusMessage, setStatusMessage ] = useState(null)
-    const [ hiddenPollIds, setHiddenPollIds ] = useState([1610263515000])
+    const [ hiddenPollIds, setHiddenPollIds ] = useState([])
     const [ loading, setLoading ] = useState(false)
 
     const inputEl = useRef(null)
@@ -153,6 +153,11 @@ export const ImportPoll = (props) => {
             setLoading(true)
             const imported_poll = importpollApi(parseInt(userPollIdInput))
             if (imported_poll !== null) {
+                let updatedHiddenPollIds = [...hiddenPollIds]
+                updatedHiddenPollIds = updatedHiddenPollIds.filter( poll => poll.id !== validPollId )
+                setHiddenPollIds(updatedHiddenPollIds)
+                setUserPollIdInput('')
+                setValidPollId(null)
                 props.onviewpoll(imported_poll)
             }
             setLoading(false)

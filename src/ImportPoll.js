@@ -169,6 +169,14 @@ export const ImportPoll = (props) => {
         let updatedHiddenPollIds = [...hiddenPollIds]
         updatedHiddenPollIds.push(poll)
         setHiddenPollIds(updatedHiddenPollIds)
+        if (poll === props.activepoll.id) {
+            setInputValue('local')
+            const no_poll = {
+                id: 'local',
+                name: 'local',
+            }
+            props.onviewpoll(no_poll)
+        }
     }
 
     return (

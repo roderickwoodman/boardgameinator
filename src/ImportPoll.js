@@ -110,7 +110,7 @@ export const ImportPoll = (props) => {
         }
     }, [])
 
-    const handleChange = (event) => {
+    const selectPoll = (event) => {
         if (!loading) {
             setInputValue(event.target.value)
             if (event.target.value === 'local') {
@@ -135,7 +135,7 @@ export const ImportPoll = (props) => {
         }
     }
 
-    const handleIdChange = (event) => {
+    const newPollIdChange = (event) => {
         event.preventDefault()
         const potentialPollId = event.target.value
         setUserPollIdInput(potentialPollId)
@@ -160,7 +160,7 @@ export const ImportPoll = (props) => {
         return errors
     }
 
-    const handleSubmit = async (event) => {
+    const newPollIdSubmit = async (event) => {
         event.preventDefault()
         if (validPollId !== null) {
             setLoading(true)
@@ -182,6 +182,10 @@ export const ImportPoll = (props) => {
         let updatedHiddenPollIds = [...hiddenPollIds]
         updatedHiddenPollIds.push(poll)
         setHiddenPollIds(updatedHiddenPollIds)
+        let updated_pollList = [...pollList]
+        updated_pollList = updated_pollList.filter( pollId => !updatedHiddenPollIds.includes(pollId) )
+        localStorage.setItem('pollList', JSON.stringify(updated_pollList))
+        console.log(`hiding #${poll} => ${updated_pollList}`)
         if (poll === props.activepoll.id) {
             setInputValue('local')
             const no_poll = {
@@ -206,13 +210,13 @@ export const ImportPoll = (props) => {
                     name="gamelist" 
                     value="local"
                     checked={inputValue === 'local'}
-                    onChange={handleChange} />
+                    onChange={selectPoll} />
                 &nbsp;No poll. Edit my own game list.</label>
 
             <section id="input-by-poll-id">
                 <section className="buttonrow">
-                    <input ref={inputEl} size="30" value={userPollIdInput} onChange={handleIdChange} placeholder="(poll ID)" />
-                    <button onClick={handleSubmit} className="default-primary-styles">Import</button>
+                    <input ref={inputEl} size="30" value={userPollIdInput} onChange={newPollIdChange} placeholder="(poll ID)" />
+                    <button onClick={newPollIdSubmit} className="default-primary-styles">Import</button>
                 </section>
                 <div className="status-messages">
                     { statusMessage &&
@@ -240,7 +244,7 @@ export const ImportPoll = (props) => {
                                     name="gamelist" 
                                     value={poll.id}
                                     checked={inputValue === poll.id.toString()}
-                                    onChange={handleChange} />
+                                    onChange={selectPoll} />
                                 &nbsp;{poll.name} ({gamecount}, {votecount})&nbsp;
                                 { loading && inputValue === poll.id.toString() &&
                                 <Spinner animation="border" size="sm" />

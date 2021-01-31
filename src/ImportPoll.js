@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import { importpollApi } from './Api.js'
 import PropTypes from 'prop-types'
 import Spinner from 'react-bootstrap/Spinner'
@@ -93,6 +93,7 @@ export const hardcoded_polls = [
 
 export const ImportPoll = (props) => {
 
+    const [ pollList, setPollList ] = useState([])
     const [ inputValue, setInputValue ] = useState(props.activepoll.id.toString())
     const [ userPollIdInput, setUserPollIdInput ] = useState('')
     const [ validPollId, setValidPollId ] = useState(null)
@@ -101,6 +102,13 @@ export const ImportPoll = (props) => {
     const [ loading, setLoading ] = useState(false)
 
     const inputEl = useRef(null)
+
+    useEffect( () => {
+        const stored_pollList = JSON.parse(localStorage.getItem("pollList"))
+        if (stored_pollList !== null) {
+            setPollList(stored_pollList)
+        }
+    }, [])
 
     const handleChange = (event) => {
         if (!loading) {
@@ -115,6 +123,11 @@ export const ImportPoll = (props) => {
                 setLoading(true)
                 const imported_poll = importpollApi(parseInt(event.target.value))
                 if (imported_poll !== null) {
+                    if (!pollList.includes(imported_poll.id)) {
+                        let updated_pollList = [...pollList]
+                        updated_pollList.push(imported_poll.id)
+                        localStorage.setItem('pollList', JSON.stringify(updated_pollList))
+                    }
                     props.onviewpoll(imported_poll)
                 }
                 setLoading(false)

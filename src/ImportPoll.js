@@ -2,6 +2,8 @@ import React, { useState, useRef, useEffect } from 'react'
 import { importpollApi } from './Api.js'
 import PropTypes from 'prop-types'
 import Spinner from 'react-bootstrap/Spinner'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faTrash } from '@fortawesome/free-solid-svg-icons'
 
 export const hardcoded_polls = [
     {
@@ -236,8 +238,10 @@ export const ImportPoll = (props) => {
                                 htmlFor={"poll-" + i}>
                                 <button 
                                     id={"poll-hide-" + poll.id}
+                                    className="fa fa-button"
                                     onClick={handleHidePoll}>
-                                    foo</button>
+                                    <FontAwesomeIcon icon={faTrash}/>
+                                    </button>
                                 <input 
                                     type="radio" 
                                     id={"poll-" + i} 

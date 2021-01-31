@@ -804,6 +804,11 @@ button.fa.fa-button {
   color: white;
 }
 
+#import-poll button.fa.fa-button {
+  border: 1px solid black;
+  color: black;
+}
+
 #page-header button.fa.fa-button {
   border: transparent;
 }

@@ -236,7 +236,14 @@ p#countdown {
 }
 
 #import-poll label {
+  border: 1px solid transparent;
+  border-radius: 5px;
   display: block;
+}
+
+#import-poll label:hover {
+  border: 1px solid black;
+  cursor: pointer;
 }
 
 #import-poll #input-by-poll-id {

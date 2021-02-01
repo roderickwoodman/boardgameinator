@@ -227,17 +227,17 @@ export const ImportPoll = (props) => {
                 </div>
             </section>
 
-            { hardcoded_polls
-                .map( (poll,i) => {
-                    const gamecount = Object.keys(poll.pollThumbs.titles).length + ' ' + ((Object.keys(poll.pollThumbs.titles).length === 1) ? 'game' : 'games')
-                    const votecount = poll.pollThumbs.total_title_votes + ' ' + ((poll.pollThumbs.total_title_votes === 1) ? 'vote' : 'votes')
-                    if (!hiddenPollIds.includes(poll.id)) {
+            { pollList
+                .map( (pollId,i) => {
+                    // const gamecount = Object.keys(poll.pollThumbs.titles).length + ' ' + ((Object.keys(poll.pollThumbs.titles).length === 1) ? 'game' : 'games')
+                    // const votecount = poll.pollThumbs.total_title_votes + ' ' + ((poll.pollThumbs.total_title_votes === 1) ? 'vote' : 'votes')
+                    if (!hiddenPollIds.includes(pollId)) {
                         return (
                             <label 
                                 key={i}
                                 htmlFor={"poll-" + i}>
                                 <button 
-                                    id={"poll-hide-" + poll.id}
+                                    id={"poll-hide-" + pollId}
                                     className="fa fa-button"
                                     onClick={handleHidePoll}>
                                     <FontAwesomeIcon icon={faTrash}/>
@@ -246,11 +246,11 @@ export const ImportPoll = (props) => {
                                     type="radio" 
                                     id={"poll-" + i} 
                                     name="gamelist" 
-                                    value={poll.id}
-                                    checked={inputValue === poll.id.toString()}
+                                    value={pollId}
+                                    checked={inputValue === pollId.toString()}
                                     onChange={selectPoll} />
-                                &nbsp;{poll.name} ({gamecount}, {votecount})&nbsp;
-                                { loading && inputValue === poll.id.toString() &&
+                                {pollId/* &nbsp;{poll.name} ({gamecount}, {votecount})&nbsp; */}
+                                { loading && inputValue === pollId.toString() &&
                                 <Spinner animation="border" size="sm" />
                                 }
                             </label>

@@ -93,9 +93,17 @@ export const hardcoded_polls = [
     }
 ]
 
+const fetchDataForPolls = async (pollIds) => {
+    const polldata = await Promise.all(
+        pollIds.map( pollId => importpollApi(pollId) )
+    )
+    console.log('polldata:',polldata)
+}
+
 export const ImportPoll = (props) => {
 
     const [ pollList, setPollList ] = useState([])
+    const [ pollListData, setPollListData ] = useState([])
     const [ inputValue, setInputValue ] = useState(props.activepoll.id.toString())
     const [ userPollIdInput, setUserPollIdInput ] = useState('')
     const [ validPollId, setValidPollId ] = useState(null)
@@ -109,6 +117,7 @@ export const ImportPoll = (props) => {
         const stored_pollList = JSON.parse(localStorage.getItem("pollList"))
         if (stored_pollList !== null) {
             setPollList(stored_pollList)
+            setPollListData(fetchDataForPolls(stored_pollList))
         }
     }, [])
 
@@ -227,17 +236,17 @@ export const ImportPoll = (props) => {
                 </div>
             </section>
 
-            { pollList
-                .map( (pollId,i) => {
+            { pollListData !== null & pollListData
+                .map( (pollData,i) => {
                     // const gamecount = Object.keys(poll.pollThumbs.titles).length + ' ' + ((Object.keys(poll.pollThumbs.titles).length === 1) ? 'game' : 'games')
                     // const votecount = poll.pollThumbs.total_title_votes + ' ' + ((poll.pollThumbs.total_title_votes === 1) ? 'vote' : 'votes')
-                    if (!hiddenPollIds.includes(pollId)) {
+                    if (!hiddenPollIds.includes(pollData.id)) {
                         return (
                             <label 
                                 key={i}
                                 htmlFor={"poll-" + i}>
                                 <button 
-                                    id={"poll-hide-" + pollId}
+                                    id={"poll-hide-" + pollData.id}
                                     className="fa fa-button"
                                     onClick={handleHidePoll}>
                                     <FontAwesomeIcon icon={faTrash}/>
@@ -246,11 +255,11 @@ export const ImportPoll = (props) => {
                                     type="radio" 
                                     id={"poll-" + i} 
                                     name="gamelist" 
-                                    value={pollId}
-                                    checked={inputValue === pollId.toString()}
+                                    value={pollData.id}
+                                    checked={inputValue === pollData.id.toString()}
                                     onChange={selectPoll} />
-                                {pollId/* &nbsp;{poll.name} ({gamecount}, {votecount})&nbsp; */}
-                                { loading && inputValue === pollId.toString() &&
+                                {pollData.id/* &nbsp;{poll.name} ({gamecount}, {votecount})&nbsp; */}
+                                { loading && inputValue === pollData.id.toString() &&
                                 <Spinner animation="border" size="sm" />
                                 }
                             </label>

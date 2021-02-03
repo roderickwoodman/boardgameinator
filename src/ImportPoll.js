@@ -97,7 +97,7 @@ const fetchDataForPolls = async (pollIds) => {
     const polldata = await Promise.all(
         pollIds.map( pollId => importpollApi(pollId) )
     )
-    console.log('polldata:',polldata)
+    return polldata
 }
 
 export const ImportPoll = (props) => {
@@ -114,11 +114,21 @@ export const ImportPoll = (props) => {
     const inputEl = useRef(null)
 
     useEffect( () => {
+
+        let isSubscribed = true
+
         const stored_pollList = JSON.parse(localStorage.getItem("pollList"))
         if (stored_pollList !== null) {
             setPollList(stored_pollList)
-            setPollListData(fetchDataForPolls(stored_pollList))
+            fetchDataForPolls(stored_pollList).then( polldata => {
+                if (isSubscribed) {
+                    setPollListData(polldata)
+                }
+            })
         }
+
+        return () => isSubscribed = false
+
     }, [])
 
     const selectPoll = (event) => {
@@ -175,7 +185,7 @@ export const ImportPoll = (props) => {
         event.preventDefault()
         if (validPollId !== null) {
             setLoading(true)
-            const imported_poll = importpollApi(parseInt(userPollIdInput))
+            const imported_poll = await importpollApi(parseInt(userPollIdInput))
             if (imported_poll !== null) {
                 let updatedHiddenPollIds = [...hiddenPollIds]
                 updatedHiddenPollIds = updatedHiddenPollIds.filter( poll => poll.id !== validPollId )
@@ -196,7 +206,6 @@ export const ImportPoll = (props) => {
         let updated_pollList = [...pollList]
         updated_pollList = updated_pollList.filter( pollId => !updatedHiddenPollIds.includes(pollId) )
         localStorage.setItem('pollList', JSON.stringify(updated_pollList))
-        console.log(`hiding #${poll} => ${updated_pollList}`)
         if (poll === props.activepoll.id) {
             setInputValue('local')
             const no_poll = {
@@ -206,6 +215,8 @@ export const ImportPoll = (props) => {
             props.onviewpoll(no_poll)
         }
     }
+
+    let displayPolls = pollListData.filter( pollData => !hiddenPollIds.includes(pollData.id))
 
     return (
         <React.Fragment>
@@ -236,7 +247,7 @@ export const ImportPoll = (props) => {
                 </div>
             </section>
 
-            { pollListData !== null & pollListData
+            { displayPolls
                 .map( (pollData,i) => {
                     // const gamecount = Object.keys(poll.pollThumbs.titles).length + ' ' + ((Object.keys(poll.pollThumbs.titles).length === 1) ? 'game' : 'games')
                     // const votecount = poll.pollThumbs.total_title_votes + ' ' + ((poll.pollThumbs.total_title_votes === 1) ? 'vote' : 'votes')

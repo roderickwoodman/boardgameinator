@@ -104,9 +104,9 @@ export const ImportPoll = (props) => {
 
     const [ pollList, setPollList ] = useState([])
     const [ pollListData, setPollListData ] = useState([])
-    const [ inputValue, setInputValue ] = useState(props.activepoll.id.toString())
+    const [ selectedPoll, setSelectedPoll ] = useState(props.activepoll.id.toString())
     const [ userPollIdInput, setUserPollIdInput ] = useState('')
-    const [ validPollId, setValidPollId ] = useState(null)
+    const [ validPollIdInput, setValidPollIdInput ] = useState(null)
     const [ statusMessage, setStatusMessage ] = useState(null)
     const [ hiddenPollIds, setHiddenPollIds ] = useState([])
     const [ loading, setLoading ] = useState(false)
@@ -133,7 +133,7 @@ export const ImportPoll = (props) => {
 
     const selectPoll = (event) => {
         if (!loading) {
-            setInputValue(event.target.value)
+            setSelectedPoll(event.target.value)
             if (event.target.value === 'local') {
                 const no_poll = {
                     id: 'local',
@@ -163,11 +163,11 @@ export const ImportPoll = (props) => {
         const validationErrors = validate(potentialPollId)
         if (Object.keys(validationErrors).length) {
             if (validationErrors.hasOwnProperty('chars')) {
-                setValidPollId(null)
+                setValidPollIdInput(null)
                 setStatusMessage(validationErrors.chars)
             }
         } else {
-            setValidPollId(potentialPollId)
+            setValidPollIdInput(potentialPollId)
             setStatusMessage(null)
         }
     }
@@ -183,15 +183,15 @@ export const ImportPoll = (props) => {
 
     const newPollIdSubmit = async (event) => {
         event.preventDefault()
-        if (validPollId !== null) {
+        if (validPollIdInput !== null) {
             setLoading(true)
             const imported_poll = await importpollApi(parseInt(userPollIdInput))
             if (imported_poll !== null) {
                 let updatedHiddenPollIds = [...hiddenPollIds]
-                updatedHiddenPollIds = updatedHiddenPollIds.filter( poll => poll.id !== validPollId )
+                updatedHiddenPollIds = updatedHiddenPollIds.filter( poll => poll.id !== validPollIdInput )
                 setHiddenPollIds(updatedHiddenPollIds)
                 setUserPollIdInput('')
-                setValidPollId(null)
+                setValidPollIdInput(null)
                 props.onviewpoll(imported_poll)
             }
             setLoading(false)
@@ -207,7 +207,7 @@ export const ImportPoll = (props) => {
         updated_pollList = updated_pollList.filter( pollId => !updatedHiddenPollIds.includes(pollId) )
         localStorage.setItem('pollList', JSON.stringify(updated_pollList))
         if (poll === props.activepoll.id) {
-            setInputValue('local')
+            setSelectedPoll('local')
             const no_poll = {
                 id: 'local',
                 name: 'local',
@@ -231,7 +231,7 @@ export const ImportPoll = (props) => {
                     id="poll-local" 
                     name="gamelist" 
                     value="local"
-                    checked={inputValue === 'local'}
+                    checked={selectedPoll === 'local'}
                     onChange={selectPoll} />
                 &nbsp;No poll. Edit my own game list.</label>
 
@@ -267,10 +267,10 @@ export const ImportPoll = (props) => {
                                     id={"poll-" + i} 
                                     name="gamelist" 
                                     value={pollData.id}
-                                    checked={inputValue === pollData.id.toString()}
+                                    checked={selectedPoll === pollData.id.toString()}
                                     onChange={selectPoll} />
                                 {pollData.id/* &nbsp;{poll.name} ({gamecount}, {votecount})&nbsp; */}
-                                { loading && inputValue === pollData.id.toString() &&
+                                { loading && selectedPoll === pollData.id.toString() &&
                                 <Spinner animation="border" size="sm" />
                                 }
                             </label>

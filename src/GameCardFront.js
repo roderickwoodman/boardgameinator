@@ -12,11 +12,11 @@ export const GameCardFront = (props) => {
     const getClasses = (section, attrName) => {
         let classes = 'clickable attribute'
         if (section === 'weight') {
-            let weight_vote = getWeightVote(attrName)
-            classes += ` weight ${weight_vote}`
+            let weightVote = getWeightVote(attrName)
+            classes += ` weight ${weightVote}`
         } else if (section === 'supported-playercount') {
-            const supported_players_vote = getPlayersVote(props.attributes.minPlayers, props.attributes.maxPlayers)
-            classes += ` supported-playercount ${supported_players_vote}`
+            const supportedPlayersVote = getPlayersVote(props.attributes.minPlayers, props.attributes.maxPlayers)
+            classes += ` supported-playercount ${supportedPlayersVote}`
         } else {
             classes += (props.activeThumbs.attributes[section].hasOwnProperty(attrName) 
                         && props.activeThumbs.attributes[section][attrName].hasOwnProperty('thumbsup')
@@ -42,12 +42,12 @@ export const GameCardFront = (props) => {
     }
 
     // player count section gets only one, aggregated vote; only one <li> (ex: "2-6 players") 
-    const getPlayersVote = (myminplayers, mymaxplayers) => {
+    const getPlayersVote = (myMinPlayers, myMaxPlayers) => {
         let vote = "novote"
         Object.entries(props.activeThumbs.attributes.players).forEach( (votedPlayercount) => {
             const voted = parseInt(votedPlayercount[0].slice(0, -1))
-            if (voted >= myminplayers
-                && voted <= mymaxplayers
+            if (voted >= myMinPlayers
+                && voted <= myMaxPlayers
                 && votedPlayercount[1].hasOwnProperty('thumbsup')
                 && votedPlayercount[1].thumbsup.length) {
                 vote = "thumbsup"
@@ -57,10 +57,10 @@ export const GameCardFront = (props) => {
     }
 
     // vote section gets only one, aggregated vote; only one <li> (ex: "medium heavy") 
-    const getWeightVote = (myweight) => {
+    const getWeightVote = (myWeight) => {
         let vote = "novote"
         Object.entries(props.activeThumbs.attributes.weight).forEach( (votedWeight) => {
-            if (myweight === votedWeight[0]
+            if (myWeight === votedWeight[0]
               && votedWeight[1].hasOwnProperty('thumbsup') 
               && votedWeight[1].thumbsup.length) {
                 vote = "thumbsup"
@@ -69,25 +69,25 @@ export const GameCardFront = (props) => {
         return vote
     }
 
-    const getWeightName = (myweight) => {
+    const getWeightName = (myWeight) => {
         if (props.reallyNarrow) {
-            switch (myweight) {
+            switch (myWeight) {
                 case 'medium light':
                     return 'm. light'
                 case 'medium heavy':
                     return 'm. heavy'
                 default:
-                    return myweight
+                    return myWeight
             }
         } else {
-            return myweight
+            return myWeight
         }
     }
 
     const { id, thumbnail, activePoll, name, yearPublished, attributes, activeThumbs, myThumbCounts, onToggleInspection, onNewVote, onDelete, reallyNarrow } = props
-    const upvoted_categories = getUpvotedCategories()
-    const upvoted_mechanics = getUpvotedMechanics()
-    let upvoted_attributes = [ ...upvoted_categories, ...upvoted_mechanics ].sort()
+    const upvotedCategories = getUpvotedCategories()
+    const upvotedMechanics = getUpvotedMechanics()
+    let upvotedAttributes = [ ...upvotedCategories, ...upvotedMechanics ].sort()
     return (
         <React.Fragment>
         <section className="gamecard-header">
@@ -148,10 +148,10 @@ export const GameCardFront = (props) => {
               </div>
         </div>
         <div className="gamecard-upvoted-attributes">
-            { upvoted_attributes.map( (value) =>
+            { upvotedAttributes.map( (value) =>
                 <div 
                   key={value} 
-                  data-votingtype={ upvoted_categories.includes(value) ? 'category' : 'mechanic' }
+                  data-votingtype={ upvotedCategories.includes(value) ? 'category' : 'mechanic' }
                   data-votingon={value}
                   data-newvote='thumbsup'
                   onClick={props.onNewVote}

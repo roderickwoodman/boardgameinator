@@ -84,7 +84,7 @@ export const GameCardFront = (props) => {
         }
     }
 
-    const { id, thumbnail, activePoll, name, yearpublished, attributes, activeThumbs, mythumbcounts, ontoggleinspection, onNewVote, onDelete, reallyNarrow } = props
+    const { id, thumbnail, activePoll, name, yearPublished, attributes, activeThumbs, myThumbCounts, onToggleInspection, onNewVote, onDelete, reallyNarrow } = props
     const upvoted_categories = getUpvotedCategories()
     const upvoted_mechanics = getUpvotedMechanics()
     let upvoted_attributes = [ ...upvoted_categories, ...upvoted_mechanics ].sort()
@@ -92,12 +92,12 @@ export const GameCardFront = (props) => {
         <React.Fragment>
         <section className="gamecard-header">
             <button className="fa fa-button" onClick={ (e) => onDelete(e, id) }><FontAwesomeIcon icon={faTrash}/></button>
-            <button className="fa fa-button inspect" onClick={ (e) => ontoggleinspection(e, id) }><FontAwesomeIcon icon={faInfoCircle}/></button>
+            <button className="fa fa-button inspect" onClick={ (e) => onToggleInspection(e, id) }><FontAwesomeIcon icon={faInfoCircle}/></button>
         </section>
         <section className="gamecard-title">
             <h5 className="game-name">{name}</h5>
-            {(yearpublished !== null) 
-                ? <h6 className="game-yearpublished">({yearpublished})</h6>
+            {(yearPublished !== null) 
+                ? <h6 className="game-yearpublished">({yearPublished})</h6>
                 : <h6 className="game-yearpublished">(#{id})</h6>
             }
         </section>
@@ -114,7 +114,7 @@ export const GameCardFront = (props) => {
               url={thumbnail} 
               activePoll={activePoll} 
               activeThumbs={activeThumbs} 
-              mythumbcounts={mythumbcounts} 
+              myThumbCounts={myThumbCounts} 
               reallyNarrow={reallyNarrow} />
             <div className="gamecardvisual-overlay">
                 {(attributes.minPlayers !== attributes.maxPlayers)
@@ -203,12 +203,12 @@ GameCardFront.propTypes = {
     attributes: PropTypes.object.isRequired,
     activePoll: PropTypes.object.isRequired,
     activeThumbs: PropTypes.object.isRequired,
-    mythumbcounts: PropTypes.object,
+    myThumbCounts: PropTypes.object,
     name: PropTypes.string.isRequired,
     onNewVote: PropTypes.func.isRequired,
     onDelete: PropTypes.func.isRequired,
-    ontoggleinspection: PropTypes.func.isRequired,
+    onToggleInspection: PropTypes.func.isRequired,
     thumbnail: PropTypes.string,
-    yearpublished: PropTypes.number,
+    yearPublished: PropTypes.number,
     reallyNarrow: PropTypes.bool.isRequired,
 }

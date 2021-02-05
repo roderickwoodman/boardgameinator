@@ -53,21 +53,21 @@ Videos.propTypes = {
 
 export const GameCardBack = (props) => {
 
-    const { id, name, yearpublished, description, inspectingsection, comments, videos, activeThumbs, activePoll, ontoggleinspection, oninspectionsectionchange, onNewVote, onDelete, reallyNarrow, thumbnail, mythumbcounts } = props
+    const { id, name, yearPublished, description, inspectingSection, comments, videos, activeThumbs, activePoll, onToggleInspection, onInspectionSectionChange, onNewVote, onDelete, reallyNarrow, thumbnail, myThumbCounts } = props
     return (
         <React.Fragment>
         <section className="gamecard-header">
             <button className="fa fa-button" onClick={ (e) => onDelete(e, id) }><FontAwesomeIcon icon={faTrash}/></button>
-            <button className="fa fa-button inspect" onClick={ (e) => ontoggleinspection(e, id) }><FontAwesomeIcon icon={faInfoCircle}/></button>
+            <button className="fa fa-button inspect" onClick={ (e) => onToggleInspection(e, id) }><FontAwesomeIcon icon={faInfoCircle}/></button>
         </section>
         <section className="gamecard-collapse-control">
-            <button className="fa fa-button inspect" onClick={ (e) => ontoggleinspection(e, id) }><FontAwesomeIcon icon={faInfoCircle}/></button>
+            <button className="fa fa-button inspect" onClick={ (e) => onToggleInspection(e, id) }><FontAwesomeIcon icon={faInfoCircle}/></button>
         </section>
         <section className="gamecard-title">
             <h5 className="game-name">{name}</h5>
-            {(yearpublished !== null) 
-                ? <h6 className="game-yearpublished">({yearpublished})</h6>
-                : <h6 className="game-yearpublished">(#{id})</h6>
+            {(yearPublished !== null) 
+                ? <h6 className="game-yearPublished">({yearPublished})</h6>
+                : <h6 className="game-yearPublished">(#{id})</h6>
             }
         </section>
         <section 
@@ -83,18 +83,18 @@ export const GameCardBack = (props) => {
               url={thumbnail} 
               activePoll={activePoll} 
               activeThumbs={activeThumbs} 
-              mythumbcounts={mythumbcounts} 
+              myThumbCounts={myThumbCounts} 
               reallyNarrow={reallyNarrow} />
 
         </section>
         <ul id="inspectionsection-selector">
-            <li id="select-description" className={"segmentedcontrol darkbg" + (inspectingsection === "description" ? " selected" : "")} onClick={oninspectionsectionchange}>{props.reallyNarrow ? 'Desc.' : 'Description'}</li>
-            <li id="select-comments" className={"segmentedcontrol darkbg" + (inspectingsection === "comments" ? " selected" : "")} onClick={oninspectionsectionchange}>Comments</li>
-            <li id="select-videos" className={"segmentedcontrol darkbg" + (inspectingsection === "videos" ? " selected" : "")} onClick={oninspectionsectionchange}>Videos</li>
+            <li id="select-description" className={"segmentedcontrol darkbg" + (inspectingSection === "description" ? " selected" : "")} onClick={onInspectionSectionChange}>{props.reallyNarrow ? 'Desc.' : 'Description'}</li>
+            <li id="select-comments" className={"segmentedcontrol darkbg" + (inspectingSection === "comments" ? " selected" : "")} onClick={onInspectionSectionChange}>Comments</li>
+            <li id="select-videos" className={"segmentedcontrol darkbg" + (inspectingSection === "videos" ? " selected" : "")} onClick={onInspectionSectionChange}>Videos</li>
         </ul>
         <section className="gamecard-variable">
             <TransitionGroup>
-                {inspectingsection === "description" &&
+                {inspectingSection === "description" &&
                     <CSSTransition 
                         key={0}
                         in={true}
@@ -105,7 +105,7 @@ export const GameCardBack = (props) => {
                         <Description description={description} />
                     </CSSTransition>
                 }
-                {inspectingsection === "comments" &&
+                {inspectingSection === "comments" &&
                     <CSSTransition 
                         key={1}
                         in={true}
@@ -116,7 +116,7 @@ export const GameCardBack = (props) => {
                         <Comments comments={comments} />
                     </CSSTransition>
                 }
-                {inspectingsection === "videos" &&
+                {inspectingSection === "videos" &&
                     <CSSTransition 
                         key={2}
                         in={true}
@@ -138,14 +138,14 @@ GameCardBack.propTypes = {
     name: PropTypes.string.isRequired,
     activePoll: PropTypes.object.isRequired,
     activeThumbs: PropTypes.object.isRequired,
-    mythumbcounts: PropTypes.object,
-    yearpublished: PropTypes.number,
+    myThumbCounts: PropTypes.object,
+    yearPublished: PropTypes.number,
     description: PropTypes.array.isRequired,
-    inspectingsection: PropTypes.string.isRequired,
+    inspectingSection: PropTypes.string.isRequired,
     comments: PropTypes.array,
     videos: PropTypes.array,
-    ontoggleinspection: PropTypes.func.isRequired,
-    oninspectionsectionchange: PropTypes.func.isRequired,
+    onToggleInspection: PropTypes.func.isRequired,
+    onInspectionSectionChange: PropTypes.func.isRequired,
     onNewVote: PropTypes.func.isRequired,
     onDelete: PropTypes.func.isRequired,
     reallyNarrow: PropTypes.bool.isRequired,

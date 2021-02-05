@@ -20,14 +20,14 @@ export const Thumbnail = (props) => {
 
     const printAttributeTally = () => {
         // display attribute votes with title votes
-        if (props.mythumbcounts.attributes && props.mythumbcounts.titles) {
+        if (props.myThumbCounts.attributes && props.myThumbCounts.titles) {
             return (
-                <span>& {props.mythumbcounts.attributes} {getAttributeCountLabel(props.mythumbcounts.attributes)}</span>
+                <span>& {props.myThumbCounts.attributes} {getAttributeCountLabel(props.myThumbCounts.attributes)}</span>
             )
         // display attribute votes without title votes
-        } else if (props.mythumbcounts.attributes && !props.mythumbcounts.titles) {
+        } else if (props.myThumbCounts.attributes && !props.myThumbCounts.titles) {
             return (
-                <span>{props.mythumbcounts.attributes} {getAttributeCountLabel(props.mythumbcounts.attributes)}</span>
+                <span>{props.myThumbCounts.attributes} {getAttributeCountLabel(props.myThumbCounts.attributes)}</span>
             )
         // no attribute votes to display
         } else {
@@ -38,20 +38,20 @@ export const Thumbnail = (props) => {
     const printTitleTally = () => {
         if (props.activePoll.id !== 'local'
           && props.activeThumbs.totalTitleVotes 
-          && typeof props.mythumbcounts !== 'undefined'
-          && props.mythumbcounts.hasOwnProperty('titles') ) {
+          && typeof props.myThumbCounts !== 'undefined'
+          && props.myThumbCounts.hasOwnProperty('titles') ) {
             let extra_text = null
-            if (props.mythumbcounts.my_rank > 0 && props.mythumbcounts.titles >= props.mythumbcounts.my_rank) {
+            if (props.myThumbCounts.my_rank > 0 && props.myThumbCounts.titles >= props.myThumbCounts.my_rank) {
                 extra_text = 'incl. You'
                 return (
                     <React.Fragment>
-                        <div>&nbsp;{props.mythumbcounts.titles}</div>
+                        <div>&nbsp;{props.myThumbCounts.titles}</div>
                         <div className="extra-text">{extra_text}</div>
                     </React.Fragment>
                 )
             } else {
                 return (
-                    <div>&nbsp;{props.mythumbcounts.titles}</div>
+                    <div>&nbsp;{props.myThumbCounts.titles}</div>
                 )
             }
         } else {
@@ -75,7 +75,7 @@ export const Thumbnail = (props) => {
 
     const printThumbnailOverlay = () => {
 
-        if (props.mythumbcounts.titles) {
+        if (props.myThumbCounts.titles) {
             return (
                 <React.Fragment>
                 { printVoteCount() }
@@ -107,7 +107,7 @@ export const Thumbnail = (props) => {
 Thumbnail.propTypes = {
     activeThumbs: PropTypes.object.isRequired,
     activePoll: PropTypes.object.isRequired,
-    mythumbcounts: PropTypes.object,
+    myThumbCounts: PropTypes.object,
     id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
     reallyNarrow: PropTypes.bool.isRequired,

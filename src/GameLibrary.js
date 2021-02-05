@@ -8,7 +8,7 @@ const withoutYear = (title) => {
     }
 }
 
-// for disambiguation of titles, the game ID will be put in parentheses when the API does not provide yearpublished info
+// for disambiguation of titles, the game ID will be put in parentheses when the API does not provide yearPublished info
 const extractYearFromTitle = (title) => {
     if (typeof title === 'string' && title.length) {
         const matchesDate = title.match(/(( +)\((-?)\d{1,4}\))$/)

@@ -283,7 +283,7 @@ export class Boardgameinator extends React.Component {
         this.setState({ windowWidth, windowHeight })
     }
 
-    // for disambiguation of titles, the game ID will be put in parentheses when the API does not provide yearpublished info
+    // for disambiguation of titles, the game ID will be put in parentheses when the API does not provide yearPublished info
     extractYearFromTitle(title) {
         if (typeof title === 'string' && title.length) {
             const matchesDate = title.match(/(( +)\((-?)\d{1,4}\))$/)

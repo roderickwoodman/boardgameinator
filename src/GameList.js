@@ -17,7 +17,7 @@ const GameFooter = (props) => {
 }
 
 const GamecardOverlay = (props) => {
-        if (props.mythumbcounts.poll_rank === 1) {
+        if (props.myThumbCounts.poll_rank === 1) {
             return (
                 <div className="gamecard-overlay">WINNER!</div>
 
@@ -35,20 +35,20 @@ const Game = (props) => {
             gamecardClasses += ' inspecting'
         } 
 
-        if (typeof props.mythumbcounts !== 'undefined' 
-          && props.mythumbcounts.poll_rank === 1) {
+        if (typeof props.myThumbCounts !== 'undefined' 
+          && props.myThumbCounts.poll_rank === 1) {
             gamecardClasses += ' winner'
         }
 
-        if (typeof props.mythumbcounts === 'undefined' 
-          || !props.mythumbcounts.hasOwnProperty('titles') 
-          || props.mythumbcounts.titles === 0) {
+        if (typeof props.myThumbCounts === 'undefined' 
+          || !props.myThumbCounts.hasOwnProperty('titles') 
+          || props.myThumbCounts.titles === 0) {
             gamecardClasses += ' no-title-votes'
         }
 
-        if (typeof props.mythumbcounts === 'undefined' 
-          || !props.mythumbcounts.hasOwnProperty('attributes') 
-          || props.mythumbcounts.attributes === 0) {
+        if (typeof props.myThumbCounts === 'undefined' 
+          || !props.myThumbCounts.hasOwnProperty('attributes') 
+          || props.myThumbCounts.attributes === 0) {
             gamecardClasses += ' no-attribute-votes'
         }
 
@@ -58,11 +58,11 @@ const Game = (props) => {
                 thumbnail={props.thumbnail}
                 activePoll={props.activePoll}
                 activeThumbs={props.activeThumbs} 
-                mythumbcounts={props.mythumbcounts} 
+                myThumbCounts={props.myThumbCounts} 
                 name={props.name}
-                yearpublished={props.yearpublished}
+                yearPublished={props.yearPublished}
                 attributes={props.attributes}
-                ontoggleinspection={props.ontoggleinspection} 
+                onToggleInspection={props.onToggleInspection} 
                 onNewVote={props.onNewVote}
                 onDelete={props.onDelete}
                 reallyNarrow={props.reallyNarrow} />
@@ -72,20 +72,20 @@ const Game = (props) => {
                 thumbnail={props.thumbnail}
                 activePoll={props.activePoll}
                 activeThumbs={props.activeThumbs}
-                mythumbcounts={props.mythumbcounts} 
+                myThumbCounts={props.myThumbCounts} 
                 name={props.name}
-                yearpublished={props.yearpublished}
+                yearPublished={props.yearPublished}
                 description={props.description}
-                inspectingsection={props.inspectingsection}
+                inspectingSection={props.inspectingSection}
                 comments={props.comments}
                 videos={props.videos}
-                ontoggleinspection={props.ontoggleinspection} 
-                oninspectionsectionchange={props.oninspectionsectionchange} 
+                onToggleInspection={props.onToggleInspection} 
+                onInspectionSectionChange={props.onInspectionSectionChange} 
                 onNewVote={props.onNewVote}
                 onDelete={props.onDelete}
                 reallyNarrow={props.reallyNarrow} />
         }
-        const gamecard_overlay = <GamecardOverlay mythumbcounts={props.mythumbcounts} />
+        const gamecard_overlay = <GamecardOverlay myThumbCounts={props.myThumbCounts} />
         return(
             <section className={gamecardClasses}>
                 {gamecard_overlay}
@@ -440,21 +440,21 @@ export const GameList = (props) => {
                                 key={i}
                                 id={game.id} 
                                 idunderinspection={idUnderInspection}
-                                inspectingsection={inspectingSection}
+                                inspectingSection={inspectingSection}
                                 name={game.name} 
                                 thumbnail={game.thumbnail} 
                                 description={game.description} 
-                                yearpublished={game.yearPublished} 
+                                yearPublished={game.yearPublished} 
                                 attributes={game.attributes}
                                 comments={game.comments}
                                 videos={game.videos}
                                 activePoll={props.activePoll}
                                 activeThumbs={props.activeThumbs} 
-                                mythumbcounts={all_thumbcounts[game.id]}
+                                myThumbCounts={all_thumbcounts[game.id]}
                                 onNewVote={props.onNewVote}
                                 onDelete={props.onDelete}
-                                ontoggleinspection={handleInspectionChange}
-                                oninspectionsectionchange={handleInspectionSectionChange}
+                                onToggleInspection={handleInspectionChange}
+                                onInspectionSectionChange={handleInspectionSectionChange}
                                 reallyNarrow={props.reallyNarrow} />)
             )}
             {props.activeGameData.length === 0 && (

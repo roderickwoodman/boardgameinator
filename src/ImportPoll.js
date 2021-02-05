@@ -33,7 +33,7 @@ export const hardcodedPolls = [
                 },
             },
             winners: [],
-            total_title_votes: 11,
+            totalTitleVotes: 11,
         }
     },
     {
@@ -60,7 +60,7 @@ export const hardcodedPolls = [
                 },
             },
             winners: [126163, 266192],
-            total_title_votes: 10,
+            totalTitleVotes: 10,
         }
     },
 
@@ -88,7 +88,7 @@ export const hardcodedPolls = [
                 },
             },
             winners: [],
-            total_title_votes: 8,
+            totalTitleVotes: 8,
         }
     }
 ]
@@ -250,7 +250,7 @@ export const ImportPoll = (props) => {
             { displayPolls
                 .map( (pollData,i) => {
                     // const gamecount = Object.keys(poll.pollThumbs.titles).length + ' ' + ((Object.keys(poll.pollThumbs.titles).length === 1) ? 'game' : 'games')
-                    // const votecount = poll.pollThumbs.total_title_votes + ' ' + ((poll.pollThumbs.total_title_votes === 1) ? 'vote' : 'votes')
+                    // const votecount = poll.pollThumbs.totalTitleVotes + ' ' + ((poll.pollThumbs.totalTitleVotes === 1) ? 'vote' : 'votes')
                     if (!hiddenPollIds.includes(pollData.id)) {
                         return (
                             <label 

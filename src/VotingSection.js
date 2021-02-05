@@ -43,7 +43,7 @@ const VotableElement = (props) => {
                 data-votingtype={props.votingtype}
                 data-votingon={props.votingon}
                 data-newvote='thumbsup'
-                onClick={props.onnewvote}
+                onClick={props.onNewVote}
             >
                 {votable_text}
             </div>
@@ -94,7 +94,7 @@ export const VotingSection = (props) => {
                     votingonlabel={key.attrName} 
                     attrcount={key.attrCount} 
                     suppresslowcounts={props.suppresslowcounts}
-                    onnewvote={props.onnewvote}/>
+                    onNewVote={props.onNewVote}/>
                 })}
         </ul>
     )
@@ -104,7 +104,7 @@ VotingSection.propTypes = {
     user: PropTypes.string,
     counts: PropTypes.array.isRequired,
     elementid: PropTypes.string.isRequired,
-    onnewvote: PropTypes.func.isRequired,
+    onNewVote: PropTypes.func.isRequired,
     sectionthumbs: PropTypes.object.isRequired,
     title: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,

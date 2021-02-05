@@ -53,11 +53,11 @@ Videos.propTypes = {
 
 export const GameCardBack = (props) => {
 
-    const { id, name, yearpublished, description, inspectingsection, comments, videos, activethumbs, activePoll, ontoggleinspection, oninspectionsectionchange, onnewvote, ondelete, reallynarrow, thumbnail, mythumbcounts } = props
+    const { id, name, yearpublished, description, inspectingsection, comments, videos, activeThumbs, activePoll, ontoggleinspection, oninspectionsectionchange, onNewVote, onDelete, reallyNarrow, thumbnail, mythumbcounts } = props
     return (
         <React.Fragment>
         <section className="gamecard-header">
-            <button className="fa fa-button" onClick={ (e) => ondelete(e, id) }><FontAwesomeIcon icon={faTrash}/></button>
+            <button className="fa fa-button" onClick={ (e) => onDelete(e, id) }><FontAwesomeIcon icon={faTrash}/></button>
             <button className="fa fa-button inspect" onClick={ (e) => ontoggleinspection(e, id) }><FontAwesomeIcon icon={faInfoCircle}/></button>
         </section>
         <section className="gamecard-collapse-control">
@@ -75,20 +75,20 @@ export const GameCardBack = (props) => {
             data-votingtype="title"
             data-votingon={id}
             data-newvote="thumbsup"
-            onClick={onnewvote}
+            onClick={onNewVote}
             >
             <Thumbnail 
               id={id} 
               name={name} 
               url={thumbnail} 
               activePoll={activePoll} 
-              activethumbs={activethumbs} 
+              activeThumbs={activeThumbs} 
               mythumbcounts={mythumbcounts} 
-              reallynarrow={reallynarrow} />
+              reallyNarrow={reallyNarrow} />
 
         </section>
         <ul id="inspectionsection-selector">
-            <li id="select-description" className={"segmentedcontrol darkbg" + (inspectingsection === "description" ? " selected" : "")} onClick={oninspectionsectionchange}>{props.reallynarrow ? 'Desc.' : 'Description'}</li>
+            <li id="select-description" className={"segmentedcontrol darkbg" + (inspectingsection === "description" ? " selected" : "")} onClick={oninspectionsectionchange}>{props.reallyNarrow ? 'Desc.' : 'Description'}</li>
             <li id="select-comments" className={"segmentedcontrol darkbg" + (inspectingsection === "comments" ? " selected" : "")} onClick={oninspectionsectionchange}>Comments</li>
             <li id="select-videos" className={"segmentedcontrol darkbg" + (inspectingsection === "videos" ? " selected" : "")} onClick={oninspectionsectionchange}>Videos</li>
         </ul>
@@ -137,7 +137,7 @@ GameCardBack.propTypes = {
     id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
     activePoll: PropTypes.object.isRequired,
-    activethumbs: PropTypes.object.isRequired,
+    activeThumbs: PropTypes.object.isRequired,
     mythumbcounts: PropTypes.object,
     yearpublished: PropTypes.number,
     description: PropTypes.array.isRequired,
@@ -146,9 +146,9 @@ GameCardBack.propTypes = {
     videos: PropTypes.array,
     ontoggleinspection: PropTypes.func.isRequired,
     oninspectionsectionchange: PropTypes.func.isRequired,
-    onnewvote: PropTypes.func.isRequired,
-    ondelete: PropTypes.func.isRequired,
-    reallynarrow: PropTypes.bool.isRequired,
+    onNewVote: PropTypes.func.isRequired,
+    onDelete: PropTypes.func.isRequired,
+    reallyNarrow: PropTypes.bool.isRequired,
 }
 
 GameCardBack.defaultProps = {

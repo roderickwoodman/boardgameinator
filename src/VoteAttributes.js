@@ -24,7 +24,7 @@ export const VoteAttributes = (props) => {
     const tallyPlayerCounts = (props) => {
         // tally each allowable player count occurrence across all games
         let countsObj = {}
-        for (const game of props.activegamedata) {
+        for (const game of props.activeGameData) {
             for (let playercount=game.attributes.minPlayers; playercount<=game.attributes.maxPlayers; playercount++) {
                 if (playercount <= 10) {
                     const playerCountAttr = (playercount === 10) ? '10P+' : playercount + 'P'
@@ -49,7 +49,7 @@ export const VoteAttributes = (props) => {
     const tallyWeightCounts = (props) => {
         // tally each weight occurrence across all games
         let countsObj = {}
-        for (const game of props.activegamedata) {
+        for (const game of props.activeGameData) {
             if (countsObj.hasOwnProperty(game.attributes.averageWeightName)) {
                 countsObj[game.attributes.averageWeightName] = countsObj[game.attributes.averageWeightName] + 1
             } else {
@@ -72,7 +72,7 @@ export const VoteAttributes = (props) => {
     const tallyCategoryCounts = (props) => {
         // tally each attribute's occurrence across all games
         let countsObj = {}
-        for (const game of props.activegamedata) {
+        for (const game of props.activeGameData) {
             for (const category of game.attributes.categories) {
                 if (countsObj.hasOwnProperty(category)) {
                     countsObj[category] = countsObj[category] + 1
@@ -93,7 +93,7 @@ export const VoteAttributes = (props) => {
     const tallyMechanicCounts = (props) => {
         // tally each attribute's occurrence across all games
         let countsObj = {}
-        for (const game of props.activegamedata) {
+        for (const game of props.activeGameData) {
             for (const mechanic of game.attributes.mechanics) {
                 if (countsObj.hasOwnProperty(mechanic)) {
                     countsObj[mechanic] = countsObj[mechanic] + 1
@@ -147,7 +147,7 @@ export const VoteAttributes = (props) => {
                         title='PLAYERS:'
                         counts={attributestally.playercounts}
                         sectionthumbs={props.attrthumbs['players']}
-                        onnewvote={props.onnewvote}
+                        onNewVote={props.onNewVote}
                         alphabetize={false}
                         suppresslowcounts={false}
                     />
@@ -168,7 +168,7 @@ export const VoteAttributes = (props) => {
                         title='WEIGHT:'
                         counts={attributestally.weightcounts}
                         sectionthumbs={props.attrthumbs['weight']}
-                        onnewvote={props.onnewvote}
+                        onNewVote={props.onNewVote}
                         alphabetize={false}
                         suppresslowcounts={false}
                     />
@@ -189,7 +189,7 @@ export const VoteAttributes = (props) => {
                         title='CATEGORY:'
                         counts={attributestally.categorycounts}
                         sectionthumbs={props.attrthumbs['category']}
-                        onnewvote={props.onnewvote}
+                        onNewVote={props.onNewVote}
                         alphabetize={true}
                         suppresslowcounts={true}
                     />
@@ -210,7 +210,7 @@ export const VoteAttributes = (props) => {
                         title='MECHANIC:'
                         counts={attributestally.mechaniccounts}
                         sectionthumbs={props.attrthumbs['mechanic']}
-                        onnewvote={props.onnewvote}
+                        onNewVote={props.onNewVote}
                         alphabetize={true}
                         suppresslowcounts={true}
                     />
@@ -232,7 +232,7 @@ export const VoteAttributes = (props) => {
 
 VoteAttributes.propTypes = {
     user: PropTypes.string,
-    activegamedata: PropTypes.array.isRequired,
+    activeGameData: PropTypes.array.isRequired,
     attrthumbs: PropTypes.object.isRequired,
-    onnewvote: PropTypes.func.isRequired,
+    onNewVote: PropTypes.func.isRequired,
 }

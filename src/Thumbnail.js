@@ -8,7 +8,7 @@ export const Thumbnail = (props) => {
 
     const getAttributeCountLabel = (attributecount) => {
         let label
-        if (props.reallynarrow) {
+        if (props.reallyNarrow) {
             label = 'attr.'
         } else if (attributecount !== 1) {
             label = 'attrs. match'
@@ -37,7 +37,7 @@ export const Thumbnail = (props) => {
 
     const printTitleTally = () => {
         if (props.activePoll.id !== 'local'
-          && props.activethumbs.total_title_votes 
+          && props.activeThumbs.totalTitleVotes 
           && typeof props.mythumbcounts !== 'undefined'
           && props.mythumbcounts.hasOwnProperty('titles') ) {
             let extra_text = null
@@ -105,11 +105,11 @@ export const Thumbnail = (props) => {
 }
 
 Thumbnail.propTypes = {
-    activethumbs: PropTypes.object.isRequired,
+    activeThumbs: PropTypes.object.isRequired,
     activePoll: PropTypes.object.isRequired,
     mythumbcounts: PropTypes.object,
     id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
-    reallynarrow: PropTypes.bool.isRequired,
+    reallyNarrow: PropTypes.bool.isRequired,
     url: PropTypes.string,
 }

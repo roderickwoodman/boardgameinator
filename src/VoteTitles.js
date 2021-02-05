@@ -5,7 +5,7 @@ import { VotingSection } from './VotingSection';
 export const VoteTitles = (props) => {
 
     let countsArray = []
-    props.activegamedata.forEach(function(game) {
+    props.activeGameData.forEach(function(game) {
         countsArray.push({'attrId': game.id, 'attrName': game.unambiguousName, 'attrCount': 1})
     })
 
@@ -19,7 +19,7 @@ export const VoteTitles = (props) => {
             title={'TITLES ('+countsArray.length+'):'}
             counts={countsArray}
             sectionthumbs={props.titlethumbs}
-            onnewvote={props.onnewvote}
+            onNewVote={props.onNewVote}
             alphabetize={true}
             suppresslowcounts={true}
         />
@@ -29,8 +29,8 @@ export const VoteTitles = (props) => {
 
 VoteTitles.propTypes = {
     user: PropTypes.string,
-    activegamedata: PropTypes.array.isRequired,
+    activeGameData: PropTypes.array.isRequired,
     titlethumbs: PropTypes.object,
-    onnewvote: PropTypes.func.isRequired,
-    ondeleteall: PropTypes.func.isRequired,
+    onNewVote: PropTypes.func.isRequired,
+    onDeleteAll: PropTypes.func.isRequired,
 }

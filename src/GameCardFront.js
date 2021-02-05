@@ -18,9 +18,9 @@ export const GameCardFront = (props) => {
             const supported_players_vote = getPlayersVote(props.attributes.minPlayers, props.attributes.maxPlayers)
             classes += ` supported-playercount ${supported_players_vote}`
         } else {
-            classes += (props.activethumbs.attributes[section].hasOwnProperty(attrName) 
-                        && props.activethumbs.attributes[section][attrName].hasOwnProperty('thumbsup')
-                        && props.activethumbs.attributes[section][attrName].thumbsup.length)
+            classes += (props.activeThumbs.attributes[section].hasOwnProperty(attrName) 
+                        && props.activeThumbs.attributes[section][attrName].hasOwnProperty('thumbsup')
+                        && props.activeThumbs.attributes[section][attrName].thumbsup.length)
                 ? ' thumbsup'
                 : ' novote'
         }
@@ -28,14 +28,14 @@ export const GameCardFront = (props) => {
     }
 
     const getUpvotedCategories = () => {
-        return Object.entries(props.activethumbs.attributes['category'])
+        return Object.entries(props.activeThumbs.attributes['category'])
           .filter( entry => entry[1].hasOwnProperty('thumbsup') && entry[1].thumbsup.length )
           .map( entry => entry[0] )
           .filter( category => props.attributes.categories.includes(category) )
     }
 
     const getUpvotedMechanics = () => {
-        return Object.entries(props.activethumbs.attributes['mechanic'])
+        return Object.entries(props.activeThumbs.attributes['mechanic'])
           .filter( entry => entry[1].hasOwnProperty('thumbsup') && entry[1].thumbsup.length )
           .map( entry => entry[0] )
           .filter( mechanic => props.attributes.mechanics.includes(mechanic) )
@@ -44,7 +44,7 @@ export const GameCardFront = (props) => {
     // player count section gets only one, aggregated vote; only one <li> (ex: "2-6 players") 
     const getPlayersVote = (myminplayers, mymaxplayers) => {
         let vote = "novote"
-        Object.entries(props.activethumbs.attributes.players).forEach( (votedPlayercount) => {
+        Object.entries(props.activeThumbs.attributes.players).forEach( (votedPlayercount) => {
             const voted = parseInt(votedPlayercount[0].slice(0, -1))
             if (voted >= myminplayers
                 && voted <= mymaxplayers
@@ -59,7 +59,7 @@ export const GameCardFront = (props) => {
     // vote section gets only one, aggregated vote; only one <li> (ex: "medium heavy") 
     const getWeightVote = (myweight) => {
         let vote = "novote"
-        Object.entries(props.activethumbs.attributes.weight).forEach( (votedWeight) => {
+        Object.entries(props.activeThumbs.attributes.weight).forEach( (votedWeight) => {
             if (myweight === votedWeight[0]
               && votedWeight[1].hasOwnProperty('thumbsup') 
               && votedWeight[1].thumbsup.length) {
@@ -70,7 +70,7 @@ export const GameCardFront = (props) => {
     }
 
     const getWeightName = (myweight) => {
-        if (props.reallynarrow) {
+        if (props.reallyNarrow) {
             switch (myweight) {
                 case 'medium light':
                     return 'm. light'
@@ -84,14 +84,14 @@ export const GameCardFront = (props) => {
         }
     }
 
-    const { id, thumbnail, activePoll, name, yearpublished, attributes, activethumbs, mythumbcounts, ontoggleinspection, onnewvote, ondelete, reallynarrow } = props
+    const { id, thumbnail, activePoll, name, yearpublished, attributes, activeThumbs, mythumbcounts, ontoggleinspection, onNewVote, onDelete, reallyNarrow } = props
     const upvoted_categories = getUpvotedCategories()
     const upvoted_mechanics = getUpvotedMechanics()
     let upvoted_attributes = [ ...upvoted_categories, ...upvoted_mechanics ].sort()
     return (
         <React.Fragment>
         <section className="gamecard-header">
-            <button className="fa fa-button" onClick={ (e) => ondelete(e, id) }><FontAwesomeIcon icon={faTrash}/></button>
+            <button className="fa fa-button" onClick={ (e) => onDelete(e, id) }><FontAwesomeIcon icon={faTrash}/></button>
             <button className="fa fa-button inspect" onClick={ (e) => ontoggleinspection(e, id) }><FontAwesomeIcon icon={faInfoCircle}/></button>
         </section>
         <section className="gamecard-title">
@@ -106,16 +106,16 @@ export const GameCardFront = (props) => {
             data-votingtype="title"
             data-votingon={id}
             data-newvote="thumbsup"
-            onClick={onnewvote}
+            onClick={onNewVote}
             >
             <Thumbnail 
               id={id} 
               name={name} 
               url={thumbnail} 
               activePoll={activePoll} 
-              activethumbs={activethumbs} 
+              activeThumbs={activeThumbs} 
               mythumbcounts={mythumbcounts} 
-              reallynarrow={reallynarrow} />
+              reallyNarrow={reallyNarrow} />
             <div className="gamecardvisual-overlay">
                 {(attributes.minPlayers !== attributes.maxPlayers)
                     ? <div className={getClasses('supported-playercount', null)}><FontAwesomeIcon icon={faUserFriends}/> {attributes.minPlayers}-{attributes.maxPlayers}</div>
@@ -142,7 +142,7 @@ export const GameCardFront = (props) => {
               data-votingtype='weight'
               data-votingon={attributes.averageWeightName}
               data-newvote='thumbsup'
-              onClick={props.onnewvote}
+              onClick={props.onNewVote}
               className={getClasses('weight', attributes.averageWeightName)}>
                   {getWeightName(attributes.averageWeightName)}
               </div>
@@ -154,7 +154,7 @@ export const GameCardFront = (props) => {
                   data-votingtype={ upvoted_categories.includes(value) ? 'category' : 'mechanic' }
                   data-votingon={value}
                   data-newvote='thumbsup'
-                  onClick={props.onnewvote}
+                  onClick={props.onNewVote}
                   className="clickable attribute thumbsup">
                       {value.toLowerCase()}
                   </div>
@@ -170,7 +170,7 @@ export const GameCardFront = (props) => {
                       data-votingtype='category'
                       data-votingon={value}
                       data-newvote='thumbsup'
-                      onClick={props.onnewvote}
+                      onClick={props.onNewVote}
                       className={getClasses('category', value)}>
                           {value.toLowerCase()}
                       </li>)
@@ -187,7 +187,7 @@ export const GameCardFront = (props) => {
                       data-votingtype='mechanic'
                       data-votingon={value}
                       data-newvote='thumbsup'
-                      onClick={props.onnewvote}
+                      onClick={props.onNewVote}
                       className={getClasses('mechanic', value)}>
                           {value.toLowerCase()}
                       </li>)
@@ -202,13 +202,13 @@ GameCardFront.propTypes = {
     id: PropTypes.number.isRequired,
     attributes: PropTypes.object.isRequired,
     activePoll: PropTypes.object.isRequired,
-    activethumbs: PropTypes.object.isRequired,
+    activeThumbs: PropTypes.object.isRequired,
     mythumbcounts: PropTypes.object,
     name: PropTypes.string.isRequired,
-    onnewvote: PropTypes.func.isRequired,
-    ondelete: PropTypes.func.isRequired,
+    onNewVote: PropTypes.func.isRequired,
+    onDelete: PropTypes.func.isRequired,
     ontoggleinspection: PropTypes.func.isRequired,
     thumbnail: PropTypes.string,
     yearpublished: PropTypes.number,
-    reallynarrow: PropTypes.bool.isRequired,
+    reallyNarrow: PropTypes.bool.isRequired,
 }

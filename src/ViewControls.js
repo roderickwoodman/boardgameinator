@@ -79,7 +79,7 @@ export const ViewControls = (props) => {
 
     const handleSubmit = (event) => {
         if (validatedUsername !== null) {
-            props.onuserchange(usernameInput)
+            props.onUserChange(usernameInput)
         }
     }
 
@@ -104,7 +104,7 @@ export const ViewControls = (props) => {
             showUserModal()
         } else {
             setUsernameInput('')
-            props.onuserchange(null)
+            props.onUserChange(null)
         }
     }
 
@@ -134,11 +134,11 @@ export const ViewControls = (props) => {
                 <ModalBody>
                     <div id="gamesorting-controls">
                         <h4>Order the board games by the...</h4>
-                        <button className={`default-secondary-styles ${(props.sortby === 'alphabetical') ? 'active-button' : ''}`} onClick={ (e) => props.onsortchange(e, "alphabetical") }>alphabetical order</button>
-                        <button className={`default-secondary-styles ${(props.sortby === 'maxtitlevotes') ? 'active-button' : ''}`} onClick={ (e) => props.onsortchange(e, "maxtitlevotes") }>most title votes</button>
-                        <button className={`default-secondary-styles ${(props.sortby === 'maxattrvotes') ? 'active-button' : ''}`} onClick={ (e) => props.onsortchange(e, "maxattrvotes") }>most attribute votes</button>
-                        <button className={`default-secondary-styles ${(props.sortby === 'minplaytime') ? 'active-button' : ''}`} onClick={ (e) => props.onsortchange(e, "minplaytime") }>shortest playtime</button>
-                        <button className={`default-secondary-styles ${(props.sortby === 'maxplayers') ? 'active-button' : ''}`} onClick={ (e) => props.onsortchange(e, "maxplayers") }>most players</button>
+                        <button className={`default-secondary-styles ${(props.sortBy === 'alphabetical') ? 'active-button' : ''}`} onClick={ (e) => props.onSortChange(e, "alphabetical") }>alphabetical order</button>
+                        <button className={`default-secondary-styles ${(props.sortBy === 'maxtitlevotes') ? 'active-button' : ''}`} onClick={ (e) => props.onSortChange(e, "maxtitlevotes") }>most title votes</button>
+                        <button className={`default-secondary-styles ${(props.sortBy === 'maxattrvotes') ? 'active-button' : ''}`} onClick={ (e) => props.onSortChange(e, "maxattrvotes") }>most attribute votes</button>
+                        <button className={`default-secondary-styles ${(props.sortBy === 'minplaytime') ? 'active-button' : ''}`} onClick={ (e) => props.onSortChange(e, "minplaytime") }>shortest playtime</button>
+                        <button className={`default-secondary-styles ${(props.sortBy === 'maxplayers') ? 'active-button' : ''}`} onClick={ (e) => props.onSortChange(e, "maxplayers") }>most players</button>
                     </div>
                 </ModalBody>
                 <ModalFooter> 
@@ -154,9 +154,9 @@ export const ViewControls = (props) => {
                         <p className="warning">INFO: Filtering is disabled while a poll is selected.</p>
                         }
                         <h4>Show me only the board games matching an...</h4>
-                        <button className={`default-secondary-styles ${(props.filtertitles) ? 'active-button' : ''}`} onClick={ (e) => props.onfilterchange(e, "titles") }>upvoted title</button>
-                        <button className={`default-secondary-styles ${(props.filterplayercount) ? 'active-button' : ''}`} onClick={ (e) => props.onfilterchange(e, "playercount") }>upvoted player count</button>
-                        <button className={`default-secondary-styles ${(props.filterweight) ? 'active-button' : ''}`} onClick={ (e) => props.onfilterchange(e, "weight") }>upvoted weight</button>
+                        <button className={`default-secondary-styles ${(props.filterTitles) ? 'active-button' : ''}`} onClick={ (e) => props.onFilterChange(e, "titles") }>upvoted title</button>
+                        <button className={`default-secondary-styles ${(props.filterPlayercount) ? 'active-button' : ''}`} onClick={ (e) => props.onFilterChange(e, "playercount") }>upvoted player count</button>
+                        <button className={`default-secondary-styles ${(props.filterWeight) ? 'active-button' : ''}`} onClick={ (e) => props.onFilterChange(e, "weight") }>upvoted weight</button>
                     </div>
                 </ModalBody>
                 <ModalFooter> 
@@ -172,11 +172,11 @@ export const ViewControls = (props) => {
 ViewControls.propTypes = {
     user: PropTypes.string,
     activePoll: PropTypes.object.isRequired,
-    sortby: PropTypes.string.isRequired,
-    onsortchange: PropTypes.func.isRequired,
-    filtertitles: PropTypes.bool.isRequired,
-    filterplayercount: PropTypes.bool.isRequired,
-    filterweight: PropTypes.bool.isRequired,
-    onfilterchange: PropTypes.func.isRequired,
-    onuserchange: PropTypes.func.isRequired,
+    sortBy: PropTypes.string.isRequired,
+    onSortChange: PropTypes.func.isRequired,
+    filterTitles: PropTypes.bool.isRequired,
+    filterPlayercount: PropTypes.bool.isRequired,
+    filterWeight: PropTypes.bool.isRequired,
+    onFilterChange: PropTypes.func.isRequired,
+    onUserChange: PropTypes.func.isRequired,
 }

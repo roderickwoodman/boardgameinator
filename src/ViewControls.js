@@ -150,7 +150,7 @@ export const ViewControls = (props) => {
             <Modal size="md" show={filterIsOpen} onHide={hideFilterModal}>
                 <ModalBody>
                     <div id="gamefiltering-controls">
-                        { props.activepoll.id !== 'local' &&
+                        { props.activePoll.id !== 'local' &&
                         <p className="warning">INFO: Filtering is disabled while a poll is selected.</p>
                         }
                         <h4>Show me only the board games matching an...</h4>
@@ -171,7 +171,7 @@ export const ViewControls = (props) => {
 
 ViewControls.propTypes = {
     user: PropTypes.string,
-    activepoll: PropTypes.object.isRequired,
+    activePoll: PropTypes.object.isRequired,
     sortby: PropTypes.string.isRequired,
     onsortchange: PropTypes.func.isRequired,
     filtertitles: PropTypes.bool.isRequired,

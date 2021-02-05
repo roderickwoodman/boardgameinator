@@ -56,7 +56,7 @@ const Game = (props) => {
             gamecard = <GameCardFront 
                 id={props.id}
                 thumbnail={props.thumbnail}
-                activepoll={props.activepoll}
+                activePoll={props.activePoll}
                 activethumbs={props.activethumbs} 
                 mythumbcounts={props.mythumbcounts} 
                 name={props.name}
@@ -70,7 +70,7 @@ const Game = (props) => {
             gamecard = <GameCardBack 
                 id={props.id}
                 thumbnail={props.thumbnail}
-                activepoll={props.activepoll}
+                activePoll={props.activePoll}
                 activethumbs={props.activethumbs}
                 mythumbcounts={props.mythumbcounts} 
                 name={props.name}
@@ -198,7 +198,7 @@ export const GameList = (props) => {
                   && props.activethumbs.titles.hasOwnProperty(game.id.toString())
                   && props.activethumbs.titles[game.id].hasOwnProperty('thumbsup')) {
 
-                    if (props.activepoll.id !== 'local') {
+                    if (props.activePoll.id !== 'local') {
                         new_vote_counts.titles = props.activethumbs.titles[game.id.toString()].thumbsup.length
                     } else {
                         let myVote = JSON.parse(JSON.stringify(props.activethumbs.titles[game.id.toString()].thumbsup)).filter( vote => vote.user === props.user )
@@ -227,7 +227,7 @@ export const GameList = (props) => {
                 }
 
                 // poll winner
-                if (props.activepoll.id !== 'local'
+                if (props.activePoll.id !== 'local'
                   && props.activethumbs.hasOwnProperty('winners')
                   && props.activethumbs.winners.includes(game.id)) {
                     new_vote_counts.poll_rank = 1
@@ -313,9 +313,9 @@ export const GameList = (props) => {
         //   sort by maxplayers...    FIRST: most players,      SECOND: most title votes, THIRD: most attr votes
         const sorted = games.sort(function(a, b) {
             if (props.sortby === 'alphabetical') {
-                if (a.unambiguous_name < b.unambiguous_name) {
+                if (a.unambiguousName < b.unambiguousName) {
                     return -1
-                } else if (a.unambiguous_name < b.unambiguous_name) {
+                } else if (a.unambiguousName < b.unambiguousName) {
                     return 1
                 } else {
                     return 0
@@ -421,16 +421,16 @@ export const GameList = (props) => {
         <React.Fragment>
         <MainControls 
             user={props.user}
-            routedgames={props.routedgames}
+            routedGames={props.routedGames}
             activegamedata={props.activegamedata}
             activethumbs={props.activethumbs}
-            cachedgametitles={props.cachedgametitles}
+            cachedGameTitles={props.cachedGameTitles}
             addvalidatedgames={props.addvalidatedgames}
             ondeleteall={props.ondeleteall}
             onnewvote={props.onnewvote}
             onclearsectionvotes={props.onclearsectionvotes}
-            activepoll={props.activepoll}
-            onviewpoll={props.onviewpoll} />
+            activePoll={props.activePoll}
+            onViewPoll={props.onViewPoll} />
         <div id="resulting-games" className={getClasses()}>
             {sortedFilteredGames.length !== 0 && (
                 sortedFilteredGames
@@ -448,7 +448,7 @@ export const GameList = (props) => {
                                 attributes={game.attributes}
                                 comments={game.comments}
                                 videos={game.videos}
-                                activepoll={props.activepoll}
+                                activePoll={props.activePoll}
                                 activethumbs={props.activethumbs} 
                                 mythumbcounts={all_thumbcounts[game.id]}
                                 onnewvote={props.onnewvote}
@@ -470,20 +470,20 @@ export const GameList = (props) => {
 
 GameList.propTypes = {
     user: PropTypes.string,
-    routedgames: PropTypes.object.isRequired,
+    routedGames: PropTypes.object.isRequired,
     activegamedata: PropTypes.array.isRequired,
     sortby: PropTypes.string.isRequired,
     filtertitles: PropTypes.bool.isRequired,
     filterplayercount: PropTypes.bool.isRequired,
     filterweight: PropTypes.bool.isRequired,
-    cachedgametitles: PropTypes.object.isRequired,
+    cachedGameTitles: PropTypes.object.isRequired,
     addvalidatedgames: PropTypes.func.isRequired,
     ondelete: PropTypes.func.isRequired,
     ondeleteall: PropTypes.func.isRequired,
     activethumbs: PropTypes.object.isRequired,
     onnewvote: PropTypes.func.isRequired,
     onclearsectionvotes: PropTypes.func.isRequired,
-    activepoll: PropTypes.object.isRequired,
-    onviewpoll: PropTypes.func.isRequired,
+    activePoll: PropTypes.object.isRequired,
+    onViewPoll: PropTypes.func.isRequired,
     reallynarrow: PropTypes.bool.isRequired,
 }

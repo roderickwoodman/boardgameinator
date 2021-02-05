@@ -61,7 +61,7 @@ const getGamedataForIds = async function (game_ids) {
 // the titles in this function's input list may not be ready to be added because the numerous
 // accepted user input formats and multiple games having the same title can lead to ambiguity in
 // which games the user really wants to make active. 
-export const collectGamedataForTitles = async (cachedgametitles, game_titles) => {
+export const collectGamedataForTitles = async (cachedGameTitles, game_titles) => {
 
     const status = {
 
@@ -72,12 +72,12 @@ export const collectGamedataForTitles = async (cachedgametitles, game_titles) =>
         games_byid_dict: {},              // mapping of all input IDs to titles
         games_withdisambig_not_in_cache: {},  // input title string includes year disambiguation
         ambiguous_cached_games: {},       // cannot activate the game yet
-        ambiguous_new_gamedata: {},       // add this new game data to cache, but cannot activate the game yet
+        ambiguousNewGamedata: {},       // add this new game data to cache, but cannot activate the game yet
 
         // final data needed
-        new_gamedata_to_activate: [],     // add this new game data to cache and activate the game
-        new_gamedata_to_cache: [],        // add this new game data to cache
-        cached_games_to_activate: [],     // activate this game from already-cached data
+        newGamedataToActivate: [],     // add this new game data to cache and activate the game
+        newGamedataToCache: [],        // add this new game data to cache
+        cachedGamesToActivate: [],     // activate this game from already-cached data
 
     }
     let titles_to_api_lookup = []
@@ -87,7 +87,7 @@ export const collectGamedataForTitles = async (cachedgametitles, game_titles) =>
 
     // CHECK CACHE FOR TITLES THAT ARE IDS (for all user title strings)
 
-    const all_cached_ids = Object.entries(cachedgametitles).map( cachedgame => parseInt(cachedgame[1].id) )
+    const all_cached_ids = Object.entries(cachedGameTitles).map( cachedgame => parseInt(cachedgame[1].id) )
     let uncached_game_titles_that_are_numbers = [], game_titles_that_are_strings = []
     game_titles.forEach(function(title) {
 
@@ -95,12 +95,12 @@ export const collectGamedataForTitles = async (cachedgametitles, game_titles) =>
 
             // user title is actually an ID that was found in the cache 
             if (all_cached_ids.includes(parseInt(title))) {
-                let cache_entry = Object.entries(cachedgametitles).filter( game =>  game[1].id===parseInt(title))[0][1]
-                status.games_byid_dict[cache_entry.unambiguous_name] = cache_entry.id
+                let cache_entry = Object.entries(cachedGameTitles).filter( game =>  game[1].id===parseInt(title))[0][1]
+                status.games_byid_dict[cache_entry.unambiguousName] = cache_entry.id
                 if (cache_entry.active) {
-                    status.already_active.push(cache_entry.unambiguous_name)
+                    status.already_active.push(cache_entry.unambiguousName)
                 } else { 
-                    status.cached_games_to_activate.push(cache_entry.unambiguous_name)
+                    status.cachedGamesToActivate.push(cache_entry.unambiguousName)
                 }
             }
 
@@ -137,7 +137,7 @@ export const collectGamedataForTitles = async (cachedgametitles, game_titles) =>
 
     // build the hashmap of cached base names
     let cached_basetitle_hashmap = {}
-    let cached_basetitle_hashmap_entries = Object.entries(cachedgametitles).filter(cached_title => cached_title[0] !== cached_title[1].name)
+    let cached_basetitle_hashmap_entries = Object.entries(cachedGameTitles).filter(cached_title => cached_title[0] !== cached_title[1].name)
     cached_basetitle_hashmap_entries.forEach(function(entry) {
         const ambiguous_name = withoutYear(entry[0])
         const title_info = JSON.parse(JSON.stringify(entry[1]))
@@ -149,23 +149,23 @@ export const collectGamedataForTitles = async (cachedgametitles, game_titles) =>
     })
 
     // lookup in the hashmap for each input name
-    const all_cached_disambiguous_titles = Object.keys(cachedgametitles)
+    const all_cached_disambiguous_titles = Object.keys(cachedGameTitles)
     game_titles_that_are_strings.forEach(function(user_title) {
 
         // user_title was found verbatim in the cache
         if (all_cached_disambiguous_titles.includes(user_title)) {
-            if (cachedgametitles[user_title].active) {
+            if (cachedGameTitles[user_title].active) {
                 status.already_active.push(user_title)
             } else { 
-                status.cached_games_to_activate.push(user_title)
+                status.cachedGamesToActivate.push(user_title)
             }
 
         // user_title with its year disambiguation removed was found in the cache
         } else if (all_cached_disambiguous_titles.includes(withoutYear(user_title))) {
-            if (cachedgametitles[withoutYear(user_title)].active) {
+            if (cachedGameTitles[withoutYear(user_title)].active) {
                 status.already_active.push(withoutYear(user_title))
             } else { 
-                status.cached_games_to_activate.push(withoutYear(user_title))
+                status.cachedGamesToActivate.push(withoutYear(user_title))
             }
 
         // user_title base name is in cache, may have incorrect disambiguation
@@ -235,25 +235,25 @@ export const collectGamedataForTitles = async (cachedgametitles, game_titles) =>
     const ids_for_gamedata_api = [ ...get_gamedata_and_activate, ...get_gamedata_still_ambiguous ]
     const all_new_gamedata = await getGamedataResults(ids_for_gamedata_api)
     all_new_gamedata.forEach(function (this_gamedata) {
-        let new_gamedata = JSON.parse(JSON.stringify(this_gamedata))
+        let newGamedata = JSON.parse(JSON.stringify(this_gamedata))
 
         // collect game data for titles to activate
         if (get_gamedata_and_activate.includes(this_gamedata.id)) {
-            new_gamedata['unambiguous_name'] = this_gamedata.name
-            status.new_gamedata_to_activate[this_gamedata.name] = new_gamedata
+            newGamedata['unambiguousName'] = this_gamedata.name
+            status.newGamedataToActivate[this_gamedata.name] = newGamedata
 
         // collect game data for other titles
         } else if (get_gamedata_still_ambiguous.includes(this_gamedata.id)) {
-            const unambiguous_name = `${this_gamedata.name} (${this_gamedata.year_published})`
-            new_gamedata['unambiguous_name'] = unambiguous_name
+            const unambiguousName = `${this_gamedata.name} (${this_gamedata.year_published})`
+            newGamedata['unambiguousName'] = unambiguousName
 
             // if user supplied a game ID originally, but its title was ambiguous, apply that disambiguation
             if (status.games_byid_not_in_cache.hasOwnProperty(this_gamedata.name)) {
                 if (status.games_byid_not_in_cache[this_gamedata.name] === this_gamedata.id) {
-                    status.games_byid_dict[unambiguous_name] = this_gamedata.id
-                    status.new_gamedata_to_activate.push(new_gamedata)
+                    status.games_byid_dict[unambiguousName] = this_gamedata.id
+                    status.newGamedataToActivate.push(newGamedata)
                 } else {
-                    status.new_gamedata_to_cache.push(new_gamedata)
+                    status.newGamedataToCache.push(newGamedata)
                 }
 
             // if user supplied year disambiguation originally, but its title was ambiguous, apply that disambiguation
@@ -263,36 +263,36 @@ export const collectGamedataForTitles = async (cachedgametitles, game_titles) =>
                 // the given year does exist in the gamedata
                 if (gamedata_for_target_year.length === 1) {
                     if (status.games_withdisambig_not_in_cache[this_gamedata.name] === this_gamedata.year_published) {
-                        status.new_gamedata_to_activate.push(new_gamedata)
+                        status.newGamedataToActivate.push(newGamedata)
                     } else {
-                        status.new_gamedata_to_cache.push(new_gamedata)
+                        status.newGamedataToCache.push(newGamedata)
                     }
                 // the given year is bogus 
                 } else {
-                    if (status.ambiguous_new_gamedata.hasOwnProperty(this_gamedata.name)) {
-                        status.ambiguous_new_gamedata[this_gamedata.name].push(new_gamedata)
+                    if (status.ambiguousNewGamedata.hasOwnProperty(this_gamedata.name)) {
+                        status.ambiguousNewGamedata[this_gamedata.name].push(newGamedata)
                     } else {
                         let ambiguous_new_gamedata_bundle = []
-                        ambiguous_new_gamedata_bundle.push(new_gamedata) 
-                        status.ambiguous_new_gamedata[this_gamedata.name] = ambiguous_new_gamedata_bundle
+                        ambiguous_new_gamedata_bundle.push(newGamedata) 
+                        status.ambiguousNewGamedata[this_gamedata.name] = ambiguous_new_gamedata_bundle
                     }
                 }
 
             // if user supplied an ambiguous title originally, game data remains ambiguous for now
             } else {
-                if (status.ambiguous_new_gamedata.hasOwnProperty(this_gamedata.name)) {
-                    status.ambiguous_new_gamedata[this_gamedata.name].push(new_gamedata)
+                if (status.ambiguousNewGamedata.hasOwnProperty(this_gamedata.name)) {
+                    status.ambiguousNewGamedata[this_gamedata.name].push(newGamedata)
                 } else {
                     let ambiguous_new_gamedata_bundle = []
-                    ambiguous_new_gamedata_bundle.push(new_gamedata) 
-                    status.ambiguous_new_gamedata[this_gamedata.name] = ambiguous_new_gamedata_bundle
+                    ambiguous_new_gamedata_bundle.push(newGamedata) 
+                    status.ambiguousNewGamedata[this_gamedata.name] = ambiguous_new_gamedata_bundle
                 }
             }
         }
 
     })
-    Object.entries(status.ambiguous_new_gamedata).forEach(function(ambiguous_entry) {
-        status.ambiguous_new_gamedata[ambiguous_entry[0]] = ambiguous_entry[1].sort( (a,b) => (a.year_published < b.year_published) ? -1 : 1 )
+    Object.entries(status.ambiguousNewGamedata).forEach(function(ambiguous_entry) {
+        status.ambiguousNewGamedata[ambiguous_entry[0]] = ambiguous_entry[1].sort( (a,b) => (a.year_published < b.year_published) ? -1 : 1 )
     })
 
     return status
@@ -304,42 +304,42 @@ export const validateUserTitles = async (cached_titles, user_titles) => {
     const displayNameForMessages = function (title) {
         const all_cached_ids = Object.entries(cached_titles).map( cachedgame => parseInt(cachedgame[1].id) )
         if (all_cached_ids.includes(parseInt(title))) {
-            const unambiguous_name = Object.values(cached_titles).filter( cachedgame => cachedgame.id === parseInt(title) )[0].unambiguous_name
-            return `[#${title}] ${unambiguous_name}`
+            const unambiguousName = Object.values(cached_titles).filter( cachedgame => cachedgame.id === parseInt(title) )[0].unambiguousName
+            return `[#${title}] ${unambiguousName}`
         } else {
             return title
         }
     }
 
-    let validation_result = {}, keep_modal_open = false
+    let validationResult = {}, keepModalOpen = false
     let collection_result = await collectGamedataForTitles(cached_titles, user_titles)
 
-    collection_result['selected_games_to_activate'] = []
-    collection_result['ambiguous_title_count'] = Object.keys(collection_result.ambiguous_cached_games).length + Object.keys(collection_result.ambiguous_new_gamedata).length
+    collection_result['selectedGamesToActivate'] = []
+    collection_result['ambiguousTitleCount'] = Object.keys(collection_result.ambiguous_cached_games).length + Object.keys(collection_result.ambiguousNewGamedata).length
 
     // Prompt the user for disambiguation
-    let new_messages = []
+    let newMessages = []
     Object.entries(collection_result.ambiguous_cached_games).forEach(function(ambiguous_cached_title_info) {
         let ambiguous_cachedids_arr = JSON.parse(JSON.stringify(ambiguous_cached_title_info[1]))
-        new_messages.push({ message_str: `Which version of "${ambiguous_cached_title_info[0]}"? `, ambiguous: ambiguous_cachedids_arr, error_flag: false })
-        keep_modal_open = true
+        newMessages.push({ message_str: `Which version of "${ambiguous_cached_title_info[0]}"? `, ambiguous: ambiguous_cachedids_arr, error_flag: false })
+        keepModalOpen = true
     })
-    Object.entries(collection_result.ambiguous_new_gamedata).forEach(function(ambiguous_title_info) {
+    Object.entries(collection_result.ambiguousNewGamedata).forEach(function(ambiguous_title_info) {
         // it was tagged as "ambiguous", but this title has user-supplied ID for disambiguation
         if (collection_result.games_byid_not_in_cache.hasOwnProperty(ambiguous_title_info[0])) {
             if (collection_result.games_byid_not_in_cache[ambiguous_title_info[0]] === ambiguous_title_info[1].id) {
-                collection_result.selected_games_to_activate.push(ambiguous_title_info[1].unambiguous_name)
+                collection_result.selectedGamesToActivate.push(ambiguous_title_info[1].unambiguousName)
             }
         // this title was a user-supplied name string and still requires user disambiguation
         } else {
             let ambiguous_gamedata_arr = JSON.parse(JSON.stringify(ambiguous_title_info[1]))
-            new_messages.push({ message_str: `Which version of "${ambiguous_title_info[0]}"? `, ambiguous: ambiguous_gamedata_arr, error_flag: false })
-            keep_modal_open = true
+            newMessages.push({ message_str: `Which version of "${ambiguous_title_info[0]}"? `, ambiguous: ambiguous_gamedata_arr, error_flag: false })
+            keepModalOpen = true
         }
     })
 
-    collection_result['routed_games_treatment'] = 'none'
-    validation_result['gameValidations'] = collection_result
+    collection_result['routedGamesTreatment'] = 'none'
+    validationResult['gameValidations'] = collection_result
 
     // Prepend the game title with the game ID, when the ID was supplied by the user
     let game_id_txt = ''
@@ -354,7 +354,7 @@ export const validateUserTitles = async (cached_titles, user_titles) => {
             game_id_txt = ''
         }
         append_titles_alreadyactive.push(game_id_txt + active_title)
-        keep_modal_open = true
+        keepModalOpen = true
     }
     if (title_count_already_active > 0) {
         let message_txt, prepend_titles_alreadyactive
@@ -366,19 +366,19 @@ export const validateUserTitles = async (cached_titles, user_titles) => {
             prepend_titles_alreadyactive = []
             message_txt = `${title_count_already_active} titles are already active`
         }
-        new_messages.push({ 
+        newMessages.push({ 
           error_flag: true,
           message_str: message_txt,
-          prepend_titles: prepend_titles_alreadyactive,
-          append_titles: append_titles_alreadyactive
+          prependTitles: prepend_titles_alreadyactive,
+          appendTitles: append_titles_alreadyactive
         })
-        keep_modal_open = true
+        keepModalOpen = true
     }
     let title_count_does_not_exist = 0, append_titles_doesnotexist = []
     for (let nonexistent_title of collection_result.does_not_exist) {
         title_count_does_not_exist += 1
         append_titles_doesnotexist.push(nonexistent_title)
-        keep_modal_open = true
+        keepModalOpen = true
     }
     if (title_count_does_not_exist > 0) {
         let message_txt, prepend_titles_doesnotexist
@@ -390,17 +390,17 @@ export const validateUserTitles = async (cached_titles, user_titles) => {
             prepend_titles_doesnotexist = []
             message_txt = `${title_count_does_not_exist} titles do not exist`
         }
-        new_messages.push({ 
+        newMessages.push({ 
           error_flag: true,
           message_str: message_txt,
-          prepend_titles: prepend_titles_doesnotexist,
-          append_titles: append_titles_doesnotexist
+          prependTitles: prepend_titles_doesnotexist,
+          appendTitles: append_titles_doesnotexist
         })
     }
 
     // Inform the user of all other games that will be added
     let title_count_to_add = 0, append_titles_toadd = []
-    for (let inactive_title of collection_result.cached_games_to_activate) {
+    for (let inactive_title of collection_result.cachedGamesToActivate) {
         title_count_to_add += 1
         if (collection_result.games_byid_not_in_cache.hasOwnProperty(inactive_title)) {
             game_id_txt = `[#${collection_result.games_byid_not_in_cache[inactive_title]}] `
@@ -409,7 +409,7 @@ export const validateUserTitles = async (cached_titles, user_titles) => {
         }
         append_titles_toadd.push(game_id_txt + displayNameForMessages(inactive_title))
     }
-    for (let unambiguous_new_title of Object.keys(collection_result.new_gamedata_to_activate)) {
+    for (let unambiguous_new_title of Object.keys(collection_result.newGamedataToActivate)) {
         title_count_to_add += 1
         if (collection_result.games_byid_not_in_cache.hasOwnProperty(unambiguous_new_title)) {
             game_id_txt = `[#${collection_result.games_byid_not_in_cache[unambiguous_new_title]}] `
@@ -421,7 +421,7 @@ export const validateUserTitles = async (cached_titles, user_titles) => {
     if (title_count_to_add > 0) {
         let message_txt, prepend_titles_toadd
         let other_txt = ( (Object.keys(collection_result.ambiguous_cached_games).length > 0) 
-                            || (Object.keys(collection_result.ambiguous_new_gamedata).length > 0) 
+                            || (Object.keys(collection_result.ambiguousNewGamedata).length > 0) 
                             || (collection_result.does_not_exist.length > 0)
                             || (collection_result.already_active.length > 0) )
                             ? ' other' : ''
@@ -434,15 +434,15 @@ export const validateUserTitles = async (cached_titles, user_titles) => {
             prepend_titles_toadd = []
             message_txt = `Adding ${title_count_to_add}${other_txt} titles`
         }
-        new_messages.push({ 
+        newMessages.push({ 
           error_flag: false,
           message_str: message_txt,
-          prepend_titles: prepend_titles_toadd,
-          append_titles: append_titles_toadd
+          prependTitles: prepend_titles_toadd,
+          appendTitles: append_titles_toadd
         })
     }
-    validation_result['messages'] = new_messages
-    validation_result['keep_modal_open'] = keep_modal_open
+    validationResult['messages'] = newMessages
+    validationResult['keepModalOpen'] = keepModalOpen
 
-    return validation_result
+    return validationResult
 }

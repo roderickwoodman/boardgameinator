@@ -104,7 +104,7 @@ export const ImportPoll = (props) => {
 
     const [ pollList, setPollList ] = useState([])
     const [ pollListData, setPollListData ] = useState([])
-    const [ selectedPoll, setSelectedPoll ] = useState(props.activepoll.id.toString())
+    const [ selectedPoll, setSelectedPoll ] = useState(props.activePoll.id.toString())
     const [ userPollIdInput, setUserPollIdInput ] = useState('')
     const [ validPollIdInput, setValidPollIdInput ] = useState(null)
     const [ statusMessage, setStatusMessage ] = useState(null)
@@ -139,17 +139,17 @@ export const ImportPoll = (props) => {
                     id: 'local',
                     name: 'local',
                 }
-                props.onviewpoll(no_poll)
+                props.onViewPoll(no_poll)
             } else {
                 setLoading(true)
-                const imported_poll = importpollApi(parseInt(event.target.value))
-                if (imported_poll !== null) {
-                    if (!pollList.includes(imported_poll.id)) {
+                const importedPoll = importpollApi(parseInt(event.target.value))
+                if (importedPoll !== null) {
+                    if (!pollList.includes(importedPoll.id)) {
                         let updated_pollList = [...pollList]
-                        updated_pollList.push(imported_poll.id)
+                        updated_pollList.push(importedPoll.id)
                         localStorage.setItem('pollList', JSON.stringify(updated_pollList))
                     }
-                    props.onviewpoll(imported_poll)
+                    props.onViewPoll(importedPoll)
                 }
                 setLoading(false)
             }
@@ -185,14 +185,14 @@ export const ImportPoll = (props) => {
         event.preventDefault()
         if (validPollIdInput !== null) {
             setLoading(true)
-            const imported_poll = await importpollApi(parseInt(userPollIdInput))
-            if (imported_poll !== null) {
+            const importedPoll = await importpollApi(parseInt(userPollIdInput))
+            if (importedPoll !== null) {
                 let updatedHiddenPollIds = [...hiddenPollIds]
                 updatedHiddenPollIds = updatedHiddenPollIds.filter( poll => poll.id !== validPollIdInput )
                 setHiddenPollIds(updatedHiddenPollIds)
                 setUserPollIdInput('')
                 setValidPollIdInput(null)
-                props.onviewpoll(imported_poll)
+                props.onViewPoll(importedPoll)
             }
             setLoading(false)
         }
@@ -206,13 +206,13 @@ export const ImportPoll = (props) => {
         let updated_pollList = [...pollList]
         updated_pollList = updated_pollList.filter( pollId => !updatedHiddenPollIds.includes(pollId) )
         localStorage.setItem('pollList', JSON.stringify(updated_pollList))
-        if (poll === props.activepoll.id) {
+        if (poll === props.activePoll.id) {
             setSelectedPoll('local')
             const no_poll = {
                 id: 'local',
                 name: 'local',
             }
-            props.onviewpoll(no_poll)
+            props.onViewPoll(no_poll)
         }
     }
 
@@ -288,6 +288,6 @@ export const ImportPoll = (props) => {
 }
 
 ImportPoll.propTypes = {
-    activepoll: PropTypes.object.isRequired,
-    onviewpoll: PropTypes.func.isRequired,
+    activePoll: PropTypes.object.isRequired,
+    onViewPoll: PropTypes.func.isRequired,
 }

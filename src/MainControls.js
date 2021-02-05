@@ -140,11 +140,11 @@ export const MainControls = (props) => {
                 <ModalBody>
                     <div id="gameinput-controls">
                         <AddGames
-                            activepoll={props.activepoll}
-                            onviewpoll={props.onviewpoll}
-                            routedgames={props.routedgames}
-                            updategamevalidations={updateGameValidations}
-                            cachedgametitles={props.cachedgametitles} />
+                            activePoll={props.activePoll}
+                            onViewPoll={props.onViewPoll}
+                            routedGames={props.routedGames}
+                            updateGameValidations={updateGameValidations}
+                            cachedGameTitles={props.cachedGameTitles} />
                     </div>
                 </ModalBody>
                 <ModalFooter> 
@@ -162,7 +162,7 @@ export const MainControls = (props) => {
             <Modal size="md" show={voteTitlesIsOpen} onHide={hideVoteTitlesModal}>
                 <ModalBody>
                     <div id="title-voting-controls">
-                        { (props.activepoll.id !== 'local') &&
+                        { (props.activePoll.id !== 'local') &&
                         <p className="warning">INFO: Voting on titles in a poll is not yet supported.</p>
                         }
                         <VoteTitles
@@ -174,13 +174,13 @@ export const MainControls = (props) => {
                     </div>
                 </ModalBody>
                 <ModalFooter> 
-                    { props.activepoll.id === 'local' && 
+                    { props.activePoll.id === 'local' && 
                         <React.Fragment>
                             <button className="default-danger-styles" onClick={props.ondeleteall} disabled={props.activegamedata.length===0}>Remove All Games</button>
                             <button className="default-danger-styles" data-votingtype="all_titles" onClick={props.onclearsectionvotes} disabled={num_title_votes===0}>Remove All Title Votes</button>
                         </React.Fragment>
                     }
-                    { props.activepoll.id !== 'local' && 
+                    { props.activePoll.id !== 'local' && 
                         <React.Fragment>
                             <button className="default-danger-styles" data-votingtype="all_titles" onClick={props.onclearsectionvotes}>Remove All Title Votes</button>
                         </React.Fragment>
@@ -193,7 +193,7 @@ export const MainControls = (props) => {
     }
 
     const VoteAttributesModal = () => {
-        if (props.activepoll.id === 'local') {
+        if (props.activePoll.id === 'local') {
             return (
                 <React.Fragment>
                 <button className="default-primary-styles" onClick={showVoteAttributesModal}>Vote Attributes</button>
@@ -243,7 +243,7 @@ export const MainControls = (props) => {
 
         const onViewPoll = (poll) => {
             hideImportPollModal()
-            props.onviewpoll(poll)
+            props.onViewPoll(poll)
         }
 
         return (
@@ -253,8 +253,8 @@ export const MainControls = (props) => {
                 <ModalBody>
                     <div id="poll-import-controls">
                         <ImportPoll
-                            activepoll={props.activepoll}
-                            onviewpoll={onViewPoll} />
+                            activePoll={props.activePoll}
+                            onViewPoll={onViewPoll} />
                     </div>
                 </ModalBody>
                 <ModalFooter> 
@@ -299,14 +299,14 @@ export const MainControls = (props) => {
 
 MainControls.propTypes = {
     user: PropTypes.string,
-    routedgames: PropTypes.object.isRequired,
+    routedGames: PropTypes.object.isRequired,
     activegamedata: PropTypes.array.isRequired,
     activethumbs: PropTypes.object.isRequired,
-    cachedgametitles: PropTypes.object.isRequired,
+    cachedGameTitles: PropTypes.object.isRequired,
     addvalidatedgames: PropTypes.func.isRequired,
     ondeleteall: PropTypes.func.isRequired,
     onnewvote: PropTypes.func.isRequired,
     onclearsectionvotes: PropTypes.func.isRequired,
-    activepoll: PropTypes.object.isRequired,
-    onviewpoll: PropTypes.func.isRequired,
+    activePoll: PropTypes.object.isRequired,
+    onViewPoll: PropTypes.func.isRequired,
 }

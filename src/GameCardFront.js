@@ -84,7 +84,7 @@ export const GameCardFront = (props) => {
         }
     }
 
-    const { id, thumbnail, activepoll, name, yearpublished, attributes, activethumbs, mythumbcounts, ontoggleinspection, onnewvote, ondelete, reallynarrow } = props
+    const { id, thumbnail, activePoll, name, yearpublished, attributes, activethumbs, mythumbcounts, ontoggleinspection, onnewvote, ondelete, reallynarrow } = props
     const upvoted_categories = getUpvotedCategories()
     const upvoted_mechanics = getUpvotedMechanics()
     let upvoted_attributes = [ ...upvoted_categories, ...upvoted_mechanics ].sort()
@@ -112,7 +112,7 @@ export const GameCardFront = (props) => {
               id={id} 
               name={name} 
               url={thumbnail} 
-              activepoll={activepoll} 
+              activePoll={activePoll} 
               activethumbs={activethumbs} 
               mythumbcounts={mythumbcounts} 
               reallynarrow={reallynarrow} />
@@ -201,7 +201,7 @@ export const GameCardFront = (props) => {
 GameCardFront.propTypes = {
     id: PropTypes.number.isRequired,
     attributes: PropTypes.object.isRequired,
-    activepoll: PropTypes.object.isRequired,
+    activePoll: PropTypes.object.isRequired,
     activethumbs: PropTypes.object.isRequired,
     mythumbcounts: PropTypes.object,
     name: PropTypes.string.isRequired,

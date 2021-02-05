@@ -196,15 +196,15 @@ export class Boardgameinator extends React.Component {
             }
         })
         if (routed_pollid !== null) {
-            routed_addto_list = [] // ignore addto_list and new_list if poll ID exists
+            routed_addto_list = [] // ignore addtoList and newList if poll ID exists
             routed_new_list = []
         } else if (routed_new_list.length && routed_addto_list.length) {
-            routed_addto_list = [] // ignore addto_list if new_list exists
+            routed_addto_list = [] // ignore addtoList if newList exists
         }
         let updated_routedGames = {}
-        updated_routedGames['new_list'] = [...routed_new_list]
-        updated_routedGames['addto_list'] = [...routed_addto_list]
-        updated_routedGames['pollid'] = routed_pollid
+        updated_routedGames['newList'] = [...routed_new_list]
+        updated_routedGames['addtoList'] = [...routed_addto_list]
+        updated_routedGames['pollId'] = routed_pollid
         this.setState({ routedGames: updated_routedGames })
 
         const stored_localGameList = JSON.parse(localStorage.getItem("localGameList"))
@@ -303,15 +303,15 @@ export class Boardgameinator extends React.Component {
     getCachedGameTitles() {
         const titles = {}, self = this
         this.state.allGameData.forEach(function(gamedata) {
-            if (gamedata.hasOwnProperty('unambiguous_name')) {
+            if (gamedata.hasOwnProperty('unambiguousName')) {
                 const new_cache_info = {
                     id: gamedata.id,
                     name: gamedata.name,
-                    unambiguous_name: gamedata.unambiguous_name,
+                    unambiguousName: gamedata.unambiguousName,
                     year_published: gamedata.year_published,
                     active: (self.state.activeGameList.includes(gamedata.id)) ? true : false,
                 }
-                titles[gamedata.unambiguous_name] = new_cache_info
+                titles[gamedata.unambiguousName] = new_cache_info
             }
         })
         return titles
@@ -652,17 +652,17 @@ export class Boardgameinator extends React.Component {
         } else {
             let poll_game_ids = Object.keys(poll.pollThumbs.titles).map( title => parseInt(title) )
             let cachedGameTitles = this.getCachedGameTitles()
-            let validation_result = await validateUserTitles(cachedGameTitles, poll_game_ids, )
-            if ( (this.state.routedGames.hasOwnProperty('new_list') && this.state.routedGames.new_list.length)
-              || (this.state.routedGames.hasOwnProperty('pollid') && this.state.routedGames.pollid !== null) ) {
+            let validationResult = await validateUserTitles(cachedGameTitles, poll_game_ids, )
+            if ( (this.state.routedGames.hasOwnProperty('newList') && this.state.routedGames.newList.length)
+              || (this.state.routedGames.hasOwnProperty('pollId') && this.state.routedGames.pollId !== null) ) {
                 wasRouted = true
-                validation_result['routed_games_treatment'] = 'replace'
-            } else if (this.state.routedGames.hasOwnProperty('addto_list') && this.state.routedGames.addto_list.length) {
+                validationResult['routedGamesTreatment'] = 'replace'
+            } else if (this.state.routedGames.hasOwnProperty('addtoList') && this.state.routedGames.addtoList.length) {
                 wasRouted = true
-                validation_result['routed_games_treatment'] = 'append'
+                validationResult['routedGamesTreatment'] = 'append'
             }
             let poll_thumbs = JSON.parse(JSON.stringify(poll.pollThumbs))
-            this.addValidatedGamesWithPollContext(validation_result.gameValidations, poll, poll_thumbs, wasRouted)
+            this.addValidatedGamesWithPollContext(validationResult.gameValidations, poll, poll_thumbs, wasRouted)
         }
 
     }
@@ -713,8 +713,8 @@ export class Boardgameinator extends React.Component {
         }
     }
 
-    addValidatedGames(validation_result) {
-        this.addValidatedGamesWithPollContext(validation_result, this.state.activePoll, this.state.allThumbs[this.state.activePoll.id], false)
+    addValidatedGames(validationResult) {
+        this.addValidatedGamesWithPollContext(validationResult, this.state.activePoll, this.state.allThumbs[this.state.activePoll.id], false)
     }
 
     // when the poll is "local"...
@@ -731,23 +731,23 @@ export class Boardgameinator extends React.Component {
     //   1) the incoming set of games to add will either replace or be combined with the local active list
     //   2) the current active list will switch to the local set of games
     //
-    addValidatedGamesWithPollContext(validation_result, active_poll, poll_thumbs, wasRouted) {
+    addValidatedGamesWithPollContext(validationResult, active_poll, poll_thumbs, wasRouted) {
 
         this.setState(prevState => {
 
             let updated_activeGameList = [], updated_activeThumbs = {}, updated_localGameList = [...prevState.localGameList]
-            let updated_routedGames = { new_list: [], addto_list: [], pollid: null }
+            let updated_routedGames = { newList: [], addtoList: [], pollId: null }
             let updated_allGameData = JSON.parse(JSON.stringify(prevState.allGameData))
-            let routed_games_treatment = (validation_result !== null) ? validation_result.routed_games_treatment : 'none'
+            let routedGamesTreatment = (validationResult !== null) ? validationResult.routedGamesTreatment : 'none'
             let updated_active_poll = JSON.parse(JSON.stringify(active_poll))
             let poll_is_changing = (prevState.activePoll.id !== active_poll.id) ? true : false
 
             // for routed and switching to local, set the poll and active game list to local before the adds happen
-            if (routed_games_treatment === 'replace'
-              || routed_games_treatment === 'append'
+            if (routedGamesTreatment === 'replace'
+              || routedGamesTreatment === 'append'
               || (poll_is_changing && active_poll.id === 'local') ) {
                 updated_active_poll.id = 'local'
-                if (routed_games_treatment === 'replace') {
+                if (routedGamesTreatment === 'replace') {
                     updated_activeGameList = []
                 } else {
                     updated_activeGameList = [...prevState.localGameList]
@@ -770,24 +770,24 @@ export class Boardgameinator extends React.Component {
             }
 
             // now, add the new games
-            if (validation_result !== null && (validation_result.new_gamedata_to_activate.length || validation_result.new_gamedata_to_cache)) {
+            if (validationResult !== null && (validationResult.newGamedataToActivate.length || validationResult.newGamedataToCache)) {
 
                 let now = new Date()
 
-                Object.values(validation_result.new_gamedata_to_activate).forEach(each_newGameData => {
-                    let new_gamedata = JSON.parse(JSON.stringify(each_newGameData))
-                    new_gamedata["updated_at"] = now.getTime()
-                    updated_activeGameList.push(new_gamedata.id)
+                Object.values(validationResult.newGamedataToActivate).forEach(each_newGameData => {
+                    let newGamedata = JSON.parse(JSON.stringify(each_newGameData))
+                    newGamedata["updated_at"] = now.getTime()
+                    updated_activeGameList.push(newGamedata.id)
                     if (active_poll.id === 'local') {
-                        updated_localGameList.push(new_gamedata.id)
+                        updated_localGameList.push(newGamedata.id)
                     }
-                    updated_allGameData.push(new_gamedata)
+                    updated_allGameData.push(newGamedata)
                 })
 
-                Object.values(validation_result.new_gamedata_to_cache).forEach(each_newGameData => {
-                    let new_gamedata = JSON.parse(JSON.stringify(each_newGameData))
-                    new_gamedata["updated_at"] = now.getTime()
-                    updated_allGameData.push(new_gamedata)
+                Object.values(validationResult.newGamedataToCache).forEach(each_newGameData => {
+                    let newGamedata = JSON.parse(JSON.stringify(each_newGameData))
+                    newGamedata["updated_at"] = now.getTime()
+                    updated_allGameData.push(newGamedata)
                 })
 
             }
@@ -797,10 +797,10 @@ export class Boardgameinator extends React.Component {
             updated_activeThumbs.total_attribute_votes = prevState.allThumbs.local.total_attribute_votes
 
             // now, add the cached games
-            if (validation_result !== null && validation_result.cached_games_to_activate.length) {
+            if (validationResult !== null && validationResult.cachedGamesToActivate.length) {
 
-                validation_result.cached_games_to_activate.forEach(cached_game_name => {
-                    let id_to_activate = prevState.allGameData.filter( game_data => game_data.unambiguous_name === cached_game_name )[0].id
+                validationResult.cachedGamesToActivate.forEach(cached_game_name => {
+                    let id_to_activate = prevState.allGameData.filter( game_data => game_data.unambiguousName === cached_game_name )[0].id
                     updated_activeGameList.push(id_to_activate)
                     if (active_poll.id === 'local') {
                         updated_localGameList.push(id_to_activate)
@@ -840,7 +840,7 @@ export class Boardgameinator extends React.Component {
             }
         })
 
-        if (validation_result !== null && wasRouted) {
+        if (validationResult !== null && wasRouted) {
             this.props.history.push('/boardgameinator')
         }
     }
@@ -932,7 +932,7 @@ export class Boardgameinator extends React.Component {
                 </div>
                 <ViewControls 
                 user={this.state.user}
-                activepoll={this.state.activePoll}
+                activePoll={this.state.activePoll}
                 sortby={this.state.sortOrder}
                 onsortchange={this.handleSortChange}
                 filtertitles={filterTitles}
@@ -943,9 +943,9 @@ export class Boardgameinator extends React.Component {
             </div>
             <div id="content-wrapper">
                 <GameList
-                    routedgames={this.state.routedGames}
+                    routedGames={this.state.routedGames}
                     activegamedata={activeGameData} 
-                    cachedgametitles={cachedGameTitles}
+                    cachedGameTitles={cachedGameTitles}
                     addvalidatedgames={this.addValidatedGames}
                     activethumbs={this.state.activeThumbs} 
                     sortby={this.state.sortOrder}
@@ -956,8 +956,8 @@ export class Boardgameinator extends React.Component {
                     ondeleteall={this.onDeleteAllTitles}
                     onnewvote={this.onNewVote}
                     onclearsectionvotes={this.onClearSectionVotes}
-                    activepoll={this.state.activePoll}
-                    onviewpoll={this.onViewPoll}
+                    activePoll={this.state.activePoll}
+                    onViewPoll={this.onViewPoll}
                     reallynarrow={styles.reallyNarrow} 
                     user={this.state.user} />
             </div>

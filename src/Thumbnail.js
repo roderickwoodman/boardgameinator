@@ -36,7 +36,7 @@ export const Thumbnail = (props) => {
     }
 
     const printTitleTally = () => {
-        if (props.activepoll.id !== 'local'
+        if (props.activePoll.id !== 'local'
           && props.activethumbs.total_title_votes 
           && typeof props.mythumbcounts !== 'undefined'
           && props.mythumbcounts.hasOwnProperty('titles') ) {
@@ -106,7 +106,7 @@ export const Thumbnail = (props) => {
 
 Thumbnail.propTypes = {
     activethumbs: PropTypes.object.isRequired,
-    activepoll: PropTypes.object.isRequired,
+    activePoll: PropTypes.object.isRequired,
     mythumbcounts: PropTypes.object,
     id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,

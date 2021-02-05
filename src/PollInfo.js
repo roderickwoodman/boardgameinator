@@ -85,7 +85,7 @@ export const PollInfo = (props) => {
                 }
             }
             sortedVoteTally[idx].push(rankStr)
-            let name = props.gamedata.filter( gamedata => gamedata.id === parseInt(sortedVoteTally[idx][0]) )[0].unambiguous_name
+            let name = props.gamedata.filter( gamedata => gamedata.id === parseInt(sortedVoteTally[idx][0]) )[0].unambiguousName
             sortedVoteTally[idx].push(name)
         }
 

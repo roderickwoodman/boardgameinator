@@ -15,48 +15,48 @@ const withoutYear = (title) => {
     }
 }
 
-const doAddGames = (raw_validated_games, add_fn) => {
+const doAddGames = (rawValidatedGames, add_fn) => {
 
     // apply selected games to the ambiguous gamedata
-    if (raw_validated_games.ambiguous_title_count !== 0) {
+    if (rawValidatedGames.ambiguousTitleCount !== 0) {
 
-        const selected_base_names = raw_validated_games.selected_games_to_activate.map( unambiguous_name => withoutYear(unambiguous_name) )
-        let updated_new_gamedata_to_activate = []
-        let updated_new_gamedata_to_cache = []
-        Object.entries(raw_validated_games.ambiguous_new_gamedata).forEach(function(possible_versions) {
-            possible_versions[1].forEach(function(game_version) {
-                const new_gamedata = JSON.parse(JSON.stringify(game_version))
-                if (selected_base_names.includes(game_version.name)) {
-                    if (raw_validated_games.selected_games_to_activate.includes(game_version.unambiguous_name)) {
-                        updated_new_gamedata_to_activate.push(new_gamedata)
+        const selectedBaseNames = rawValidatedGames.selectedGamesToActivate.map( unambiguousName => withoutYear(unambiguousName) )
+        let updatedNewGamedataToActivate = []
+        let updatedNewGamedataToCache = []
+        Object.entries(rawValidatedGames.ambiguousNewGamedata).forEach(function(possibleVersions) {
+            possibleVersions[1].forEach(function(gameVersion) {
+                const newGamedata = JSON.parse(JSON.stringify(gameVersion))
+                if (selectedBaseNames.includes(gameVersion.name)) {
+                    if (rawValidatedGames.selectedGamesToActivate.includes(gameVersion.unambiguousName)) {
+                        updatedNewGamedataToActivate.push(newGamedata)
                     } else {
-                        updated_new_gamedata_to_cache.push(new_gamedata)
+                        updatedNewGamedataToCache.push(newGamedata)
                     }
-                    delete raw_validated_games.ambiguous_new_gamedata[possible_versions[0]]
-                    raw_validated_games.selected_games_to_activate = raw_validated_games.selected_games_to_activate.filter( game => game.name !== possible_versions[0] )
+                    delete rawValidatedGames.ambiguousNewGamedata[possibleVersions[0]]
+                    rawValidatedGames.selectedGamesToActivate = rawValidatedGames.selectedGamesToActivate.filter( game => game.name !== possibleVersions[0] )
                 }
             })
         })
-        raw_validated_games.new_gamedata_to_activate = updated_new_gamedata_to_activate
-        raw_validated_games.new_gamedata_to_cache = updated_new_gamedata_to_cache
+        rawValidatedGames.newGamedataToActivate = updatedNewGamedataToActivate
+        rawValidatedGames.newGamedataToCache = updatedNewGamedataToCache
 
         // apply selected games to the ambiguous cached games
-        Object.entries(raw_validated_games.ambiguous_cached_games).forEach(function(possible_versions) {
-            possible_versions[1].forEach(function(game_version) {
-                if (raw_validated_games.selected_games_to_activate.includes(game_version.unambiguous_name)) {
-                    raw_validated_games.cached_games_to_activate.push(game_version.unambiguous_name)
-                    delete raw_validated_games.ambiguous_cached_games[possible_versions[0]]
+        Object.entries(rawValidatedGames.ambiguous_cached_games).forEach(function(possibleVersions) {
+            possibleVersions[1].forEach(function(gameVersion) {
+                if (rawValidatedGames.selectedGamesToActivate.includes(gameVersion.unambiguousName)) {
+                    rawValidatedGames.cachedGamesToActivate.push(gameVersion.unambiguousName)
+                    delete rawValidatedGames.ambiguous_cached_games[possibleVersions[0]]
                 }
             })
         })
 
-        raw_validated_games.ambiguous_title_count -= selected_base_names.length
-        raw_validated_games.selected_games_to_activate = []
+        rawValidatedGames.ambiguousTitleCount -= selectedBaseNames.length
+        rawValidatedGames.selectedGamesToActivate = []
 
-        add_fn(raw_validated_games)
+        add_fn(rawValidatedGames)
 
     } else {
-        add_fn(raw_validated_games)
+        add_fn(rawValidatedGames)
     }
 }
 
@@ -79,30 +79,30 @@ export const AddGames = (props) => {
         async function addRoutedGames() {
 
             // routing by poll ID
-            if (props.routedgames.hasOwnProperty('pollid') && props.routedgames.pollid !== null) {
-                const imported_poll = importpollApi(props.routedgames.pollid)
-                if (imported_poll !== null) {
-                    props.onviewpoll(imported_poll)
+            if (props.routedGames.hasOwnProperty('pollId') && props.routedGames.pollId !== null) {
+                const importedPoll = importpollApi(props.routedGames.pollId)
+                if (importedPoll !== null) {
+                    props.onViewPoll(importedPoll)
                 }
 
             // routing by game ID(s)
             } else {
-                let validation_list = [], routing_treatment = 'none'
-                if (props.routedgames.hasOwnProperty('new_list') && props.routedgames.new_list.length > 0) {
-                    validation_list = [...props.routedgames.new_list]
-                    routing_treatment = 'replace'
-                } else if (props.routedgames.hasOwnProperty('addto_list') && props.routedgames.addto_list.length > 0) {
-                    validation_list = [...props.routedgames.addto_list]
-                    routing_treatment = 'append'
+                let validationList = [], routingTreatment = 'none'
+                if (props.routedGames.hasOwnProperty('newList') && props.routedGames.newList.length > 0) {
+                    validationList = [...props.routedGames.newList]
+                    routingTreatment = 'replace'
+                } else if (props.routedGames.hasOwnProperty('addtoList') && props.routedGames.addtoList.length > 0) {
+                    validationList = [...props.routedGames.addtoList]
+                    routingTreatment = 'append'
                 }
-                if (validation_list.length > 0) {
+                if (validationList.length > 0) {
                     setLoading(true)
-                    let validation_result = await validateUserTitles(props.cachedgametitles, validation_list)
-                    validation_result.gameValidations['routed_games_treatment'] = routing_treatment
-                    setGameValidations(validation_result.gameValidations)
-                    newMessages(validation_result.messages)
-                    if (!validation_result.keep_modal_open) {
-                        doAddGames(validation_result.gameValidations, props.updategamevalidations)
+                    let validationResult = await validateUserTitles(props.cachedGameTitles, validationList)
+                    validationResult.gameValidations['routedGamesTreatment'] = routingTreatment
+                    setGameValidations(validationResult.gameValidations)
+                    newMessages(validationResult.messages)
+                    if (!validationResult.keepModalOpen) {
+                        doAddGames(validationResult.gameValidations, props.updateGameValidations)
                         return null
                     } else {
                         setLoading(false)
@@ -113,25 +113,25 @@ export const AddGames = (props) => {
         addRoutedGames()
     }, [props])
 
-    const newMessages = (new_messages) => {
-        const newStatusMessages = [...new_messages]
+    const newMessages = (newMessages) => {
+        const newStatusMessages = [...newMessages]
         setStatusMessages(newStatusMessages)
     }
 
-    const selectUnambiguousTitle = function (title_to_select) { 
+    const selectUnambiguousTitle = function (titleToSelect) { 
 
         // only one title with the same base name can be selected
-        let base_name_to_select = withoutYear(title_to_select)
-        let updated_selectedGamesToActivate = [...selectedGamesToActivate]
-        updated_selectedGamesToActivate = updated_selectedGamesToActivate.filter( selected_title => withoutYear(selected_title) !== base_name_to_select )
-        updated_selectedGamesToActivate.push(title_to_select)
-        setSelectedGamesToActivate(updated_selectedGamesToActivate)
+        let baseNameToSelect = withoutYear(titleToSelect)
+        let updatedSelectedGamesToActivate = [...selectedGamesToActivate]
+        updatedSelectedGamesToActivate = updatedSelectedGamesToActivate.filter( selectedTitle => withoutYear(selectedTitle) !== baseNameToSelect )
+        updatedSelectedGamesToActivate.push(titleToSelect)
+        setSelectedGamesToActivate(updatedSelectedGamesToActivate)
 
         // merge the updated title selections in with the rest of the game data
-        let updated_gameValidations = JSON.parse(JSON.stringify(gameValidations))
-        updated_gameValidations['selected_games_to_activate'] = JSON.parse(JSON.stringify(updated_selectedGamesToActivate))
+        let updatedGameValidations = JSON.parse(JSON.stringify(gameValidations))
+        updatedGameValidations['selectedGamesToActivate'] = JSON.parse(JSON.stringify(updatedSelectedGamesToActivate))
 
-        setGameValidations(updated_gameValidations)
+        setGameValidations(updatedGameValidations)
 
     }
 
@@ -150,24 +150,24 @@ export const AddGames = (props) => {
         processAddGamesRequest(userTitlesInput)
     }
 
-    const processAddGamesRequest = async (requested_games) => {
-        let delimiter, num_nonblank_lines = requested_games.split(/\r\n|\r|\n/).filter(line => line !== '').length
-        if (num_nonblank_lines > 1) {
+    const processAddGamesRequest = async (requestedGames) => {
+        let delimiter, numNonblankLines = requestedGames.split(/\r\n|\r|\n/).filter(line => line !== '').length
+        if (numNonblankLines > 1) {
             delimiter = '\n'
         } else {
             delimiter = ','
         }
-        const userTitles = requested_games
+        const userTitles = requestedGames
             .split(delimiter)
             .map(str => str.trim())
             .map(str => str.replace(/[^0-9a-zA-Z:.()&!–#' ]/g, ""))
             .filter( function(e){return e} )
         setLoading(true)
-        const validation_result = await validateUserTitles(props.cachedgametitles, Array.from(new Set(userTitles)))
-        setGameValidations(validation_result.gameValidations)
-        newMessages(validation_result.messages)
-        if (!validation_result.keep_modal_open) {
-            doAddGames(validation_result.gameValidations, props.updategamevalidations)
+        const validationResult = await validateUserTitles(props.cachedGameTitles, Array.from(new Set(userTitles)))
+        setGameValidations(validationResult.gameValidations)
+        newMessages(validationResult.messages)
+        if (!validationResult.keepModalOpen) {
+            doAddGames(validationResult.gameValidations, props.updateGameValidations)
             return null
         } else {
             setLoading(true)
@@ -175,9 +175,9 @@ export const AddGames = (props) => {
     }
 
     const prependTitles = (message) => {
-        if (message.hasOwnProperty('prepend_titles') && message.prepend_titles.length) {
+        if (message.hasOwnProperty('prependTitles') && message.prependTitles.length) {
             return (
-                message.prepend_titles.map( (title, idx) => 
+                message.prependTitles.map( (title, idx) => 
                     (idx === 0)
                     ? <span key={idx} className="title">{title}</span>
                     : <span>, <span key={idx} className="title">{title}</span></span>
@@ -189,9 +189,9 @@ export const AddGames = (props) => {
     }
 
     const appendTitles = (message) => {
-        if (message.hasOwnProperty('append_titles') && message.append_titles.length) {
+        if (message.hasOwnProperty('appendTitles') && message.appendTitles.length) {
             return (
-                message.append_titles.map( (title, idx) => 
+                message.appendTitles.map( (title, idx) => 
                     (idx === 0)
                     ? <span key={idx}> - <span className="title">{title}</span></span>
                     : <span key={idx}>, <span className="title">{title}</span></span>
@@ -207,14 +207,14 @@ export const AddGames = (props) => {
             let classes = {}
             message.ambiguous.forEach(function(game) {
                 let new_classes = 'default-secondary-styles'
-                if (selectedGamesToActivate.includes(game.unambiguous_name)) {
+                if (selectedGamesToActivate.includes(game.unambiguousName)) {
                     new_classes += ' active-button'
                 }
-                classes[game.unambiguous_name] = new_classes
+                classes[game.unambiguousName] = new_classes
             })
             return (
                 message.ambiguous.map( disambiguation => 
-                    <button key={disambiguation.id} className={classes[disambiguation.unambiguous_name]} onClick={ (e) => selectUnambiguousTitle(disambiguation.unambiguous_name) }>{disambiguation.year_published}</button>
+                    <button key={disambiguation.id} className={classes[disambiguation.unambiguousName]} onClick={ (e) => selectUnambiguousTitle(disambiguation.unambiguousName) }>{disambiguation.year_published}</button>
                 )
             )
         } else {
@@ -223,17 +223,17 @@ export const AddGames = (props) => {
     }
 
     const clickApply = () => {
-        doAddGames(gameValidations, props.updategamevalidations)
+        doAddGames(gameValidations, props.updateGameValidations)
         return null
     }
 
-    const apply_button = ( (gameValidations.hasOwnProperty('ambiguous_title_count') && gameValidations.ambiguous_title_count > 0)
-                       || (gameValidations.hasOwnProperty('cached_games_to_activate') && gameValidations.cached_games_to_activate.length > 0)
-                       || (gameValidations.hasOwnProperty('new_gamedata_to_activate') && Object.keys(gameValidations.new_gamedata_to_activate).length > 0) )
+    const applyButton = ( (gameValidations.hasOwnProperty('ambiguousTitleCount') && gameValidations.ambiguousTitleCount > 0)
+                       || (gameValidations.hasOwnProperty('cachedGamesToActivate') && gameValidations.cachedGamesToActivate.length > 0)
+                       || (gameValidations.hasOwnProperty('newGamedataToActivate') && Object.keys(gameValidations.newGamedataToActivate).length > 0) )
 
-    const active_title_count = Object.values(props.cachedgametitles).filter( cachedata => cachedata.active ).length
+    const activeTitleCount = Object.values(props.cachedGameTitles).filter( cachedata => cachedata.active ).length
 
-    const show_error = props.activepoll.id !== 'local'
+    const show_error = props.activePoll.id !== 'local'
 
     if (show_error) {
         return (
@@ -255,7 +255,7 @@ export const AddGames = (props) => {
                                 <Spinner animation="border" size="sm" />
                             }
                         </section>
-                        { !statusMessages.length && !active_title_count ?
+                        { !statusMessages.length && !activeTitleCount ?
                         <div>
                             <section>
                                 OR
@@ -278,7 +278,7 @@ export const AddGames = (props) => {
                             }
                         </div>
                     </section>
-                    { apply_button &&
+                    { applyButton &&
                         <button className="default-primary-styles" onClick={clickApply}>Apply</button>
                     }
             </div>
@@ -289,9 +289,9 @@ export const AddGames = (props) => {
 }
 
 AddGames.propTypes = {
-    activepoll: PropTypes.object.isRequired,
-    onviewpoll: PropTypes.func.isRequired,
-    routedgames: PropTypes.object.isRequired,
-    updategamevalidations: PropTypes.func.isRequired,
-    cachedgametitles: PropTypes.object.isRequired,
+    activePoll: PropTypes.object.isRequired,
+    onViewPoll: PropTypes.func.isRequired,
+    routedGames: PropTypes.object.isRequired,
+    updateGameValidations: PropTypes.func.isRequired,
+    cachedGameTitles: PropTypes.object.isRequired,
 }

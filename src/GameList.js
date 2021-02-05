@@ -162,7 +162,7 @@ export const GameList = (props) => {
                     my_rank: 0
                 }
                 // playercount section of a game gets ONE TOTAL thumbsup if any of its supported playercounts gets a thumbsup
-                for (let playercount=game.attributes.min_players; playercount<=game.attributes.max_players; playercount++) {
+                for (let playercount=game.attributes.minPlayers; playercount<=game.attributes.maxPlayers; playercount++) {
                     if (props.activethumbs.attributes.players.hasOwnProperty(playercount + 'P')
                       && props.activethumbs.attributes.players[playercount + 'P'].hasOwnProperty('thumbsup')
                       && props.activethumbs.attributes.players[playercount + 'P']['thumbsup'].length) {
@@ -171,9 +171,9 @@ export const GameList = (props) => {
                     }
                 }
                 // weight section of a game gets ONE TOTAL thumbsup if its weight has a thumbsup
-                if (props.activethumbs.attributes.weight.hasOwnProperty(game.attributes.average_weight_name)
-                  && props.activethumbs.attributes.weight[game.attributes.average_weight_name].hasOwnProperty('thumbsup')
-                  && props.activethumbs.attributes.weight[game.attributes.average_weight_name]['thumbsup'].length) {
+                if (props.activethumbs.attributes.weight.hasOwnProperty(game.attributes.averageWeightName)
+                  && props.activethumbs.attributes.weight[game.attributes.averageWeightName].hasOwnProperty('thumbsup')
+                  && props.activethumbs.attributes.weight[game.attributes.averageWeightName]['thumbsup'].length) {
                     new_vote_counts.attributes++
                 }
                 // categories section of a game gets one thumbsup for each thumbed-up category
@@ -277,7 +277,7 @@ export const GameList = (props) => {
             if (!props.filterplayercount || !favoredPlayercounts.length) {
                 return true
             } else {
-                for (let playercount=game.attributes.min_players; playercount<=game.attributes.max_players; playercount++) {
+                for (let playercount=game.attributes.minPlayers; playercount<=game.attributes.maxPlayers; playercount++) {
                     if (favoredPlayercounts.includes(playercount)) {
                         return true
                     }
@@ -294,7 +294,7 @@ export const GameList = (props) => {
         const filtered = games.filter(function(game) {
             if (!props.filterweight || !favoredWeights.length) {
                 return true
-            } else if (favoredWeights.includes(game.attributes.average_weight_name)) {
+            } else if (favoredWeights.includes(game.attributes.averageWeightName)) {
                 return true
             } else {
                 return false
@@ -331,9 +331,9 @@ export const GameList = (props) => {
                     } else if (votecounts[a.id].attributes > votecounts[b.id].attributes) {
                         return -1
                     } else {
-                        if (a.attributes.max_playtime > b.attributes.max_playtime) {
+                        if (a.attributes.maxPlaytime > b.attributes.maxPlaytime) {
                             return 1
-                        } else if (a.attributes.max_playtime < b.attributes.max_playtime) {
+                        } else if (a.attributes.maxPlaytime < b.attributes.maxPlaytime) {
                             return -1
                         } else {
                             return 0
@@ -351,9 +351,9 @@ export const GameList = (props) => {
                     } else if (votecounts[a.id].titles > votecounts[b.id].titles) {
                         return -1
                     } else {
-                        if (a.attributes.max_playtime > b.attributes.max_playtime) {
+                        if (a.attributes.maxPlaytime > b.attributes.maxPlaytime) {
                             return 1
-                        } else if (a.attributes.max_playtime < b.attributes.max_playtime) {
+                        } else if (a.attributes.maxPlaytime < b.attributes.maxPlaytime) {
                             return -1
                         } else {
                             return 0
@@ -361,9 +361,9 @@ export const GameList = (props) => {
                     }
                 }
             } else if (props.sortby === 'minplaytime') {
-                if (a.attributes.max_playtime > b.attributes.max_playtime) {
+                if (a.attributes.maxPlaytime > b.attributes.maxPlaytime) {
                     return 1
-                } else if (a.attributes.max_playtime < b.attributes.max_playtime) {
+                } else if (a.attributes.maxPlaytime < b.attributes.maxPlaytime) {
                     return -1
                 } else {
                     if (votecounts[a.id].titles < votecounts[b.id].titles) {
@@ -381,9 +381,9 @@ export const GameList = (props) => {
                     }
                 }
             } else if (props.sortby === 'maxplayers') {
-                if (a.attributes.max_players < b.attributes.max_players) {
+                if (a.attributes.maxPlayers < b.attributes.maxPlayers) {
                     return 1
-                } else if (a.attributes.max_players > b.attributes.max_players) {
+                } else if (a.attributes.maxPlayers > b.attributes.maxPlayers) {
                     return -1
                 } else {
                     if (votecounts[a.id].titles < votecounts[b.id].titles) {
@@ -444,7 +444,7 @@ export const GameList = (props) => {
                                 name={game.name} 
                                 thumbnail={game.thumbnail} 
                                 description={game.description} 
-                                yearpublished={game.year_published} 
+                                yearpublished={game.yearPublished} 
                                 attributes={game.attributes}
                                 comments={game.comments}
                                 videos={game.videos}

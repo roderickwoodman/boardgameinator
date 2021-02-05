@@ -5,7 +5,7 @@ import Spinner from 'react-bootstrap/Spinner'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrash } from '@fortawesome/free-solid-svg-icons'
 
-export const hardcoded_polls = [
+export const hardcodedPolls = [
     {
         id: 1610263515000, // createdAt
         updatedAt: 1610263515000,

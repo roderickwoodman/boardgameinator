@@ -1,4 +1,4 @@
-import { hardcoded_polls } from './ImportPoll'
+import { hardcodedPolls } from './ImportPoll'
 
 export function exactSearchApi(title) {
     const url = 'https://boardgamegeek.com/xmlapi2/search?type=boardgame&exact=1&query=' + title.replaceAll(' ', '+').replaceAll(':', '+')
@@ -41,7 +41,7 @@ function parseSearchApiXml(resp_str) {
                         game["name"] = node.getAttribute("value")
                     }
                     if (node.tagName === "yearpublished") {
-                        game["year_published"] = parseInt(node.getAttribute("value"))
+                        game["yearPublished"] = parseInt(node.getAttribute("value"))
                     }
                 }
             }
@@ -49,8 +49,8 @@ function parseSearchApiXml(resp_str) {
         if ("name" in game) {
             games.push(game)
         }
-        if (!("year_published" in game)) {
-            game["year_published"] = null
+        if (!("yearPublished" in game)) {
+            game["yearPublished"] = null
         }
     }
     return games
@@ -80,19 +80,19 @@ function parseGamedataApiXml(str) {
                         game["description"] = makeReadable(node.innerHTML)
                     }
                     if (node.tagName === "yearpublished") {
-                        game["year_published"] = parseInt(node.getAttribute("value"))
+                        game["yearPublished"] = parseInt(node.getAttribute("value"))
                     }
                     if (node.tagName === "minplayers") {
-                        game.attributes["min_players"] = parseInt(node.getAttribute("value"))
+                        game.attributes["minPlayers"] = parseInt(node.getAttribute("value"))
                     }
                     if (node.tagName === "maxplayers") {
-                        game.attributes["max_players"] = parseInt(node.getAttribute("value"))
+                        game.attributes["maxPlayers"] = parseInt(node.getAttribute("value"))
                     }
                     if (node.tagName === "minplaytime") {
-                        game.attributes["min_playtime"] = parseInt(node.getAttribute("value"))
+                        game.attributes["minPlaytime"] = parseInt(node.getAttribute("value"))
                     }
                     if (node.tagName === "maxplaytime") {
-                        game.attributes["max_playtime"] = parseInt(node.getAttribute("value"))
+                        game.attributes["maxPlaytime"] = parseInt(node.getAttribute("value"))
                     }
                     if ( (node.tagName === "link")
                         && (node.getAttribute("type") === "boardgamecategory") ) {
@@ -109,11 +109,11 @@ function parseGamedataApiXml(str) {
                                     childNode.childNodes.forEach(
                                         function (grandchildNode) {
                                             if (grandchildNode.tagName === "numweights") {
-                                                game["num_weights"] = grandchildNode.getAttribute("value")
+                                                game["numWeights"] = grandchildNode.getAttribute("value")
                                             }
                                             if (grandchildNode.tagName === "averageweight") {
-                                                game.attributes["average_weight"] = grandchildNode.getAttribute("value")
-                                                const weight = parseFloat(game.attributes.average_weight)
+                                                game.attributes["averageWeight"] = grandchildNode.getAttribute("value")
+                                                const weight = parseFloat(game.attributes.averageWeight)
                                                 let weightname = null
                                                 if (weight < 1.5) {
                                                     weightname = "light"
@@ -126,7 +126,7 @@ function parseGamedataApiXml(str) {
                                                 } else {
                                                     weightname = "heavy"
                                                 }
-                                                game.attributes["average_weight_name"] = weightname
+                                                game.attributes["averageWeightName"] = weightname
                                             }
                                         }
                                     )
@@ -171,8 +171,8 @@ function parseGamedataApiXml(str) {
             }
         )
     }
-    if ( Object.keys(game) && (!game.hasOwnProperty("year_published") || game["year_published"] === 0) ) {
-        game["year_published"] = null
+    if ( Object.keys(game) && (!game.hasOwnProperty("yearPublished") || game["yearPublished"] === 0) ) {
+        game["yearPublished"] = null
     }
     return game
 }
@@ -192,23 +192,23 @@ function makeReadable(str) {
     return paragraphs;
 }
 
-export function importpollApi(poll_id) {
-    console.log(`FIXME (WIP): implement the fetching of poll #${poll_id}.`)
-    const matchingPolls = hardcoded_polls.filter( poll => poll.id === poll_id )
+export function importpollApi(pollId) {
+    console.log(`FIXME (WIP): implement the fetching of poll #${pollId}.`)
+    const matchingPolls = hardcodedPolls.filter( poll => poll.id === pollId )
     return (matchingPolls.length === 1) ? matchingPolls[0] : null
 }
 
-export function voteinpollApi(poll_id, game_id, newvote, user) {
-    console.log(`FIXME (WIP): implement a "${newvote}" vote by ${user} in poll #${poll_id} for game #${game_id}.`)
+export function voteinpollApi(pollId, gameId, newVote, user) {
+    console.log(`FIXME (WIP): implement a "${newVote}" vote by ${user} in poll #${pollId} for game #${gameId}.`)
     return { }
 }
 
-export function clearmyvotesApi(poll_id, user) {
-    console.log(`FIXME (WIP): implement clearing all title votes by ${user} in poll #${poll_id}.`)
+export function clearmyvotesApi(pollId, user) {
+    console.log(`FIXME (WIP): implement clearing all title votes by ${user} in poll #${pollId}.`)
     return { }
 }
 
-export function deletetitleinpollApi(poll_id, game_id, user) {
-    console.log(`FIXME (WIP): implement deleting game #${game_id} in poll #${poll_id} by user ${user}.`)
+export function deletetitleinpollApi(pollId, gameId, user) {
+    console.log(`FIXME (WIP): implement deleting game #${gameId} in poll #${pollId} by user ${user}.`)
     return { }
 }

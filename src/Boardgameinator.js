@@ -180,15 +180,15 @@ export class Boardgameinator extends React.Component {
         query_strings.split('&').forEach( function(query_string) {
             const qs = query_string.split('=')
             if (qs[0] === 'newlist') {
-                qs[1].split('+').forEach( function(game_id) {
-                  if (!routed_new_list.includes(parseInt(game_id))) {
-                    routed_new_list.push(parseInt(game_id))
+                qs[1].split('+').forEach( function(gameId) {
+                  if (!routed_new_list.includes(parseInt(gameId))) {
+                    routed_new_list.push(parseInt(gameId))
                   }
                 })
             } else if (qs[0] === 'addtolist') {
-                qs[1].split('+').forEach( function(game_id) {
-                  if (!routed_addto_list.includes(parseInt(game_id))) {
-                    routed_addto_list.push(parseInt(game_id))
+                qs[1].split('+').forEach( function(gameId) {
+                  if (!routed_addto_list.includes(parseInt(gameId))) {
+                    routed_addto_list.push(parseInt(gameId))
                   }
                 })
             } else if (qs[0] === 'poll' && !isNaN(parseInt(qs[1]))) {
@@ -308,7 +308,7 @@ export class Boardgameinator extends React.Component {
                     id: gamedata.id,
                     name: gamedata.name,
                     unambiguousName: gamedata.unambiguousName,
-                    year_published: gamedata.year_published,
+                    yearPublished: gamedata.yearPublished,
                     active: (self.state.activeGameList.includes(gamedata.id)) ? true : false,
                 }
                 titles[gamedata.unambiguousName] = new_cache_info
@@ -328,7 +328,7 @@ export class Boardgameinator extends React.Component {
 
     gameSupportsPlayercount(game, playercount) {
         const number = playercount.slice(0, -1)
-        if (number <= game.attributes.max_players && number >= game.min_players) {
+        if (number <= game.attributes.maxPlayers && number >= game.minPlayers) {
             return true
         } else {
             return false
@@ -350,11 +350,11 @@ export class Boardgameinator extends React.Component {
                 // FIXME: Implement poll editing. May not want to update active list here if we are currently looking at a poll.
                 // remove the game from the active game list (but still keep its game data cached)
                 let activeGameList = prevState.activeGameList.slice()
-                activeGameList = activeGameList.filter(game_id => game_id !== parseInt(id))
+                activeGameList = activeGameList.filter(gameId => gameId !== parseInt(id))
 
                 // remove the game from the local game list (but still keep its game data cached)
                 let localGameList = prevState.localGameList.slice()
-                localGameList = localGameList.filter(game_id => game_id !== parseInt(id))
+                localGameList = localGameList.filter(gameId => gameId !== parseInt(id))
 
                 // remove the game from the game list
                 let allGameData = JSON.parse(JSON.stringify(prevState.allGameData))
@@ -460,10 +460,10 @@ export class Boardgameinator extends React.Component {
         }
     }
 
-    async clearMyTitleVotesInPoll(poll_id, user) {
-        clearmyvotesApi(poll_id, user)
+    async clearMyTitleVotesInPoll(pollId, user) {
+        clearmyvotesApi(pollId, user)
             // .then(json => {
-            //     if (json.hasOwnProperty('id') === poll_id) {
+            //     if (json.hasOwnProperty('id') === pollId) {
             //         this.onViewPoll(json)
             //     }})
     }
@@ -533,18 +533,18 @@ export class Boardgameinator extends React.Component {
         return  count
     }
 
-    async voteTitleInPoll(poll_id, title, newvote, user) {
-        voteinpollApi(poll_id, title, newvote, user)
+    async voteTitleInPoll(pollId, title, newVote, user) {
+        voteinpollApi(pollId, title, newVote, user)
             // .then(json => {
-            //     if (json.hasOwnProperty('id') === poll_id) {
+            //     if (json.hasOwnProperty('id') === pollId) {
             //         this.onViewPoll(json)
             //     }})
     }
 
-    async deleteTitleInPoll(poll_id, title_id, user) {
-        deletetitleinpollApi(poll_id, title_id, user)
+    async deleteTitleInPoll(pollId, title_id, user) {
+        deletetitleinpollApi(pollId, title_id, user)
             // .then(json => {
-            //     if (json.hasOwnProperty('id') === poll_id) {
+            //     if (json.hasOwnProperty('id') === pollId) {
             //         this.onViewPoll(json)
             //     }})
     }

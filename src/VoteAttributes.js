@@ -25,7 +25,7 @@ export const VoteAttributes = (props) => {
         // tally each allowable player count occurrence across all games
         let countsObj = {}
         for (const game of props.activegamedata) {
-            for (let playercount=game.attributes.min_players; playercount<=game.attributes.max_players; playercount++) {
+            for (let playercount=game.attributes.minPlayers; playercount<=game.attributes.maxPlayers; playercount++) {
                 if (playercount <= 10) {
                     const playerCountAttr = (playercount === 10) ? '10P+' : playercount + 'P'
                     if (countsObj.hasOwnProperty(playerCountAttr)) {
@@ -50,10 +50,10 @@ export const VoteAttributes = (props) => {
         // tally each weight occurrence across all games
         let countsObj = {}
         for (const game of props.activegamedata) {
-            if (countsObj.hasOwnProperty(game.attributes.average_weight_name)) {
-                countsObj[game.attributes.average_weight_name] = countsObj[game.attributes.average_weight_name] + 1
+            if (countsObj.hasOwnProperty(game.attributes.averageWeightName)) {
+                countsObj[game.attributes.averageWeightName] = countsObj[game.attributes.averageWeightName] + 1
             } else {
-                countsObj[game.attributes.average_weight_name] = 1
+                countsObj[game.attributes.averageWeightName] = 1
             }
         }
         // sort weights into a predefined order

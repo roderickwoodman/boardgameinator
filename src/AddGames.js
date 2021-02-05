@@ -214,7 +214,7 @@ export const AddGames = (props) => {
             })
             return (
                 message.ambiguous.map( disambiguation => 
-                    <button key={disambiguation.id} className={classes[disambiguation.unambiguousName]} onClick={ (e) => selectUnambiguousTitle(disambiguation.unambiguousName) }>{disambiguation.year_published}</button>
+                    <button key={disambiguation.id} className={classes[disambiguation.unambiguousName]} onClick={ (e) => selectUnambiguousTitle(disambiguation.unambiguousName) }>{disambiguation.yearPublished}</button>
                 )
             )
         } else {

@@ -15,7 +15,7 @@ export const GameCardFront = (props) => {
             let weight_vote = getWeightVote(attrName)
             classes += ` weight ${weight_vote}`
         } else if (section === 'supported-playercount') {
-            const supported_players_vote = getPlayersVote(props.attributes.min_players, props.attributes.max_players)
+            const supported_players_vote = getPlayersVote(props.attributes.minPlayers, props.attributes.maxPlayers)
             classes += ` supported-playercount ${supported_players_vote}`
         } else {
             classes += (props.activethumbs.attributes[section].hasOwnProperty(attrName) 
@@ -117,34 +117,34 @@ export const GameCardFront = (props) => {
               mythumbcounts={mythumbcounts} 
               reallynarrow={reallynarrow} />
             <div className="gamecardvisual-overlay">
-                {(attributes.min_players !== attributes.max_players)
-                    ? <div className={getClasses('supported-playercount', null)}><FontAwesomeIcon icon={faUserFriends}/> {attributes.min_players}-{attributes.max_players}</div>
-                    : <div className={getClasses('supported-playercount', null)}><FontAwesomeIcon icon={faUserFriends}/> {attributes.min_players}</div>
+                {(attributes.minPlayers !== attributes.maxPlayers)
+                    ? <div className={getClasses('supported-playercount', null)}><FontAwesomeIcon icon={faUserFriends}/> {attributes.minPlayers}-{attributes.maxPlayers}</div>
+                    : <div className={getClasses('supported-playercount', null)}><FontAwesomeIcon icon={faUserFriends}/> {attributes.minPlayers}</div>
                 }
-                {(attributes.min_playtime !== attributes.max_playtime)
-                    ? <div><FontAwesomeIcon icon={faClock}/> {attributes.min_playtime}-{attributes.max_playtime}'</div>
-                    : <div><FontAwesomeIcon icon={faClock}/> {attributes.min_playtime}'</div>
+                {(attributes.minPlaytime !== attributes.maxPlaytime)
+                    ? <div><FontAwesomeIcon icon={faClock}/> {attributes.minPlaytime}-{attributes.maxPlaytime}'</div>
+                    : <div><FontAwesomeIcon icon={faClock}/> {attributes.minPlaytime}'</div>
                 }
             </div>
         </section>
         <div className="gamecard-weight">
             <div className="halfsized">
-                {(attributes.min_players !== attributes.max_players)
-                    ? <div className={getClasses('supported-playercount', null)}><FontAwesomeIcon icon={faUserFriends}/> {attributes.min_players}-{attributes.max_players}</div>
-                    : <div className={getClasses('supported-playercount', null)}><FontAwesomeIcon icon={faUserFriends}/> {attributes.min_players}</div>
+                {(attributes.minPlayers !== attributes.maxPlayers)
+                    ? <div className={getClasses('supported-playercount', null)}><FontAwesomeIcon icon={faUserFriends}/> {attributes.minPlayers}-{attributes.maxPlayers}</div>
+                    : <div className={getClasses('supported-playercount', null)}><FontAwesomeIcon icon={faUserFriends}/> {attributes.minPlayers}</div>
                 }
-                {(attributes.min_playtime !== attributes.max_playtime)
-                    ? <div className="estimated-playtime"><FontAwesomeIcon icon={faClock}/> {attributes.min_playtime}-{attributes.max_playtime}'</div>
-                    : <div className="estimated-playtime"><FontAwesomeIcon icon={faClock}/> {attributes.min_playtime}'</div>
+                {(attributes.minPlaytime !== attributes.maxPlaytime)
+                    ? <div className="estimated-playtime"><FontAwesomeIcon icon={faClock}/> {attributes.minPlaytime}-{attributes.maxPlaytime}'</div>
+                    : <div className="estimated-playtime"><FontAwesomeIcon icon={faClock}/> {attributes.minPlaytime}'</div>
                 }
             </div>
             <div 
               data-votingtype='weight'
-              data-votingon={attributes.average_weight_name}
+              data-votingon={attributes.averageWeightName}
               data-newvote='thumbsup'
               onClick={props.onnewvote}
-              className={getClasses('weight', attributes.average_weight_name)}>
-                  {getWeightName(attributes.average_weight_name)}
+              className={getClasses('weight', attributes.averageWeightName)}>
+                  {getWeightName(attributes.averageWeightName)}
               </div>
         </div>
         <div className="gamecard-upvoted-attributes">

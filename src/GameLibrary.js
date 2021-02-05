@@ -36,9 +36,9 @@ const getNonexactSearchResults = async function (titles) {
 
 const getGamedataResults = async function (game_ids) {
     const gamedata = await Promise.all(
-        game_ids.map( function(game_id) {
+        game_ids.map( function(gameId) {
             return (
-                gamedataApi(game_id) // query the API with the BGG game ID
+                gamedataApi(gameId) // query the API with the BGG game ID
     )}))
     return gamedata
 }
@@ -122,8 +122,8 @@ export const collectGamedataForTitles = async (cachedGameTitles, game_titles) =>
     let gamedata_for_uncached_titles_that_are_numbers = await getGamedataForIds(uncached_game_titles_that_are_numbers)
     gamedata_for_uncached_titles_that_are_numbers.forEach(function(gamedata, idx) {
         if (gamedata.hasOwnProperty('name')) {
-            const game_id = parseInt(gamedata.id)
-            status.games_byid_not_in_cache[gamedata.name] = game_id
+            const gameId = parseInt(gamedata.id)
+            status.games_byid_not_in_cache[gamedata.name] = gameId
             uncached_game_titles_that_are_strings.push(gamedata.name)
         } else {
             const game_title = uncached_game_titles_that_are_numbers[idx]
@@ -186,14 +186,14 @@ export const collectGamedataForTitles = async (cachedGameTitles, game_titles) =>
     })
     // sort ambiguous cached titles by year published, for their eventual displaying
     Object.entries(status.ambiguous_cached_games).forEach(function(ambiguous_entry) {
-        status.ambiguous_cached_games[ambiguous_entry[0]] = ambiguous_entry[1].sort( (a,b) => (a.year_published < b.year_published) ? -1 : 1 )
+        status.ambiguous_cached_games[ambiguous_entry[0]] = ambiguous_entry[1].sort( (a,b) => (a.yearPublished < b.yearPublished) ? -1 : 1 )
     })
 
 
     // API LOOKUP FOR VERSIONS OF ALL UNCACHED TITLES
     //   example disambiguation generated in "all_potential_titles" variable:
-    //     [ [{id: 2411, name:'Mount Everest', year_published: 1980},
-    //     {id: 147624, name:'Mount Everest', year_published: 2013}] ]
+    //     [ [{id: 2411, name:'Mount Everest', yearPublished: 1980},
+    //     {id: 147624, name:'Mount Everest', yearPublished: 2013}] ]
     const all_potential_titles = await getNonexactSearchResults(titles_to_api_lookup)
     all_potential_titles.forEach(function (all_results_for_title, idx) {
         let all_versions_of_this_title = []
@@ -214,11 +214,11 @@ export const collectGamedataForTitles = async (cachedGameTitles, game_titles) =>
 
             // convert to IDs for the upcoming game data API call
             all_potential_titles[idx].forEach(function (this_title_version) {
-                const game_id = parseInt(this_title_version.id)
+                const gameId = parseInt(this_title_version.id)
                 if (all_potential_titles[idx].length === 1) {
-                    get_gamedata_and_activate.push(game_id)
+                    get_gamedata_and_activate.push(gameId)
                 } else {
-                    get_gamedata_still_ambiguous.push(game_id)
+                    get_gamedata_still_ambiguous.push(gameId)
                 }
             })
 
@@ -244,7 +244,7 @@ export const collectGamedataForTitles = async (cachedGameTitles, game_titles) =>
 
         // collect game data for other titles
         } else if (get_gamedata_still_ambiguous.includes(this_gamedata.id)) {
-            const unambiguousName = `${this_gamedata.name} (${this_gamedata.year_published})`
+            const unambiguousName = `${this_gamedata.name} (${this_gamedata.yearPublished})`
             newGamedata['unambiguousName'] = unambiguousName
 
             // if user supplied a game ID originally, but its title was ambiguous, apply that disambiguation
@@ -259,10 +259,10 @@ export const collectGamedataForTitles = async (cachedGameTitles, game_titles) =>
             // if user supplied year disambiguation originally, but its title was ambiguous, apply that disambiguation
             } else if (status.games_withdisambig_not_in_cache.hasOwnProperty(this_gamedata.name)) {
                 const target_year = status.games_withdisambig_not_in_cache[this_gamedata.name]
-                const gamedata_for_target_year = all_new_gamedata.filter( my_title_gamedata => my_title_gamedata.year_published === target_year )
+                const gamedata_for_target_year = all_new_gamedata.filter( my_title_gamedata => my_title_gamedata.yearPublished === target_year )
                 // the given year does exist in the gamedata
                 if (gamedata_for_target_year.length === 1) {
-                    if (status.games_withdisambig_not_in_cache[this_gamedata.name] === this_gamedata.year_published) {
+                    if (status.games_withdisambig_not_in_cache[this_gamedata.name] === this_gamedata.yearPublished) {
                         status.newGamedataToActivate.push(newGamedata)
                     } else {
                         status.newGamedataToCache.push(newGamedata)
@@ -292,7 +292,7 @@ export const collectGamedataForTitles = async (cachedGameTitles, game_titles) =>
 
     })
     Object.entries(status.ambiguousNewGamedata).forEach(function(ambiguous_entry) {
-        status.ambiguousNewGamedata[ambiguous_entry[0]] = ambiguous_entry[1].sort( (a,b) => (a.year_published < b.year_published) ? -1 : 1 )
+        status.ambiguousNewGamedata[ambiguous_entry[0]] = ambiguous_entry[1].sort( (a,b) => (a.yearPublished < b.yearPublished) ? -1 : 1 )
     })
 
     return status

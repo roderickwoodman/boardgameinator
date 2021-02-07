@@ -41,11 +41,11 @@ const doAddGames = (rawValidatedGames, add_fn) => {
         rawValidatedGames.newGamedataToCache = updatedNewGamedataToCache
 
         // apply selected games to the ambiguous cached games
-        Object.entries(rawValidatedGames.ambiguous_cached_games).forEach(function(possibleVersions) {
+        Object.entries(rawValidatedGames.ambiguousCachedGames).forEach(function(possibleVersions) {
             possibleVersions[1].forEach(function(gameVersion) {
                 if (rawValidatedGames.selectedGamesToActivate.includes(gameVersion.unambiguousName)) {
                     rawValidatedGames.cachedGamesToActivate.push(gameVersion.unambiguousName)
-                    delete rawValidatedGames.ambiguous_cached_games[possibleVersions[0]]
+                    delete rawValidatedGames.ambiguousCachedGames[possibleVersions[0]]
                 }
             })
         })
@@ -270,9 +270,9 @@ export const AddGames = (props) => {
                             { statusMessages
                                 .map(
                                     (message, i) => {
-                                        return (message.hasOwnProperty('error_flag') && message.error_flag)
-                                        ? <p key={i} className="message error">ERROR: {prependTitles(message)} {message.message_str}{appendTitles(message)} {addButton(message)}</p>
-                                        : <p key={i} className="message"><FontAwesomeIcon icon={faLongArrowAltRight} /> {prependTitles(message)} {message.message_str}{appendTitles(message)} {addButton(message)}</p>
+                                        return (message.hasOwnProperty('errorFlag') && message.errorFlag)
+                                        ? <p key={i} className="message error">ERROR: {prependTitles(message)} {message.messageStr}{appendTitles(message)} {addButton(message)}</p>
+                                        : <p key={i} className="message"><FontAwesomeIcon icon={faLongArrowAltRight} /> {prependTitles(message)} {message.messageStr}{appendTitles(message)} {addButton(message)}</p>
                                     }
                                 )
                             }

@@ -17,7 +17,7 @@ const GameFooter = (props) => {
 }
 
 const GamecardOverlay = (props) => {
-        if (props.myThumbCounts.poll_rank === 1) {
+        if (props.myThumbCounts.pollRank === 1) {
             return (
                 <div className="gamecard-overlay">WINNER!</div>
 
@@ -36,7 +36,7 @@ const Game = (props) => {
         } 
 
         if (typeof props.myThumbCounts !== 'undefined' 
-          && props.myThumbCounts.poll_rank === 1) {
+          && props.myThumbCounts.pollRank === 1) {
             gamecardClasses += ' winner'
         }
 
@@ -85,10 +85,10 @@ const Game = (props) => {
                 onDelete={props.onDelete}
                 reallyNarrow={props.reallyNarrow} />
         }
-        const gamecard_overlay = <GamecardOverlay myThumbCounts={props.myThumbCounts} />
+        const gamecardOverlay = <GamecardOverlay myThumbCounts={props.myThumbCounts} />
         return(
             <section className={gamecardClasses}>
-                {gamecard_overlay}
+                {gamecardOverlay}
                 {gamecard}
                 <section className="gamecard-footer">
                     <GameFooter gameid={props.id}/>
@@ -103,9 +103,9 @@ export const GameList = (props) => {
     const [inspectingSection, setInspectingSection] = useState('description')
 
     useEffect( () => {
-        const stored_idunderinspection = JSON.parse(localStorage.getItem("idUnderInspection"))
-        if (stored_idunderinspection !== null) {
-            setIdUnderInspection(stored_idunderinspection)
+        const storedIdUnderInspection = JSON.parse(localStorage.getItem("idUnderInspection"))
+        if (storedIdUnderInspection !== null) {
+            setIdUnderInspection(storedIdUnderInspection)
         }
     }, [])
 
@@ -152,21 +152,21 @@ export const GameList = (props) => {
 
     const getTotalVotes = () => {
         // tally all votes for each game
-        let all_vote_counts = {}
+        let allVoteCounts = {}
         if (props.activeGameData.length) {
             for (const game of props.activeGameData) {
-                let new_vote_counts = {
+                let newVoteCounts = {
                     attributes: 0,
                     titles: 0,
-                    poll_rank: 0,
-                    my_rank: 0
+                    pollRank: 0,
+                    myRank: 0
                 }
                 // playercount section of a game gets ONE TOTAL thumbsup if any of its supported playercounts gets a thumbsup
                 for (let playercount=game.attributes.minPlayers; playercount<=game.attributes.maxPlayers; playercount++) {
                     if (props.activeThumbs.attributes.players.hasOwnProperty(playercount + 'P')
                       && props.activeThumbs.attributes.players[playercount + 'P'].hasOwnProperty('thumbsup')
                       && props.activeThumbs.attributes.players[playercount + 'P']['thumbsup'].length) {
-                        new_vote_counts.attributes++
+                        newVoteCounts.attributes++
                         break
                     }
                 }
@@ -174,14 +174,14 @@ export const GameList = (props) => {
                 if (props.activeThumbs.attributes.weight.hasOwnProperty(game.attributes.averageWeightName)
                   && props.activeThumbs.attributes.weight[game.attributes.averageWeightName].hasOwnProperty('thumbsup')
                   && props.activeThumbs.attributes.weight[game.attributes.averageWeightName]['thumbsup'].length) {
-                    new_vote_counts.attributes++
+                    newVoteCounts.attributes++
                 }
                 // categories section of a game gets one thumbsup for each thumbed-up category
                 for (const category of game.attributes.categories) {
                     if (props.activeThumbs.attributes.category.hasOwnProperty(category)
                       && props.activeThumbs.attributes.category[category].hasOwnProperty('thumbsup')
                       && props.activeThumbs.attributes.category[category]['thumbsup'].length) {
-                        new_vote_counts.attributes++
+                        newVoteCounts.attributes++
                     }
                 }
                 // mechanics section of a game gets one thumbsup for each thumbed-up mechanic
@@ -189,7 +189,7 @@ export const GameList = (props) => {
                     if (props.activeThumbs.attributes.mechanic.hasOwnProperty(mechanic)
                       && props.activeThumbs.attributes.mechanic[mechanic].hasOwnProperty('thumbsup')
                       && props.activeThumbs.attributes.mechanic[mechanic]['thumbsup'].length) {
-                        new_vote_counts.attributes++
+                        newVoteCounts.attributes++
                     }
                 }
 
@@ -199,10 +199,10 @@ export const GameList = (props) => {
                   && props.activeThumbs.titles[game.id].hasOwnProperty('thumbsup')) {
 
                     if (props.activePoll.id !== 'local') {
-                        new_vote_counts.titles = props.activeThumbs.titles[game.id.toString()].thumbsup.length
+                        newVoteCounts.titles = props.activeThumbs.titles[game.id.toString()].thumbsup.length
                     } else {
                         let myVote = JSON.parse(JSON.stringify(props.activeThumbs.titles[game.id.toString()].thumbsup)).filter( vote => vote.user === props.user )
-                        new_vote_counts.titles = myVote.length
+                        newVoteCounts.titles = myVote.length
                     }
                     const myVote = JSON.parse(JSON.stringify(props.activeThumbs.titles[game.id.toString()].thumbsup)).filter( (vote) => {
                         if (props.user !== null) {
@@ -220,9 +220,9 @@ export const GameList = (props) => {
                         }
                     })
                     if (myVote.length === 1) {
-                        new_vote_counts.my_rank = myVote[0].rank
+                        newVoteCounts.myRank = myVote[0].rank
                     } else {
-                        new_vote_counts.my_rank = null
+                        newVoteCounts.myRank = null
                     }
                 }
 
@@ -230,13 +230,13 @@ export const GameList = (props) => {
                 if (props.activePoll.id !== 'local'
                   && props.activeThumbs.hasOwnProperty('winners')
                   && props.activeThumbs.winners.includes(game.id)) {
-                    new_vote_counts.poll_rank = 1
+                    newVoteCounts.pollRank = 1
                 }
 
-                all_vote_counts[game.id] = new_vote_counts
+                allVoteCounts[game.id] = newVoteCounts
             }
         }
-        return all_vote_counts
+        return allVoteCounts
     } 
 
     const handleInspectionChange = (event, id) => {
@@ -415,8 +415,8 @@ export const GameList = (props) => {
         return classes
     }
 
-    const all_thumbcounts = getTotalVotes()
-    const sortedFilteredGames = sortGames(filterWeight(filterPlayercount(filterTitles(props.activeGameData))), all_thumbcounts)
+    const allThumbcounts = getTotalVotes()
+    const sortedFilteredGames = sortGames(filterWeight(filterPlayercount(filterTitles(props.activeGameData))), allThumbcounts)
     return (
         <React.Fragment>
         <MainControls 
@@ -450,7 +450,7 @@ export const GameList = (props) => {
                                 videos={game.videos}
                                 activePoll={props.activePoll}
                                 activeThumbs={props.activeThumbs} 
-                                myThumbCounts={all_thumbcounts[game.id]}
+                                myThumbCounts={allThumbcounts[game.id]}
                                 onNewVote={props.onNewVote}
                                 onDelete={props.onDelete}
                                 onToggleInspection={handleInspectionChange}

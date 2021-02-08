@@ -671,7 +671,7 @@ export class Boardgameinator extends React.Component {
         const { votingtype } = Object.assign({}, event.target.dataset)
 
         // title votes for polls are managed by the server
-        if (votingtype === 'all_titles' && this.state.activePoll.id !== 'local') {
+        if (votingtype === 'allTitles' && this.state.activePoll.id !== 'local') {
 
             this.clearMyTitleVotesInPoll(this.state.activePoll.id, this.state.user)
 
@@ -681,12 +681,12 @@ export class Boardgameinator extends React.Component {
             const clearVotes = {}
             this.setState(prevState => {
                 let updatedActiveThumbs = JSON.parse(JSON.stringify(prevState.activeThumbs))
-                if (votingtype === 'all_titles') {
+                if (votingtype === 'allTitles') {
                     const myCountsOnly = (this.state.activePoll.id === 'local') ? true : false;
                     updatedActiveThumbs.titles = clearVotes
                     updatedActiveThumbs.totalTitleVotes = this.totalTitleVotes(updatedActiveThumbs.titles, myCountsOnly, this.state.user)
                 } else {
-                    if (votingtype === 'all_attributes') {
+                    if (votingtype === 'allAttributes') {
                         updatedActiveThumbs.attributes['players'] = clearVotes
                         updatedActiveThumbs.attributes['weight'] = clearVotes
                         updatedActiveThumbs.attributes['category'] = clearVotes

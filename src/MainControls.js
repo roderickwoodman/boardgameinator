@@ -80,9 +80,9 @@ export const MainControls = (props) => {
         setImportPollIsOpen(false)
     }
 
-    const updateGameValidations = (validated_game_additions) => {
+    const updateGameValidations = (validatedGameAdditions) => {
         hideAddModal()
-        props.addValidatedGames(validated_game_additions)
+        props.addValidatedGames(validatedGameAdditions)
     }
 
     useEffect( () => {
@@ -93,14 +93,14 @@ export const MainControls = (props) => {
         }
     }, [props])
 
-    let num_title_votes = 0
+    let numTitleVotes = 0
     for (const gameId in props.activeThumbs.titles) {
         for (const vote of Object.keys(props.activeThumbs.titles[gameId])) {
-            num_title_votes += props.activeThumbs.titles[gameId][vote].length
+            numTitleVotes += props.activeThumbs.titles[gameId][vote].length
         }
     }
 
-    const num_attr_votes = Object.keys(props.activeThumbs.attributes.players).length
+    const numAttrVotes = Object.keys(props.activeThumbs.attributes.players).length
     + Object.keys(props.activeThumbs.attributes.weight).length
     + Object.keys(props.activeThumbs.attributes.category).length
     + Object.keys(props.activeThumbs.attributes.mechanic).length
@@ -177,12 +177,12 @@ export const MainControls = (props) => {
                     { props.activePoll.id === 'local' && 
                         <React.Fragment>
                             <button className="default-danger-styles" onClick={props.onDeleteAll} disabled={props.activeGameData.length===0}>Remove All Games</button>
-                            <button className="default-danger-styles" data-votingtype="all_titles" onClick={props.onClearSectionVotes} disabled={num_title_votes===0}>Remove All Title Votes</button>
+                            <button className="default-danger-styles" data-votingtype="allTitles" onClick={props.onClearSectionVotes} disabled={numTitleVotes===0}>Remove All Title Votes</button>
                         </React.Fragment>
                     }
                     { props.activePoll.id !== 'local' && 
                         <React.Fragment>
-                            <button className="default-danger-styles" data-votingtype="all_titles" onClick={props.onClearSectionVotes}>Remove All Title Votes</button>
+                            <button className="default-danger-styles" data-votingtype="allTitles" onClick={props.onClearSectionVotes}>Remove All Title Votes</button>
                         </React.Fragment>
                     }
                     <button className="default-primary-styles" onClick={hideVoteTitlesModal}>Close</button>
@@ -208,7 +208,7 @@ export const MainControls = (props) => {
                         </div>
                     </ModalBody>
                     <ModalFooter> 
-                        <button className="default-danger-styles" data-votingtype="all_attributes" onClick={props.onClearSectionVotes} disabled={num_attr_votes===0}>Remove All Attribute Votes</button>
+                        <button className="default-danger-styles" data-votingtype="allAttributes" onClick={props.onClearSectionVotes} disabled={numAttrVotes===0}>Remove All Attribute Votes</button>
                         <button className="default-primary-styles" onClick={hideVoteAttributesModal}>Close</button>
                     </ModalFooter>
                 </Modal>
@@ -230,7 +230,7 @@ export const MainControls = (props) => {
                         </div>
                     </ModalBody>
                     <ModalFooter> 
-                        <button className="default-danger-styles" data-votingtype="all_attributes" onClick={props.onClearSectionVotes} disabled={num_attr_votes===0}>Remove All Attribute Votes</button>
+                        <button className="default-danger-styles" data-votingtype="allAttributes" onClick={props.onClearSectionVotes} disabled={numAttrVotes===0}>Remove All Attribute Votes</button>
                         <button className="default-primary-styles" onClick={hideVoteAttributesErrorModal}>Close</button>
                     </ModalFooter>
                 </Modal>

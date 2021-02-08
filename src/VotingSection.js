@@ -21,12 +21,12 @@ const VotableElement = (props) => {
     }
     let elementStyle = "voteable"
     elementStyle += ` ${vote}`
-    let votable_text = props.votingonlabel
+    let votableText = props.votingonlabel
     if (props.attrcount > 1 || !props.suppresslowcounts) {
-        votable_text += ` (${props.attrcount})`
+        votableText += ` (${props.attrcount})`
     }
     if (props.votingtype === 'category' || props.votingtype === 'mechanic') {
-        votable_text = votable_text.toLowerCase()
+        votableText = votableText.toLowerCase()
     }
     return (
         <li 
@@ -45,7 +45,7 @@ const VotableElement = (props) => {
                 data-newvote='thumbsup'
                 onClick={props.onNewVote}
             >
-                {votable_text}
+                {votableText}
             </div>
         </li>
     )

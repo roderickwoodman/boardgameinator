@@ -117,10 +117,10 @@ export const ImportPoll = (props) => {
 
         let isSubscribed = true
 
-        const stored_pollList = JSON.parse(localStorage.getItem("pollList"))
-        if (stored_pollList !== null) {
-            setPollList(stored_pollList)
-            fetchDataForPolls(stored_pollList).then( polldata => {
+        const storedPollList = JSON.parse(localStorage.getItem("pollList"))
+        if (storedPollList !== null) {
+            setPollList(storedPollList)
+            fetchDataForPolls(storedPollList).then( polldata => {
                 if (isSubscribed) {
                     setPollListData(polldata)
                 }
@@ -135,19 +135,19 @@ export const ImportPoll = (props) => {
         if (!loading) {
             setSelectedPoll(event.target.value)
             if (event.target.value === 'local') {
-                const no_poll = {
+                const noPoll = {
                     id: 'local',
                     name: 'local',
                 }
-                props.onViewPoll(no_poll)
+                props.onViewPoll(noPoll)
             } else {
                 setLoading(true)
                 const importedPoll = importpollApi(parseInt(event.target.value))
                 if (importedPoll !== null) {
                     if (!pollList.includes(importedPoll.id)) {
-                        let updated_pollList = [...pollList]
-                        updated_pollList.push(importedPoll.id)
-                        localStorage.setItem('pollList', JSON.stringify(updated_pollList))
+                        let updatedPollList = [...pollList]
+                        updatedPollList.push(importedPoll.id)
+                        localStorage.setItem('pollList', JSON.stringify(updatedPollList))
                     }
                     props.onViewPoll(importedPoll)
                 }
@@ -203,16 +203,16 @@ export const ImportPoll = (props) => {
         let updatedHiddenPollIds = [...hiddenPollIds]
         updatedHiddenPollIds.push(poll)
         setHiddenPollIds(updatedHiddenPollIds)
-        let updated_pollList = [...pollList]
-        updated_pollList = updated_pollList.filter( pollId => !updatedHiddenPollIds.includes(pollId) )
-        localStorage.setItem('pollList', JSON.stringify(updated_pollList))
+        let updatedPollList = [...pollList]
+        updatedPollList = updatedPollList.filter( pollId => !updatedHiddenPollIds.includes(pollId) )
+        localStorage.setItem('pollList', JSON.stringify(updatedPollList))
         if (poll === props.activePoll.id) {
             setSelectedPoll('local')
-            const no_poll = {
+            const noPoll = {
                 id: 'local',
                 name: 'local',
             }
-            props.onViewPoll(no_poll)
+            props.onViewPoll(noPoll)
         }
     }
 

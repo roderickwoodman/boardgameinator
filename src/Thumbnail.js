@@ -40,13 +40,13 @@ export const Thumbnail = (props) => {
           && props.activeThumbs.totalTitleVotes 
           && typeof props.myThumbCounts !== 'undefined'
           && props.myThumbCounts.hasOwnProperty('titles') ) {
-            let extra_text = null
+            let extraText = null
             if (props.myThumbCounts.myRank > 0 && props.myThumbCounts.titles >= props.myThumbCounts.myRank) {
-                extra_text = 'incl. You'
+                extraText = 'incl. You'
                 return (
                     <React.Fragment>
                         <div>&nbsp;{props.myThumbCounts.titles}</div>
-                        <div className="extra-text">{extra_text}</div>
+                        <div className="extra-text">{extraText}</div>
                     </React.Fragment>
                 )
             } else {

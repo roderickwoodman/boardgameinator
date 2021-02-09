@@ -51,19 +51,16 @@ The likability of any board game is so subjective and multifactorial, in the sam
 
 ### ...But wait, there's more! Sharing your game lists (URL shortcuts)
 
-Lists of games added to this app can be shared via straightforward URL syntax which includes the BoardGameGeek game IDs or the Boardgameinator poll IDs...
+Lists of games added to this app can be shared via a straightforward URL syntax which includes either the BoardGameGeek game IDs or the Boardgameinator poll IDs...
+
 * **Share a new list of games:**
-```
-https://roderickwoodman.github.io/boardgameinator/?newlist=194789+148228+11
-```
+``` https://roderickwoodman.github.io/boardgameinator/?newlist=194789+148228+11 ```
+
 * **Share an additional set of games:**
-```
-https://roderickwoodman.github.io/boardgameinator/?addtolist=194789+148228+11
-```
+``` https://roderickwoodman.github.io/boardgameinator/?addtolist=194789+148228+11 ```
+
 * **Share a Boardgameinator poll of games:**
-```
-https://roderickwoodman.github.io/boardgameinator/?poll=1610263515000
-```
+``` https://roderickwoodman.github.io/boardgameinator/?poll=1610263515000 ```
 
 <p align="center">
   <img width="800" height="540" src="public/ss-poll.png">

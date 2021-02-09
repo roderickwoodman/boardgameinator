@@ -1,6 +1,7 @@
 ([click here to visit this app on the Internet!](https://roderickwoodman.github.io/boardgameinator/))
 
 ## Boardgameinator
+
 *A board game comparison site*
 
 <p align="center">
@@ -19,8 +20,9 @@ Any board game that has been added to this site can be upvoted. And any characte
 
 First of all, **Boardgameinator** *is not for* geeks to manage their huge collections. 
 
-Instead, this app *is for* regular people who need help in selecting a board game. It can be overwhelming these days with so many titles being published every year.
+Instead, this app *is for* regular people who need help selecting a board game. It can be overwhelming these days with so many titles being published every year.
 
+This app is also for groups of board gamers to conduct polls for which games to play at an upcomming game night.
 ### What do I do with it?
 
 It is easy to build and upvote a list of board games.
@@ -30,23 +32,38 @@ It is easy to build and upvote a list of board games.
 
 If you need more information about any game before you make a decision to upvote, click the info button on a game card and you will get a brief description.
 
-### Why is it so awesome?
+### What else can I do with it?
 
-The likability of any board game is so subjective and multifactorial, in the same way that a novel is. And the primary online resource for the board game industry, [BoardGameGeek](https://boardgamegeek.com) (BGG), breaks down all of these factors very scientifically. However, it is organized like an encyclopedia and so it is not great at making the arbitrary comparisons that are needed to filter *out* information.
+It is also easy to vote in a poll.
+1. **Login.** Click the silhouette icon to pick a username for poll voting.
+2. **Import Poll.** Click the "Import Poll" button to replace the current game list with an online poll.
+3. **Upvote Games.** Either click the "Vote Titles" button or click on a thumbnail to upvote the game itself.
+
+Polls that are still open will have a countdown timer. Polls that are closed will have the winning game(s) declared.
+
+Note that polling is only for game titles. Game attribute votes are not shared with other users.
+
+### Why is it so awesome?
+The likability of any board game is so subjective and multifactorial, in the same way that a novel is. And the primary online resource for the board game industry, [BoardGameGeek](https://boardgamegeek.com) (BGG), is not great for making the arbitrary comparisons that are needed to pare down a list because it is organized like an encyclopedia.
 
 **Boardgameinator**, however, is a user-driven comparison tool similar to an e-commerce shopping experience. It displays information side-by-side with sorting and filtering knobs, allowing you to converge on the right game for you based on your preferences.
 
-### Sharing your game lists (URL shortcuts)
-Using the BoardGameGeek IDs or the poll IDs from this app, you can share lists of games with others...
-* Share a new list of games: https://roderickwoodman.github.io/boardgameinator/?newlist=194789+148228+11
-* Share an additional set of games: https://roderickwoodman.github.io/boardgameinator/?addtolist=194789+148228+11
-* Share a poll: https://roderickwoodman.github.io/boardgameinator/?poll=1
+### ...But wait, there's more! Sharing your game lists (URL shortcuts)
+
+Lists of games added to this app can be shared via straightforward URL syntax which includes the BoardGameGeek game IDs or the Boardgameinator poll IDs...
+* Share a new list of games:
+```https://roderickwoodman.github.io/boardgameinator/?newlist=194789+148228+11```
+* Share an additional set of games: 
+```https://roderickwoodman.github.io/boardgameinator/?addtolist=194789+148228+11```
+* Share a Boardgameinator poll of games: 
+```https://roderickwoodman.github.io/boardgameinator/?poll=1610263515000```
 
 <p align="center">
   <img width="800" height="540" src="public/ss-poll.png">
 </p>
 
-### [under development] Creating a poll
+### ...Coming soon! Creating a poll
+
 Users who are logged in can create polls and vote on them with other users.
 
 ### DISCLAIMER

@@ -22,7 +22,7 @@ First of all, **Boardgameinator** *is not for* geeks to manage their huge collec
 
 Instead, this app *is for* regular people who need help selecting a board game. It can be overwhelming these days with so many titles being published every year.
 
-This app is also for groups of board gamers to conduct polls for which games to play at an upcomming game night.
+This app is also for groups of board gamers to conduct polls on which games to play at an upcomming game night.
 ### What do I do with it?
 
 It is easy to build and upvote a list of board games.
@@ -41,22 +41,29 @@ It is also easy to vote in a poll.
 
 Polls that are still open will have a countdown timer. Polls that are closed will have the winning game(s) declared.
 
-Note that polling is only for game titles. Game attribute votes are not shared with other users.
+Note that only game titles can be polled across other users. Game attribute upvotes are not shared.
 
 ### Why is it so awesome?
+
 The likability of any board game is so subjective and multifactorial, in the same way that a novel is. And the primary online resource for the board game industry, [BoardGameGeek](https://boardgamegeek.com) (BGG), is not great for making the arbitrary comparisons that are needed to pare down a list because it is organized like an encyclopedia.
 
-**Boardgameinator**, however, is a user-driven comparison tool similar to an e-commerce shopping experience. It displays information side-by-side with sorting and filtering knobs, allowing you to converge on the right game for you based on your preferences.
+**Boardgameinator**, however, displays each game's makeup side-by-side along with sorting and filtering controls. This allows users to converge on the right game based on preferences, in a way that is similar to an e-commerce shopping experience.
 
 ### ...But wait, there's more! Sharing your game lists (URL shortcuts)
 
 Lists of games added to this app can be shared via straightforward URL syntax which includes the BoardGameGeek game IDs or the Boardgameinator poll IDs...
-* Share a new list of games:
-```https://roderickwoodman.github.io/boardgameinator/?newlist=194789+148228+11```
-* Share an additional set of games: 
-```https://roderickwoodman.github.io/boardgameinator/?addtolist=194789+148228+11```
-* Share a Boardgameinator poll of games: 
-```https://roderickwoodman.github.io/boardgameinator/?poll=1610263515000```
+* **Share a new list of games:**
+```
+https://roderickwoodman.github.io/boardgameinator/?newlist=194789+148228+11
+```
+* **Share an additional set of games:**
+```
+https://roderickwoodman.github.io/boardgameinator/?addtolist=194789+148228+11
+```
+* **Share a Boardgameinator poll of games:**
+```
+https://roderickwoodman.github.io/boardgameinator/?poll=1610263515000
+```
 
 <p align="center">
   <img width="800" height="540" src="public/ss-poll.png">

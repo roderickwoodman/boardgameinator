@@ -702,7 +702,7 @@ p#countdown {
   padding: 0;
 }
 
-.game-yearpublished {
+.game-year-published {
   margin: 0;
   padding: 0;
 }
@@ -922,7 +922,7 @@ button:enabled,
     align-items: center;
   }
 
-  .game-yearpublished,
+  .game-year-published,
   .gamecard-visual .gamecardvisual-overlay,
   .gamecard-categories,
   .gamecard-mechanics {
@@ -1127,7 +1127,7 @@ button:enabled,
   }
 
   .gamecard-visual .gamecardvisual-overlay,
-  .game-yearpublished,
+  .game-year-published,
   .gamecard-categories,
   .gamecard-mechanics {
     display: none;

@@ -66,8 +66,8 @@ export const GameCardBack = (props) => {
         <section className="gamecard-title">
             <h5 className="game-name">{name}</h5>
             {(yearPublished !== null) 
-                ? <h6 className="game-yearPublished">({yearPublished})</h6>
-                : <h6 className="game-yearPublished">(#{id})</h6>
+                ? <h6 className="game-year-published">({yearPublished})</h6>
+                : <h6 className="game-year-published">(#{id})</h6>
             }
         </section>
         <section 

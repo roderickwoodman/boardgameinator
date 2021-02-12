@@ -198,6 +198,11 @@ export const ImportPoll = (props) => {
         }
     }
 
+    const loadHardcodedPolls = () => {
+        setPollList(hardcodedPolls.map( poll => poll.id ))
+        setPollListData(hardcodedPolls)
+    }
+
     const handleHidePoll = (event) => {
         const poll = parseInt(event.target.id.replace('poll-hide-',''))
         let updatedHiddenPollIds = [...hiddenPollIds]
@@ -239,6 +244,7 @@ export const ImportPoll = (props) => {
                 <section className="buttonrow">
                     <input ref={inputEl} size="30" value={userPollIdInput} onChange={newPollIdChange} placeholder="(poll ID)" />
                     <button onClick={newPollIdSubmit} className="default-primary-styles">Import</button>
+                    <button onClick={loadHardcodedPolls} className="default-primary-styles">Show Me Polls</button>
                 </section>
                 <div className="status-messages">
                     { statusMessage &&

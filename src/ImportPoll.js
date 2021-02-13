@@ -200,6 +200,8 @@ export const ImportPoll = (props) => {
 
     const loadHardcodedPolls = () => {
         setPollList(hardcodedPolls.map( poll => poll.id ))
+        let updatedPollList = hardcodedPolls.map( poll => poll.id )
+        localStorage.setItem('pollList', JSON.stringify(updatedPollList))
         setPollListData(hardcodedPolls)
     }
 

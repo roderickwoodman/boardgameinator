@@ -265,7 +265,7 @@ export const ImportPoll = (props) => {
                         return (
                             <label 
                                 key={i}
-                                htmlFor={"poll-" + i}>
+                                htmlFor={"poll-" + pollData.id}>
                                 <button 
                                     id={"poll-hide-" + pollData.id}
                                     className="fa fa-button"
@@ -274,7 +274,7 @@ export const ImportPoll = (props) => {
                                     </button>
                                 <input 
                                     type="radio" 
-                                    id={"poll-" + i} 
+                                    id={"poll-" + pollData.id} 
                                     name="gamelist" 
                                     value={pollData.id}
                                     checked={selectedPoll === pollData.id.toString()}

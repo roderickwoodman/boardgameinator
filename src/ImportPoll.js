@@ -199,14 +199,15 @@ export const ImportPoll = (props) => {
     }
 
     const loadHardcodedPolls = () => {
-        setPollList(hardcodedPolls.map( poll => poll.id ))
         let updatedPollList = hardcodedPolls.map( poll => poll.id )
+        setPollList(updatedPollList)
         localStorage.setItem('pollList', JSON.stringify(updatedPollList))
         setPollListData(hardcodedPolls)
+        setHiddenPollIds([])
     }
 
-    const handleHidePoll = (event) => {
-        const poll = parseInt(event.target.id.replace('poll-hide-',''))
+    const handleHidePoll = (pollId) => {
+        const poll = parseInt(pollId)
         let updatedHiddenPollIds = [...hiddenPollIds]
         updatedHiddenPollIds.push(poll)
         setHiddenPollIds(updatedHiddenPollIds)
@@ -269,7 +270,7 @@ export const ImportPoll = (props) => {
                                 <button 
                                     id={"poll-hide-" + pollData.id}
                                     className="fa fa-button"
-                                    onClick={handleHidePoll}>
+                                    onClick={ (e) => handleHidePoll(pollData.id) }>
                                     <FontAwesomeIcon icon={faTrash}/>
                                     </button>
                                 <input 

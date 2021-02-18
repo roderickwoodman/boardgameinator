@@ -260,8 +260,8 @@ export const ImportPoll = (props) => {
 
             { displayPolls
                 .map( (pollData,i) => {
-                    // const gamecount = Object.keys(poll.pollThumbs.titles).length + ' ' + ((Object.keys(poll.pollThumbs.titles).length === 1) ? 'game' : 'games')
-                    // const votecount = poll.pollThumbs.totalTitleVotes + ' ' + ((poll.pollThumbs.totalTitleVotes === 1) ? 'vote' : 'votes')
+                    const gamecount = Object.keys(pollData.pollThumbs.titles).length + ' ' + ((Object.keys(pollData.pollThumbs.titles).length === 1) ? 'game' : 'games')
+                    const votecount = pollData.pollThumbs.totalTitleVotes + ' ' + ((pollData.pollThumbs.totalTitleVotes === 1) ? 'vote' : 'votes')
                     if (!hiddenPollIds.includes(pollData.id)) {
                         return (
                             <label 
@@ -280,7 +280,7 @@ export const ImportPoll = (props) => {
                                     value={pollData.id}
                                     checked={selectedPoll === pollData.id.toString()}
                                     onChange={selectPoll} />
-                                {pollData.id/* &nbsp;{poll.name} ({gamecount}, {votecount})&nbsp; */}
+                                &nbsp;{pollData.name} ({gamecount}, {votecount})&nbsp;
                                 { loading && selectedPoll === pollData.id.toString() &&
                                 <Spinner animation="border" size="sm" />
                                 }

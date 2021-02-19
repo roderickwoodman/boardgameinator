@@ -280,7 +280,10 @@ export const ImportPoll = (props) => {
                                     value={pollData.id}
                                     checked={selectedPoll === pollData.id.toString()}
                                     onChange={selectPoll} />
-                                &nbsp;{pollData.name} ({gamecount}, {votecount})&nbsp;
+                                    <span>
+                                        <div className="poll-title">{pollData.name}</div>
+                                        <div className="poll-subtitle">{gamecount}, {votecount}</div>
+                                    </span>
                                 { loading && selectedPoll === pollData.id.toString() &&
                                 <Spinner animation="border" size="sm" />
                                 }

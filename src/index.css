@@ -245,6 +245,28 @@ p#countdown {
   margin: 1.25rem 0.5rem 0;
 }
 
+#import-poll label {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: middle;
+}
+
+#import-poll label > * {
+  display: inline-block;
+}
+
+#import-poll .poll-title {
+  display: block;
+}
+
+#import-poll .poll-subtitle {
+  font-size: 0.85rem;
+  font-style: italic;
+  display: block;
+
+}
+
 #gamesorting-controls,
 #gamefiltering-controls {
   margin: 10px 10px 20px 10px;

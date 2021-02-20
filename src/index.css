@@ -254,6 +254,7 @@ p#countdown {
 
 #import-poll label > * {
   display: inline-block;
+  margin-right: 0.5rem;
 }
 
 #import-poll .poll-title {

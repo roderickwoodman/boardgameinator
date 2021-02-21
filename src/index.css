@@ -245,6 +245,12 @@ p#countdown {
   margin: 1.25rem 0.5rem 0;
 }
 
+#import-poll input[type="radio"] {
+  visibility: hidden;
+  height: 0;
+  width: 0;
+}
+
 #import-poll label {
   display: flex;
   flex-direction: row;

@@ -233,7 +233,8 @@ export const ImportPoll = (props) => {
         <div id="import-poll">
 
             <label 
-                htmlFor="poll-local">
+                htmlFor="poll-local"
+                className={(selectedPoll === "local") ? "selected" : null}>
                 <input 
                     type="radio" 
                     id="poll-local" 
@@ -266,7 +267,8 @@ export const ImportPoll = (props) => {
                         return (
                             <label 
                                 key={i}
-                                htmlFor={"poll-" + pollData.id}>
+                                htmlFor={"poll-" + pollData.id}
+                                className={(selectedPoll === pollData.id.toString()) ? "selected" : null}>
                                 <button 
                                     id={"poll-hide-" + pollData.id}
                                     className="fa fa-button"

@@ -251,6 +251,17 @@ p#countdown {
   width: 0;
 }
 
+#import-poll .selected {
+  border: 2px solid black;
+  background-color: lightyellow;
+  cursor: pointer;
+}
+
+#import-poll :not(.selected) {
+  border: 2px solid transparent;
+  cursor: pointer;
+}
+
 #import-poll label {
   display: flex;
   flex-direction: row;

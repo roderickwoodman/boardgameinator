@@ -232,18 +232,6 @@ export const ImportPoll = (props) => {
         <h6 className="warning">(UNDER CONSTRUCTION)</h6>
         <div id="import-poll">
 
-            <label 
-                htmlFor="poll-local"
-                className={(selectedPoll === "local") ? "selected" : null}>
-                <input 
-                    type="radio" 
-                    id="poll-local" 
-                    name="gamelist" 
-                    value="local"
-                    checked={selectedPoll === 'local'}
-                    onChange={selectPoll} />
-                &nbsp;No poll. Edit my own game list.</label>
-
             <section id="input-by-poll-id">
                 <section className="buttonrow">
                     <input ref={inputEl} size="30" value={userPollIdInput} onChange={newPollIdChange} placeholder="(poll ID)" />
@@ -258,6 +246,18 @@ export const ImportPoll = (props) => {
                     }
                 </div>
             </section>
+
+            <label 
+                htmlFor="poll-local"
+                className={(selectedPoll === "local") ? "selected" : null}>
+                <input 
+                    type="radio" 
+                    id="poll-local" 
+                    name="gamelist" 
+                    value="local"
+                    checked={selectedPoll === 'local'}
+                    onChange={selectPoll} />
+                &nbsp;No poll. Edit my own game list.</label>
 
             { displayPolls
                 .map( (pollData,i) => {

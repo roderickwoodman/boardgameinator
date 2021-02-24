@@ -247,57 +247,74 @@ export const ImportPoll = (props) => {
                 </div>
             </section>
 
-            <label 
-                htmlFor="poll-local"
-                className={(selectedPoll === "local") ? "selected" : null}>
-                <input 
-                    type="radio" 
-                    id="poll-local" 
-                    name="gamelist" 
-                    value="local"
-                    checked={selectedPoll === 'local'}
-                    onChange={selectPoll} />
-                &nbsp;No poll. Edit my own game list.</label>
+            <table>
 
-            { displayPolls
-                .map( (pollData,i) => {
-                    const gamecount = Object.keys(pollData.pollThumbs.titles).length + ' ' + ((Object.keys(pollData.pollThumbs.titles).length === 1) ? 'game' : 'games')
-                    const votecount = pollData.pollThumbs.totalTitleVotes + ' ' + ((pollData.pollThumbs.totalTitleVotes === 1) ? 'vote' : 'votes')
-                    if (!hiddenPollIds.includes(pollData.id)) {
-                        return (
-                            <label 
-                                key={i}
-                                htmlFor={"poll-" + pollData.id}
-                                className={(selectedPoll === pollData.id.toString()) ? "selected" : null}>
-                                <button 
-                                    id={"poll-hide-" + pollData.id}
-                                    className="fa fa-button"
-                                    onClick={ (e) => handleHidePoll(pollData.id) }>
-                                    <FontAwesomeIcon icon={faTrash}/>
-                                    </button>
-                                <input 
-                                    type="radio" 
-                                    id={"poll-" + pollData.id} 
-                                    name="gamelist" 
-                                    value={pollData.id}
-                                    checked={selectedPoll === pollData.id.toString()}
-                                    onChange={selectPoll} />
-                                    <span>
-                                        <div className="poll-title">{pollData.name}</div>
-                                        <div className="poll-subtitle">{gamecount}, {votecount}</div>
-                                    </span>
-                                { loading && selectedPoll === pollData.id.toString() &&
-                                <Spinner animation="border" size="sm" />
-                                }
-                            </label>
-                        )
-                    } else {
-                        return (
-                            null
-                        )
-                    }
-                })
-            }
+                <tr>
+
+                    <td></td>
+
+                    <td><label 
+                        htmlFor="poll-local"
+                        className={(selectedPoll === "local") ? "selected" : null}>
+                        <input 
+                            type="radio" 
+                            id="poll-local" 
+                            name="gamelist" 
+                            value="local"
+                            checked={selectedPoll === 'local'}
+                            onChange={selectPoll} />
+                        &nbsp;No poll. Edit my own game list.</label></td>
+
+                </tr>
+
+                { displayPolls
+                    .map( (pollData,i) => {
+                        const gamecount = Object.keys(pollData.pollThumbs.titles).length + ' ' + ((Object.keys(pollData.pollThumbs.titles).length === 1) ? 'game' : 'games')
+                        const votecount = pollData.pollThumbs.totalTitleVotes + ' ' + ((pollData.pollThumbs.totalTitleVotes === 1) ? 'vote' : 'votes')
+                        if (!hiddenPollIds.includes(pollData.id)) {
+                            return (
+                                <tr>
+
+                                    <td>
+                                        <button 
+                                            id={"poll-hide-" + pollData.id}
+                                            className="fa fa-button"
+                                            onClick={ (e) => handleHidePoll(pollData.id) }>
+                                            <FontAwesomeIcon icon={faTrash}/>
+                                            </button>
+                                    </td>
+
+                                    <td><label 
+                                        key={i}
+                                        htmlFor={"poll-" + pollData.id}
+                                        className={(selectedPoll === pollData.id.toString()) ? "selected" : null}>
+                                        <input 
+                                            type="radio" 
+                                            id={"poll-" + pollData.id} 
+                                            name="gamelist" 
+                                            value={pollData.id}
+                                            checked={selectedPoll === pollData.id.toString()}
+                                            onChange={selectPoll} />
+                                            <span>
+                                                <div className="poll-title">{pollData.name}</div>
+                                                <div className="poll-subtitle">{gamecount}, {votecount}</div>
+                                            </span>
+                                        { loading && selectedPoll === pollData.id.toString() &&
+                                        <Spinner animation="border" size="sm" />
+                                        }
+                                    </label></td>
+
+                                </tr>
+                            )
+                        } else {
+                            return (
+                                null
+                            )
+                        }
+                    })
+                }
+            </table>
+
         </div>
         </React.Fragment>
     )
